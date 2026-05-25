@@ -39,9 +39,14 @@
         
         .pdf-container { width: 100%; height: 550px; border: none; border-radius: 8px; background-color: #f8fafc; }
 
-        /* 🌟 เอฟเฟกต์ไอคอนติ๊กถูกแบบดุ๊กดิ๊ก (Success Animation) */
         .success-icon-box { width: 80px; height: 80px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
         @keyframes scaleUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* ✨ [เพิ่มใหม่] สไตล์สำหรับระบบสะสมรายชื่อทีม */
+        .student-tag-container { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 42px; margin-top: 8px; }
+        .student-tag { background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 6px; font-size: 0.82rem; display: inline-flex; align-items: center; font-weight: 400; animation: scaleUp 0.2s ease; }
+        .student-tag button { background: none; border: none; color: #0284c7; margin-left: 6px; padding: 0; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; }
+        .student-tag button:hover { color: #b91c1c; }
 
         @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } .pdf-container { height: 400px; } }
     </style>
@@ -94,13 +99,20 @@
                     <label class="form-label fw-medium">ปีการศึกษา</label>
                     <input type="number" id="form-year" class="form-control form-control-sm" value="2569">
                 </div>
+                
                 <div class="col-12" id="field-name-box">
                     <label class="form-label fw-medium" id="label-name">ชื่อ-นามสกุล นักเรียน</label>
-                    <input type="text" id="form-name" class="form-control form-control-sm" placeholder="ระบุชื่อผู้รับรางวัล">
+                    <div class="input-group input-group-sm" id="student-input-group">
+                        <input type="text" id="form-name" class="form-control" placeholder="ระบุชื่อผู้รับรางวัล">
+                        <button class="btn btn-secondary" type="button" id="btn-add-student" onclick="addStudentNameToTeam()"><i class="fa-solid fa-plus"></i> เพิ่มรายชื่อ</button>
+                    </div>
+                    
+                    <div id="student-team-list-box" class="student-tag-container d-none"></div>
                 </div>
+
                 <div class="col-md-4" id="field-class-box">
                     <label class="form-label fw-medium">ชั้นเรียน</label>
-                    <input type="text" id="form-class" class="form-control form-control-sm" placeholder="ม.x/x">
+                    <input type="text" id="form-class" class="form-control form-control-sm" placeholder="ม.x/x (กรณีมีหลายห้องใส่ ม.4/1, ม.4/2)">
                 </div>
                 <div class="col-md-8" id="field-dept-box">
                     <label class="form-label fw-medium">กลุ่มสาระฯ / ฝ่ายงาน</label>
@@ -213,11 +225,58 @@
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
+        // ✨ [เพิ่มใหม่] อาร์เรย์สำหรับเก็บรายชื่อนักเรียนกรณีส่งข้อมูลแบบทีม
+        let studentTeamList = [];
 
         window.onload = function() {
             adjustFormFields();
             loadAllDataFromServer();
+            
+            // ✨ ผูกคีย์ลัดกด Enter ในช่องพิมชื่อนักเรียนเพื่อความสะดวกในการเพิ่มเข้าลิส
+            document.getElementById('form-name').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && document.getElementById('form-type').value === 'student') {
+                    e.preventDefault();
+                    addStudentNameToTeam();
+                }
+            });
         };
+
+        // ✨ [เพิ่มใหม่] ฟังก์ชันกดเพิ่มชื่อนักเรียนเข้าสู่กล่องรายการทีม
+        function addStudentNameToTeam() {
+            const inputName = document.getElementById('form-name');
+            const nameVal = inputName.value.trim();
+            if (nameVal === '') return;
+            
+            // เพิ่มเข้าลิสเก็บข้อมูลหน้าบ้าน
+            studentTeamList.push(nameVal);
+            inputName.value = ''; // เคลียร์ช่องพิมพ์
+            renderStudentTeamTags();
+            inputName.focus();
+        }
+
+        // ✨ [เพิ่มใหม่] วาดแท็กรายชื่อทั้งหมดลงบนหน้าฟอร์ม
+        function renderStudentTeamTags() {
+            const container = document.getElementById('student-team-list-box');
+            if (studentTeamList.length === 0) {
+                container.classList.add('d-none');
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.classList.remove('d-none');
+            container.innerHTML = studentTeamList.map((name, index) => `
+                <span class="student-tag">
+                    ${name}
+                    <button type="button" onclick="removeStudentFromTeam(${index})"><i class="fa-solid fa-circle-xmark"></i></button>
+                </span>
+            `).join('');
+        }
+
+        // ✨ [เพิ่มใหม่] ลบรายชื่อบางคนออกจากลิสกรณีพิมพ์ตกหล่น
+        function removeStudentFromTeam(index) {
+            studentTeamList.splice(index, 1);
+            renderStudentTeamTags();
+        }
 
         function loadAllDataFromServer() {
             fetch(GAS_WEB_APP_URL)
@@ -314,7 +373,7 @@
                     let student = getValue(item, ['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล', 'student_name', 'studentName']);
                     let sClass = getValue(item, ['ชั้นเรียน', 'class']);
                     displayReceiver = student ? `${student} (${sClass || '-'})` : 'รางวัลนักเรียน';
-                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${displayReceiver}</div>`;
+                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i><span class="text-truncate" style="max-width:240px;" title="${displayReceiver}">${displayReceiver}</span></div>`;
                 } else {
                     displayReceiver = awardName || 'รางวัลสถานศึกษา';
                 }
@@ -354,20 +413,15 @@
 
         function viewCertificateModal(encodedDriveUrl) {
             let driveUrl = decodeURIComponent(encodedDriveUrl);
-            
             if (!driveUrl || driveUrl === 'undefined' || driveUrl.trim() === '') {
-                alert('⚠️ ไม่พบลิงก์ไฟล์เกียรติบัตรในฐานข้อมูลแถวนี้ครับ (ข้อมูลอาจบันทึกไม่สมบูรณ์)');
+                alert('⚠️ ไม่พบลิงก์ไฟล์เกียรติบัตรในฐานข้อมูลแถวนี้ครับ');
                 return;
             }
-            
             let embedUrl = driveUrl;
             if (driveUrl.includes('drive.google.com')) {
                 let fileId = driveUrl.match(/[-\w]{25,}/);
-                if (fileId) {
-                    embedUrl = `https://drive.google.com/file/d/${fileId[0]}/preview`;
-                }
+                if (fileId) embedUrl = `https://drive.google.com/file/d/${fileId[0]}/preview`;
             }
-            
             document.getElementById('pdfViewerFrame').src = embedUrl;
             document.getElementById('btnDownloadCert').href = driveUrl;
             
@@ -375,9 +429,7 @@
             myModal.show();
         }
 
-        function clearModalSrc() {
-            document.getElementById('pdfViewerFrame').src = "";
-        }
+        function clearModalSrc() { document.getElementById('pdfViewerFrame').src = ""; }
 
         function filterCards() {
             const filterVal = document.getElementById('filter-dept').value;
@@ -390,33 +442,73 @@
         }
 
         function openAdminForm() { document.getElementById('admin-form-section').classList.remove('d-none'); window.scrollTo({top: 0, behavior: 'smooth'}); }
-        function closeAdminForm() { document.getElementById('admin-form-section').classList.add('d-none'); }
+        function closeAdminForm() { 
+            document.getElementById('admin-form-section').classList.add('d-none'); 
+            studentTeamList = [];
+            renderStudentTeamTags();
+        }
 
+        // 🔄 ปรับหน้าฟอร์มรองรับทั้งพิมคนเดียว และกดแอดแบบทีมสำหรับนักเรียน
         function adjustFormFields() {
             const type = document.getElementById('form-type').value;
             const fName = document.getElementById('field-name-box'); const fClass = document.getElementById('field-class-box'); const fDept = document.getElementById('field-dept-box');
-            if (type === 'school') { fName.style.display = 'none'; fClass.style.display = 'none'; fDept.style.display = 'none'; } 
-            else if (type === 'staff') { fName.style.display = 'block'; fClass.style.display = 'none'; fDept.style.display = 'block'; document.getElementById('label-name').innerText = 'ชื่อ-นามสกุล ครู/บุคลากร'; }
-            else if (type === 'student') { fName.style.display = 'block'; fClass.style.display = 'block'; fDept.style.display = 'block'; document.getElementById('label-name').innerText = 'ชื่อ-นามสกุล นักเรียน'; }
+            const btnAdd = document.getElementById('btn-add-student');
+            
+            studentTeamList = []; // รีเซ็ตลิสรายชื่อทีม
+            renderStudentTeamTags();
+
+            if (type === 'school') { 
+                fName.style.display = 'none'; fClass.style.display = 'none'; fDept.style.display = 'none'; 
+            } else if (type === 'staff') { 
+                fName.style.display = 'block'; fClass.style.display = 'none'; fDept.style.display = 'block'; 
+                btnAdd.classList.add('d-none'); // ซ่อนปุ่มแอดชื่อทีม
+                document.getElementById('label-name').innerText = 'ชื่อ-นามสกุล ครู/บุคลากร'; 
+                document.getElementById('form-name').placeholder = "ระบุชื่อผู้รับรางวัล";
+            } else if (type === 'student') { 
+                fName.style.display = 'block'; fClass.style.display = 'block'; fDept.style.display = 'block'; 
+                btnAdd.classList.remove('d-none'); // แสดงปุ่มแอดชื่อทีม
+                document.getElementById('label-name').innerText = 'รายชื่อนักเรียน (พิมพ์ชื่อแล้วกด "เพิ่มรายชื่อทีละคน")'; 
+                document.getElementById('form-name').placeholder = "พิมพ์ชื่อนักเรียนแล้วกดปุ่มขวามือ";
+            }
         }
 
-        // 📤 อัปโหลดข้อมูลและเรียกใช้ Success Modal แทนการ Alert
+        // 📤 รวบรวมข้อมูลก่อนรันส่งหลังบ้าน (รองรับกรณีรวมรายชื่อทีม)
         function uploadAndSave() {
             const type = document.getElementById('form-type').value;
             const fileInput = document.getElementById('form-file');
             const saveBtn = document.getElementById('btn-save');
             
+            // ประมวลผลชื่อผู้รับรางวัล
+            let finalNameValue = "";
+            if (type === 'student') {
+                // หากพิมค้างไว้แต่ลืมกดแอด ให้ดึงเข้ามาเก็บไว้ในลิสให้ด้วยอัตโนมัติ
+                const currentInputName = document.getElementById('form-name').value.trim();
+                if (currentInputName !== "") {
+                    studentTeamList.push(currentInputName);
+                }
+                
+                if (studentTeamList.length === 0) { alert('กรุณาระบุรายชื่อนักเรียนอย่างน้อย 1 คนครับ'); return; }
+                // นำรายชื่อนักเรียนในอาร์เรย์ทั้งหมดมาเชื่อมกันด้วยเครื่องหมายจุลภาค (,)
+                finalNameValue = studentTeamList.join(', ');
+            } else {
+                finalNameValue = document.getElementById('form-name').value.trim();
+            }
+
             const formData = {
                 'ปีการศึกษา': document.getElementById('form-year').value,
                 'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value,
                 'หน่วยงานที่มอบรางวัล': document.getElementById('form-agency').value,
-                'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล': document.getElementById('form-name').value,
+                'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล': type === 'staff' ? finalNameValue : '',
                 'กลุ่มสาระการเรียนรู้': document.getElementById('form-dept').value,
-                'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล': document.getElementById('form-name').value,
+                'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล': type === 'student' ? finalNameValue : '',
                 'ชั้นเรียน': document.getElementById('form-class').value
             };
             
-            if (!formData['ชื่อรางวัล/ผลงานเกียรติยศ'] || fileInput.files.length === 0) { alert('กรุณาระบุชื่อรางวัลและแนบไฟล์ PDF'); return; }
+            if (!formData['ชื่อรางวัล/ผลงานเกียรติยศ'] || (type !== 'school' && !finalNameValue) || fileInput.files.length === 0) { 
+                alert('กรุณากรอกข้อมูลสำคัญและแนบไฟล์ PDF ให้ครบถ้วน'); 
+                return; 
+            }
+            
             saveBtn.disabled = true;
             saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>กำลังบันทึก...';
 
@@ -427,7 +519,6 @@
                 fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'saveAward', type: type, formData: formData, fileData: fileData }) })
                 .then(res => res.json())
                 .then(res => {
-                    // ✨ [แก้ไขจุดนี้] เปลี่ยนจาก Alert() เป็นการเปิดหน้าต่างสุดพรีเมียม
                     document.getElementById('successModalMessage').innerText = 'ระบบบันทึกเกียรติบัตรสำเร็จ รหัสอ้างอิง: ' + res.awardId;
                     let sModal = new bootstrap.Modal(document.getElementById('successModal'));
                     sModal.show();
@@ -441,10 +532,7 @@
             reader.readAsDataURL(file);
         }
 
-        // 🔄 ฟังก์ชันเมื่อกดปุ่มตกลงบน Success Modal ให้รีเฟรชหน้าเว็บแบบคลีนๆ
-        function handleSuccessClose() {
-            location.reload();
-        }
+        function handleSuccessClose() { location.reload(); }
     </script>
 </body>
 </html>
