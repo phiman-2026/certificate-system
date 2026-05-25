@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบเก็บผลงานรางวัลเกียรติยศ - โรงเรียนพิมานพิทยาสรรค์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2 family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -16,18 +16,27 @@
         .banner-card h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 5px; }
         .banner-card p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 0; font-weight: 300; }
         .banner-card::after { content: '\f559'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 3%; bottom: -15px; font-size: 100px; color: rgba(255,255,255,0.06); }
+        
         .nav-menu-btn { display: flex; align-items: center; width: 100%; padding: 10px 15px; margin-bottom: 5px; border: none; background: transparent; border-radius: 10px; color: #64748b; font-weight: 400; text-align: left; transition: all 0.2s; font-size: 0.92rem; }
         .nav-menu-btn i { font-size: 1rem; width: 28px; color: #94a3b8; }
         .nav-menu-btn:hover { background-color: #f1f5f9; color: #1e40af; }
         .nav-menu-btn.active { background-color: #eff6ff; color: #2563eb; font-weight: 500; }
         .nav-menu-btn.active i { color: #2563eb; }
-        .award-card { border: none; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.2s; border: 1px solid #f1f5f9; }
+        
+        /* 💳 Award Cards แบบใหม่ มีพื้นที่แสดงรูปเกียรติบัตร (Image Preview) */
+        .award-card { border: none; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.2s; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; }
         .award-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.05); }
-        .card-title { font-size: 1rem; font-weight: 600; line-height: 1.4; color: #1e293b; margin-top: 8px; }
+        
+        /* 🖼️ ส่วนแสดงรูปภาพเกียรติบัตรหัวการ์ด */
+        .card-preview-img { width: 100%; height: 160px; object-fit: cover; background-color: #f1f5f9; border-bottom: 1px solid #f1f5f9; }
+        
+        .card-body-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #1e293b; margin-top: 5px; margin-bottom: 10px; }
         .badge-pill { padding: 4px 10px; border-radius: 6px; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.3px; }
         .text-line-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; }
         .info-label { font-size: 0.82rem; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; }
         .info-label i { width: 20px; color: #cbd5e1; font-size: 0.85rem; }
+        
         @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } }
     </style>
 </head>
@@ -158,7 +167,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 🛑 >>> ลิงก์ Web App URL จาก GAS (ตรวจสอบให้แน่ใจว่าเป็นลิงก์ Deployment ล่าสุด) <<<
+        // 🛑 >>> ลิงก์ Web App URL จาก GAS (กรุณาใช้ลิงก์ Deployment ล่าสุด) <<<
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
@@ -206,13 +215,13 @@
 
             categories.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-10).reverse();
+                let limitedItems = items.slice(-6).reverse();
 
                 let sectionHtml = `
                     <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h6 class="fw-bold mb-0 text-dark"><i class="fa-solid ${cat.icon} me-2 text-primary"></i>${cat.title}</h6>
-                            ${items.length > 10 ? `<button class="btn btn-sm text-primary p-0 fw-bold" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-chevron-right"></i></button>` : ''}
+                            ${items.length > 6 ? `<button class="btn btn-sm text-primary p-0 fw-bold" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-chevron-right"></i></button>` : ''}
                         </div>
                         <div class="row g-3" id="grid-${cat.key}"></div>
                     </div>
@@ -228,10 +237,10 @@
             buildGridCards('focused-grid', [...items].reverse(), key);
         }
 
-        // 🛠️ ฟังก์ชันดึงค่าจาก Object แบบยืดหยุ่น ป้องกันปัญหาฟิลด์ชื่อไทย/อังกฤษและพิมพ์เล็ก-ใหญ่ไม่ตรงกัน
+        // 🛠️ ตรวจสอบจับคู่คีย์ข้อมูลจากหลังบ้านแบบครอบคลุม ป้องกันค่าว่าง/undefined
         function getValue(obj, keys) {
             for (let key of keys) {
-                if (obj[key] !== undefined && obj[key] !== null) return obj[key];
+                if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
             }
             return '';
         }
@@ -245,40 +254,52 @@
             }
 
             items.forEach(item => {
-                // Mapping ชื่อฟิลด์ป้องกันข้อผิดพลาด undefined
                 let awardId = getValue(item, ['award_id', 'awardId', 'รหัสรางวัล', 'รหัส']);
                 let year = getValue(item, ['year', 'ปีการศึกษา', 'ปี']);
                 let awardName = getValue(item, ['award_name', 'awardName', 'ชื่อรางวัล', 'ชื่อรางวัล/ผลงานเกียรติยศ']);
                 let agency = getValue(item, ['agency', 'หน่วยงาน', 'หน่วยงานที่มอบรางวัล']);
                 let docLink = getValue(item, ['document_link', 'documentLink', 'fileUrl', 'ลิงก์ไฟล์', 'ลิงก์']);
                 
+                // 🖼️ ดึงรูปหน้าพรีวิวจากลิงก์ PDF อัตโนมัติ (หากไม่มีจะขึ้นเป็นภาพปกเกียรติบัตรเริ่มต้นพื้นหลังน้ำเงินไล่เฉดสวยงาม)
+                let previewImg = 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80';
+                if(docLink && docLink.includes('drive.google.com')) {
+                    let fileId = docLink.match(/[-\w]{25,}/);
+                    if(fileId) previewImg = `https://lh3.googleusercontent.com/d/${fileId}=w500`;
+                }
+
                 let badgeColor = colorType === 'school' ? 'bg-success' : colorType === 'staff' ? 'bg-primary' : 'bg-warning text-dark';
-                
                 let subText = '';
+                
                 if (colorType === 'staff') {
-                    let receiver = getValue(item, ['receiver_name', 'receiverName', 'ชื่อครู', 'ชื่อ-นามสกุล']);
-                    subText = `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${receiver}</div>`;
+                    let receiver = getValue(item, ['receiver_name', 'receiverName', 'ชื่อครู', 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล']);
+                    subText = `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${receiver || '-'}</div>`;
                 } else if (colorType === 'student') {
-                    let student = getValue(item, ['student_name', 'studentName', 'ชื่อนักเรียน', 'ชื่อ-นามสกุล']);
+                    let student = getValue(item, ['student_name', 'studentName', 'ชื่อนักเรียน', 'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล']);
                     let sClass = getValue(item, ['class', 'ชั้น', 'ชั้นเรียน']);
-                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${student} (${sClass})</div>`;
+                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${student || '-'} (${sClass || '-'})</div>`;
                 }
 
                 const cardHtml = `
                     <div class="col-xl-4 col-md-6 card-item" data-dept="${item.department || item.category || ''}">
-                        <div class="card h-100 award-card p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="badge ${badgeColor} badge-pill opacity-75">${awardId || 'AWARD'}</span>
-                                <span class="text-muted" style="font-size:0.7rem;">ปีการศึกษา ${year}</span>
+                        <div class="card h-100 award-card">
+                            <img src="${previewImg}" class="card-preview-img" alt="Certificate Preview" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80'">
+                            
+                            <div class="card-body-content">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="badge ${badgeColor} badge-pill opacity-75">${awardId || 'AWARD'}</span>
+                                        <span class="text-muted" style="font-size:0.7rem;">ปีการศึกษา ${year || '-'}</span>
+                                    </div>
+                                    <h6 class="card-title text-line-2">${awardName || 'ไม่มีชื่อรางวัล'}</h6>
+                                    <div class="mb-3">
+                                        ${subText}
+                                        <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>มอบโดย: ${agency || '-'}</div>
+                                    </div>
+                                </div>
+                                <a href="${docLink}" target="_blank" class="btn btn-outline-primary btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" ${docLink ? '' : 'disabled'}>
+                                    <i class="fa-solid fa-expand me-1"></i>เปิดดูไฟล์เกียรติบัตรฉบับเต็ม
+                                </a>
                             </div>
-                            <h6 class="card-title text-line-2">${awardName || 'ไม่มีชื่อรางวัล'}</h6>
-                            <div class="mb-3 mt-2">
-                                ${subText}
-                                <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>มอบโดย: ${agency || '-'}</div>
-                            </div>
-                            <a href="${docLink}" target="_blank" class="btn btn-outline-danger btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" ${docLink ? '' : 'disabled'}>
-                                <i class="fa-solid fa-file-pdf me-1"></i>ดูเกียรติบัตร
-                            </a>
                         </div>
                     </div>
                 `;
@@ -311,17 +332,20 @@
             const type = document.getElementById('form-type').value;
             const fileInput = document.getElementById('form-file');
             const saveBtn = document.getElementById('btn-save');
+            
+            // 🛠️ แก้ไขการ Map ชื่อฟิลด์โครงสร้าง Object ข้อมูลตอนกดเซฟ เพื่อให้ตรงกับหัวตารางของ Google Sheets เดิมทั้งหมดอย่างแม่นยำ
             const formData = {
-                year: document.getElementById('form-year').value,
-                award_name: document.getElementById('form-title').value,
-                agency: document.getElementById('form-agency').value,
-                receiver_name: document.getElementById('form-name').value,
-                department: document.getElementById('form-dept').value,
-                student_name: document.getElementById('form-name').value,
-                class: document.getElementById('form-class').value,
-                category: document.getElementById('form-dept').value
+                'ปีการศึกษา': document.getElementById('form-year').value,
+                'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value,
+                'หน่วยงานที่มอบรางวัล': document.getElementById('form-agency').value,
+                'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล': document.getElementById('form-name').value,
+                'กลุ่มสาระการเรียนรู้': document.getElementById('form-dept').value,
+                'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล': document.getElementById('form-name').value,
+                'ชั้นเรียน': document.getElementById('form-class').value,
+                'category': document.getElementById('form-dept').value
             };
-            if (!formData.award_name || fileInput.files.length === 0) { alert('กรุณาระบุชื่อรางวัลและแนบไฟล์ PDF'); return; }
+            
+            if (!formData['ชื่อรางวัล/ผลงานเกียรติยศ'] || fileInput.files.length === 0) { alert('กรุณาระบุชื่อรางวัลและแนบไฟล์ PDF'); return; }
             saveBtn.disabled = true;
             saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>กำลังบันทึก...';
 
@@ -334,6 +358,11 @@
                 .then(res => {
                     alert('บันทึกสำเร็จ รหัสรางวัล: ' + res.awardId);
                     location.reload();
+                })
+                .catch(err => {
+                    alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<i class="fa-solid fa-save me-1"></i>บันทึกข้อมูล';
                 });
             };
             reader.readAsDataURL(file);
