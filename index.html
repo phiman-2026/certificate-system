@@ -5,43 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบเก็บผลงานรางวัลเกียรติยศ - โรงเรียนพิมานพิทยาสรรค์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2 family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         body { font-family: 'Kanit', sans-serif; background-color: #f6f8fa; color: #334155; overflow-x: hidden; font-size: 0.95rem; }
-        
-        /* 📜 Sidebar ปรับขนาดเมนูและไอคอนให้เล็กลงแต่ชัดเจน */
         .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; width: 260px; padding: 20px; background-color: #ffffff; border-right: 1px solid #e2e8f0; transition: all 0.3s; }
         .main-content { margin-left: 260px; padding: 25px; transition: all 0.3s; }
-        
-        /* 🎨 Banner ปรับขนาดตัวอักษรลงให้ดูทันสมัย */
         .banner-card { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); position: relative; overflow: hidden; }
         .banner-card h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 5px; }
         .banner-card p { font-size: 0.9rem; opacity: 0.9; margin-bottom: 0; font-weight: 300; }
         .banner-card::after { content: '\f559'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 3%; bottom: -15px; font-size: 100px; color: rgba(255,255,255,0.06); }
-        
-        /* 🔘 Sidebar Menu Buttons */
         .nav-menu-btn { display: flex; align-items: center; width: 100%; padding: 10px 15px; margin-bottom: 5px; border: none; background: transparent; border-radius: 10px; color: #64748b; font-weight: 400; text-align: left; transition: all 0.2s; font-size: 0.92rem; }
         .nav-menu-btn i { font-size: 1rem; width: 28px; color: #94a3b8; }
         .nav-menu-btn:hover { background-color: #f1f5f9; color: #1e40af; }
         .nav-menu-btn.active { background-color: #eff6ff; color: #2563eb; font-weight: 500; }
         .nav-menu-btn.active i { color: #2563eb; }
-        
-        /* 💳 Award Cards ปรับ Font Card ให้เล็กลง อ่านง่าย */
         .award-card { border: none; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.2s; border: 1px solid #f1f5f9; }
         .award-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.05); }
         .card-title { font-size: 1rem; font-weight: 600; line-height: 1.4; color: #1e293b; margin-top: 8px; }
         .badge-pill { padding: 4px 10px; border-radius: 6px; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.3px; }
-        
         .text-line-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; }
         .info-label { font-size: 0.82rem; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; }
         .info-label i { width: 20px; color: #cbd5e1; font-size: 0.85rem; }
-
-        @media (max-width: 991px) {
-            .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; }
-            .main-content { margin-left: 0; padding: 15px; }
-        }
+        @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } }
     </style>
 </head>
 <body>
@@ -171,7 +158,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 🛑 >>> ลิงก์ Web App URL จาก GAS <<<
+        // 🛑 >>> ลิงก์ Web App URL จาก GAS (ตรวจสอบให้แน่ใจว่าเป็นลิงก์ Deployment ล่าสุด) <<<
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
@@ -212,20 +199,20 @@
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = '';
             const categories = [
-                { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-building-columns', badge: 'bg-success' },
-                { key: 'staff', title: 'รางวัลครูและบุคลากรฯ', icon: 'fa-user-check', badge: 'bg-indigo' },
-                { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-medal', badge: 'bg-warning' }
+                { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-building-columns' },
+                { key: 'staff', title: 'รางวัลครูและบุคลากรฯ', icon: 'fa-user-check' },
+                { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-medal' }
             ];
 
             categories.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-6).reverse(); // โชว์ 6 อันล่าสุดพอสวยๆ
+                let limitedItems = items.slice(-10).reverse();
 
                 let sectionHtml = `
                     <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h6 class="fw-bold mb-0 text-dark"><i class="fa-solid ${cat.icon} me-2 text-primary"></i>${cat.title}</h6>
-                            <button class="btn btn-sm text-primary p-0 fw-bold" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-chevron-right"></i></button>
+                            ${items.length > 10 ? `<button class="btn btn-sm text-primary p-0 fw-bold" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-chevron-right"></i></button>` : ''}
                         </div>
                         <div class="row g-3" id="grid-${cat.key}"></div>
                     </div>
@@ -241,6 +228,14 @@
             buildGridCards('focused-grid', [...items].reverse(), key);
         }
 
+        // 🛠️ ฟังก์ชันดึงค่าจาก Object แบบยืดหยุ่น ป้องกันปัญหาฟิลด์ชื่อไทย/อังกฤษและพิมพ์เล็ก-ใหญ่ไม่ตรงกัน
+        function getValue(obj, keys) {
+            for (let key of keys) {
+                if (obj[key] !== undefined && obj[key] !== null) return obj[key];
+            }
+            return '';
+        }
+
         function buildGridCards(gridId, items, colorType) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
@@ -250,23 +245,38 @@
             }
 
             items.forEach(item => {
+                // Mapping ชื่อฟิลด์ป้องกันข้อผิดพลาด undefined
+                let awardId = getValue(item, ['award_id', 'awardId', 'รหัสรางวัล', 'รหัส']);
+                let year = getValue(item, ['year', 'ปีการศึกษา', 'ปี']);
+                let awardName = getValue(item, ['award_name', 'awardName', 'ชื่อรางวัล', 'ชื่อรางวัล/ผลงานเกียรติยศ']);
+                let agency = getValue(item, ['agency', 'หน่วยงาน', 'หน่วยงานที่มอบรางวัล']);
+                let docLink = getValue(item, ['document_link', 'documentLink', 'fileUrl', 'ลิงก์ไฟล์', 'ลิงก์']);
+                
                 let badgeColor = colorType === 'school' ? 'bg-success' : colorType === 'staff' ? 'bg-primary' : 'bg-warning text-dark';
-                let subText = colorType === 'staff' ? `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${item.receiver_name}</div>` : 
-                             colorType === 'student' ? `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${item.student_name} (${item.class})</div>` : '';
+                
+                let subText = '';
+                if (colorType === 'staff') {
+                    let receiver = getValue(item, ['receiver_name', 'receiverName', 'ชื่อครู', 'ชื่อ-นามสกุล']);
+                    subText = `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${receiver}</div>`;
+                } else if (colorType === 'student') {
+                    let student = getValue(item, ['student_name', 'studentName', 'ชื่อนักเรียน', 'ชื่อ-นามสกุล']);
+                    let sClass = getValue(item, ['class', 'ชั้น', 'ชั้นเรียน']);
+                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${student} (${sClass})</div>`;
+                }
 
                 const cardHtml = `
                     <div class="col-xl-4 col-md-6 card-item" data-dept="${item.department || item.category || ''}">
                         <div class="card h-100 award-card p-3">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="badge ${badgeColor} badge-pill opacity-75">${item.award_id}</span>
-                                <span class="text-muted" style="font-size:0.7rem;">ปีการศึกษา ${item.year}</span>
+                                <span class="badge ${badgeColor} badge-pill opacity-75">${awardId || 'AWARD'}</span>
+                                <span class="text-muted" style="font-size:0.7rem;">ปีการศึกษา ${year}</span>
                             </div>
-                            <h6 class="card-title text-line-2">${item.award_name}</h6>
+                            <h6 class="card-title text-line-2">${awardName || 'ไม่มีชื่อรางวัล'}</h6>
                             <div class="mb-3 mt-2">
                                 ${subText}
-                                <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>${item.agency}</div>
+                                <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>มอบโดย: ${agency || '-'}</div>
                             </div>
-                            <a href="${item.document_link}" target="_blank" class="btn btn-outline-danger btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;">
+                            <a href="${docLink}" target="_blank" class="btn btn-outline-danger btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" ${docLink ? '' : 'disabled'}>
                                 <i class="fa-solid fa-file-pdf me-1"></i>ดูเกียรติบัตร
                             </a>
                         </div>
@@ -280,7 +290,8 @@
             const filterVal = document.getElementById('filter-dept').value;
             const cards = document.querySelectorAll('.card-item');
             cards.forEach(card => {
-                if (filterVal === 'ALL' || card.getAttribute('data-dept') === filterVal) card.style.display = 'block';
+                let cardDept = card.getAttribute('data-dept');
+                if (filterVal === 'ALL' || cardDept === filterVal) card.style.display = 'block';
                 else card.style.display = 'none';
             });
         }
