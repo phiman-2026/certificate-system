@@ -26,8 +26,7 @@
         .award-card { border: none; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.2s; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; }
         .award-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.05); }
         
-        /* 🖼️ ปรับแต่งหัวการ์ดพรีวิวให้เป็นรูปแบบปกใบประกาศนียบัตรดิจิทัลกรณีดึงรูปจาก PDF ตรงๆ ไม่ได้ */
-        .card-preview-img { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #1e3a8a, #3b82f6); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; padding: 15px; text-align: center; }
+        .card-preview-img { width: 100%; height: 160px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; padding: 15px; text-align: center; }
         .card-preview-img i { font-size: 2.5rem; margin-bottom: 8px; opacity: 0.85; }
         .card-preview-img span { font-size: 0.75rem; font-weight: 300; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; }
 
@@ -38,10 +37,9 @@
         .info-label { font-size: 0.82rem; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; }
         .info-label i { width: 20px; color: #cbd5e1; font-size: 0.85rem; }
         
-        /* 📱 จัดการความสูงของ PDF Preview ใน Modal */
-        .pdf-container { width: 100%; height: 500px; border: none; border-radius: 8px; }
+        .pdf-container { width: 100%; height: 550px; border: none; border-radius: 8px; background-color: #f8fafc; }
 
-        @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } .pdf-container { height: 350px; } }
+        @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } .pdf-container { height: 400px; } }
     </style>
 </head>
 <body>
@@ -169,12 +167,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="certificateModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-3">
                 <div class="modal-header bg-light border-0 py-3">
                     <h6 class="modal-title fw-bold text-dark mb-0" id="certificateModalLabel"><i class="fa-solid fa-certificate text-primary me-2"></i>ตรวจสอบไฟล์เกียรติบัตรรางวัล</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="clearModalSrc()"></button>
                 </div>
                 <div class="modal-body p-3 text-center">
                     <iframe id="pdfViewerFrame" class="pdf-container" src=""></iframe>
@@ -183,7 +181,7 @@
                     <a id="btnDownloadCert" href="#" target="_blank" class="btn btn-success btn-sm rounded-2 px-3 fw-medium">
                         <i class="fa-solid fa-download me-1"></i>บันทึกไฟล์เกียรติบัตร
                     </a>
-                    <button type="button" class="btn btn-secondary btn-sm rounded-2 px-3" data-bs-dismiss="modal">ออกจากหน้านี้</button>
+                    <button type="button" class="btn btn-secondary btn-sm rounded-2 px-3" data-bs-dismiss="modal" onclick="clearModalSrc()">ออกจากหน้านี้</button>
                 </div>
             </div>
         </div>
@@ -275,12 +273,14 @@
                 return;
             }
 
-            items.forEach(item => {
+            items.forEach((item, index) => {
                 let awardId = getValue(item, ['award_id', 'awardId', 'รหัสรางวัล', 'รหัส']);
                 let year = getValue(item, ['year', 'ปีการศึกษา', 'ปี']);
                 let awardName = getValue(item, ['award_name', 'awardName', 'ชื่อรางวัล', 'ชื่อรางวัล/ผลงานเกียรติยศ']);
                 let agency = getValue(item, ['agency', 'หน่วยงาน', 'หน่วยงานที่มอบรางวัล']);
-                let docLink = getValue(item, ['document_link', 'documentLink', 'fileUrl', 'ลิงก์ไฟล์', 'ลิงก์']);
+                
+                // 🛠️ ตรวจจับคีย์ลิงก์ไฟล์ PDF ครอบคลุมทุกเวอร์ชันระบบฐานข้อมูล
+                let docLink = getValue(item, ['fileUrl', 'document_link', 'documentLink', 'ลิงก์ไฟล์', 'ลิงก์', 'ลิงก์ไฟล์เกียรติบัตร']);
                 
                 let badgeColor = colorType === 'school' ? 'bg-success' : colorType === 'staff' ? 'bg-primary' : 'bg-warning text-dark';
                 let subText = '';
@@ -299,7 +299,9 @@
                     displayReceiver = awardName || 'รางวัลสถานศึกษา';
                 }
 
-                // 🛠️ แปลงลิงก์และแสดงผลการ์ดหัวเรื่องแบบดิจิทัลโปร่งใส ปลอดภัยจากบัก PDF โหลดไม่ขึ้นแน่นอนครับ
+                // ป้องกันอักขระพิเศษพังคำสั่งเปิด Modal ด้วยการส่งค่าแบบ Encode ตัวแปรไว้ล่วงหน้า
+                let safeLink = encodeURIComponent(docLink || '');
+
                 const cardHtml = `
                     <div class="col-xl-4 col-md-6 card-item" data-dept="${item.department || item.category || ''}">
                         <div class="card h-100 award-card">
@@ -320,7 +322,7 @@
                                         <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>มอบโดย: ${agency || '-'}</div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" onclick="viewCertificateModal('${docLink}')" ${docLink ? '' : 'disabled'}>
+                                <button type="button" class="btn btn-outline-primary btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" onclick="viewCertificateModal('${safeLink}')">
                                     <i class="fa-solid fa-expand me-1"></i>เปิดดูเกียรติบัตร
                                 </button>
                             </div>
@@ -331,25 +333,35 @@
             });
         }
 
-        // 🛠️ ฟังก์ชันสั่งเปิด Modal แสดงเอกสาร PDF เกียรติบัตรภายในตัวหน้าเว็บโดยตรง
-        function viewCertificateModal(driveUrl) {
-            if (!driveUrl) return;
+        // 🛠️ ฟังก์ชันเปิดป๊อปอัป Modal และแปลง Link Google Drive ให้แสดงตรงกลางเว็บทันที
+        function viewCertificateModal(encodedDriveUrl) {
+            let driveUrl = decodeURIComponent(encodedDriveUrl);
+            
+            if (!driveUrl || driveUrl === 'undefined' || driveUrl.trim() === '') {
+                alert('⚠️ ไม่พบลิงก์ไฟล์เกียรติบัตรในฐานข้อมูลแถวนี้ครับ (ข้อมูลอาจบันทึกไม่สมบูรณ์)');
+                return;
+            }
             
             let embedUrl = driveUrl;
-            // ทำการแปลง Link Google Drive ให้อยู่ในโหมดพรีวิวฝังบอร์ด (Preview Mode) ป้องกันอาการค้างหรือฟอนต์เปลี่ยนหนีไปไหน
             if (driveUrl.includes('drive.google.com')) {
                 let fileId = driveUrl.match(/[-\w]{25,}/);
                 if (fileId) {
-                    embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                    embedUrl = `https://drive.google.com/file/d/${fileId[0]}/preview`;
                 }
             }
             
+            // ใส่ค่าลิงก์ไปยังองค์ประกอบต่างๆ ใน Modal
             document.getElementById('pdfViewerFrame').src = embedUrl;
             document.getElementById('btnDownloadCert').href = driveUrl;
             
-            // สั่งเปิดกล่อง Modal ของ Bootstrap
-            let certModal = new bootstrap.Modal(document.getElementById('certificateModal'));
-            certModal.show();
+            // บังคับเรียกให้กล่องป๊อปอัปทำงานอย่างแน่นอน
+            let myModal = new bootstrap.Modal(document.getElementById('certificateModal'));
+            myModal.show();
+        }
+
+        // ฟังก์ชันล้างค่า iframe เมื่อปิดหน้าต่าง เพื่อไม่ให้เสียงหรือไฟล์เดิมค้างคาไว้
+        function clearModalSrc() {
+            document.getElementById('pdfViewerFrame').src = "";
         }
 
         function filterCards() {
