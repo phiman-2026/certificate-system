@@ -10,21 +10,25 @@
     
     <style>
         :root {
-            --bg-main: #20242c;          /* สีพื้นหลังหลักตามภาพ */
-            --bg-card: #2d323f;          /* สีตัวการ์ดเทาเข้ม */
-            --border-card: #3f4756;      /* เส้นขอบการ์ดเพิ่มความคมชัด */
-            --sidebar-bg: #ffffff;       /* พื้นหลังเมนูซ้ายสีขาวคลีน */
+            --bg-main: #1a1d24;          /* สีพื้นหลังมืดสนิทตามภาพตัวอย่าง */
+            --bg-card: #2b303c;          /* สีพื้นหลังของการ์ดแต่ละใบ */
+            --border-card: #373e4d;      /* สีขอบการ์ดเพิ่มมิติคมชัด */
+            --sidebar-bg: #ffffff;       /* เมนูด้านซ้ายสีขาวคลีน */
             --text-dark: #1e293b;
-            --text-light: #f1f5f9;
-            --text-muted-dark: #94a3b8;
+            --text-light: #ffffff;
+            --text-muted: #94a3b8;
 
-            /* 🎨 ชุดสีแยกหมวดหมู่ตามรูปภาพตัวอย่าง */
-            --school-primary: #9bc4b6;   /* เขียวมินท์ */
-            --school-light: #e2f3ee;
-            --staff-primary: #9ec3e6;    /* ฟ้าอ่อน */
-            --staff-light: #e0eefe;
-            --student-primary: #f3b497;  /* ส้มโอรส */
-            --student-light: #fdf0ea;
+            /* 🎨 โลเคชั่นสีกล่องข้อมูลและหัวข้อตามรูปเป๊ะๆ */
+            --school-badge: #98c2b3;     /* หัวข้อเขียวมิ้นท์ */
+            --school-box: #84ada0;       /* กล่องข้อความเขียวมิ้นท์ทึบ */
+            
+            --staff-badge: #9ec5e8;      /* หัวข้อฟ้าอ่อน */
+            --staff-box: #8db3d9;        /* กล่องข้อความฟ้าทึบ */
+            
+            --student-badge: #f5b99a;    /* หัวข้อส้มโอรส */
+            --student-box: #e09e7d;      /* กล่องข้อความส้มทึบ */
+
+            --btn-blue: #7eaacf;         /* สีปุ่มเปิดดูเกียรติบัตรตามภาพ */
         }
 
         body { 
@@ -35,44 +39,44 @@
             font-size: 0.88rem; 
         }
 
-        /* 📌 Sidebar ฝั่งซ้ายสีขาวตัดขอบคมชัด */
+        /* 📌 Sidebar ฝั่งซ้าย */
         .sidebar { 
             position: fixed; 
             top: 0; bottom: 0; left: 0; z-index: 100; 
             width: 280px; 
             padding: 30px 20px; 
             background-color: var(--sidebar-bg); 
-            border-right: 1px solid rgba(0,0,0,0.1); 
-            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            border-right: 1px solid rgba(0,0,0,0.08); 
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease; 
         }
         .sidebar .text-slate { color: var(--text-dark) !important; }
 
         .main-content { margin-left: 280px; padding: 30px; transition: all 0.3s ease; }
 
-        /* 🏛️ โลโก้สถาบัน */
+        /* 🏛️ ส่วนแสดงโลโก้โรงเรียนฝั่งซ้าย */
         .logo-wrapper { text-align: center; margin-bottom: 25px; }
-        .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15)); }
+        .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1)); }
 
-        /* 👑 แบนเนอร์หัวเว็บดีไซน์พรีเมียมตามรูป */
+        /* 👑 แบนเนอร์หัวเว็บสไตล์เข้มหรูหรา */
         .banner-card { 
-            background: linear-gradient(135deg, #161920 0%, #252b38 100%); 
+            background: linear-gradient(135deg, #111318 0%, #20242e 100%); 
             border: 1px solid var(--border-card);
             border-radius: 12px; 
             padding: 22px 30px; 
-            margin-bottom: 30px; 
+            margin-bottom: 35px; 
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        .banner-text h3 { font-size: 1.4rem; font-weight: 700; color: #ffffff; margin: 0; letter-spacing: 0.5px; }
-        .banner-text p { font-size: 0.85rem; color: var(--text-muted-dark); margin: 6px 0 0; }
+        .banner-text h3 { font-size: 1.45rem; font-weight: 700; color: #ffffff; margin: 0; letter-spacing: 0.5px; }
+        .banner-text p { font-size: 0.85rem; color: #a1b0cb; margin: 6px 0 0; }
         .obec-logo { width: 48px; height: auto; margin-right: 20px; }
         
-        /* 🔘 ปุ่มควบคุมเมนูด้านซ้าย */
+        /* 🔘 ปุ่มเมนูด้านซ้าย */
         .nav-menu-btn { 
             display: flex; align-items: center; width: 100%; 
-            padding: 11px 16px; margin-bottom: 6px; 
+            padding: 12px 16px; margin-bottom: 6px; 
             border: none; background: transparent; border-radius: 8px; 
             color: #475569; font-weight: 400; transition: all 0.2s; 
         }
@@ -81,71 +85,70 @@
         .nav-menu-btn.active { background: linear-gradient(135deg, #dfba6b 0%, #c29d4c 100%); color: #ffffff; font-weight: 500; }
         .nav-menu-btn.active i { color: #ffffff; }
         
-        /* 🏅 ระบบแสดงผล 5 การ์ดต่อแถว (Custom 5-Column Grid สำหรับจอคอมฯ) */
+        /* 🏅 จัดการ 5 การ์ดต่อแถวบนหน้าจอใหญ่เดสก์ท็อป */
         @media (min-width: 1200px) {
             .col-xl-2-4 { flex: 0 0 20%; max-width: 20%; }
         }
 
-        /* 🏷️ แถบหัวข้อหมวดหมู่แบบแคปซูลตามภาพ */
+        /* 🏷️ หัวข้อกลุ่มรางวัลทรงแคปซูลมนเด่นชัดตามภาพ */
         .category-badge-title {
             display: inline-flex;
             align-items: center;
-            padding: 6px 18px;
+            padding: 7px 22px;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin-bottom: 18px;
+            color: #111622;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
         }
-        .title-school { background-color: var(--school-primary); }
-        .title-staff { background-color: var(--staff-primary); }
-        .title-student { background-color: var(--student-primary); }
+        .title-school { background-color: var(--school-badge); }
+        .title-staff { background-color: var(--staff-badge); }
+        .title-student { background-color: var(--student-badge); }
 
-        /* 🃏 ตัวการ์ดสไตล์ Dark Theme คอนทราสต์สูง */
+        /* 🃏 ตัวการ์ดสไตล์ Dark โทนสีและขอบเงาตามภาพตัวอย่าง */
         .award-card { 
             border-radius: 12px; 
             border: 1px solid var(--border-card);
             background-color: var(--bg-card); 
-            transition: all 0.25s ease-in-out;
+            transition: all 0.25s ease;
             display: flex; flex-direction: column; height: 100%; overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
         }
-        .award-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.35); border-color: #64748b; }
+        .award-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,0.45); border-color: #4f5b73; }
 
-        /* ส่วนบนของการ์ด: แสดงไอคอนประเภท */
+        /* หัวการ์ดไอคอนคู่ */
         .card-header-icon { 
-            height: 50px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 15px; border-bottom: 1px solid rgba(255,255,255,0.05); 
+            height: 48px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 14px; border-bottom: 1px solid rgba(255,255,255,0.03); 
         }
-        .card-header-icon i { font-size: 1.25rem; }
-        .card-header-icon .fa-medal { color: #fbbf24; }
+        .card-header-icon i { font-size: 1.2rem; }
+        .card-header-icon .fa-medal { color: #eab308; } /* สีเหรียญรางวัลทอง */
 
-        .card-body-content { padding: 14px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .award-title { font-size: 0.85rem; font-weight: 500; color: #ffffff; line-height: 1.45; margin-bottom: 12px; height: 2.9em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .card-body-content { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .award-title { font-size: 0.85rem; font-weight: 400; color: #ffffff; line-height: 1.4; margin-bottom: 12px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         
-        /* 🗃️ ช่องใส่ข้อมูลย่อยดีไซน์ทึบชัดเจนตามภาพ */
-        .meta-box { border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 0.75rem; }
-        .meta-item { display: flex; align-items: flex-start; margin-bottom: 5px; color: var(--text-dark); line-height: 1.35; }
+        /* 🗃️ กล่องข้อมูลภายในตัวการ์ด (ดึงสีทึบตามหมวดหมู่เด่นชัด) */
+        .meta-box { border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 0.76rem; color: #0f172a; font-weight: 500; }
+        .meta-item { display: flex; align-items: flex-start; margin-bottom: 6px; line-height: 1.4; }
         .meta-item:last-child { margin-bottom: 0; }
-        .meta-item span { width: 55px; font-weight: bold; opacity: 0.8; }
-        .meta-item b { flex: 1; font-weight: 500; }
+        .meta-item span { width: 62px; font-weight: 600; opacity: 0.85; display: inline-block; }
+        .meta-item b { flex: 1; font-weight: 500; color: #000000; }
 
-        /* แยกสีกล่องข้อมูลภายในการ์ด */
-        .box-school { background-color: var(--school-light); }
-        .box-staff { background-color: var(--staff-light); }
-        .box-student { background-color: var(--student-light); }
+        /* จับคู่สีกล่องข้อมูลและไอคอนตามภาพ */
+        .box-school { background-color: var(--school-box); }
+        .box-staff { background-color: var(--staff-box); }
+        .box-student { background-color: var(--student-box); }
 
-        /* สีไอคอนหัวการ์ด */
-        .icon-school { color: var(--school-primary); }
-        .icon-staff { color: var(--staff-primary); }
-        .icon-student { color: var(--student-primary); }
+        .icon-school { color: var(--school-badge); }
+        .icon-staff { color: var(--staff-badge); }
+        .icon-student { color: var(--student-badge); }
 
-        /* 🔘 ปุ่มเปิดไฟล์ดีไซน์คมชัด */
-        .btn-check-doc { font-size: 0.75rem; font-weight: 500; border-radius: 6px; border: none; background-color: #4b5563; padding: 7px 0; width: 100%; transition: 0.15s; color: #ffffff; }
-        .btn-check-doc:hover { background-color: #3b82f6; color: #ffffff; }
+        /* 🔘 ปุ่มเปิดดูเกียรตินิยม/เกียรติบัตรสีฟ้าอมเทาเด่นชัด */
+        .btn-check-doc { font-size: 0.78rem; font-weight: 500; border-radius: 6px; border: none; background-color: var(--btn-blue); padding: 7px 0; width: 100%; transition: all 0.2s; color: #0f172a; }
+        .btn-check-doc:hover { background-color: #9ec5e8; color: #000000; box-shadow: 0 2px 8px rgba(126,170,207,0.4); }
 
-        /* 🛠️ Tag รายชื่อนักเรียน */
+        /* 🛠️ ส่วน Tag รายชื่อนักเรียนเวลากรอกฟอร์ม */
         .student-tag-container { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; min-height: 35px; margin-top: 8px; }
         .student-tag { background: #f1f5f9; color: var(--text-dark); padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; border: 1px solid #cbd5e1; }
 
@@ -163,11 +166,11 @@
     <div class="sidebar">
         <div class="logo-wrapper">
             <img src="http://googleusercontent.com/image_collection/image_retrieval/5151025297629317826" class="school-logo" alt="School Logo">
-            <h6 class="fw-bold mb-0 text-slate" style="letter-spacing: 0.3px;">PMS DIGITAL HONOR</h6>
+            <h6 class="fw-bold mb-0 text-slate" style="letter-spacing: 0.2px; font-size: 0.92rem;">PMS DIGITAL HONOR</h6>
             <small class="text-muted" style="font-weight: 400; font-size: 0.72rem;">โรงเรียนพิมานพิทยาสรรค์</small>
         </div>
         
-        <button class="btn btn-dark w-100 rounded-3 mb-4 fw-medium" onclick="openAdminForm()" style="font-size: 0.82rem; padding: 8px 0; background-color: #1e293b; border: none;">
+        <button class="btn btn-dark w-100 rounded-3 mb-4 fw-medium" onclick="openAdminForm()" style="font-size: 0.82rem; padding: 8.5px 0; background-color: #1e293b; border: none;">
             <i class="fa-solid fa-plus-circle me-1 text-warning"></i> บันทึกข้อมูลรางวัลใหม่
         </button>
 
@@ -283,7 +286,7 @@
         <div id="dynamic-display-zone">
             <div class="text-center py-5">
                 <div class="spinner-border text-light" role="status"></div>
-                <p class="mt-3 text-muted small">กำลังเตรียมข้อมูลคลังเกียรติยศความคมชัดสูง...</p>
+                <p class="mt-3 text-muted small">กำลังดึงข้อมูลระบบคลังเกียรติยศความละเอียดสูง...</p>
             </div>
         </div>
     </div>
@@ -369,14 +372,14 @@
             ];
             cats.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-10).reverse(); // เเสดงหน้าเเรกหมวดหมู่ละ 10 ชิ้น เพื่อให้หารแถวละ 5 ได้ลงตัวพอดี
+                let limitedItems = items.slice(-10).reverse(); // โชว์ล่าสุดประเภทละ 10 ใบให้หาร 5 แถวลงตัวพอดี
                 let sectionHtml = `
                     <div class="mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-1 px-1">
                             <span class="category-badge-title ${cat.classTitle}"><i class="fa-solid ${cat.icon} me-2"></i>${cat.title}</span>
                             ${items.length > 10 ? `<button class="btn btn-sm text-secondary fw-medium" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-arrow-right ms-1"></i></button>` : ''}
                         </div>
-                        <div class="row g-2.5" id="grid-${cat.key}"></div>
+                        <div class="row g-3" id="grid-${cat.key}"></div>
                     </div>`;
                 zone.insertAdjacentHTML('beforeend', sectionHtml);
                 buildGridCards(`grid-${cat.key}`, limitedItems, cat.key, cat.icon, cat.boxStyle, cat.iconStyle);
@@ -385,7 +388,7 @@
 
         function renderCategoryView(key, items) {
             const zone = document.getElementById('dynamic-display-zone');
-            zone.innerHTML = `<div class="row g-2.5" id="focused-grid"></div>`;
+            zone.innerHTML = `<div class="row g-3" id="focused-grid"></div>`;
             const icon = key === 'school' ? 'fa-building-columns' : key === 'staff' ? 'fa-user-tie' : 'fa-graduation-cap';
             const boxStyle = key === 'school' ? 'box-school' : key === 'staff' ? 'box-staff' : 'box-student';
             const iconStyle = key === 'school' ? 'icon-school' : key === 'staff' ? 'icon-staff' : 'icon-student';
@@ -404,26 +407,25 @@
                 let infoContent = '';
                 if (type === 'school') {
                     infoContent = `
-                        <div class="meta-item"><span>รหัส:</span><b>${item['รหัสรางวัล'] || 'AWARD'}</b></div>
-                        <div class="meta-item"><span>หน่วยงาน:</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>รหัสรางวัล</span><b>${item['รหัสรางวัล'] || 'AWARD'}</b></div>
+                        <div class="meta-item"><span>หน่วยงาน</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
                     `;
                 } else if (type === 'staff') {
                     infoContent = `
-                        <div class="meta-item"><span>ID:</span><b>${item['รหัสรางวัล'] || '-'}</b></div>
-                        <div class="meta-item"><span>ชื่อ:</span><b>${item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || '-'}</b></div>
-                        <div class="meta-item"><span>หน่วยงาน:</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>ID</span><b>${item['รหัสรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>ชื่อ</span><b>${item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>หน่วยงาน</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
                     `;
                 } else if (type === 'student') {
                     infoContent = `
-                        <div class="meta-item"><span>ชื่อ:</span><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>
-                        <div class="meta-item"><span>ID:</span><b>${item['รหัสรางวัล'] || '-'}</b> &nbsp;&nbsp; <span>ชั้น:</span><b>${item['ชั้นเรียน'] || '-'}</b></div>
-                        <div class="meta-item"><span>หน่วยงาน:</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>ชื่อ</span><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>
+                        <div class="meta-item"><span>ID</span><b>${item['รหัสรางวัล'] || '-'}</b> &nbsp;&nbsp; <span>ชั้น</span><b>${item['ชั้นเรียน'] || '-'}</b></div>
+                        <div class="meta-item"><span>หน่วยงาน</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>
                     `;
                 }
 
-                // ✨ ขยายคอลัมน์ col-xl-2-4 ควบคุมแถวละ 5 ตัวสำหรับจอขนาดใหญ่เดสก์ท็อป
                 const cardHtml = `
-                    <div class="col-xl-2-4 col-lg-3 col-md-4 col-sm-6 mb-3 card-item" data-dept="${item['กลุ่มสาระการเรียนรู้'] || ''}">
+                    <div class="col-xl-2-4 col-lg-3 col-md-4 col-sm-6 mb-2 card-item" data-dept="${item['กลุ่มสาระการเรียนรู้'] || ''}">
                         <div class="card award-card">
                             <div class="card-header-icon">
                                 <i class="fa-solid ${icon} ${iconStyle}"></i>
@@ -431,8 +433,8 @@
                             </div>
                             <div class="card-body-content">
                                 <div>
-                                    <div class="d-flex justify-content-between align-items-center mb-1.5">
-                                        <span class="badge bg-secondary text-white" style="font-size:0.65rem; font-weight:400; opacity:0.85;">รหัส ${item['รหัสรางวัล'] || 'AWARD'}</span>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-dark text-white-50 border border-secondary" style="font-size:0.65rem; font-weight:400;">รหัส ${item['รหัสรางวัล'] || 'AWARD'}</span>
                                         <span class="fw-bold text-white-50" style="font-size:0.7rem;">ปี ${item['ปีการศึกษา'] || '-'}</span>
                                     </div>
                                     <h6 class="award-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'ไม่มีชื่อรางวัล'}</h6>
@@ -448,7 +450,7 @@
             });
         }
 
-        /* --- ฟังก์ชันการทำงานพื้นฐานของระบบฟอร์มและ Modal --- */
+        /* --- พาร์ทจัดการฟังก์ชัน Logic เบื้องหลัง --- */
         function addStudentNameToTeam() {
             const input = document.getElementById('form-name');
             const val = input.value.trim();
@@ -461,7 +463,7 @@
         }
         function viewCertificateModal(encodedUrl) {
             let url = decodeURIComponent(encodedUrl);
-            if (!url || url === 'undefined') { alert('ไม่พบลิงก์ไฟล์ระบบเกียรติบัตรในฐานข้อมูลครับ'); return; }
+            if (!url || url === 'undefined') { alert('ไม่พบไฟล์เอกสารแนบใบประกาศในฐานข้อมูลครับ'); return; }
             let embedUrl = url;
             if (url.includes('drive.google.com')) {
                 let id = url.match(/[-\w]{25,}/);
@@ -488,7 +490,7 @@
             document.getElementById('field-class-box').style.display = isStudent ? 'block' : 'none';
             document.getElementById('field-dept-box').style.display = isSchool ? 'none' : 'block';
             document.getElementById('btn-add-student').style.display = isStudent ? 'block' : 'none';
-            document.getElementById('label-name').innerText = isStudent ? 'รายชื่อนักเรียนกลุ่มเป้าหมาย (พิมพ์ชื่อทีละคนเเล้วกดปุ่มเพิ่มชื่อ)' : 'ชื่อ-นามสกุล คุณครู / บุคลากรผู้ได้รับรางวัล';
+            document.getElementById('label-name').innerText = isStudent ? 'รายชื่อนักเรียน (พิมพ์ชื่อทีละคนเเล้วคลิกปุ่มเพิ่มชื่อ)' : 'ชื่อ-นามสกุล คุณครู / บุคลากรผู้ได้รับรางวัล';
             studentTeamList = []; renderStudentTags();
         }
         
@@ -497,8 +499,8 @@
             const file = document.getElementById('form-file').files[0];
             const saveBtn = document.getElementById('btn-save');
             let finalName = type === 'student' ? (studentTeamList.length ? studentTeamList.join(', ') : document.getElementById('form-name').value.trim()) : document.getElementById('form-name').value.trim();
-            if (!file) { alert('กรุณาเลือกแนบไฟล์เกียรติบัตร PDF ด้วยครับ'); return; }
-            saveBtn.disabled = true; saveBtn.innerText = 'กำลังจัดเก็บข้อมูลเข้าคลัง...';
+            if (!file) { alert('กรุณาเลือกไฟล์เกียรติบัตร PDF ด้วยครับ'); return; }
+            saveBtn.disabled = true; saveBtn.innerText = 'กำลังส่งข้อมูลเข้าสู่คลังเกียรติยศ...';
             const reader = new FileReader();
             reader.onload = function(e) {
                 const formData = {
