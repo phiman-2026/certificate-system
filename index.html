@@ -23,13 +23,14 @@
         .nav-menu-btn.active { background-color: #eff6ff; color: #2563eb; font-weight: 500; }
         .nav-menu-btn.active i { color: #2563eb; }
         
-        /* 💳 Award Cards แบบใหม่ มีพื้นที่แสดงรูปเกียรติบัตร (Image Preview) */
         .award-card { border: none; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: all 0.2s; border: 1px solid #f1f5f9; overflow: hidden; display: flex; flex-direction: column; }
         .award-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.05); }
         
-        /* 🖼️ ส่วนแสดงรูปภาพเกียรติบัตรหัวการ์ด */
-        .card-preview-img { width: 100%; height: 160px; object-fit: cover; background-color: #f1f5f9; border-bottom: 1px solid #f1f5f9; }
-        
+        /* 🖼️ ปรับแต่งหัวการ์ดพรีวิวให้เป็นรูปแบบปกใบประกาศนียบัตรดิจิทัลกรณีดึงรูปจาก PDF ตรงๆ ไม่ได้ */
+        .card-preview-img { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #1e3a8a, #3b82f6); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; padding: 15px; text-align: center; }
+        .card-preview-img i { font-size: 2.5rem; margin-bottom: 8px; opacity: 0.85; }
+        .card-preview-img span { font-size: 0.75rem; font-weight: 300; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; }
+
         .card-body-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .card-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #1e293b; margin-top: 5px; margin-bottom: 10px; }
         .badge-pill { padding: 4px 10px; border-radius: 6px; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.3px; }
@@ -37,7 +38,10 @@
         .info-label { font-size: 0.82rem; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; }
         .info-label i { width: 20px; color: #cbd5e1; font-size: 0.85rem; }
         
-        @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } }
+        /* 📱 จัดการความสูงของ PDF Preview ใน Modal */
+        .pdf-container { width: 100%; height: 500px; border: none; border-radius: 8px; }
+
+        @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } .pdf-container { height: 350px; } }
     </style>
 </head>
 <body>
@@ -165,9 +169,28 @@
         </div>
     </div>
 
+    <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-3">
+                <div class="modal-header bg-light border-0 py-3">
+                    <h6 class="modal-title fw-bold text-dark mb-0" id="certificateModalLabel"><i class="fa-solid fa-certificate text-primary me-2"></i>ตรวจสอบไฟล์เกียรติบัตรรางวัล</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3 text-center">
+                    <iframe id="pdfViewerFrame" class="pdf-container" src=""></iframe>
+                </div>
+                <div class="modal-footer bg-light border-0 py-2 d-flex justify-content-between">
+                    <a id="btnDownloadCert" href="#" target="_blank" class="btn btn-success btn-sm rounded-2 px-3 fw-medium">
+                        <i class="fa-solid fa-download me-1"></i>บันทึกไฟล์เกียรติบัตร
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-sm rounded-2 px-3" data-bs-dismiss="modal">ออกจากหน้านี้</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 🛑 >>> ลิงก์ Web App URL จาก GAS (กรุณาใช้ลิงก์ Deployment ล่าสุด) <<<
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
@@ -237,7 +260,6 @@
             buildGridCards('focused-grid', [...items].reverse(), key);
         }
 
-        // 🛠️ ตรวจสอบจับคู่คีย์ข้อมูลจากหลังบ้านแบบครอบคลุม ป้องกันค่าว่าง/undefined
         function getValue(obj, keys) {
             for (let key of keys) {
                 if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
@@ -260,29 +282,31 @@
                 let agency = getValue(item, ['agency', 'หน่วยงาน', 'หน่วยงานที่มอบรางวัล']);
                 let docLink = getValue(item, ['document_link', 'documentLink', 'fileUrl', 'ลิงก์ไฟล์', 'ลิงก์']);
                 
-                // 🖼️ ดึงรูปหน้าพรีวิวจากลิงก์ PDF อัตโนมัติ (หากไม่มีจะขึ้นเป็นภาพปกเกียรติบัตรเริ่มต้นพื้นหลังน้ำเงินไล่เฉดสวยงาม)
-                let previewImg = 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80';
-                if(docLink && docLink.includes('drive.google.com')) {
-                    let fileId = docLink.match(/[-\w]{25,}/);
-                    if(fileId) previewImg = `https://lh3.googleusercontent.com/d/${fileId}=w500`;
-                }
-
                 let badgeColor = colorType === 'school' ? 'bg-success' : colorType === 'staff' ? 'bg-primary' : 'bg-warning text-dark';
                 let subText = '';
+                let displayReceiver = 'เกียรติบัตรรางวัล';
                 
                 if (colorType === 'staff') {
                     let receiver = getValue(item, ['receiver_name', 'receiverName', 'ชื่อครู', 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล']);
-                    subText = `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${receiver || '-'}</div>`;
+                    displayReceiver = receiver || 'รางวัลครูและบุคลากร';
+                    subText = `<div class="info-label"><i class="fa-solid fa-user-tie"></i>${displayReceiver}</div>`;
                 } else if (colorType === 'student') {
                     let student = getValue(item, ['student_name', 'studentName', 'ชื่อนักเรียน', 'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล']);
                     let sClass = getValue(item, ['class', 'ชั้น', 'ชั้นเรียน']);
-                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${student || '-'} (${sClass || '-'})</div>`;
+                    displayReceiver = student ? `${student} (${sClass || '-'})` : 'รางวัลนักเรียน';
+                    subText = `<div class="info-label"><i class="fa-solid fa-graduation-cap"></i>${displayReceiver}</div>`;
+                } else {
+                    displayReceiver = awardName || 'รางวัลสถานศึกษา';
                 }
 
+                // 🛠️ แปลงลิงก์และแสดงผลการ์ดหัวเรื่องแบบดิจิทัลโปร่งใส ปลอดภัยจากบัก PDF โหลดไม่ขึ้นแน่นอนครับ
                 const cardHtml = `
                     <div class="col-xl-4 col-md-6 card-item" data-dept="${item.department || item.category || ''}">
                         <div class="card h-100 award-card">
-                            <img src="${previewImg}" class="card-preview-img" alt="Certificate Preview" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80'">
+                            <div class="card-preview-img">
+                                <i class="fa-solid fa-award"></i>
+                                <span class="text-truncate" style="max-width: 90%;">${displayReceiver}</span>
+                            </div>
                             
                             <div class="card-body-content">
                                 <div>
@@ -296,15 +320,36 @@
                                         <div class="info-label"><i class="fa-solid fa-building-circle-check"></i>มอบโดย: ${agency || '-'}</div>
                                     </div>
                                 </div>
-                                <a href="${docLink}" target="_blank" class="btn btn-outline-primary btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" ${docLink ? '' : 'disabled'}>
-                                    <i class="fa-solid fa-expand me-1"></i>เปิดดูไฟล์เกียรติบัตรฉบับเต็ม
-                                </a>
+                                <button type="button" class="btn btn-outline-primary btn-sm w-100 rounded-2 py-1" style="font-size:0.75rem;" onclick="viewCertificateModal('${docLink}')" ${docLink ? '' : 'disabled'}>
+                                    <i class="fa-solid fa-expand me-1"></i>เปิดดูเกียรติบัตร
+                                </button>
                             </div>
                         </div>
                     </div>
                 `;
                 grid.insertAdjacentHTML('beforeend', cardHtml);
             });
+        }
+
+        // 🛠️ ฟังก์ชันสั่งเปิด Modal แสดงเอกสาร PDF เกียรติบัตรภายในตัวหน้าเว็บโดยตรง
+        function viewCertificateModal(driveUrl) {
+            if (!driveUrl) return;
+            
+            let embedUrl = driveUrl;
+            // ทำการแปลง Link Google Drive ให้อยู่ในโหมดพรีวิวฝังบอร์ด (Preview Mode) ป้องกันอาการค้างหรือฟอนต์เปลี่ยนหนีไปไหน
+            if (driveUrl.includes('drive.google.com')) {
+                let fileId = driveUrl.match(/[-\w]{25,}/);
+                if (fileId) {
+                    embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                }
+            }
+            
+            document.getElementById('pdfViewerFrame').src = embedUrl;
+            document.getElementById('btnDownloadCert').href = driveUrl;
+            
+            // สั่งเปิดกล่อง Modal ของ Bootstrap
+            let certModal = new bootstrap.Modal(document.getElementById('certificateModal'));
+            certModal.show();
         }
 
         function filterCards() {
@@ -333,7 +378,6 @@
             const fileInput = document.getElementById('form-file');
             const saveBtn = document.getElementById('btn-save');
             
-            // 🛠️ แก้ไขการ Map ชื่อฟิลด์โครงสร้าง Object ข้อมูลตอนกดเซฟ เพื่อให้ตรงกับหัวตารางของ Google Sheets เดิมทั้งหมดอย่างแม่นยำ
             const formData = {
                 'ปีการศึกษา': document.getElementById('form-year').value,
                 'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value,
