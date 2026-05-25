@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบเก็บผลงานรางวัลเกียรติยศ - โรงเรียนพิมานพิทยาสรรค์</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f8f9fa; color: #2d3748; overflow-x: hidden; }
+        /* 🎨 เปลี่ยนฟอนต์หลักของระบบเป็น Kanit */
+        body { font-family: 'Kanit', sans-serif; background-color: #f8f9fa; color: #2d3748; overflow-x: hidden; }
         
         /* 📜 ส่วนจัดเลย์เอาท์เมนูซ้ายมือ (Sidebar) */
         .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; width: 280px; padding: 20px; background-color: #ffffff; box-shadow: 4px 0 10px rgba(0,0,0,0.03); transition: all 0.3s; }
@@ -177,12 +178,13 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // 🛑 >>> นำลิงก์ Web App URL ที่ได้จาก GAS มาแปะตรงนี้ครับ <<<
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
-        let currentViewMode = 'all'; // all, school, staff, student
+        let currentViewMode = 'all';
 
         window.onload = function() {
             adjustFormFields();
@@ -201,11 +203,9 @@
                 });
         }
 
-        // สลับมุมมองตามเมนูแถบซ้ายมือ
         function changeView(view) {
             currentViewMode = view;
             
-            // สลับสถานะปุ่มเมนูแอคทีฟ
             document.querySelectorAll('.nav-menu-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('menu-' + view).classList.add('active');
             
@@ -220,7 +220,6 @@
             }
         }
 
-        // โหมดหน้าแรก: วาดทั้ง 3 ประเภท จำกัดประเภทละ 10 รายการ
         function renderMainDashboard() {
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = '';
@@ -233,7 +232,7 @@
 
             categories.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-10).reverse(); // ดึง 10 อันล่าสุด และเรียงจากใหม่ไปเก่า
+                let limitedItems = items.slice(-10).reverse();
 
                 let sectionHtml = `
                     <div class="mb-5">
@@ -249,7 +248,6 @@
             });
         }
 
-        // โหมดเจาะจงประเภท: แสดงรางวัลทั้งหมดในประเภทนั้นๆ
         function renderCategoryView(key, items, isFiltered = false) {
             const zone = document.getElementById('dynamic-display-zone');
             if(!isFiltered) {
@@ -262,11 +260,10 @@
                 `;
             }
             
-            let displayList = [...items].reverse(); // เรียงจากใหม่ไปเก่า
+            let displayList = [...items].reverse();
             buildGridCards('focused-grid', displayList, key);
         }
 
-        // ฟังก์ชันสร้างแผ่น Card รางวัลลงใน Grid
         function buildGridCards(gridId, items, colorType) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
@@ -320,7 +317,6 @@
             });
         }
 
-        // ควบคุมฟอร์มแอดมิน (เปิด/ปิด)
         function openAdminForm() { document.getElementById('admin-form-section').classList.remove('d-none'); window.scrollTo({top: 0, behavior: 'smooth'}); }
         function closeAdminForm() { document.getElementById('admin-form-section').classList.add('d-none'); }
 
@@ -337,7 +333,6 @@
             }
         }
 
-        // อัปโหลดไฟล์ PDF ข้ามไปบันทึกบนระบบ Google Sheets & Drive
         function uploadAndSave() {
             const type = document.getElementById('form-type').value;
             const fileInput = document.getElementById('form-file');
@@ -383,7 +378,7 @@
                         saveBtn.disabled = false;
                         saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลเข้าฐานข้อมูล';
                         closeAdminForm();
-                        loadAllDataFromServer(); // อัปเดตตารางผลงานหน้าแรกทันที
+                        loadAllDataFromServer();
                     } else {
                         alert('เกิดข้อผิดพลาด: ' + res.message);
                         saveBtn.disabled = false;
