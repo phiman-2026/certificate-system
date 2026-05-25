@@ -39,6 +39,10 @@
         
         .pdf-container { width: 100%; height: 550px; border: none; border-radius: 8px; background-color: #f8fafc; }
 
+        /* 🌟 เอฟเฟกต์ไอคอนติ๊กถูกแบบดุ๊กดิ๊ก (Success Animation) */
+        .success-icon-box { width: 80px; height: 80px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        @keyframes scaleUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
         @media (max-width: 991px) { .sidebar { width: 100%; position: static; border-right: none; border-bottom: 1px solid #e2e8f0; } .main-content { margin-left: 0; padding: 15px; } .pdf-container { height: 400px; } }
     </style>
 </head>
@@ -187,9 +191,25 @@
         </div>
     </div>
 
+    <div class="modal fade" id="successModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-3" style="max-width: 320px; margin: 0 auto;">
+                <div class="modal-body p-4 text-center">
+                    <div class="success-icon-box">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-1" style="font-size: 1.15rem;">บันทึกข้อมูลสำเร็จ</h5>
+                    <p class="text-muted small mb-4" id="successModalMessage">ระบบได้จัดเก็บข้อมูลเรียบร้อยแล้ว</p>
+                    <button type="button" class="btn btn-success btn-sm w-100 rounded-2 py-2 fw-medium shadow-sm" onclick="handleSuccessClose()">
+                        ตกลง
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 🔗 วางลิงก์ Web App ของ Google Apps Script ที่นี่
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
@@ -199,7 +219,6 @@
             loadAllDataFromServer();
         };
 
-        // 🔄 ดึงข้อมูลทั้งหมดจาก Google Sheets มาเก็บไว้ที่หน้าบ้าน
         function loadAllDataFromServer() {
             fetch(GAS_WEB_APP_URL)
                 .then(res => res.json())
@@ -212,7 +231,6 @@
                 });
         }
 
-        // 🗺️ เปลี่ยนแท็บมุมมองเมนู
         function changeView(view) {
             document.querySelectorAll('.nav-menu-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('menu-' + view).classList.add('active');
@@ -228,7 +246,6 @@
             }
         }
 
-        // 🏠 แสดงหน้าแรก (แดชบอร์ดสรุปอย่างละ 6 รางวัลล่าสุด)
         function renderMainDashboard() {
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = '';
@@ -240,7 +257,7 @@
 
             categories.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-6).reverse(); // ดึง 6 อันล่าสุด
+                let limitedItems = items.slice(-6).reverse();
 
                 let sectionHtml = `
                     <div class="mb-5">
@@ -256,14 +273,12 @@
             });
         }
 
-        // 📂 แสดงผลแบบแยกหมวดหมู่เต็มพิกัด
         function renderCategoryView(key, items) {
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = `<div class="row g-3" id="focused-grid"></div>`;
             buildGridCards('focused-grid', [...items].reverse(), key);
         }
 
-        // 🛠️ ฟังก์ชันดึงค่าจากออบเจกต์ (จับคู่คอลัมน์ภาษาไทยจาก Google Sheets)
         function getValue(obj, keys) {
             for (let key of keys) {
                 if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
@@ -271,7 +286,6 @@
             return '';
         }
 
-        // 📇 สร้างและวาดการ์ดรางวัลลงบนหน้าเว็บ (รองรับภาษาไทย)
         function buildGridCards(gridId, items, colorType) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
@@ -281,7 +295,6 @@
             }
 
             items.forEach((item) => {
-                // ดึงข้อมูลโดยแมตช์คีย์ภาษาไทยตามหัวตาราง Google Sheets ของคุณอัฟฟาน
                 let awardId = getValue(item, ['รหัสรางวัล', 'award_id', 'awardId']);
                 let year = getValue(item, ['ปีการศึกษา', 'year']);
                 let awardName = getValue(item, ['ชื่อรางวัล/ผลงานเกียรติยศ', 'award_name', 'awardName']);
@@ -306,7 +319,6 @@
                     displayReceiver = awardName || 'รางวัลสถานศึกษา';
                 }
 
-                // ป้องกันอักขระพิเศษพัง โดยการเข้ารหัสลิงก์ไว้ก่อนส่งเข้าไปในฟังก์ชันคลิก
                 let safeLink = encodeURIComponent(docLink || '');
 
                 const cardHtml = `
@@ -340,7 +352,6 @@
             });
         }
 
-        // 🎬 ฟังก์ชันเปิดป๊อปอัป Modal และแสดงผล PDF อย่างเสถียร (ไม่รีโหลดหน้าเว็บ)
         function viewCertificateModal(encodedDriveUrl) {
             let driveUrl = decodeURIComponent(encodedDriveUrl);
             
@@ -357,21 +368,17 @@
                 }
             }
             
-            // แทรกค่าเข้าไปในกรอบ Preview และปุ่มดาวน์โหลด
             document.getElementById('pdfViewerFrame').src = embedUrl;
             document.getElementById('btnDownloadCert').href = driveUrl;
             
-            // เรียกคำสั่งให้กล่องป๊อปอัปเปิดแสดงผลขึ้นมาอย่างแน่นอน
             let myModal = new bootstrap.Modal(document.getElementById('certificateModal'));
             myModal.show();
         }
 
-        // 🧼 เคลียร์ค่า Src ใน iframe เมื่อปิดหน้าต่าง เพื่อความปลอดภัยและประหยัดทรัพยากรเครื่อง
         function clearModalSrc() {
             document.getElementById('pdfViewerFrame').src = "";
         }
 
-        // 🔍 ฟิลเตอร์คัดกรองกลุ่มสาระการเรียนรู้ฝั่งหน้าบ้าน
         function filterCards() {
             const filterVal = document.getElementById('filter-dept').value;
             const cards = document.querySelectorAll('.card-item');
@@ -385,7 +392,6 @@
         function openAdminForm() { document.getElementById('admin-form-section').classList.remove('d-none'); window.scrollTo({top: 0, behavior: 'smooth'}); }
         function closeAdminForm() { document.getElementById('admin-form-section').classList.add('d-none'); }
 
-        // 🔄 ปรับแต่งฟอร์มกรอกข้อมูลอัตโนมัติตามประเภทที่เลือก
         function adjustFormFields() {
             const type = document.getElementById('form-type').value;
             const fName = document.getElementById('field-name-box'); const fClass = document.getElementById('field-class-box'); const fDept = document.getElementById('field-dept-box');
@@ -394,13 +400,12 @@
             else if (type === 'student') { fName.style.display = 'block'; fClass.style.display = 'block'; fDept.style.display = 'block'; document.getElementById('label-name').innerText = 'ชื่อ-นามสกุล นักเรียน'; }
         }
 
-        // 📤 อัปโหลดไฟล์ PDF ไปที่ Drive และบันทึกแถวข้อมูลภาษาไทยลง Google Sheets
+        // 📤 อัปโหลดข้อมูลและเรียกใช้ Success Modal แทนการ Alert
         function uploadAndSave() {
             const type = document.getElementById('form-type').value;
             const fileInput = document.getElementById('form-file');
             const saveBtn = document.getElementById('btn-save');
             
-            // แพ็กข้อมูลระบุคีย์ภาษาไทยให้ตรงตัวตารางหลังบ้านแบบ เป๊ะ 100%
             const formData = {
                 'ปีการศึกษา': document.getElementById('form-year').value,
                 'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value,
@@ -422,8 +427,10 @@
                 fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'saveAward', type: type, formData: formData, fileData: fileData }) })
                 .then(res => res.json())
                 .then(res => {
-                    alert('บันทึกสำเร็จ รหัสรางวัล: ' + res.awardId);
-                    location.reload();
+                    // ✨ [แก้ไขจุดนี้] เปลี่ยนจาก Alert() เป็นการเปิดหน้าต่างสุดพรีเมียม
+                    document.getElementById('successModalMessage').innerText = 'ระบบบันทึกเกียรติบัตรสำเร็จ รหัสอ้างอิง: ' + res.awardId;
+                    let sModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    sModal.show();
                 })
                 .catch(err => {
                     alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
@@ -432,6 +439,11 @@
                 });
             };
             reader.readAsDataURL(file);
+        }
+
+        // 🔄 ฟังก์ชันเมื่อกดปุ่มตกลงบน Success Modal ให้รีเฟรชหน้าเว็บแบบคลีนๆ
+        function handleSuccessClose() {
+            location.reload();
         }
     </script>
 </body>
