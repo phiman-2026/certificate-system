@@ -179,7 +179,7 @@
         </button>
 
         <p class="fw-bold text-uppercase px-2 mb-2" style="font-size: 0.65rem; color:#64748b; letter-spacing: 1px;">หมวดหมู่ผลงาน</p>
-        <button id="menu-all" class="nav-menu-btn active" onclick="changeView('all')"><i class="fa-solid fa-grid-2"></i> ผลงานทั้งหมด</button>
+        <button id="menu-all" class="nav-menu-btn active" onclick="changeView('all')"><i class="fa-solid fa-table-cells-large"></i> ผลงานทั้งหมด</button>
         <button id="menu-school" class="nav-menu-btn" onclick="changeView('school')"><i class="fa-solid fa-building-columns"></i> รางวัลสถานศึกษา</button>
         <button id="menu-staff" class="nav-menu-btn" onclick="changeView('staff')"><i class="fa-solid fa-user-tie"></i> รางวัลครูและบุคลากร</button>
         <button id="menu-student" class="nav-menu-btn" onclick="changeView('student')"><i class="fa-solid fa-graduation-cap"></i> รางวัลนักเรียน</button>
@@ -244,7 +244,7 @@
                     </select>
                 </div>
                 <div class="col-12">
-                    <label class="form-label fw-medium text-light small">ชื่อรางวัล/ผลงานเกียกติยศที่ได้รับ</label>
+                    <label class="form-label fw-medium text-light small">ชื่อรางวัล/ผลงานเกียรติยศที่ได้รับ</label>
                     <input type="text" id="form-title" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="ระบุชื่อรางวัลเต็ม">
                 </div>
                 <div class="col-12">
@@ -319,7 +319,7 @@
                 <div class="modal-body p-4 text-center">
                     <i class="fa-solid fa-circle-check text-success mb-3" style="font-size: 3rem;"></i>
                     <h6 class="fw-bold text-white mb-1">บันทึกข้อมูลเรียบร้อยแล้ว</h6>
-                    <p class="text-muted small mb-4" id="successModalMessage">รหัสอ้างอิงข้อมูล</p>
+                    <p class="text-muted small mb-4" id="successModalMessage">ระบบทำการเพิ่มข้อมูลเข้าฐานข้อมูลแล้ว</p>
                     <button type="button" class="btn w-100 rounded-3 py-2 fw-medium text-dark" onclick="handleSuccessClose()" style="background-color: var(--pms-gold);">ตกลง</button>
                 </div>
             </div>
@@ -395,7 +395,7 @@
             zone.innerHTML = `<div class="row g-3" id="focused-grid"></div>`;
             const icon = key === 'school' ? 'fa-building-columns' : key === 'staff' ? 'fa-user-tie' : 'fa-graduation-cap';
             const boxStyle = key === 'school' ? 'box-school' : key === 'staff' ? 'box-staff' : 'box-student';
-            const iconStyle = key === 'school' ? 'icon-school' : key === 'staff' ? 'box-staff' : 'box-student';
+            const iconStyle = key === 'school' ? 'icon-school' : key === 'staff' ? 'icon-staff' : 'icon-student';
             buildGridCards('focused-grid', [...items].reverse(), key, icon, boxStyle, iconStyle);
         }
 
@@ -459,11 +459,13 @@
             const val = input.value.trim();
             if (val) { studentTeamList.push(val); input.value = ''; renderStudentTags(); input.focus(); }
         }
+
         function renderStudentTags() {
             const box = document.getElementById('student-team-list-box');
             box.classList.toggle('d-none', !studentTeamList.length);
             box.innerHTML = studentTeamList.map((n, i) => `<span class="student-tag">${n} <i class="fa-solid fa-xmark ms-1" style="cursor:pointer" onclick="studentTeamList.splice(${i},1);renderStudentTags();"></i></span>`).join('');
         }
+
         function viewCertificateModal(encodedUrl) {
             let url = decodeURIComponent(encodedUrl);
             if (!url || url === 'undefined') { alert('ไม่พบไฟล์เอกสารแนบใบประกาศในฐานข้อมูลครับ'); return; }
@@ -476,53 +478,91 @@
             document.getElementById('btnDownloadCert').href = url;
             new bootstrap.Modal(document.getElementById('certificateModal')).show();
         }
+
         function clearModalSrc() { document.getElementById('pdfViewerFrame').src = ""; }
+
         function filterCards() {
             const val = document.getElementById('filter-dept').value;
             document.querySelectorAll('.card-item').forEach(c => {
                 c.style.display = (val === 'ALL' || c.getAttribute('data-dept') === val) ? 'block' : 'none';
             });
         }
+
         function openAdminForm() { document.getElementById('admin-form-section').classList.remove('d-none'); window.scrollTo({top:0, behavior:'smooth'}); }
+        
         function closeAdminForm() { document.getElementById('admin-form-section').classList.add('d-none'); studentTeamList = []; renderStudentTags(); }
         
         function adjustFormFields() {
             const type = document.getElementById('form-type').value;
-            const isSchool = type === 'school'; const isStudent = type === 'student';
+            const isSchool = type === 'school'; 
+            const isStudent = type === 'student';
+            
             document.getElementById('field-name-box').style.display = isSchool ? 'none' : 'block';
             document.getElementById('field-class-box').style.display = isStudent ? 'block' : 'none';
             document.getElementById('field-dept-box').style.display = isSchool ? 'none' : 'block';
             document.getElementById('btn-add-student').style.display = isStudent ? 'block' : 'none';
+            
             document.getElementById('label-name').innerText = isStudent ? 'รายชื่อนักเรียน (พิมพ์ชื่อทีละคนเเล้วคลิกปุ่มเพิ่มชื่อ)' : 'ชื่อ-นามสกุล คุณครู / บุคลากรผู้ได้รับรางวัล';
-            studentTeamList = []; renderStudentTags();
+            studentTeamList = []; 
+            renderStudentTags();
         }
-        
+
+        function handleSuccessClose() {
+            bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
+            location.reload();
+        }
+
         function uploadAndSave() {
             const type = document.getElementById('form-type').value;
             const file = document.getElementById('form-file').files[0];
             const saveBtn = document.getElementById('btn-save');
             let finalName = type === 'student' ? (studentTeamList.length ? studentTeamList.join(', ') : document.getElementById('form-name').value.trim()) : document.getElementById('form-name').value.trim();
-            if (!file) { alert('กรุณาเลือกไฟล์เกียรติบัตร PDF ด้วยครับ'); return; }
-            saveBtn.disabled = true; saveBtn.innerText = 'กำลังส่งข้อมูลเข้าสู่คลังเกียรติยศ...';
+            
+            if (type !== 'school' && !finalName) { alert('กรุณาระบุชื่อผู้รับรางวัลด้วยครับ'); return; }
+            if (!document.getElementById('form-title').value.trim()) { alert('กรุณาระบุชื่อรางวัลด้วยครับ'); return; }
+            if (!file) { alert('กรุณาเลือกไฟล์เกียรติบัตรเอกสารแนบรูปแบบ PDF ด้วยครับ'); return; }
+            
+            saveBtn.disabled = true; 
+            saveBtn.innerText = 'กำลังประมวลผลอัปโหลด...';
+            
             const reader = new FileReader();
             reader.onload = function(e) {
                 const formData = {
                     'ปีการศึกษา': document.getElementById('form-year').value,
-                    'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value,
-                    'หน่วยงานที่มอบรางวัล': document.getElementById('form-agency').value,
+                    'ชื่อรางวัล/ผลงานเกียรติยศ': document.getElementById('form-title').value.trim(),
+                    'หน่วยงานที่มอบรางวัล': document.getElementById('form-agency').value.trim(),
                     'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล': type === 'staff' ? finalName : '',
-                    'กลุ่มสาระการเรียนรู้': document.getElementById('form-dept').value,
+                    'กลุ่มสาระการเรียนรู้': type === 'school' ? 'ฝ่ายบริหาร' : document.getElementById('form-dept').value,
                     'ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล': type === 'student' ? finalName : '',
-                    'ชั้นเรียน': document.getElementById('form-class').value
+                    'ชั้นเรียน': type === 'student' ? document.getElementById('form-class').value.trim() : ''
                 };
-                fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'saveAward', type: type, formData: formData, fileData: { base64: e.target.result.split(',')[1], type: file.type } }) })
-                .then(res => res.json()).then(res => {
-                    document.getElementById('successModalMessage').innerText = 'รหัสอ้างอิง: ' + res.awardId;
-                    new bootstrap.Modal(document.getElementById('successModal')).show();
+                
+                fetch(GAS_WEB_APP_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ 
+                        action: 'saveAward', 
+                        type: type, 
+                        formData: formData, 
+                        fileData: { base64: e.target.result.split(',')[1], type: file.type } 
+                    }) 
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res.result === 'success') {
+                        document.getElementById('successModalMessage').innerText = 'รหัสอ้างอิงข้อมูล: ' + (res.id || 'SUCCESS');
+                        new bootstrap.Modal(document.getElementById('successModal')).show();
+                    } else {
+                        alert('เกิดข้อผิดพลาดจากระบบเซิร์ฟเวอร์: ' + res.error);
+                        saveBtn.disabled = false; saveBtn.innerText = 'อัปโหลดข้อมูล';
+                    }
+                })
+                .catch(err => {
+                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง');
+                    saveBtn.disabled = false; saveBtn.innerText = 'อัปโหลดข้อมูล';
                 });
-            }; reader.readAsDataURL(file);
+            }; 
+            reader.readAsDataURL(file);
         }
-        function handleSuccessClose() { location.reload(); }
     </script>
 </body>
 </html>
