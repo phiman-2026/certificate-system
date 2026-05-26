@@ -11,15 +11,16 @@
     <style>
         :root {
             /* 🎨 Professional Color Palette */
-            --bg-main: #f0f4f8;          
+            --bg-main: #f1f5f9;          
             --sidebar-grad: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
             --banner-grad: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-            --border-card-strong: #cbd5e1;      
-            
+            --pms-blue-accent: #2563eb;
+
+            /* เฉดสีสำหรับเส้นขอบและการจำแนกประเภทของการ์ดแบบกระจก */
+            --glass-border: rgba(15, 23, 42, 0.12);
             --color-school: #1d4ed8;     
             --color-staff: #0369a1;      
             --color-student: #0d9488;    
-            --pms-blue-accent: #2563eb;
         }
 
         body { 
@@ -33,7 +34,7 @@
             min-height: 100vh;
         }
 
-        /* 📌 Layout สำหรับ Desktop (Default) */
+        /* 📌 Layout สำหรับ Desktop */
         .sidebar { 
             position: fixed; 
             top: 15px; bottom: 15px; left: 15px; z-index: 100; 
@@ -60,7 +61,7 @@
         .logo-wrapper { text-align: center; margin-bottom: 30px; }
         .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(255,255,255,0.15)); }
 
-        /* 👑 แบนเนอร์ดีไซน์ใหม่: รองรับ Responsive Text */
+        /* 👑 แบนเนอร์ดีไซน์พรีเมียม ไล่เฉดสีสอดคล้องกับเมนูซ้าย */
         .banner-card { 
             background: var(--banner-grad);
             border: none;
@@ -76,12 +77,11 @@
         }
         .banner-card::before {
             content: ''; position: absolute; top: -20%; right: -10%; width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
             border-radius: 50%;
         }
         .banner-text { position: relative; z-index: 2; width: 100%; }
         
-        /* ป้องกันข้อความแบนเนอร์ตัดคำเละเทะบนมือถือ */
         .banner-text h3 { 
             font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
             font-weight: 700; 
@@ -125,45 +125,50 @@
         .nav-menu-btn.active { background: #ffffff; color: #1e3a8a; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
         .nav-menu-btn.active i { color: #2563eb; }
 
-        /* 🃏 การ์ดรางวัล */
+        /* 🃏 [STYLE 1] Modern Glassmorphism Card Design */
         .award-card { 
-            border-radius: 20px; 
-            border: 2px solid var(--border-card-strong); 
-            background-color: #ffffff; 
+            border-radius: 24px; 
+            border: 2px solid var(--glass-border); 
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.02);
         }
+        
+        /* ลูกเล่น Hover ขยายและเปลี่ยนสีเส้นขอบให้เด่นชัดขึ้น */
         .award-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.15);
+            transform: translateY(-8px) scale(1.02); 
             border-color: var(--pms-blue-accent);
+            box-shadow: 0 20px 35px rgba(37, 99, 235, 0.15);
+            background: rgba(255, 255, 255, 0.95);
         }
 
+        /* หัวการ์ดสไตล์กระจกดูมีมิติ ไม่หนาทึบเกินไป */
         .card-header-icon { 
-            height: 48px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 18px; z-index: 1; position: relative; color: white;
+            height: 42px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; z-index: 1; position: relative; color: white;
         }
         .header-bg-school { background: linear-gradient(90deg, #1e40af, #3b82f6); }
         .header-bg-staff { background: linear-gradient(90deg, #0369a1, #0ea5e9); }
         .header-bg-student { background: linear-gradient(90deg, #0f766e, #14b8a6); }
 
-        .card-body-content { padding: 22px 18px 18px; z-index: 1; position: relative; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-body-content { padding: 22px 20px 20px; z-index: 1; position: relative; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* ควบคุมความสวยงามของชื่อรางวัลไม่ให้ล้น */
         .award-title { 
             font-size: 1rem; font-weight: 700; color: #0f172a; line-height: 1.45; margin-bottom: 14px; min-height: 2.9em; 
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
         }
 
-        /* ข้อมูลย่อยคมชัดแบบฟิกซ์บรรทัดเดียว */
+        /* กล่องข้อมูลภายในแบบ Soft Minimal Box */
         .meta-box { 
-            border-radius: 12px; padding: 12px; margin-bottom: 18px; font-size: 0.82rem; 
-            border: 1px solid #e2e8f0; background-color: #f8fafc; 
+            border-radius: 14px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.82rem; 
+            border: 1px solid rgba(15, 23, 42, 0.08); background-color: rgba(248, 250, 252, 0.6); 
         }
         .meta-item { display: flex; align-items: center; margin-bottom: 6px; overflow: hidden; }
         .meta-item:last-child { margin-bottom: 0; }
@@ -173,17 +178,17 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
         }
 
-        .box-school { border-left: 4.5px solid var(--color-school); }
-        .box-staff { border-left: 4.5px solid var(--color-staff); }
-        .box-student { border-left: 4.5px solid var(--color-student); }
+        .box-school { border-left: 4px solid var(--color-school); }
+        .box-staff { border-left: 4px solid var(--color-staff); }
+        .box-student { border-left: 4px solid var(--color-student); }
 
         .btn-check-doc { 
-            font-size: 0.82rem; font-weight: 600; border-radius: 10px; 
-            border: 1.5px solid var(--pms-blue-accent); background-color: #ffffff; 
-            padding: 9px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-accent); 
+            font-size: 0.82rem; font-weight: 600; border-radius: 12px; 
+            border: 1.5px solid var(--pms-blue-accent); background-color: transparent; 
+            padding: 10px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-accent); 
             white-space: nowrap;
         }
-        .btn-check-doc:hover { background-color: var(--pms-blue-accent); color: #ffffff; }
+        .btn-check-doc:hover { background-color: var(--pms-blue-accent); color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
 
         /* เส้นคั่นหมวดหมู่ */
         .section-separator { display: flex; align-items: center; margin: 15px 0 25px; }
@@ -197,7 +202,7 @@
         .sep-student h5 { color: var(--color-student); }
         .sep-student .line-decor { background: linear-gradient(90deg, var(--color-student) 0%, transparent 100%); }
 
-        /* 📑 Section Footer */
+        /* 📑 Section Footer โทนเดียวกับ Sidebar คุมธีมจบงาน */
         footer {
             background: var(--sidebar-grad); color: #ffffff; padding: 25px 20px; margin-top: 40px;
             border-radius: 24px 24px 0 0; text-align: center;
@@ -206,21 +211,20 @@
         footer .school-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* =========================================================
-           📱 RESPONSIVE BREAKPOINTS (ปรับแต่งโครงสร้างเมื่ออยู่บนมือถือ)
+           📱 RESPONSIVE BREAKPOINTS (Mobile-First Optimization)
            ========================================================= */
         @media (max-width: 991px) { 
-            /* เปลี่ยน Sidebar เป็นแถบเมนูสไลด์แนวนอนด้านบน */
             .sidebar { 
                 position: sticky; top: 0; left: 0; right: 0; bottom: auto;
                 width: 100%; height: auto; padding: 12px 15px; margin-bottom: 0;
                 border-radius: 0 0 20px 20px; 
                 display: flex; flex-direction: row; align-items: center; gap: 10px;
-                overflow-x: auto; scrollbar-width: none; /* ซ่อนแถบเลื่อนบน Firefox */
+                overflow-x: auto; scrollbar-width: none;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             }
-            .sidebar::-webkit-scrollbar { display: none; } /* ซ่อนแถบเลื่อนบน Chrome/Safari */
+            .sidebar::-webkit-scrollbar { display: none; } 
             
-            .logo-wrapper { display: none; } /* ซ่อนโลโก้ใหญ่ยุ่งเหยิงบนโมบาย */
+            .logo-wrapper { display: none; } 
             .btn-gold-action { width: auto; margin-bottom: 0; padding: 10px 14px; font-size: 0.8rem; border-radius: 8px; }
             .nav-menu-btn { width: auto; margin-bottom: 0; padding: 10px 14px; font-size: 0.8rem; border-radius: 8px; }
 
@@ -230,7 +234,7 @@
             .banner-card { padding: 20px 20px; margin-bottom: 20px; border-radius: 16px; }
             .obec-logo { width: 45px; margin-right: 15px; }
             
-            .award-card { border-radius: 16px; }
+            .award-card { border-radius: 20px; }
             footer { border-radius: 16px 16px 0 0; }
         }
     </style>
@@ -334,7 +338,6 @@
 
         window.onload = function() { 
             loadAllDataFromServer(); 
-            // คำนวณความสูงหน้าจอมือถือจริงแก้ปัญหาเรื่อง Address bar บังโมดอล
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         };
@@ -401,7 +404,7 @@
         function buildGridCards(gridId, items, type, headerBg, boxStyle, cardClass, iconClass) {
             const grid = document.getElementById(gridId);
             if(!grid) return; grid.innerHTML = '';
-            if (!items.length) { grid.innerHTML = '<div class="col-12"><p class="text-center text-muted small py-3">ยังไม่มีข้อมูล</p></div>'; return; }
+            if (!items.length) { grid.innerHTML = '<div class="col-12"><p class="text-center text-muted small py-3">ยังไม่มีข้อมูลในระบบ</p></div>'; return; }
             
             items.forEach(item => {
                 let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
@@ -429,7 +432,9 @@
                                         <div class="meta-item"><span>ปีการศึกษา</span><b>พ.ศ. ${item['ปีการศึกษา'] || '-'}</b></div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-check-doc" onclick="viewCertificateModal('${encodeURIComponent(docLink)}')">เปิดดูเกียรติบัตร</button>
+                                <button type="button" class="btn btn-check-doc" onclick="viewCertificateModal('${encodeURIComponent(docLink)}')">
+                                    <i class="fa-regular fa-eye me-1"></i> เปิดดูเกียรติบัตร
+                                </button>
                             </div>
                         </div>
                     </div>`;
@@ -460,7 +465,7 @@
         }
         function clearModalSrc() { document.getElementById('pdfViewerFrame').src = ""; }
         function adjustFormFields() {}
-        function uploadAndSave() { /* Logic อัปโหลด */ }
+        function uploadAndSave() { /* Logic อัปโหลดของคุณ */ }
     </script>
 </body>
 </html>
