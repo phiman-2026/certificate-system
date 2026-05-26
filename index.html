@@ -11,16 +11,19 @@
     <style>
         :root {
             /* 🎨 Professional Color Palette */
-            --bg-main: #f8fafc;          
+            --bg-main: #f1f5f9;          
             --sidebar-grad: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
             --banner-grad: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-            --pms-blue-accent: #2563eb;
+            --pms-blue-accent: #38bdf8; /* ปรับ Accent บนตัวการ์ดให้สว่างขึ้นสำหรับโหมดมืด */
 
-            /* สีกรอบของการ์ดแต่ละประเภท */
-            --border-card-strong: #e2e8f0;      
-            --color-school: #1d4ed8;     
-            --color-staff: #0369a1;      
-            --color-student: #0d9488;    
+            /* สีสไตล์ Dark Mode สำหรับตัวการ์ด */
+            --card-dark-bg: #1e293b;
+            --card-dark-border: #334155;
+            --card-dark-inner: #0f172a;
+
+            --color-school: #38bdf8;     
+            --color-staff: #0ea5e9;      
+            --color-student: #2dd4bf;    
         }
 
         body { 
@@ -61,7 +64,7 @@
         .logo-wrapper { text-align: center; margin-bottom: 30px; }
         .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(255,255,255,0.15)); }
 
-        /* 👑 แบนเนอร์ระบบสอดคล้องกับเมนูซ้าย */
+        /* 👑 แบนเนอร์ดีไซน์หลัก */
         .banner-card { 
             background: var(--banner-grad);
             border: none;
@@ -125,81 +128,82 @@
         .nav-menu-btn.active { background: #ffffff; color: #1e3a8a; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
         .nav-menu-btn.active i { color: #2563eb; }
 
-        /* 🃏 [STYLE 2] Minimalist Border-Accent Card Design */
+        /* 🃏 [STYLE 3] Dark Mode Contrast Card Design */
         .award-card { 
-            border-radius: 20px; 
-            border: 2px solid var(--border-card-strong); 
-            background-color: #ffffff; 
+            border-radius: 22px; 
+            border: 2px solid var(--card-dark-border); 
+            background: var(--card-dark-bg); 
             position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
         }
 
-        /* เพิ่มความหนาและสีของขอบด้านซ้ายเพื่อแยกประเภทการ์ดให้ชัดเจน */
-        .card-school { border-left: 6px solid var(--color-school); }
-        .card-staff { border-left: 6px solid var(--color-staff); }
-        .card-student { border-left: 6px solid var(--color-student); }
-
-        /* ลูกเล่นขยับการ์ดไปทางขวาเล็กน้อยเมื่อ Hover ดูนุ่มนวล ทันสมัย */
+        /* ตัวการ์ดเรืองแสงสไตล์ไซเบอร์เบาๆ เมื่อ Hover */
         .award-card:hover { 
-            transform: translateX(6px); 
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-            border-top-color: var(--pms-blue-accent);
-            border-right-color: var(--pms-blue-accent);
-            border-bottom-color: var(--pms-blue-accent);
+            transform: translateY(-6px);
+            border-color: #38bdf8; 
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.15);
         }
 
-        /* หัวการ์ดแบบคลีนสีเดียวกับตัวการ์ด แต่เปลี่ยนสีตัวอักษรและไอคอนตามหมวดหมู่ */
+        /* ส่วนหัวการ์ดในโหมดมืด */
         .card-header-icon { 
-            height: 46px; display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 20px 0; z-index: 1; position: relative; background: transparent;
+            height: 45px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; z-index: 1; position: relative; background: var(--card-dark-inner);
         }
         .text-school { color: var(--color-school); }
         .text-staff { color: var(--color-staff); }
         .text-student { color: var(--color-student); }
 
-        .card-body-content { padding: 16px 20px 20px; z-index: 1; position: relative; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-body-content { padding: 20px 20px 20px; z-index: 1; position: relative; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         
+        /* ปรับสีตัวอักษรชื่อผลงานให้สว่างโดดเด่นบนการ์ดมืด */
         .award-title { 
-            font-size: 1rem; font-weight: 700; color: #0f172a; line-height: 1.45; margin-bottom: 14px; min-height: 2.9em; 
+            font-size: 1rem; font-weight: 700; color: #f8fafc; line-height: 1.45; margin-bottom: 14px; min-height: 2.9em; 
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
         }
 
-        /* กล่องข้อมูลย่อยภายใน */
+        /* กล่องข้อมูลภายในเปลี่ยนเป็นพื้นสีเข้มลึก */
         .meta-box { 
             border-radius: 12px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.82rem; 
-            border: 1px solid #f1f5f9; background-color: #f8fafc; 
+            border: 1px solid var(--card-dark-border); background-color: var(--card-dark-inner); 
         }
         .meta-item { display: flex; align-items: center; margin-bottom: 6px; overflow: hidden; }
         .meta-item:last-child { margin-bottom: 0; }
-        .meta-item span { width: 75px; color: #64748b; flex-shrink: 0; white-space: nowrap; }
+        .meta-item span { width: 75px; color: #94a3b8; flex-shrink: 0; white-space: nowrap; }
+        
+        /* ดึงไฮไลต์ข้อมูลจริง (ชื่อคน/รางวัล) ให้สว่างด้วยสีนีออนตามหมวดหมู่ */
         .meta-item b { 
-            flex: 1; color: #000000; font-weight: 600; 
+            flex: 1; font-weight: 600; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
         }
+        .card-school b { color: var(--color-school); }
+        .card-staff b { color: var(--color-staff); }
+        .card-student b { color: var(--color-student); }
 
+        /* ปุ่มกดที่แมตช์เข้ากับการ์ดมืด */
         .btn-check-doc { 
             font-size: 0.82rem; font-weight: 600; border-radius: 10px; 
-            border: 1.5px solid var(--pms-blue-accent); background-color: #ffffff; 
-            padding: 9px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-accent); 
+            border: 1.5px solid #38bdf8; background-color: transparent; 
+            padding: 9px 0; width: 100%; transition: all 0.2s; color: #38bdf8; 
             white-space: nowrap;
         }
-        .btn-check-doc:hover { background-color: var(--pms-blue-accent); color: #ffffff; }
+        .btn-check-doc:hover { background-color: #38bdf8; color: #0f172a; box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25); }
 
-        /* เส้นคั่นหมวดหมู่ */
+        /* เส้นคั่นหมวดหมู่เว็บหลัก */
         .section-separator { display: flex; align-items: center; margin: 15px 0 25px; }
         .section-separator h5 { font-size: 1.1rem; font-weight: 700; margin: 0 15px 0 0; white-space: nowrap; }
         .section-separator .line-decor { flex-grow: 1; height: 3px; border-radius: 10px; }
 
-        .sep-school h5 { color: var(--color-school); }
-        .sep-school .line-decor { background: linear-gradient(90deg, var(--color-school) 0%, transparent 100%); }
-        .sep-staff h5 { color: var(--color-staff); }
-        .sep-staff .line-decor { background: linear-gradient(90deg, var(--color-staff) 0%, transparent 100%); }
-        .sep-student h5 { color: var(--color-student); }
-        .sep-student .line-decor { background: linear-gradient(90deg, var(--color-student) 0%, transparent 100%); }
+        .sep-school h5 { color: #1e40af; }
+        .sep-school .line-decor { background: linear-gradient(90deg, #1e40af 0%, transparent 100%); }
+        .sep-staff h5 { color: #0369a1; }
+        .sep-staff .line-decor { background: linear-gradient(90deg, #0369a1 0%, transparent 100%); }
+        .sep-student h5 { color: #0f766e; }
+        .sep-student .line-decor { background: linear-gradient(90deg, #0f766e 0%, transparent 100%); }
 
         /* 📑 Section Footer */
         footer {
@@ -233,9 +237,7 @@
             .banner-card { padding: 20px 20px; margin-bottom: 20px; border-radius: 16px; }
             .obec-logo { width: 45px; margin-right: 15px; }
             
-            .award-card { border-radius: 16px; }
-            /* ปล่อยให้ Hover ขยับทางขวาบนมือถือเปลี่ยนเป็นดันขึ้นแทนเพื่อไม่ให้ล้นจอ */
-            .award-card:hover { transform: translateY(-4px); }
+            .award-card { border-radius: 18px; }
             footer { border-radius: 16px 16px 0 0; }
         }
     </style>
@@ -443,6 +445,7 @@
             });
         }
 
+        // ส่วนการเปิด/ปิดฟอร์มแอดมิน
         function openAdminForm() { 
             document.getElementById('admin-form-section').classList.remove('d-none'); 
             document.getElementById('main-homepage-content-area').classList.add('d-none');
@@ -455,6 +458,7 @@
             document.getElementById('dynamic-display-zone').classList.remove('d-none'); 
         }
 
+        // ฟังก์ชันดึงลิงก์เปิดไฟล์ PDF
         function viewCertificateModal(encodedUrl) {
             let url = decodeURIComponent(encodedUrl);
             if (url.includes('drive.google.com')) {
