@@ -16,17 +16,20 @@
             --banner-grad: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
             
             /* เฉดสีพาสเทลสุภาพสำหรับตกแต่งป้าย (Badge) */
-            --pastel-school: #dbeafe;     /* ฟ้าอ่อนพาสเทล */
+            --pastel-school: #dbeafe;     
             --pastel-school-text: #1e40af;
             
-            --pastel-staff: #e0f2fe;      /* ฟ้าพูลพาสเทล */
+            --pastel-staff: #e0f2fe;      
             --pastel-staff-text: #0369a1;
             
-            --pastel-student: #ccfbf1;    /* เขียวมิ้นต์พาสเทล */
+            --pastel-student: #ccfbf1;    
             --pastel-student-text: #0f766e;
             
             --pms-blue-accent: #2563eb;
-            --card-border: #e2e8f0;
+            
+            /* 📌 ปรับเพิ่มความหนาและสีเส้นขอบให้คมชัดขึ้น */
+            --card-border-width: 2px;
+            --card-border-color: #cbd5e1; /* สีเทาเข้มข้น เห็นขอบชัดเจน */
         }
 
         body { 
@@ -84,29 +87,29 @@
         .nav-menu-btn:hover { background: rgba(255,255,255,0.08); color: white; }
         .nav-menu-btn.active { background: #ffffff; color: #1e3a8a; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-        /* 🃏 [NEW STYLE: Soft Pastel Dashboard Card] เรียบหรู สะอาดตา ไม่ฉูดฉาด */
+        /* 🃏 [STYLE UPDATE: Thick Border Dashboard Card] เพิ่มความหนาเส้นขอบตามคำขอ */
         .award-card { 
             border-radius: 16px; 
-            border: 1px solid var(--card-border); 
-            background: #ffffff; /* พื้นหลังสีขาวนวลสะอาดตา */
+            border: var(--card-border-width) solid var(--card-border-color); /* เส้นขอบหนา 2px คมชัด */
+            background: #ffffff; 
             position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.02);
         }
         
         .award-card:hover { 
             transform: translateY(-4px); 
-            border-color: #cbd5e1;
+            border-color: #94a3b8; /* สีขอบเปลี่ยนเป็นเทาเข้มขึ้นเมื่อ Hover */
             box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
         }
 
-        /* ส่วนหัวการ์ดแบบโปร่งใส เคลียร์พื้นที่ให้โล่ง */
+        /* ส่วนหัวการ์ดแยกสัดส่วนด้วยเส้นประ */
         .card-header-icon { 
             height: 42px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 16px; background: transparent; border-bottom: 1px dashed #f1f5f9;
+            padding: 0 16px; background: transparent; border-bottom: 1.5px dashed #e2e8f0;
         }
 
-        /* 🏷️ ดีไซน์ ป้ายแท็ก (Badge) พาสเทลแยกประเภทด้านซ้ายบน */
+        /* 🏷️ ป้ายแท็ก (Badge) พาสเทล */
         .type-badge {
             font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;
         }
@@ -114,7 +117,6 @@
         .badge-staff { background-color: var(--pastel-staff); color: var(--pastel-staff-text); }
         .badge-student { background-color: var(--pastel-student); color: var(--pastel-student-text); }
 
-        /* ไอคอนหมวดหมู่ขวาบน */
         .header-icon-visual { font-size: 0.95rem; }
         .icon-school { color: var(--pastel-school-text); }
         .icon-staff { color: var(--pastel-staff-text); }
@@ -123,25 +125,22 @@
         /* ตัวบอดี้ภายในการ์ด */
         .card-body-content { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* ชื่อรางวัลสีเข้ม ลึก มินิมอล */
+        /* ชื่อรางวัล */
         .award-title { 
             font-size: 0.95rem; font-weight: 700; color: #1e293b; line-height: 1.45; margin-bottom: 12px; min-height: 2.8em; 
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
         }
 
-        /* กล่องข้อมูลย่อย (Meta Box) สีเทาอ่อนเรียบหรู */
+        /* กล่องข้อมูลย่อย (Meta Box) ขอบหนาขึ้นรับกับตัวการ์ด */
         .meta-box { 
             border-radius: 12px; padding: 12px; margin-bottom: 15px; font-size: 0.82rem; 
-            background-color: #f8fafc; /* สีพื้นหลังสว่างนวลตา */
-            border: 1px solid #f1f5f9;
+            background-color: #f8fafc; 
+            border: 1.5px solid #e2e8f0; /* เส้นขอบกล่องด้านในหนาขึ้น */
         }
         .meta-item { display: flex; align-items: center; margin-bottom: 6px; overflow: hidden; }
         .meta-item:last-child { margin-bottom: 0; }
         
-        /* หัวข้อสีเทา */
         .meta-item span { width: 68px; color: #64748b; flex-shrink: 0; font-weight: 400; white-space: nowrap; } 
-        
-        /* ข้อมูลจริงสีดำสนิท ตัวหนาชัดเจนอ่านง่ายมาก */
         .meta-item b { 
             flex: 1; color: #0f172a !important; font-weight: 600; 
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
@@ -150,7 +149,7 @@
         /* ปุ่มเปิดดูเกียรติบัตร มินิมอลสไตล์ */
         .btn-check-doc { 
             font-size: 0.8rem; font-weight: 600; border-radius: 10px; 
-            border: 1px solid #cbd5e1; background-color: #ffffff; 
+            border: 1.5px solid #cbd5e1; background-color: #ffffff; 
             padding: 8px 0; width: 100%; transition: all 0.15s ease; color: #475569; 
             white-space: nowrap;
         }
@@ -348,7 +347,7 @@
                             </div>
                             <div class="card-body-content">
                                 <div>
-                                    <h6 class="award-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</h6>
+                                    <h6 class="award-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}">${item['ชื่อรางวัล/ผลงานเกียรเกียรติยศ'] || 'Untitled'}</h6>
                                     <div class="meta-box">
                                         <div class="meta-item"><span>ผู้รับ</span><b title="${person}">${person}</b></div>
                                         <div class="meta-item"><span>ผู้มอบ</span><b title="${giver}">${giver}</b></div>
