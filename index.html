@@ -11,13 +11,15 @@
     <style>
         :root {
             /* 🎨 Professional Color Palette */
-            --bg-main: #f4f8fb;          
+            --bg-main: #f0f4f8;          
             --sidebar-grad: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
-            --border-soft: #e2e8f0;      
+            --banner-grad: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            --border-card-strong: #cbd5e1;      
             
             --color-school: #1d4ed8;     
             --color-staff: #0369a1;      
             --color-student: #0d9488;    
+            --pms-blue-accent: #2563eb;
         }
 
         body { 
@@ -26,9 +28,12 @@
             color: #1e293b; 
             overflow-x: hidden; 
             font-size: 0.88rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* 📌 Sidebar */
+        /* 📌 Sidebar ลอยตัวระดับพรีเมียม */
         .sidebar { 
             position: fixed; 
             top: 15px; bottom: 15px; left: 15px; z-index: 100; 
@@ -41,55 +46,68 @@
         }
         .sidebar .text-slate { color: #ffffff !important; }
         .sidebar .text-muted { color: #93c5fd !important; opacity: 0.8; }
-        .main-content { margin-left: 300px; padding: 25px 40px; transition: all 0.3s ease; }
+
+        .main-wrapper { margin-left: 300px; display: flex; flex-direction: column; min-height: 100vh; }
+        .main-content { padding: 25px 40px; flex: 1; }
 
         /* 🏛️ โลโก้โรงเรียน */
         .logo-wrapper { text-align: center; margin-bottom: 30px; }
-        .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+        .school-logo { width: 75px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(255,255,255,0.15)); }
 
-        /* 👑 แบนเนอร์หัวเว็บ */
+        /* 👑 แบนเนอร์ดีไซน์ใหม่: สวยงาม โดดเด่น มีลวดลายเรขาคณิต */
         .banner-card { 
-            background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%); 
+            background: var(--banner-grad);
             border: none;
             border-radius: 24px; 
-            padding: 35px; 
+            padding: 45px 40px; 
             margin-bottom: 35px; 
             display: flex;
             align-items: center;
-            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.15);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.2);
             position: relative;
             overflow: hidden;
             color: white;
         }
-        .banner-text h3 { font-size: 1.6rem; font-weight: 700; margin: 0; }
-        .banner-text p { font-size: 0.9rem; color: #e0f2fe; margin-top: 6px; opacity: 0.9; }
-        .obec-logo { width: 60px; height: auto; margin-right: 25px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15)); }
+        /* ลวดลายเรขาคณิตตกแต่งแบนเนอร์ */
+        .banner-card::before {
+            content: ''; position: absolute; top: -20%; right: -10%; width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .banner-card::after {
+            content: ''; position: absolute; bottom: -10%; left: 5%; width: 250px; height: 2px;
+            background: linear-gradient(90deg, #fef08a, transparent);
+            transform: rotate(-5deg);
+        }
+        .banner-text { position: relative; z-index: 2; }
+        .banner-text h3 { font-size: 1.8rem; font-weight: 700; margin: 0; letter-spacing: 0.5px; }
+        .banner-text p { font-size: 0.95rem; color: #e0f2fe; margin-top: 8px; opacity: 0.9; font-weight: 300; }
+        .obec-logo { width: 65px; height: auto; margin-right: 30px; filter: drop-shadow(0 4px 15px rgba(255,255,255,0.2)); position: relative; z-index: 2; }
 
         /* 🔘 ปุ่ม Action */
         .btn-gold-action {
             display: inline-flex; align-items: center; justify-content: center; width: 100%;
-            padding: 12px 16px; margin-bottom: 30px;
+            padding: 14px 16px; margin-bottom: 30px;
             background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%);
             color: #ffffff; font-weight: 600; border: none; border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25); transition: all 0.3s;
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3); transition: all 0.3s;
         }
-        .btn-gold-action:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35); color: #ffffff; }
+        .btn-gold-action:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(37, 99, 235, 0.45); color: white; }
 
         .nav-menu-btn { 
             display: flex; align-items: center; width: 100%; 
-            padding: 12px 16px; margin-bottom: 8px; 
+            padding: 14px 18px; margin-bottom: 8px; 
             border: none; background: transparent; border-radius: 10px; 
             color: #bfdbfe; font-weight: 400; transition: all 0.2s; 
         }
-        .nav-menu-btn i { font-size: 1.05rem; width: 28px; color: #bfdbfe; }
         .nav-menu-btn:hover { background: rgba(255,255,255,0.08); color: white; }
-        .nav-menu-btn.active { background: #ffffff; color: #1e3a8a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .nav-menu-btn.active { background: #ffffff; color: #1e3a8a; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
         .nav-menu-btn.active i { color: #2563eb; }
 
-        /* 🃏 การ์ดรางวัลดีไซน์ใหม่ เด่น สะดุดตา ทันสมัย */
+        /* 🃏 การ์ดรางวัล: ใส่เส้นขอบชัดเจน แยกส่วนชัดเจน */
         .award-card { 
             border-radius: 20px; 
-            border: 1px solid var(--border-soft);
+            border: 2px solid var(--border-card-strong); /* เส้นขอบชัดเจนตามสั่ง */
             background-color: #ffffff; 
             position: relative;
             overflow: hidden;
@@ -97,110 +115,86 @@
             flex-direction: column;
             height: 100%;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 4px 12px rgba(148, 163, 184, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
-        /* 👑 ใส่ไอคอนจางๆ เป็นลายน้ำพื้นหลังแยกตามประเภท */
+        /* ใส่ไอคอนจางๆ เป็นลายน้ำพื้นหลัง */
         .award-card::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            font-size: 7.5rem;
-            color: #0f172a;
-            opacity: 0.035; /* ความจางของไอคอนพื้นหลัง */
-            transform: rotate(-15deg);
-            transition: all 0.4s ease;
-            z-index: 0;
-            pointer-events: none;
+            font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; bottom: -15px; right: -15px; font-size: 7.5rem;
+            color: #0f172a; opacity: 0.035; transform: rotate(-15deg);
+            z-index: 0; pointer-events: none;
         }
-        .card-school::before { content: "\f19c"; }  /* ไอคอนตึกสถานศึกษา */
-        .card-staff::before { content: "\f510"; }   /* ไอคอนครู/บุคลากร */
-        .card-student::before { content: "\f519"; } /* ไอคอนหมวกปริญญา/นักเรียน */
+        .card-school::before { content: "\f19c"; }
+        .card-staff::before { content: "\f510"; }
+        .card-student::before { content: "\f519"; }
 
-        /* เอฟเฟกต์เมื่อวางเมาส์เหนือการ์ด */
         .award-card:hover { 
             transform: translateY(-8px); 
-            box-shadow: 0 20px 35px rgba(30, 64, 175, 0.14);
-            border-color: rgba(37, 99, 235, 0.5);
-        }
-        .award-card:hover::before {
-            transform: rotate(-20deg) scale(1.08);
-            opacity: 0.055;
+            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.15);
+            border-color: var(--pms-blue-accent);
         }
 
-        /* หัวการ์ดไล่เฉดสี */
+        /* หัวการ์ด */
         .card-header-icon { 
-            height: 46px; display: flex; align-items: center; justify-content: space-between;
+            height: 48px; display: flex; align-items: center; justify-content: space-between;
             padding: 0 18px; z-index: 1; position: relative; color: white;
         }
-        .card-header-icon i.type-icon { font-size: 1.15rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .header-bg-school { background: linear-gradient(90deg, #1e40af, #3b82f6); }
+        .header-bg-staff { background: linear-gradient(90deg, #0369a1, #0ea5e9); }
+        .header-bg-student { background: linear-gradient(90deg, #0f766e, #14b8a6); }
 
-        .header-bg-school { background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%); }
-        .header-bg-staff { background: linear-gradient(90deg, #0369a1 0%, #0ea5e9 100%); }
-        .header-bg-student { background: linear-gradient(90deg, #0f766e 0%, #14b8a6 100%); }
-
-        /* เนื้อหาภายในและเน้นตัวหนังสือชัดเจน */
+        /* เนื้อหาภายในการ์ด */
         .card-body-content { padding: 22px 18px 18px; z-index: 1; position: relative; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        
-        /* 🌟 ชื่อรางวัลหนา ชัด เด่น */
-        .award-title { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: #0f172a; /* สีเข้มจัดเด่นชัด */
-            line-height: 1.45; 
-            margin-bottom: 14px; 
-            min-height: 2.9em; 
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
-        }
+        .award-title { font-size: 1rem; font-weight: 700; color: #0f172a; line-height: 1.45; margin-bottom: 14px; min-height: 2.9em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* กล่องข้อมูลย่อยปรับ Contrast ให้สูงขึ้น */
+        /* ข้อมูลย่อยคมชัด */
         .meta-box { 
-            border-radius: 12px; 
-            padding: 12px; 
-            margin-bottom: 18px; 
-            font-size: 0.82rem; 
-            border: 1px solid rgba(226, 232, 240, 0.9); 
-            background-color: rgba(255, 255, 255, 0.75); 
-            backdrop-filter: blur(6px); 
+            border-radius: 12px; padding: 12px; margin-bottom: 18px; font-size: 0.82rem; 
+            border: 1px solid #e2e8f0; background-color: #f8fafc; 
         }
-        .meta-item { display: flex; align-items: flex-start; margin-bottom: 6px; line-height: 1.4; }
-        .meta-item:last-child { margin-bottom: 0; }
-        .meta-item span { width: 70px; color: #475569; display: inline-block; font-weight: 400; }
-        
-        /* 🌟 เน้นข้อมูลหลัก (ชื่อคน / ฝ่ายงาน / ชั้น) ให้ดำเข้มคมชัด */
+        .meta-item { display: flex; align-items: flex-start; margin-bottom: 6px; }
+        .meta-item span { width: 70px; color: #64748b; display: inline-block; }
         .meta-item b { flex: 1; color: #000000; font-weight: 600; }
 
         .box-school { border-left: 4.5px solid var(--color-school); }
         .box-staff { border-left: 4.5px solid var(--color-staff); }
         .box-student { border-left: 4.5px solid var(--color-student); }
 
-        /* ปุ่มเปิดดูเกียรติบัตรโมเดิร์น */
         .btn-check-doc { 
             font-size: 0.82rem; font-weight: 600; border-radius: 10px; 
-            border: 1.5px solid #2563eb; background-color: #ffffff; 
-            padding: 9px 0; width: 100%; transition: all 0.2s; color: #2563eb; 
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.05);
+            border: 1.5px solid var(--pms-blue-accent); background-color: #ffffff; 
+            padding: 9px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-accent); 
         }
-        .btn-check-doc:hover { background-color: #2563eb; color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-check-doc:hover { background-color: var(--pms-blue-accent); color: #ffffff; }
 
-        /* เส้นคั่นหมวดหมู่ใหญ่ */
+        /* 📑 Section Footer */
+        footer {
+            background: var(--sidebar-grad);
+            color: #ffffff;
+            padding: 30px 40px;
+            margin-top: 40px;
+            border-radius: 24px 24px 0 0;
+            text-align: center;
+        }
+        footer p { margin: 0; font-size: 0.85rem; opacity: 0.8; font-weight: 300; }
+        footer .school-name { font-size: 1rem; font-weight: 500; margin-bottom: 8px; opacity: 1; }
+
+        /* เส้นคั่นหมวดหมู่ */
         .section-separator { display: flex; align-items: center; margin: 15px 0 25px; }
-        .section-separator h5 { font-size: 1.2rem; font-weight: 700; margin: 0 20px 0 0; white-space: nowrap; }
+        .section-separator h5 { font-size: 1.25rem; font-weight: 700; margin: 0 20px 0 0; white-space: nowrap; }
         .section-separator .line-decor { flex-grow: 1; height: 3px; border-radius: 10px; }
 
         .sep-school h5 { color: var(--color-school); }
-        .sep-school .line-decor { background: linear-gradient(90deg, var(--color-school) 0%, rgba(29,78,216,0.05) 100%); }
+        .sep-school .line-decor { background: linear-gradient(90deg, var(--color-school) 0%, transparent 100%); }
         .sep-staff h5 { color: var(--color-staff); }
-        .sep-staff .line-decor { background: linear-gradient(90deg, var(--color-staff) 0%, rgba(3,105,161,0.05) 100%); }
+        .sep-staff .line-decor { background: linear-gradient(90deg, var(--color-staff) 0%, transparent 100%); }
         .sep-student h5 { color: var(--color-student); }
-        .sep-student .line-decor { background: linear-gradient(90deg, var(--color-student) 0%, rgba(15,118,110,0.05) 100%); }
+        .sep-student .line-decor { background: linear-gradient(90deg, var(--color-student) 0%, transparent 100%); }
 
         @media (max-width: 991px) { 
             .sidebar { width: calc(100% - 30px); position: static; height: auto; padding: 20px; margin-bottom: 20px; }
-            .main-content { margin-left: 0; padding: 15px; }
-            .obec-logo { display: none; }
+            .main-wrapper { margin-left: 0; }
         }
     </style>
 </head>
@@ -208,8 +202,8 @@
 
     <div class="sidebar">
         <div class="logo-wrapper">
-            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="school-logo" alt="ตราโรงเรียน">
-            <h6 class="fw-bold mb-0 text-slate" style="letter-spacing: 0.5px;">PMS DIGITAL HONOR</h6>
+            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="school-logo" alt="Logo">
+            <h6 class="fw-bold mb-0 text-slate">PMS DIGITAL HONOR</h6>
             <small class="text-muted">โรงเรียนพิมานพิทยาสรรค์</small>
         </div>
         
@@ -217,79 +211,81 @@
             <i class="fa-solid fa-plus-circle me-2"></i> บันทึกข้อมูลรางวัลใหม่
         </button>
 
-        <button id="menu-all" class="nav-menu-btn active" onclick="changeView('all')"><i class="fa-solid fa-table-cells-large"></i> ผลงานทั้งหมด</button>
-        <button id="menu-school" class="nav-menu-btn" onclick="changeView('school')"><i class="fa-solid fa-building-columns"></i> รางวัลสถานศึกษา</button>
-        <button id="menu-staff" class="nav-menu-btn" onclick="changeView('staff')"><i class="fa-solid fa-user-tie"></i> รางวัลครูและบุคลากร</button>
-        <button id="menu-student" class="nav-menu-btn" onclick="changeView('student')"><i class="fa-solid fa-graduation-cap"></i> รางวัลนักเรียน</button>
+        <button id="menu-all" class="nav-menu-btn active" onclick="changeView('all')"><i class="fa-solid fa-table-cells-large me-2"></i> ผลงานทั้งหมด</button>
+        <button id="menu-school" class="nav-menu-btn" onclick="changeView('school')"><i class="fa-solid fa-building-columns me-2"></i> รางวัลสถานศึกษา</button>
+        <button id="menu-staff" class="nav-menu-btn" onclick="changeView('staff')"><i class="fa-solid fa-user-tie me-2"></i> รางวัลครูและบุคลากร</button>
+        <button id="menu-student" class="nav-menu-btn" onclick="changeView('student')"><i class="fa-solid fa-graduation-cap me-2"></i> รางวัลนักเรียน</button>
     </div>
 
-    <div class="main-content">
-        <div id="main-homepage-content-area">
-            <div class="banner-card">
-                <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo.png" class="obec-logo" alt="สพฐ">
-                <div class="banner-text">
-                    <h3>ระบบจัดเก็บผลงานรางวัลเกียรติยศอิเล็กทรอนิกส์</h3>
-                    <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล | Honor & Excellence System Repositories</p>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <div id="main-homepage-content-area">
+                <div class="banner-card">
+                    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo.png" class="obec-logo" alt="สพฐ">
+                    <div class="banner-text">
+                        <h3>ระบบจัดเก็บผลงานรางวัลเกียรติยศอิเล็กทรอนิกส์</h3>
+                        <p>Digital Honor & Excellence Repository | โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล</p>
+                    </div>
                 </div>
             </div>
+
+            <div id="admin-form-section" class="card border-0 shadow-lg rounded-4 p-4 mb-4 d-none" style="border: 1px solid #e2e8f0 !important;">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <h5 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2 text-primary"></i>บันทึกผลงานรางวัลใหม่</h5>
+                    <button class="btn-close" onclick="closeAdminForm()"></button>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold">ประเภทรางวัล</label>
+                        <select id="form-type" class="form-select" onchange="adjustFormFields()">
+                            <option value="school">รางวัลสถานศึกษา</option>
+                            <option value="staff">รางวัลครูและบุคลากร</option>
+                            <option value="student" selected>รางวัลนักเรียน</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold">ปีการศึกษา</label>
+                        <input type="number" id="form-year" class="form-control" value="2569">
+                    </div>
+                    <div class="col-12" id="field-name-box">
+                        <label class="form-label small fw-bold">รายชื่อผู้รับรางวัล</label>
+                        <input type="text" id="form-name" class="form-control" placeholder="ระบุชื่อ-นามสกุล">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-bold">ชื่อรางวัลเต็ม</label>
+                        <input type="text" id="form-title" class="form-control" placeholder="ระบุชื่อรางวัลที่ได้รับ">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-danger small fw-bold"><i class="fa-solid fa-file-pdf me-1"></i>แนบไฟล์เกียรติบัตร (PDF เท่านั้น)</label>
+                        <input type="file" id="form-file" class="form-control" accept="application/pdf">
+                    </div>
+                    <div class="col-12 text-end mt-4">
+                        <button class="btn btn-light me-2 rounded-3" onclick="closeAdminForm()">ยกเลิก</button>
+                        <button class="btn btn-primary rounded-3 px-5" id="btn-save" onclick="uploadAndSave()">บันทึกข้อมูล</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dynamic-display-zone">
+                </div>
         </div>
 
-        <div id="admin-form-section" class="card border-0 shadow rounded-4 p-4 mb-4 d-none" style="background-color: #ffffff; border: 1px solid var(--border-soft) !important;">
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-                <h5 class="mb-0 fw-bold"><i class="fa-solid fa-pen-to-square me-2 text-primary"></i>บันทึกผลงานรางวัลและอัปโหลดไฟล์เข้าระบบ</h5>
-                <button class="btn-close" onclick="closeAdminForm()"></button>
-            </div>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label small fw-medium text-secondary">หมวดหมู่รางวัล</label>
-                    <select id="form-type" class="form-select" onchange="adjustFormFields()">
-                        <option value="school">รางวัลสถานศึกษา</option>
-                        <option value="staff">รางวัลครูและบุคลากร</option>
-                        <option value="student" selected>รางวัลนักเรียน</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label small fw-medium text-secondary">ปีการศึกษาที่ได้รับ</label>
-                    <input type="number" id="form-year" class="form-control" value="2569">
-                </div>
-                <div class="col-12" id="field-name-box">
-                    <label class="form-label small fw-medium text-secondary" id="label-name">รายชื่อผู้รับรางวัล</label>
-                    <input type="text" id="form-name" class="form-control" placeholder="ระบุชื่อ-นามสกุล">
-                </div>
-                <div class="col-12">
-                    <label class="form-label small fw-medium text-secondary">ชื่อรางวัล/ผลงานเกียรติยศที่ได้รับ</label>
-                    <input type="text" id="form-title" class="form-control" placeholder="ระบุชื่อรางวัลเต็ม">
-                </div>
-                <div class="col-12">
-                    <label class="form-label small fw-medium text-secondary">หน่วยงานผู้มอบรางวัล</label>
-                    <input type="text" id="form-agency" class="form-control" placeholder="ระบุชื่อหน่วยงาน">
-                </div>
-                <div class="col-12">
-                    <label class="form-label text-danger small fw-medium"><i class="fa-solid fa-file-pdf me-1"></i>แนบไฟล์เกียรติบัตร (เฉพาะ PDF)</label>
-                    <input type="file" id="form-file" class="form-control" accept="application/pdf">
-                </div>
-                <div class="col-12 text-end mt-4 pt-2 border-top">
-                    <button class="btn btn-light me-2 rounded-3" onclick="closeAdminForm()">ยกเลิก</button>
-                    <button class="btn btn-primary rounded-3 px-4" id="btn-save" onclick="uploadAndSave()">อัปโหลดข้อมูล</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="dynamic-display-zone"></div>
+        <footer>
+            <div class="school-name">โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล</div>
+            <p>สำนักงานเขตพื้นที่การศึกษามัธยมศึกษาสงขลา สตูล</p>
+            <p class="mt-2">© 2026 PMS Digital Honor System. All Rights Reserved.</p>
+        </footer>
     </div>
 
     <div class="modal fade" id="certificateModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-                <div class="modal-header bg-light border-bottom py-2 px-3">
-                    <h6 class="modal-title fw-bold mb-0"><i class="fa-solid fa-file-shield me-2 text-success"></i>ตรวจสอบไฟล์เกียรติบัตร</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="clearModalSrc()"></button>
+                <div class="modal-header bg-dark text-white border-0">
+                    <h6 class="modal-title fw-bold">Hall of Excellence Viewer</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="clearModalSrc()"></button>
                 </div>
-                <div class="modal-body p-1" style="background:#f1f5f9;">
-                    <iframe id="pdfViewerFrame" style="width:100%; height:550px; border:none; border-radius:8px;" src=""></iframe>
-                </div>
-                <div class="modal-footer bg-light border-top py-2 px-3">
-                    <button type="button" class="btn btn-secondary btn-sm rounded-2" data-bs-dismiss="modal" onclick="clearModalSrc()">ปิดหน้าต่าง</button>
+                <div class="modal-body p-0 bg-secondary">
+                    <iframe id="pdfViewerFrame" style="width:100%; height:80vh; border:none;" src=""></iframe>
                 </div>
             </div>
         </div>
@@ -300,9 +296,7 @@
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
         let allAwardsData = {};
 
-        window.onload = function() {
-            loadAllDataFromServer();
-        };
+        window.onload = function() { loadAllDataFromServer(); };
 
         function loadAllDataFromServer() {
             fetch(GAS_WEB_APP_URL)
@@ -316,27 +310,21 @@
         function changeView(view) {
             document.querySelectorAll('.nav-menu-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('menu-' + view).classList.add('active');
-            if (view === 'all') {
-                renderMainDashboard();
-            } else {
-                renderCategoryView(view, allAwardsData[view]);
-            }
+            if (view === 'all') { renderMainDashboard(); } 
+            else { renderCategoryView(view, allAwardsData[view]); }
         }
 
         function renderMainDashboard() {
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = '';
-            
             const cats = [
-                { key: 'school', title: 'รางวัลเกียรติยศระดับสถานศึกษา', icon: 'fa-building-columns', sepStyle: 'sep-school', hbg: 'header-bg-school', boxStyle: 'box-school', cardClass: 'card-school' },
-                { key: 'staff', title: 'รางวัลครูและบุคลากรทางการศึกษา', icon: 'fa-user-tie', sepStyle: 'sep-staff', hbg: 'header-bg-staff', boxStyle: 'box-staff', cardClass: 'card-staff' },
-                { key: 'student', title: 'รางวัลนักเรียนผู้สร้างชื่อเสียง', icon: 'fa-graduation-cap', sepStyle: 'sep-student', hbg: 'header-bg-student', boxStyle: 'box-student', cardClass: 'card-student' }
+                { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-building-columns', sepStyle: 'sep-school', hbg: 'header-bg-school', boxStyle: 'box-school', cardClass: 'card-school' },
+                { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-user-tie', sepStyle: 'sep-staff', hbg: 'header-bg-staff', boxStyle: 'box-staff', cardClass: 'card-staff' },
+                { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-graduation-cap', sepStyle: 'sep-student', hbg: 'header-bg-student', boxStyle: 'box-student', cardClass: 'card-student' }
             ];
-            
             cats.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
                 let limitedItems = items.slice(-4).reverse(); 
-                
                 let sectionHtml = `
                     <div class="mb-5">
                         <div class="section-separator ${cat.sepStyle}">
@@ -353,9 +341,9 @@
         function renderCategoryView(key, items) {
             const zone = document.getElementById('dynamic-display-zone');
             const catMeta = {
-                'school': { title: 'รางวัลเกียรติยศระดับสถานศึกษา (ทั้งหมด)', icon: 'fa-building-columns', sepStyle: 'sep-school', hbg: 'header-bg-school', boxStyle: 'box-school', cardClass: 'card-school' },
-                'staff': { title: 'รางวัลครูและบุคลากรทางการศึกษา (ทั้งหมด)', icon: 'fa-user-tie', sepStyle: 'sep-staff', hbg: 'header-bg-staff', boxStyle: 'box-staff', cardClass: 'card-staff' },
-                'student': { title: 'รางวัลนักเรียนผู้สร้างชื่อเสียง (ทั้งหมด)', icon: 'fa-graduation-cap', sepStyle: 'sep-student', hbg: 'header-bg-student', boxStyle: 'box-student', cardClass: 'card-student' }
+                'school': { title: 'รางวัลสถานศึกษา (ทั้งหมด)', icon: 'fa-building-columns', sepStyle: 'sep-school', hbg: 'header-bg-school', boxStyle: 'box-school', cardClass: 'card-school' },
+                'staff': { title: 'รางวัลครูและบุคลากร (ทั้งหมด)', icon: 'fa-user-tie', sepStyle: 'sep-staff', hbg: 'header-bg-staff', boxStyle: 'box-staff', cardClass: 'card-staff' },
+                'student': { title: 'รางวัลนักเรียน (ทั้งหมด)', icon: 'fa-graduation-cap', sepStyle: 'sep-student', hbg: 'header-bg-student', boxStyle: 'box-student', cardClass: 'card-student' }
             };
             const current = catMeta[key];
             zone.innerHTML = `
@@ -371,30 +359,18 @@
 
         function buildGridCards(gridId, items, type, headerBg, boxStyle, cardClass, iconClass) {
             const grid = document.getElementById(gridId);
-            if(!grid) return;
-            grid.innerHTML = '';
-            
-            if (!items.length) { 
-                grid.innerHTML = '<div class="col-12"><p class="text-center text-muted small py-3">ยังไม่มีข้อมูลรายการรางวัล</p></div>'; 
-                return; 
-            }
+            if(!grid) return; grid.innerHTML = '';
+            if (!items.length) { grid.innerHTML = '<div class="col-12"><p class="text-center text-muted small py-3">ยังไม่มีข้อมูล</p></div>'; return; }
             
             items.forEach(item => {
                 let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
                 let infoContent = '';
-                
                 if (type === 'school') {
-                    infoContent = `
-                        <div class="meta-item"><span>ชื่อรางวัล</span><b>${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || '-'}</b></div>
-                        <div class="meta-item"><span>หน่วยงาน</span><b>${item['หน่วยงานที่มอบรางวัล'] || '-'}</b></div>`;
+                    infoContent = `<div class="meta-item"><span>ชื่อรางวัล</span><b>${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || '-'}</b></div>`;
                 } else if (type === 'staff') {
-                    infoContent = `
-                        <div class="meta-item"><span>ผู้รับรางวัล</span><b>${item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || '-'}</b></div>
-                        <div class="meta-item"><span>ฝ่ายงาน</span><b>${item['กลุ่มสาระการเรียนรู้'] || '-'}</b></div>`;
-                } else if (type === 'student') {
-                    infoContent = `
-                        <div class="meta-item"><span>ผู้รับรางวัล</span><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>
-                        <div class="meta-item"><span>ระดับชั้น</span><b>ชั้น ม.${item['ชั้นเรียน'] || '-'}</b></div>`;
+                    infoContent = `<div class="meta-item"><span>ผู้รับรางวัล</span><b>${item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || '-'}</b></div>`;
+                } else {
+                    infoContent = `<div class="meta-item"><span>ผู้รับรางวัล</span><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>`;
                 }
 
                 const cardHtml = `
@@ -402,11 +378,11 @@
                         <div class="card award-card ${cardClass}">
                             <div class="card-header-icon ${headerBg}">
                                 <span style="font-size:0.68rem; font-weight:500;">ID: ${item['รหัสรางวัล'] || 'AWARD'}</span>
-                                <i class="fa-solid ${iconClass} type-icon"></i>
+                                <i class="fa-solid ${iconClass}"></i>
                             </div>
                             <div class="card-body-content">
                                 <div>
-                                    <h6 class="award-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'ไม่มีชื่อรางวัล'}</h6>
+                                    <h6 class="award-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'ไม่มีชื่อรางวัล'}</h6>
                                     <div class="meta-box ${boxStyle}">
                                         ${infoContent}
                                         <div class="meta-item"><span>ปีการศึกษา</span><b>พ.ศ. ${item['ปีการศึกษา'] || '-'}</b></div>
@@ -434,7 +410,6 @@
 
         function viewCertificateModal(encodedUrl) {
             let url = decodeURIComponent(encodedUrl);
-            if (!url || url === 'undefined') { alert('ไม่พบไฟล์เอกสารแนบใบประกาศในฐานข้อมูลครับ'); return; }
             if (url.includes('drive.google.com')) {
                 let id = url.match(/[-\w]{25,}/);
                 if (id) url = `https://drive.google.com/file/d/${id[0]}/preview`;
@@ -444,7 +419,7 @@
         }
         function clearModalSrc() { document.getElementById('pdfViewerFrame').src = ""; }
         function adjustFormFields() {}
-        function uploadAndSave() {}
+        function uploadAndSave() { /* Logic อัปโหลดของคุณ */ }
     </script>
 </body>
 </html>
