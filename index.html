@@ -10,25 +10,25 @@
     
     <style>
         :root {
-            /* 🎨 Official Navy Blue & Elegant Theme */
-            --bg-main: #eef2f6;          /* พื้นหลังหลักสีเทาอ่อนสว่าง สุภาพเป็นทางการ */
+            /* 🎨 Official Navy Blue & Premium Elegant Theme */
+            --bg-main: #f0f4f8;          /* พื้นหลังหลักสีเทา-ฟ้าอ่อน นิ่ง สุภาพ */
             --bg-card: #ffffff;          /* การ์ดสีขาวบริสุทธิ์ตัดกับพื้นหลังชัดเจน */
-            --border-strong: #cbd5e1;    /* เส้นขอบทั่วไปที่เข้มขึ้น */
-            --sidebar-bg: #0f172a;       /* Sidebar สีน้ำเงินเข้มมากเกือบดำ (Deep Navy) ดูภูมิฐาน */
+            --border-strong: #cbd5e1;    /* เส้นขอบทั่วไป */
+            --sidebar-bg: #0f172a;       /* Sidebar สีน้ำเงินเข้มขรึม (Deep Navy) */
             --text-main: #1e293b;        /* ข้อความหลักสีเทาเข้ม */
             --text-muted: #64748b;       /* ข้อความรองสีเทา */
 
-            /* สีสัญลักษณ์สำหรับจุดเน้นที่เป็นทางการ */
+            /* สีหลักและสีทองแห่งความสำเร็จ */
             --pms-blue-primary: #1e40af; /* น้ำเงินสีกรมท่าหลัก */
-            --pms-blue-dark: #1e3a8a;    /* น้ำเงินเข้มขรึม */
+            --pms-blue-dark: #1e3a8a;    /* น้ำเงินเข้ม */
             --pms-blue-light: #eff6ff;   /* ฟ้าอ่อนสว่างสำหรับ Active Menu */
-            --pms-gold: #b45309;         /* ทองเข้ม/น้ำตาลทอง (Deep Amber Gold) เพิ่มความขลัง */
-            --pms-gold-border: #d97706;  /* เส้นขอบทอง */
+            --pms-gold: #b45309;         /* ทองเข้ม */
+            --pms-gold-border: #d97706;  /* เส้นขอบทองหรูหรา */
             
-            /* สีกล่องข้อมูลย่อยภายในตัวการ์ด (ปรับเฉดให้เข้ากับโทนน้ำเงิน-ฟ้า) */
-            --school-box: #f0fdf4;       /* เขียวมินต์อ่อน */
-            --staff-box: #f8fafc;        /* ฟ้า-เทาคลีน */
-            --student-box: #fffbeb;      /* ส้ม-ครีมอ่อน */
+            /* สีกล่องข้อมูลย่อยภายในตัวการ์ด (สไตล์พาสเทลกระชับ) */
+            --school-box: #f0fdf4;       
+            --staff-box: #f8fafc;        
+            --student-box: #fffbeb;      
         }
 
         body { 
@@ -59,7 +59,7 @@
         .logo-wrapper { text-align: center; margin-bottom: 25px; }
         .school-logo { width: 85px; height: auto; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
 
-        /* 👑 แบนเนอร์หัวเว็บสไตล์สีกรมท่าตัดขอบทองหรูหรา */
+        /* 👑 แบนเนอร์หัวเว็บ */
         .banner-card { 
             background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); 
             border: 2px solid var(--pms-gold-border);
@@ -95,10 +95,6 @@
         .nav-menu-btn:hover { background-color: rgba(255,255,255,0.05); color: #f8fafc; }
         .nav-menu-btn.active { background-color: var(--pms-blue-light); color: var(--pms-blue-dark); font-weight: 600; }
         .nav-menu-btn.active i { color: var(--pms-blue-primary); }
-        
-        @media (min-width: 1200px) {
-            .col-xl-2-4 { flex: 0 0 20%; max-width: 20%; }
-        }
 
         /* 🏷️ หัวข้อแคปซูลสำหรับแบ่งหมวดหมู่แบบเด่นชัด */
         .category-badge-title {
@@ -115,49 +111,61 @@
         .title-staff { background-color: #dbeafe; color: #1e40af; border: 1.5px solid #93c5fd; }
         .title-student { background-color: #fef9c3; color: #854d0e; border: 1.5px solid #fde047; }
 
-        /* 🃏 ตัวการ์ดปรับปรุงใหม่: ลอยเด่นตัดกับพื้นหลัง ไม่กลืนแน่นอน มีขอบที่ชัดเจน */
+        /* 🃏 ตัวการ์ดปรับปรุงใหม่: สูงกระชับพอดีแถวละ 4 เด่นและหรูหราขึ้น */
         .award-card { 
             border-radius: 12px; 
-            border: 2px solid #cbd5e1; /* เพิ่มความหนาของเส้นขอบ */
+            border: 1px solid #cbd5e1;
             background-color: var(--bg-card); 
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; height: 100%; overflow: hidden;
-            box-shadow: 0 6px 12px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04); /* เงาที่ชัดลึกขึ้น */
+            display: flex; flex-direction: column; 
+            height: auto; /* ให้ความสูงยืดหยุ่นตามเนื้อหา ไม่สูงค้างเกินไป */
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
         }
         .award-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 12px 24px rgba(30, 64, 175, 0.12); /* เงาสีน้ำเงินจางๆ เวลา hover */
-            border-color: var(--pms-blue-primary); 
+            transform: translateY(-4px); 
+            box-shadow: 0 12px 20px rgba(30, 64, 175, 0.15);
+            border-color: #d97706; /* ขอบเปลี่ยนเป็นสีทองเมื่อเอาเมาส์ชี้ */
         }
 
+        /* 🔵 ปรับหัวการ์ดให้มีสีน้ำเงินเข้ม สลับฟอนต์สีขาว-ทอง ทางการและหรูหรามาก */
         .card-header-icon { 
-            height: 48px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 14px; border-bottom: 1.5px solid #e2e8f0; background-color: #f8fafc;
+            height: 42px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 14px; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); /* หัวการ์ดสีน้ำเงินเข้ม */
+            border-bottom: 2px solid #e2e8f0;
+            position: relative;
         }
-        .card-header-icon i { font-size: 1.1rem; }
-        .card-header-icon .fa-medal { color: #d97706; }
+        /* เส้นขอบทองบางด้านล่างหัวการ์ดเพิ่มความพรีเมียม */
+        .card-header-icon::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, #d97706, #fef08a, #d97706);
+        }
+        .card-header-icon i { font-size: 1rem; }
+        .card-header-icon .fa-medal { color: #fbbf24; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
 
-        .card-body-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .award-title { font-size: 0.9rem; font-weight: 600; color: #0f172a; line-height: 1.45; margin-bottom: 12px; height: 2.9em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        /* ปรับสัดส่วนเนื้อหาให้กระชับลง ไม่สูงเทอะทะ */
+        .card-body-content { padding: 12px 14px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .award-title { font-size: 0.88rem; font-weight: 600; color: #0f172a; line-height: 1.4; margin-bottom: 8px; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         
-        /* 🗃️ กล่องข้อมูลภายในตัวการ์ดเพิ่มเส้นขอบล้อมรอบขอบย่อย */
-        .meta-box { border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 0.78rem; color: var(--text-main); border: 1px solid rgba(0,0,0,0.04); }
-        .meta-item { display: flex; align-items: flex-start; margin-bottom: 5px; line-height: 1.4; }
+        /* กล่องข้อมูลย่อยภายในตัวการ์ด */
+        .meta-box { border-radius: 6px; padding: 8px; margin-bottom: 10px; font-size: 0.76rem; color: var(--text-main); border: 1px solid rgba(0,0,0,0.03); }
+        .meta-item { display: flex; align-items: flex-start; margin-bottom: 4px; line-height: 1.35; }
         .meta-item:last-child { margin-bottom: 0; }
-        .meta-item span { width: 62px; font-weight: 400; color: var(--text-muted); display: inline-block; }
+        .meta-item span { width: 58px; font-weight: 400; color: var(--text-muted); display: inline-block; }
         .meta-item b { flex: 1; font-weight: 500; color: #0f172a; }
 
-        .box-school { background-color: var(--school-box); border-left: 4px solid #22c55e; }
-        .box-staff { background-color: var(--staff-box); border-left: 4px solid #3b82f6; }
-        .box-student { background-color: var(--student-box); border-left: 4px solid #eab308; }
+        .box-school { background-color: var(--school-box); border-left: 3px solid #22c55e; }
+        .box-staff { background-color: var(--staff-box); border-left: 3px solid #3b82f6; }
+        .box-student { background-color: var(--student-box); border-left: 3px solid #eab308; }
 
-        .icon-school { color: #166534; }
-        .icon-staff { color: #1e40af; }
-        .icon-student { color: #854d0e; }
+        .icon-school { color: #ffffff; }
+        .icon-staff { color: #ffffff; }
+        .icon-student { color: #ffffff; }
 
-        /* 🔘 ปุ่มเปิดดูเกียรติบัตรรุ่นเน้นสีน้ำเงินเป็นทางการ */
-        .btn-check-doc { font-size: 0.78rem; font-weight: 500; border-radius: 6px; border: 1.5px solid var(--pms-blue-primary); background-color: transparent; padding: 8px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-primary); }
-        .btn-check-doc:hover { background-color: var(--pms-blue-primary); color: #ffffff; box-shadow: 0 4px 10px rgba(30,64,175,0.2); }
+        /* ปุ่มเปิดดูเกียรติบัตรสีน้ำเงินกรมท่าเด่นชัด */
+        .btn-check-doc { font-size: 0.75rem; font-weight: 500; border-radius: 6px; border: 1.5px solid var(--pms-blue-primary); background-color: transparent; padding: 6px 0; width: 100%; transition: all 0.2s; color: var(--pms-blue-primary); }
+        .btn-check-doc:hover { background-color: var(--pms-blue-primary); color: #ffffff; box-shadow: 0 4px 8px rgba(30,64,175,0.2); }
 
         .student-tag-container { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; background: #ffffff; border: 1px solid var(--border-strong); border-radius: 8px; min-height: 35px; margin-top: 8px; }
         .student-tag { background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; border: 1px solid #7dd3fc; }
@@ -382,12 +390,12 @@
             ];
             cats.forEach(cat => {
                 let items = allAwardsData[cat.key] || [];
-                let limitedItems = items.slice(-10).reverse(); 
+                let limitedItems = items.slice(-12).reverse(); /* ดึง 12 รายการล่าสุดเพื่อให้ลงตัวกับแถวละ 4 */
                 let sectionHtml = `
                     <div class="mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-1 px-1">
                             <span class="category-badge-title ${cat.classTitle}"><i class="fa-solid ${cat.icon} me-2"></i>${cat.title}</span>
-                            ${items.length > 10 ? `<button class="btn btn-sm text-primary fw-medium" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-arrow-right ms-1"></i></button>` : ''}
+                            ${items.length > 12 ? `<button class="btn btn-sm text-primary fw-medium" style="font-size:0.75rem;" onclick="changeView('${cat.key}')">ดูทั้งหมด <i class="fa-solid fa-arrow-right ms-1"></i></button>` : ''}
                         </div>
                         <div class="row g-3" id="grid-${cat.key}"></div>
                     </div>`;
@@ -405,6 +413,7 @@
             buildGridCards('focused-grid', [...items].reverse(), key, icon, boxStyle, iconStyle);
         }
 
+        /* 📌 ปรับปรุงโครงสร้างคอลัมน์ Bootstrap จากเดิมที่เป็นแบบ 5 การ์ด ให้เป็นแถวละ 4 การ์ด (col-xl-3 col-md-6) */
         function buildGridCards(gridId, items, type, icon, boxStyle, iconStyle) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
@@ -435,18 +444,15 @@
                 }
 
                 const cardHtml = `
-                    <div class="col-xl-2-4 col-lg-3 col-md-4 col-sm-6 mb-2 card-item" data-dept="${item['กลุ่มสาระการเรียนรู้'] || ''}">
+                    <div class="col-xl-3 col-md-6 col-sm-12 mb-2 card-item" data-dept="${item['กลุ่มสาระการเรียนรู้'] || ''}">
                         <div class="card award-card">
                             <div class="card-header-icon">
-                                <i class="fa-solid ${icon} ${iconStyle}"></i>
+                                <span class="badge bg-transparent text-white p-0" style="font-size:0.68rem; font-weight:500; letter-spacing:0.3px;">ID: ${item['รหัสรางวัล'] || 'AWARD'}</span>
+                                <span class="fw-bold" style="font-size:0.72rem; color: #fef08a;">ปี พ.ศ. ${item['ปีการศึกษา'] || '-'}</span>
                                 <i class="fa-solid fa-medal"></i>
                             </div>
                             <div class="card-body-content">
                                 <div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge bg-light text-dark border border-secondary" style="font-size:0.65rem; font-weight:500;">รหัส ${item['รหัสรางวัล'] || 'AWARD'}</span>
-                                        <span class="fw-bold text-primary" style="font-size:0.75rem;">ปี ${item['ปีการศึกษา'] || '-'}</span>
-                                    </div>
                                     <h6 class="award-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'ไม่มีชื่อรางวัล'}</h6>
                                     <div class="meta-box ${boxStyle}">
                                         ${infoContent}
