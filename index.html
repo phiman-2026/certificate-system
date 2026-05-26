@@ -162,7 +162,6 @@
             padding: 0 14px; 
             position: relative;
         }
-        /* เส้นขอบทองบางด้านล่างหัวการ์ดเพิ่มความหรูหรา */
         .card-header-icon::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(90deg, #d97706, #fef08a, #d97706);
@@ -227,11 +226,13 @@
     </div>
 
     <div class="main-content">
-        <div class="banner-card">
-            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo.png" class="obec-logo" alt="ตรา สพฐ.">
-            <div class="banner-text">
-                <h3>ระบบจัดเก็บผลงานรางวัลเกียรติยศอิเล็กทรอนิกส์</h3>
-                <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล | Honor & Excellence System Repositories</p>
+        <div id="main-homepage-content-area">
+            <div class="banner-card">
+                <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo.png" class="obec-logo" alt="ตรา สพฐ.">
+                <div class="banner-text">
+                    <h3>ระบบจัดเก็บผลงานรางวัลเกียรติยศอิเล็กทรอนิกส์</h3>
+                    <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล | Honor & Excellence System Repositories</p>
+                </div>
             </div>
         </div>
 
@@ -367,12 +368,13 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
     <script>
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
 
         let allAwardsData = {};
         let studentTeamList = [];
+        let currentActiveView = 'all'; // เก็บสถานะของแท็บปัจจุบันไว้
 
         window.onload = function() {
             adjustFormFields();
@@ -397,13 +399,24 @@
         }
 
         function changeView(view) {
+            currentActiveView = view;
+            // ตรวจสอบว่าถ้าฟอร์มแอดมินเปิดอยู่ จะไม่เพิ่งกวนฟังก์ชันนี้จนกว่าจะปิด
+            if (!document.getElementById('admin-form-section').classList.contains('d-none')) {
+                closeAdminForm();
+            }
+
             document.querySelectorAll('.nav-menu-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('menu-' + view).classList.add('active');
+            
             if (view === 'all') {
-                document.getElementById('filter-wrapper').classList.add('d-none'); renderMainDashboard();
+                document.getElementById('filter-wrapper').classList.add('d-none'); 
+                document.getElementById('main-homepage-content-area').classList.remove('d-none');
+                renderMainDashboard();
             } else {
                 document.getElementById('filter-wrapper').classList.toggle('d-none', view === 'school');
-                document.getElementById('filter-dept').value = 'ALL'; renderCategoryView(view, allAwardsData[view]);
+                document.getElementById('main-homepage-content-area').classList.remove('d-none');
+                document.getElementById('filter-dept').value = 'ALL'; 
+                renderCategoryView(view, allAwardsData[view]);
             }
         }
 
@@ -411,7 +424,6 @@
             const zone = document.getElementById('dynamic-display-zone');
             zone.innerHTML = '';
             
-            // ปรับแต่งโครงสร้างของตัวแสดงส่วนหัวใจหลักให้แยกคลาสเส้นคั่น (sep-...) และคลาสหัวการ์ด (header-bg-...)
             const cats = [
                 { key: 'school', title: 'รางวัลเกียรติยศระดับสถานศึกษา', icon: 'fa-building-columns', sepStyle: 'sep-school', headerBg: 'header-bg-school', boxStyle: 'box-school' },
                 { key: 'staff', title: 'รางวัลครูและบุคลากรทางการศึกษา', icon: 'fa-user-tie', sepStyle: 'sep-staff', headerBg: 'header-bg-staff', boxStyle: 'box-staff' },
@@ -422,7 +434,6 @@
                 let items = allAwardsData[cat.key] || [];
                 let limitedItems = items.slice(-12).reverse(); 
                 
-                // ปรับจาก Badge เป็นโครงสร้างเส้นคั่นขนาดใหญ่ (Section Separator) 
                 let sectionHtml = `
                     <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center mb-2 px-1">
@@ -439,19 +450,35 @@
             });
         }
 
+        /* 📌 ปรับปรุงจุดที่ 1: ใส่เส้นคั่นสวยงามที่หัวข้อใหญ่ด้านบนตอนกดดูแบบแยกประเภทด้วย */
         function renderCategoryView(key, items) {
             const zone = document.getElementById('dynamic-display-zone');
-            zone.innerHTML = `<div class="row g-3" id="focused-grid"></div>`;
             
-            const headerBg = key === 'school' ? 'header-bg-school' : key === 'staff' ? 'header-bg-staff' : 'header-bg-student';
-            const boxStyle = key === 'school' ? 'box-school' : key === 'staff' ? 'box-staff' : 'box-student';
+            const catMeta = {
+                'school': { title: 'รางวัลเกียรติยศระดับสถานศึกษา (ทั้งหมด)', icon: 'fa-building-columns', sepStyle: 'sep-school', headerBg: 'header-bg-school', boxStyle: 'box-school' },
+                'staff': { title: 'รางวัลครูและบุคลากรทางการศึกษา (ทั้งหมด)', icon: 'fa-user-tie', sepStyle: 'sep-staff', headerBg: 'header-bg-staff', boxStyle: 'box-staff' },
+                'student': { title: 'รางวัลนักเรียนผู้สร้างชื่อเสียง (ทั้งหมด)', icon: 'fa-graduation-cap', sepStyle: 'sep-student', headerBg: 'header-bg-student', boxStyle: 'box-student' }
+            };
+
+            const currentCat = catMeta[key];
+
+            // สร้างเส้นคั่นประเภทแปะไว้ด้านบนสุดของหน้าแยกหมวดหมู่
+            zone.innerHTML = `
+                <div class="mb-4">
+                    <div class="section-separator ${currentCat.sepStyle} w-100">
+                        <h5><i class="fa-solid ${currentCat.icon} me-2"></i>${currentCat.title}</h5>
+                        <div class="line-decor"></div>
+                    </div>
+                </div>
+                <div class="row g-3" id="focused-grid"></div>
+            `;
             
-            buildGridCards('focused-grid', [...items].reverse(), key, headerBg, boxStyle);
+            buildGridCards('focused-grid', [...items].reverse(), key, currentCat.headerBg, currentCat.boxStyle);
         }
 
-        /* 📌 เรนเดอร์การ์ด แถวละ 4 พร้อมเปลี่ยนสีหัวการ์ดตามพารามิเตอร์ headerBg */
         function buildGridCards(gridId, items, type, headerBg, boxStyle) {
             const grid = document.getElementById(gridId);
+            if(!grid) return;
             grid.innerHTML = '';
             if (!items.length) { grid.innerHTML = '<div class="col-12"><p class="text-center text-muted small py-3">ยังไม่มีข้อมูลรายการรางวัลในระบบ</p></div>'; return; }
             
@@ -502,6 +529,42 @@
             });
         }
 
+        /* 📌 ปรับปรุงจุดที่ 2: ฟังก์ชันควบคุมการซ่อนเเละแสดงผลข้อมูลหน้าเเรกเวลาเรียกใช้ Form */
+        function openAdminForm() { 
+            // 1. เปิดแสดงฟอร์มบันทึกข้อมูล
+            document.getElementById('admin-form-section').classList.remove('d-none'); 
+            
+            // 2. ซ่อนส่วนแบนเนอร์, แถบกรอง และโซนแสดงผลการ์ดรางวัลทั้งหมดลงไป
+            document.getElementById('main-homepage-content-area').classList.add('d-none');
+            document.getElementById('filter-wrapper').classList.add('d-none');
+            document.getElementById('dynamic-display-zone').classList.add('d-none');
+            
+            window.scrollTo({top:0, behavior:'smooth'}); 
+        }
+        
+        function closeAdminForm() { 
+            // 1. ซ่อนฟอร์มบันทึกข้อมูล
+            document.getElementById('admin-form-section').classList.add('d-none'); 
+            
+            // 2. คืนค่าแสดงผลแบนเนอร์เเละโซนข้อมูลการ์ดกลับมาตามปกติ
+            document.getElementById('main-homepage-content-area').classList.remove('d-none');
+            document.getElementById('dynamic-display-zone').classList.remove('d-none');
+            
+            // คืนค่าการแสดงตัวกรองแผนกหากผู้ใช้เคยเลือกหน้าประเภทค้างไว้ก่อนกดเปิดฟอร์ม
+            if (currentActiveView !== 'all' && currentActiveView !== 'school') {
+                document.getElementById('filter-wrapper').classList.remove('d-none');
+            }
+
+            studentTeamList = []; 
+            renderStudentTags(); 
+        }
+
+        function handleSuccessClose() {
+            bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
+            // เมื่อเสร็จสิ้นกระบวนการ ตัวแปรจำลองจะรีเซ็ตกลับสู่หน้าแดชบอร์ดอัปเดตล่าสุด
+            location.reload();
+        }
+
         function addStudentNameToTeam() {
             const input = document.getElementById('form-name');
             const val = input.value.trim();
@@ -535,9 +598,6 @@
                 c.style.display = (val === 'ALL' || c.getAttribute('data-dept') === val) ? 'block' : 'none';
             });
         }
-
-        function openAdminForm() { document.getElementById('admin-form-section').classList.remove('d-none'); window.scrollTo({top:0, behavior:'smooth'}); }
-        function closeAdminForm() { document.getElementById('admin-form-section').classList.add('d-none'); studentTeamList = []; renderStudentTags(); }
         
         function adjustFormFields() {
             const type = document.getElementById('form-type').value;
@@ -552,11 +612,6 @@
             document.getElementById('label-name').innerText = isStudent ? 'รายชื่อนักเรียน (พิมพ์ชื่อทีละคนเเล้วคลิกปุ่มเพิ่มชื่อ)' : 'ชื่อ-นามสกุล คุณครู / บุคลากรผู้ได้รับรางวัล';
             studentTeamList = []; 
             renderStudentTags();
-        }
-
-        function handleSuccessClose() {
-            bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
-            location.reload();
         }
 
         function uploadAndSave() {
