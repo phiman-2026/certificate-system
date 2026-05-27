@@ -437,7 +437,21 @@
         <iframe id="pdfAppFrame" style="width:100%; flex:1; border:none;" src=""></iframe>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="modal fade" id="statusNotifyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 15px 30px rgba(0,0,0,0.18);">
+                <div class="modal-body text-center p-4">
+                    <div id="notify-icon-container" class="mb-3" style="font-size: 4.5rem;">
+                        </div>
+                    <h4 id="notify-title" class="fw-bold mb-2"></h4>
+                    <p id="notify-message" class="text-secondary small mb-4"></p>
+                    <button type="button" class="btn btn-primary w-100 py-2.5 fw-bold" style="border-radius: 12px; background: var(--pms-main); border: none;" data-bs-dismiss="modal">ตกลง</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
         let allAwardsData = {};
@@ -446,9 +460,7 @@
 
         window.onload = function() { 
             loadDataFromServerSilently(); 
-            handleFormTypeChange(); // เรียกใช้งานเพื่อตั้งค่าฟอร์มเริ่มต้นตอนเปิดหน้าแรก
-            
-            // ซ่อนตัวเลือกกลุ่มสาระที่แถบด้านบนสุดไว้ตอนเปิดแอปครั้งแรก (หน้า Welcome)
+            handleFormTypeChange(); 
             document.getElementById('app-dept-select').style.display = 'none';
         };
 
@@ -462,7 +474,6 @@
                 .catch(err => console.error("Error fetching data backend silently: ", err));
         }
 
-        /* 🔄 ฟังก์ชันควบคุมการแสดงผลฟิลด์ข้อมูลในฟอร์มตามประเภทรางวัลที่เลือก */
         function handleFormTypeChange() {
             const type = document.getElementById('form-type').value;
             const deptContainer = document.getElementById('form-dept-container');
@@ -612,11 +623,10 @@
             });
         }
 
-        /* 📝 ฟังก์ชันเปิดหน้าฟอร์มบันทึกรางวัล */
         function openAppSheet() {
-            document.getElementById('main-honor-form').reset(); // เคลียร์ข้อมูลเก่าในฟอร์มออกก่อน
-            document.getElementById('form-year').value = "2569"; // ตั้งค่าปีปัจจุบันเริ่มต้น
-            handleFormTypeChange(); // จัดระเบียบหน้าฟอร์มตามประเภทเริ่มต้น
+            document.getElementById('main-honor-form').reset(); 
+            document.getElementById('form-year').value = "2569"; 
+            handleFormTypeChange(); 
             
             document.getElementById('app-sheet-form').classList.remove('d-none');
             document.getElementById('app-main-scroll-zone').classList.add('d-none');
@@ -625,7 +635,6 @@
             document.querySelector('.fab-btn').classList.add('d-none');
         }
 
-        /* ❌ ฟังก์ชันปิดฟอร์มและกลับหน้าหลัก */
         function closeAppSheet() {
             document.getElementById('app-sheet-form').classList.add('d-none');
             document.getElementById('app-main-scroll-zone').classList.remove('d-none');
@@ -634,7 +643,25 @@
             document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
-        /* ➕ ฟังก์ชันประมวลผลอัปโหลดไฟล์และบันทึกข้อมูลส่งไปหลังบ้าน */
+        /* 👑 ฟังก์ชันจัดการเปิดแสดงผลกล่อง Modal แจ้งเตือนสถานะความสวยงาม */
+        function showNotification(isSuccess, title, message) {
+            const iconContainer = document.getElementById('notify-icon-container');
+            document.getElementById('notify-title').innerText = title;
+            document.getElementById('notify-message').innerText = message;
+
+            if (isSuccess) {
+                iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success animate__animated animate__zoomIn"></i>`;
+                document.getElementById('notify-title').style.color = "#198754"; // สีเขียว
+            } else {
+                iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger animate__animated animate__shakeX"></i>`;
+                document.getElementById('notify-title').style.color = "#dc3545"; // สีแดง
+            }
+
+            // สั่งเปิด Modal ของ Bootstrap ด้วย JavaScript
+            const notifyModal = new bootstrap.Modal(document.getElementById('statusNotifyModal'));
+            notifyModal.show();
+        }
+
         function uploadAndSave() {
             const btnSubmit = document.getElementById('btn-submit-save');
             const type = document.getElementById('form-type').value;
@@ -645,33 +672,30 @@
             const name = document.getElementById('form-name').value.trim();
             const fileInput = document.getElementById('form-file');
 
-            // 1. Validation ตรวจเช็คข้อมูลพื้นฐานว่ากรอกครบถ้วนหรือไม่
+            // เปลี่ยนจาก alert() ดั้งเดิม มาใช้ Modal แจ้งเตือนแบบสวยงามแทน
             if (!year || !giver || !title || !name) {
-                alert('⚠️ กรุณากรอกข้อมูลในฟอร์มให้ครบถ้วนทุกช่องก่อนบันทึกค่ะ');
+                showNotification(false, 'กรอกข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลในฟอร์มให้ครบถ้วนทุกช่องก่อนบันทึกนะคะ');
                 return;
             }
 
             if (fileInput.files.length === 0) {
-                alert('⚠️ กรุณาแนบไฟล์เกียรติบัตร (PDF) เพื่อทำการบันทึกข้อมูลค่ะ');
+                showNotification(false, 'ไม่พบไฟล์แนบ', 'กรุณาแนบไฟล์เกียรติบัตร (PDF) เพื่อทำการบันทึกข้อมูลค่ะ');
                 return;
             }
 
             const file = fileInput.files[0];
             if (file.type !== "application/pdf") {
-                alert('⚠️ ระบบรองรับเฉพาะไฟล์รูปแแบบ PDF เท่านั้นค่ะ');
+                showNotification(false, 'ไฟล์ไม่ถูกต้อง', 'ระบบรองรับเฉพาะรูปแแบบไฟล์ PDF เท่านั้นนะคะ');
                 return;
             }
 
-            // เปลี่ยนสถานะปุ่มกดเพื่อป้องกันผู้ใช้งานกดบันทึกซ้ำซ้อนซ้ำซาก
             btnSubmit.disabled = true;
-            btnSubmit.innerHTML = `<span class="spinner-border spinner-border-smme-2" role="status" aria-hidden="true"></span> กำลังบันทึกข้อมูล...`;
+            btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> กำลังบันทึกข้อมูล...`;
 
-            // 2. แปลงไฟล์ PDF เป็น Base64 string เพื่อส่งไปที่ Google Apps Script
             const reader = new FileReader();
             reader.onload = function(e) {
                 const base64Data = e.target.result.split(',')[1];
                 
-                // จัดโครงสร้าง Object ข้อมูลที่จะส่งไปที่ Code.gs หลังบ้าน
                 const payload = {
                     action: "insertReward",
                     type: type,
@@ -685,7 +709,6 @@
                     fileData: base64Data
                 };
 
-                // 3. ส่ง Request ข้อมูลทั้งหมดไปที่ Web App Google Apps Script 
                 fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
@@ -693,24 +716,23 @@
                 .then(res => res.json())
                 .then(response => {
                     if (response.status === 'success' || response.result === 'success') {
-                        alert('🎉 บันทึกผลงานรางวัลเกียรติยศลงในระบบสำเร็จเรียบร้อยแล้วค่ะ!');
+                        // 🌟 เรียกใช้ Modal แจ้งเตือนเมื่อสำเร็จแบบสวยงาม
+                        showNotification(true, 'บันทึกข้อมูลสำเร็จ', 'ระบบได้ทำการบันทึกข้อมูลรางวัลเกียรติยศลงฐานข้อมูลเรียบร้อยแล้วค่ะ');
                         closeAppSheet();
-                        // สั่งโหลดข้อมูลหลังบ้านใหม่และทำการ Render อัปเดตหน้าจอทันที
                         loadDataFromServerSilently();
                         setTimeout(() => { 
                             if(currentTab === 'welcome') currentTab = 'all';
                             renderAppContent(); 
                         }, 1500);
                     } else {
-                        alert('❌ เกิดข้อผิดพลาดจากระบบหลังบ้าน: ' + (response.message || 'ไม่สามารถบันทึกได้'));
+                        showNotification(false, 'เกิดข้อผิดพลาด', response.message || 'ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบสิทธิ์ระบบหลังบ้าน');
                     }
                 })
                 .catch(err => {
                     console.error("Error saving record: ", err);
-                    alert('❌ ไม่สามารถติดต่อเชื่อมต่อกับเซิร์ฟเวอร์ระบบได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ');
+                    showNotification(false, 'การเชื่อมต่อล้มเหลว', 'ไม่สามารถเชื่อมต่อกับหลังบ้านได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ');
                 })
                 .finally(() => {
-                    // คืนค่าปุ่มให้กลับมาพร้อมกดใช้งานเหมือนเดิม
                     btnSubmit.disabled = false;
                     btnSubmit.innerHTML = 'บันทึกข้อมูล';
                 });
@@ -719,18 +741,16 @@
             reader.readAsDataURL(file);
         }
 
-        /* 📄 ฟังก์ชันเปิดหน้าต่าง Viewer ตรวจสอบ PDF */
         function openAppViewer(encodedUrl) {
             const url = decodeURIComponent(encodedUrl);
             if(!url) {
-                alert("⚠️ ไม่พบลิงก์เอกสารเกียรติบัตรของรางวัลนี้ค่ะ");
+                showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
                 return;
             }
             document.getElementById('pdfAppFrame').src = url;
             document.getElementById('app-viewer-modal').classList.remove('d-none');
         }
 
-        /* ❌ ฟังก์ชันปิดหน้าต่าง Viewer */
         function closeAppViewer() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
             document.getElementById('pdfAppFrame').src = "";
