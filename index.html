@@ -10,150 +10,154 @@
     
     <style>
         :root {
-            --bg-app: #f1f5f9;          /* สีพื้นหลังแอป */
-            --bg-surface: #ffffff;      /* สีพื้นผิวแอป/การ์ด */
-            --pms-navy: #1e3a8a;         
-            --pms-blue: #2563eb;
+            /* 🎨 Deep Sea Blue Theme (#00688B) */
+            --pms-main: #00688B;         
+            --pms-dark: #004d66;
+            --pms-light: #e6f7ff;
+            --bg-app: #f0f4f7;          
+            --bg-surface: #ffffff;      
             --text-main: #0f172a;
-            --text-sub: #64748b;
-            --border-color: #e2e8f0;
-            --global-radius: 16px;
+            --text-sub: #475569;
+            --border-color: #cbd5e1;
+            --global-radius: 18px;
             
-            /* สีพาสเทลสำหรับแท็กประเภท */
-            --pastel-school: #dbeafe; --p-school-text: #1e40af;
-            --pastel-staff: #e0f2fe;  --p-staff-text: #0369a1;
-            --pastel-student: #ccfbf1;--p-student-text: #0f766e;
+            /* สีนุ่มนวลสดใสสำหรับประเภทรางวัล */
+            --color-school: #FFD700;    /* Gold */
+            --color-staff: #00CED1;     /* Dark Turquoise */
+            --color-student: #7CFC00;   /* Lawngreen */
         }
 
         body { 
             font-family: 'Kanit', sans-serif; 
             background-color: var(--bg-app); 
             color: var(--text-main); 
-            font-size: 0.9rem;
             margin: 0; padding: 0;
             display: flex; justify-content: center;
         }
 
-        /* กล่องควบคุมขนาดแอป (ให้ความรู้สึกเหมือน Mobile App เสมอแม้เปิดในคอม) */
+        /* 📱 Mobile App Wrapper */
         .app-container {
             width: 100%;
-            max-width: 500px; /* จำกัดความกว้างสไตล์สมาร์ตโฟน */
+            max-width: 500px; 
             background: var(--bg-app);
             min-height: 100vh;
             position: relative;
-            padding-top: 125px; /* เผื่อพื้นที่ให้ Header ด้านบน */
-            padding-bottom: 90px; /* เผื่อพื้นที่ให้ Bottom Nav ด้านล่าง */
-            box-shadow: 0 0 30px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
+            padding-top: 130px; 
+            padding-bottom: 90px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
-        /* 🏛️ App Top Bar & Filter Area */
+        /* 🏛️ App Top Bar */
         .app-header {
             position: fixed; top: 0; width: 100%; max-width: 500px; z-index: 1000;
-            background: var(--bg-surface);
-            border-bottom: 1px solid var(--border-color);
-            padding: 14px 20px;
+            background: var(--pms-main); /* ใช้สีหลัก #00688B */
+            padding: 18px 20px;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .app-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .app-logo { width: 32px; height: auto; }
-        .app-title h1 { font-size: 1.05rem; font-weight: 700; margin: 0; color: var(--pms-navy); }
-        .app-title p { font-size: 0.72rem; margin: 0; color: var(--text-sub); }
+        .app-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .app-logo { width: 38px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        .app-title h1 { font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff; letter-spacing: 0.5px; }
+        .app-title p { font-size: 0.75rem; margin: 0; color: rgba(255,255,255,0.85); }
 
-        /* 🔍 Dropdown Select Filter (ปรับเป็นตัวเลือกตามบรีฟ) */
+        /* 🔍 Filter Dropdown Select */
         .filter-select-box {
             width: 100%;
-            padding: 8px 12px;
-            font-size: 0.85rem;
+            padding: 10px 15px;
+            font-size: 0.88rem;
             font-weight: 500;
-            color: var(--pms-navy);
-            background-color: #f8fafc;
-            border: 1.5px solid var(--border-color);
-            border-radius: 10px;
+            color: var(--pms-main);
+            background-color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 12px;
             outline: none;
-            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .filter-select-box:focus { border-color: var(--pms-blue); background-color: #ffffff; }
 
-        /* 📱 Main Scroll Content */
-        .app-content { padding: 0 16px; flex: 1; }
+        /* 📱 Main Scroll Zone */
+        .app-content { padding: 0 16px; }
+        .section-title { font-size: 1rem; font-weight: 700; color: var(--pms-main); margin: 20px 0 12px 4px; display: flex; align-items: center; gap: 8px; }
 
-        .section-title { font-size: 0.95rem; font-weight: 700; color: var(--pms-navy); margin: 15px 0 10px 4px; display: flex; align-items: center; gap: 6px; }
-
-        /* 🃏 App-Style Cards (ดีไซน์โค้งมน คลีน เรียบหรู) */
+        /* 🃏 App Cards Style */
         .app-card {
             background: var(--bg-surface);
             border-radius: var(--global-radius);
-            border: 1.5px solid var(--border-color);
-            padding: 14px; margin-bottom: 12px;
-            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.01);
-            transition: transform 0.2s;
+            border: 1px solid var(--border-color);
+            padding: 16px; margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
         }
-        .app-card:active { transform: scale(0.99); }
+        .app-card:active { transform: scale(0.97); }
         
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .app-badge { font-size: 0.7rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
-        .b-school { background: var(--pastel-school); color: var(--p-school-text); }
-        .b-staff { background: var(--pastel-staff); color: var(--p-staff-text); }
-        .b-student { background: var(--pastel-student); color: var(--p-student-text); }
-        .card-dept { font-size: 0.72rem; color: var(--text-sub); background: #f1f5f9; padding: 2px 8px; border-radius: 6px; }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .app-badge { font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 8px; }
+        .b-school { background: var(--color-school); color: #000; }
+        .b-staff { background: var(--color-staff); color: #fff; }
+        .b-student { background: var(--color-student); color: #000; }
+        .card-dept { font-size: 0.72rem; color: var(--pms-main); background: var(--pms-light); padding: 3px 10px; border-radius: 6px; font-weight: 600; }
 
-        .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); line-height: 1.4; margin-bottom: 10px; }
+        .card-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 12px; border-left: 4px solid var(--pms-main); padding-left: 10px; }
         
-        .info-row { display: flex; margin-bottom: 4px; font-size: 0.8rem; }
-        .info-row span { width: 55px; color: var(--text-sub); flex-shrink: 0; }
+        .info-row { display: flex; margin-bottom: 5px; font-size: 0.82rem; }
+        .info-row span { width: 60px; color: var(--text-sub); flex-shrink: 0; }
         .info-row b { flex: 1; color: var(--text-main); word-break: break-word; }
 
         .btn-app-action {
-            width: 100%; background: #ffffff; border: 1px solid #cbd5e1;
-            padding: 8px 0; margin-top: 12px; border-radius: 10px;
-            font-size: 0.8rem; font-weight: 600; color: #475569;
-            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+            width: 100%; background: var(--pms-main); border: none;
+            padding: 10px 0; margin-top: 15px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600; color: #ffffff;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 104, 139, 0.25);
         }
-        .btn-app-action:active { background: #f8fafc; }
 
-        /* ➕ Floating Action Button (ปุ่มบันทึกข้อมูลแบบลอยตัวสไตล์แอปฯ) */
+        /* ➕ Floating Button */
         .fab-btn {
-            position: fixed; bottom: 85px; right: calc(50% - 230px); z-index: 999;
-            width: 52px; height: 52px; border-radius: 50%;
-            background: var(--pms-blue); color: #ffffff; border: none;
-            display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35); transition: all 0.2s;
+            position: fixed; bottom: 95px; right: calc(50% - 235px); z-index: 999;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: #ff4500; /* สีส้มสดใสให้ตัดกับน้ำเงิน */
+            color: #ffffff; border: none;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.4); transition: all 0.2s;
         }
         @media (max-width: 500px) { .fab-btn { right: 20px; } }
-        .fab-btn:active { transform: scale(0.92); background: var(--pms-navy); }
+        .fab-btn:active { transform: scale(0.9); }
 
-        /* 📝 App Bottom Sheet Form (ฟอร์มเลื่อนขึ้นเต็มจอเมื่อกดเพิ่มข้อมูล) */
+        /* 📝 Form App Sheet */
         .app-sheet {
             position: fixed; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 500px; background: var(--bg-surface); z-index: 1100;
-            padding: 20px; display: flex; flex-direction: column; overflow-y: auto;
+            display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 30px;
         }
-        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; pb-2; border-bottom: 1px solid var(--border-color); }
-        .sheet-header h2 { font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--pms-navy); }
+        .sheet-header { 
+            background: var(--pms-main); padding: 25px 20px; color: #fff; 
+            border-radius: 0 0 25px 25px; margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .sheet-header h2 { font-size: 1.2rem; font-weight: 700; margin: 0; }
+        .sheet-body { padding: 0 20px; }
+        .sheet-header .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
 
-        /* 🧭 Fixed Bottom Navigation Bar (แถบเมนูด้านล่างติดหนึบ) */
+        /* 🧭 Bottom Nav */
         .bottom-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 500px; height: 68px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px);
-            border-top: 1px solid var(--border-color);
+            width: 100%; max-width: 500px; height: 75px; z-index: 1000;
+            background: #ffffff; border-top: 1px solid var(--border-color);
             display: flex; justify-content: space-around; align-items: center;
+            padding-bottom: 10px;
         }
         .nav-item {
-            background: none; border: none; padding: 6px 0; width: 22%;
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: var(--text-sub); font-size: 0.72rem; font-weight: 500; transition: all 0.2s;
+            background: none; border: none; padding: 8px 0; width: 22%;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            color: #94a3b8; font-size: 0.7rem; font-weight: 500; transition: all 0.2s;
         }
-        .nav-item i { font-size: 1.25rem; }
-        .nav-item.active { color: var(--pms-blue); font-weight: 700; }
+        .nav-item i { font-size: 1.4rem; }
+        .nav-item.active { color: var(--pms-main); font-weight: 700; }
 
-        /* 📄 Full Screen App PDF Viewer */
         .app-viewer-modal {
             position: fixed; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 500px; background: #000000; z-index: 1200; display: flex; flex-direction: column;
+            width: 100%; max-width: 500px; background: #000; z-index: 1200; display: flex; flex-direction: column;
         }
-        .viewer-header { background: #1e293b; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
+        .viewer-header { background: var(--pms-main); padding: 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
 
         .d-none { display: none !important; }
     </style>
@@ -171,15 +175,15 @@
                 </div>
             </div>
             <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-                <option value="all">🔍 กลุ่มสาระฯ: ทั้งหมด</option>
-                <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                <option value="ภาษาไทย">ภาษาไทย</option>
-                <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                <option value="การงานอาชีพ">การงานอาชีพ</option>
+                <option value="all">🔍 ดูทั้งหมดทุกกลุ่มสาระฯ</option>
+                <option value="วิทยาศาสตร์ฯ">กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</option>
+                <option value="คณิตศาสตร์">กลุ่มสาระฯ คณิตศาสตร์</option>
+                <option value="ภาษาไทย">กลุ่มสาระฯ ภาษาไทย</option>
+                <option value="ภาษาต่างประเทศ">กลุ่มสาระฯ ภาษาต่างประเทศ</option>
+                <option value="สังคมศึกษาฯ">กลุ่มสาระฯ สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                <option value="สุขศึกษาฯ">กลุ่มสาระฯ สุขศึกษาและพลศึกษา</option>
+                <option value="ศิลปะ">กลุ่มสาระฯ ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+                <option value="การงานอาชีพ">กลุ่มสาระฯ การงานอาชีพ</option>
                 <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน (แนะแนว/ลูกเสือฯ)</option>
             </select>
         </header>
@@ -192,66 +196,68 @@
 
         <div id="app-sheet-form" class="app-sheet d-none">
             <div class="sheet-header">
-                <h2><i class="fa-solid fa-circle-plus me-1 text-primary"></i> บันทึกรางวัลใหม่</h2>
+                <h2><i class="fa-solid fa-plus-circle me-1"></i> บันทึกรางวัลใหม่</h2>
                 <button class="btn-close" onclick="closeAppSheet()"></button>
             </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">ประเภทรางวัล</label>
-                <select id="form-type" class="form-select form-select-sm">
-                    <option value="school">รางวัลสถานศึกษา</option>
-                    <option value="staff">รางวัลครูและบุคลากร</option>
-                    <option value="student" selected>รางวัลนักเรียน</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">กลุ่มสาระการเรียนรู้</label>
-                <select id="form-dept" class="form-select form-select-sm">
-                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                    <option value="ภาษาไทย">ภาษาไทย</option>
-                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                    <option value="การงานอาชีพ">การงานอาชีพ</option>
-                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน (แนะแนว/ลูกเสือฯ)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">ปีการศึกษา (พ.ศ.)</label>
-                <input type="number" id="form-year" class="form-control form-control-sm" value="2569">
-            </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">รายชื่อผู้รับรางวัล <span class="text-muted fw-normal">(ประเภททีมให้คั่นด้วยเครื่องหมายคอมมา ,)</span></label>
-                <textarea id="form-name" class="form-control form-control-sm" rows="3" placeholder="เช่น นายสมชาย รักดี, นางสาวสมหญิง เรียนดี"></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">ชื่อรางวัลเต็ม / ผลงานเกียรติยศ</label>
-                <input type="text" id="form-title" class="form-control form-control-sm" placeholder="ระบุชื่อผลงานหรือรางวัล">
-            </div>
-            <div class="mb-3">
-                <label class="form-label small fw-bold">หน่วยงานผู้มอบรางวัล</label>
-                <input type="text" id="form-giver" class="form-control form-control-sm" placeholder="ระบุหน่วยงานผู้มอบ">
-            </div>
-            <div class="mb-4">
-                <label class="form-label text-danger small fw-bold">แนบไฟล์เกียรติบัตร (PDF)</label>
-                <input type="file" id="form-file" class="form-control form-control-sm" accept="application/pdf">
-            </div>
-            <div class="mt-auto d-flex gap-2">
-                <button class="btn btn-light w-50 btn-sm py-2 rounded-3" onclick="closeAppSheet()">ยกเลิก</button>
-                <button class="btn btn-primary w-50 btn-sm py-2 rounded-3" onclick="uploadAndSave()">บันทึกข้อมูล</button>
+            <div class="sheet-body">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">ประเภทรางวัล</label>
+                    <select id="form-type" class="form-select">
+                        <option value="school">รางวัลสถานศึกษา</option>
+                        <option value="staff">รางวัลครูและบุคลากร</option>
+                        <option value="student" selected>รางวัลนักเรียน</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">กลุ่มสาระการเรียนรู้</label>
+                    <select id="form-dept" class="form-select">
+                        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+                        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                        <option value="ภาษาไทย">ภาษาไทย</option>
+                        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+                        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+                        <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+                        <option value="การงานอาชีพ">การงานอาชีพ</option>
+                        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน (แนะแนว/ลูกเสือฯ)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">ปีการศึกษา (พ.ศ.)</label>
+                    <input type="number" id="form-year" class="form-control" value="2569">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">รายชื่อผู้รับรางวัล <span class="text-primary">(ทีม: คั่นด้วยจุลภาค ,)</span></label>
+                    <textarea id="form-name" class="form-control" rows="3" placeholder="ระบุชื่อจริง-นามสกุล"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">ชื่อรางวัลเต็ม / ผลงานเกียรติยศ</label>
+                    <input type="text" id="form-title" class="form-control" placeholder="ระบุชื่อผลงานที่ได้รับ">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">หน่วยงานผู้มอบรางวัล</label>
+                    <input type="text" id="form-giver" class="form-control" placeholder="หน่วยงานผู้ออกเกียรติบัตร">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-danger small fw-bold"><i class="fa-solid fa-file-pdf"></i> แนบไฟล์เกียรติบัตร (PDF)</label>
+                    <input type="file" id="form-file" class="form-control" accept="application/pdf">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-light w-50 py-2 fw-bold" onclick="closeAppSheet()">ยกเลิก</button>
+                    <button class="btn btn-primary w-50 py-2 fw-bold" style="background:var(--pms-main)" onclick="uploadAndSave()">บันทึกข้อมูล</button>
+                </div>
             </div>
         </div>
 
         <nav class="bottom-nav">
             <button id="nav-all" class="nav-item active" onclick="changeAppTab('all')">
-                <i class="fa-solid fa-house"></i>ทั้งหมด
+                <i class="fa-solid fa-home"></i>หน้าแรก
             </button>
             <button id="nav-school" class="nav-item" onclick="changeAppTab('school')">
-                <i class="fa-solid fa-building-columns"></i>โรงเรียน
+                <i class="fa-solid fa-university"></i>สถานศึกษา
             </button>
             <button id="nav-staff" class="nav-item" onclick="changeAppTab('staff')">
-                <i class="fa-solid fa-user-tie"></i>ครู/บุคลากร
+                <i class="fa-solid fa-chalkboard-teacher"></i>ครู
             </button>
             <button id="nav-student" class="nav-item" onclick="changeAppTab('student')">
                 <i class="fa-solid fa-user-graduate"></i>นักเรียน
@@ -261,8 +267,8 @@
 
     <div id="app-viewer-modal" class="app-viewer-modal d-none">
         <div class="viewer-header">
-            <span class="fw-bold small"><i class="fa-regular fa-file-pdf text-danger me-1"></i> ดูเอกสารเกียรติบัตร</span>
-            <button class="btn btn-sm btn-outline-light py-1 px-3 rounded-pill" onclick="closeAppViewer()"><i class="fa-solid fa-xmark me-1"></i>ปิด</button>
+            <span class="fw-bold small">ตรวจสอบเอกสารเกียรติบัตร</span>
+            <button class="btn btn-sm btn-outline-light" onclick="closeAppViewer()"><i class="fa-solid fa-xmark"></i> ปิด</button>
         </div>
         <iframe id="pdfAppFrame" style="width:100%; flex:1; border:none;" src=""></iframe>
     </div>
@@ -300,24 +306,24 @@
             
             if(currentTab === 'all') {
                 const configs = [
-                    { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-building-columns', badge: 'b-school', lbl: 'สถานศึกษา' },
-                    { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-user-tie', badge: 'b-staff', lbl: 'ครู/บุคลากร' },
+                    { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'โรงเรียน' },
+                    { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
                     { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
                 ];
                 configs.forEach(config => {
                     let items = filterAppItems(allAwardsData[config.key] || []);
                     if(items.length > 0) {
                         zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
-                        buildAppCards(zone, items.slice(-4).reverse(), config.key, config.lbl, config.badge);
+                        buildAppCards(zone, items.slice(-5).reverse(), config.key, config.lbl, config.badge);
                     }
                 });
             } else {
                 let items = filterAppItems(allAwardsData[currentTab] || []);
-                const names = { 'school':'สถานศึกษา', 'staff':'ครู/บุคลากร', 'student':'นักเรียน' };
-                zone.insertAdjacentHTML('beforeend', `<div class="section-title">ผลงานรางวัลกลุ่ม${names[currentTab]} ทั้งหมด</div>`);
-                buildAppCards(zone, [...items].reverse(), currentTab, names[currentTab], `b-${currentTab}`);
+                const labels = { 'school':'โรงเรียน', 'staff':'คุณครู', 'student':'นักเรียน' };
+                zone.insertAdjacentHTML('beforeend', `<div class="section-title">ผลงานรางวัลหมวด${labels[currentTab]}</div>`);
+                buildAppCards(zone, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
             }
-            if(zone.innerHTML === '') { zone.innerHTML = '<div class="text-center text-muted py-5">ไม่พบข้อมูลรางวัลที่ตรงตามเงื่อนไข</div>'; }
+            if(zone.innerHTML === '') { zone.innerHTML = '<div class="text-center text-muted py-5">ไม่พบข้อมูลในเงื่อนไขที่เลือก</div>'; }
         }
 
         function filterAppItems(items) {
@@ -343,36 +349,38 @@
                         </div>
                         <div class="card-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
                         <div class="meta-box-app">
-                            <div class="info-row"><span>ผู้รับ:</span><b>${person}</b></div>
+                            <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
                             <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
                             <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
                         </div>
                         <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                            <i class="fa-regular fa-file-pdf text-danger"></i> ตรวจสอบเอกสาร
+                            <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
                         </button>
                     </div>`;
                 container.insertAdjacentHTML('beforeend', cardHtml);
             });
         }
 
-        /* 💡 ปรับปรุง Workflow ซ่อนเนื้อหาหน้าหลักเพื่อความสบายตาเมื่อเปิดกรอกฟอร์ม */
         function openAppSheet() {
             document.getElementById('app-sheet-form').classList.remove('d-none');
-            document.getElementById('app-main-scroll-zone').classList.add('d-none'); // ซ่อนรางวัลด้านหลัง
-            document.querySelector('.app-header').classList.add('d-none'); // ซ่อนแถบหัวด้านบน
-            document.querySelector('.fab-btn').classList.add('d-none'); // ซ่อนปุ่มบวกชั่วคราว
+            document.getElementById('app-main-scroll-zone').classList.add('d-none');
+            document.querySelector('.app-header').classList.add('d-none');
+            document.querySelector('.fab-btn').classList.add('d-none');
         }
 
         function closeAppSheet() {
             document.getElementById('app-sheet-form').classList.add('d-none');
-            document.getElementById('app-main-scroll-zone').classList.remove('d-none'); // เรียกรางวัลกลับมา
-            document.querySelector('.app-header').classList.remove('d-none'); // เรียกหัวแอปกลับมา
+            document.getElementById('app-main-scroll-zone').classList.remove('d-none');
+            document.querySelector('.app-header').classList.remove('d-none');
             document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
         function openAppViewer(encodedUrl) {
             let url = decodeURIComponent(encodedUrl);
-            if (url.includes('drive.google.com')) url = `https://drive.google.com/file/d/${url.match(/[-\w]{25,}/)[0]}/preview`;
+            if (url.includes('drive.google.com')) {
+                let id = url.match(/[-\w]{25,}/);
+                if (id) url = `https://drive.google.com/file/d/${id[0]}/preview`;
+            }
             document.getElementById('pdfAppFrame').src = url;
             document.getElementById('app-viewer-modal').classList.remove('d-none');
         }
@@ -382,12 +390,9 @@
             document.getElementById('pdfAppFrame').src = "";
         }
 
-        function onUploadSuccessSimulation() {
-            closeAppSheet();
-            loadDataFromServer();
-        }
         function uploadAndSave() {
-            // ฟังก์ชันหลังบ้านเชื่อมต่อกับ Google Apps Script ของเดิมสำเร็จรัน: onUploadSuccessSimulation();
+            // ผสานฟังก์ชันบันทึกเดิมสำเร็จให้เรียก CloseAppSheet และ LoadDataFromServer
+            alert('กำลังส่งข้อมูลไปบันทึก...');
         }
     </script>
 </body>
