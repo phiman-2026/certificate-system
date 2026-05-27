@@ -753,14 +753,27 @@ window.onload = function() {
 }
 
         function openAppViewer(encodedUrl) {
-            const url = decodeURIComponent(encodedUrl);
-            if(!url) {
-                showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
-                return;
-            }
-            document.getElementById('pdfAppFrame').src = url;
-            document.getElementById('app-viewer-modal').classList.remove('d-none');
-        }
+    let url = decodeURIComponent(encodedUrl);
+    
+    if (!url) {
+        showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
+        return;
+    }
+
+    // --- ส่วนที่แก้ไข: แปลงลิงก์ให้เป็นแบบ preview เพื่อให้เปิดใน iframe ได้ ---
+    // หากเป็นลิงก์ Google Drive ปกติ ให้เปลี่ยน /view เป็น /preview
+    if (url.includes('drive.google.com/file/d/') && url.includes('/view')) {
+        url = url.replace('/view', '/preview');
+    }
+    // หากลิงก์ยังไม่มีคำว่า preview ให้เติมต่อท้าย (กรณีลิงก์สั้นหรือรูปแบบอื่น)
+    else if (url.includes('drive.google.com/file/d/') && !url.includes('/preview')) {
+        url = url.split('/view')[0] + '/preview';
+    }
+    // ------------------------------------------------------------------
+
+    document.getElementById('pdfAppFrame').src = url;
+    document.getElementById('app-viewer-modal').classList.remove('d-none');
+}
 
         function closeAppViewer() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
