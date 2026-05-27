@@ -399,6 +399,11 @@
                         <textarea id="form-name" class="form-control" rows="3" placeholder="ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี"></textarea>
                     </div>
 
+                    <div class="mb-3" id="form-class-container">
+    <label class="form-label small fw-bold">ระดับชั้น / ห้องเรียน</label>
+    <input type="text" id="form-class" class="form-control" placeholder="ตัวอย่าง: ม.4/1, ม.6/2">
+</div>
+
                     <div class="mb-4">
                         <label class="form-label text-danger small fw-bold"><i class="fa-solid fa-file-pdf"></i> แนบไฟล์เกียรติบัตร (PDF เท่านั้น)</label>
                         <input type="file" id="form-file" class="form-control" accept="application/pdf">
@@ -604,36 +609,38 @@ window.onload = function() {
             });
         }
 
-        function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
-            items.forEach(item => {
-                let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
-                let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
-                let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
-                let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
+       function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+    items.forEach(item => {
+        let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
+        let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
+        let className = item['ระดับชั้น'] || item['ชั้นเรียน'] || ''; // ชื่อคอลัมน์ใน Sheet ของคุณ
+        let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
+        let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
 
-                const cardHtml = `
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="app-card">
-                            <div>
-                                <div class="card-top">
-                                    <span class="app-badge ${badgeClass}">${typeLabel}</span>
-                                    ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
-                                </div>
-                                <div class="card-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
-                                <div class="meta-box-app">
-                                    <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
-                                    <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
-                                    <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                                <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
-                            </button>
+        const cardHtml = `
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="app-card">
+                    <div>
+                        <div class="card-top">
+                            <span class="app-badge ${badgeClass}">${typeLabel}</span>
+                            ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
                         </div>
-                    </div>`;
-                rowContainer.insertAdjacentHTML('beforeend', cardHtml);
-            });
-        }
+                        <div class="card-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
+                        <div class="meta-box-app">
+                            <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
+                            ${className ? `<div class="info-row"><span>ชั้นเรียน:</span><b>${className}</b></div>` : ''}
+                            <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
+                            <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
+                        <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
+                    </button>
+                </div>
+            </div>`;
+        rowContainer.insertAdjacentHTML('beforeend', cardHtml);
+    });
+}
 
         function openAppSheet() {
             document.getElementById('main-honor-form').reset(); 
@@ -694,10 +701,12 @@ window.onload = function() {
     const giver = document.getElementById('form-giver').value.trim();
     const title = document.getElementById('form-title').value.trim();
     const name = document.getElementById('form-name').value.trim();
+    const className = document.getElementById('form-class').value.trim(); // ดึงค่าชั้นเรียน
     const fileInput = document.getElementById('form-file');
 
+    // ตรวจสอบข้อมูล (เพิ่ม className ถ้าจำเป็นต้องบังคับกรอก)
     if (!year || !giver || !title || !name || fileInput.files.length === 0) {
-        showNotification(false, 'ข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลและแนบไฟล์ให้ครบถ้วนค่ะ');
+        showNotification(false, 'ข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึกค่ะ');
         return;
     }
 
@@ -714,6 +723,7 @@ window.onload = function() {
             giver: giver,
             title: title,
             name: name,
+            className: className, // ส่งค่าชั้นเรียนไปที่ Google Apps Script
             fileMimeType: fileInput.files[0].type,
             fileData: e.target.result.split(',')[1]
         };
@@ -724,7 +734,6 @@ window.onload = function() {
             if (response.status === 'success' || response.result === 'success') {
                 showNotification(true, 'บันทึกสำเร็จ', 'ข้อมูลถูกบันทึกเรียบร้อยแล้วค่ะ');
                 closeAppSheet();
-                // ดึงข้อมูลใหม่และแสดงผลทันที
                 fetch(GAS_WEB_APP_URL).then(res => res.json()).then(data => {
                     allAwardsData = data;
                     if(currentTab === 'welcome') currentTab = 'all';
