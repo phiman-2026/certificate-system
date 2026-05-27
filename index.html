@@ -462,7 +462,7 @@
                 .catch(err => console.error("Error fetching data backend silently: ", err));
         }
 
-        /* 🔄 ฟังก์ชันควบคุมการแสดงผลฟิลด์ข้อมูลในฟอร์มตามประเภทรางวัลที่เลือก (ไล่โค้ดครบถ้วน ทำงานถูกต้อง) */
+        /* 🔄 ฟังก์ชันควบคุมการแสดงผลฟิลด์ข้อมูลในฟอร์มตามประเภทรางวัลที่เลือก */
         function handleFormTypeChange() {
             const type = document.getElementById('form-type').value;
             const deptContainer = document.getElementById('form-dept-container');
@@ -471,19 +471,16 @@
             const nameInput = document.getElementById('form-name');
 
             if (type === 'school') {
-                // 🔹 รางวัลสถานศึกษา: ซ่อนช่องกลุ่มสาระฯ ออกไปทันทีตามที่ต้องการ และไม่ต้องใส่ชื่อผู้รับ
                 deptContainer.style.display = 'none';
                 nameContainer.style.display = 'none';
-                nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; // เซ็ตค่า Default ไว้ส่งหลังบ้าน
+                nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; 
             } else if (type === 'staff') {
-                // 🔹 รางวัลครู: แสดงช่องกลุ่มสาระฯ และเปลี่ยนเงื่อนไขชื่อครู
                 deptContainer.style.display = 'block';
                 nameContainer.style.display = 'block';
                 nameLabel.innerHTML = 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล <span class="text-danger">(ระบุได้เพียงชื่อเดียวเท่านั้น)</span>';
                 nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี';
                 if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
             } else {
-                // 🔹 รางวัลนักเรียน: แสดงช่องกลุ่มสาระฯ และรองรับการใส่ชื่อแบบเดี่ยว/ทีม
                 deptContainer.style.display = 'block';
                 nameContainer.style.display = 'block';
                 nameLabel.innerHTML = 'รายชื่อผู้รับรางวัล <span class="text-primary">(หากเป็นประเภททีม ให้ใช้เครื่องหมายคอมมา , คั่นรายชื่อ)</span>';
@@ -505,12 +502,11 @@
                 document.getElementById('nav-' + tabName).classList.add('active');
             }
 
-            // เพิ่มการควบคุมการแสดงผลตัวเลือกกลุ่มสาระฯ ตรงนี้
             const deptSelect = document.getElementById('app-dept-select');
             if (tabName === 'welcome' || tabName === 'school') {
-                deptSelect.style.display = 'none';  // ซ่อนหน้าแรก และหน้าสถานศึกษา
+                deptSelect.style.display = 'none';  
             } else {
-                deptSelect.style.display = 'block'; // แสดงเฉพาะหน้าทั้งหมด, ครู, นักเรียน
+                deptSelect.style.display = 'block'; 
             }
 
             renderAppContent();
@@ -616,32 +612,128 @@
             });
         }
 
+        /* 📝 ฟังก์ชันเปิดหน้าฟอร์มบันทึกรางวัล */
         function openAppSheet() {
+            document.getElementById('main-honor-form').reset(); // เคลียร์ข้อมูลเก่าในฟอร์มออกก่อน
+            document.getElementById('form-year').value = "2569"; // ตั้งค่าปีปัจจุบันเริ่มต้น
+            handleFormTypeChange(); // จัดระเบียบหน้าฟอร์มตามประเภทเริ่มต้น
+            
             document.getElementById('app-sheet-form').classList.remove('d-none');
             document.getElementById('app-main-scroll-zone').classList.add('d-none');
             document.querySelector('.app-header').classList.add('d-none');
-            const fab = document.querySelector('.fab-btn');
-            if(fab) fab.classList.add('d-none');
-            window.scrollTo({top: 0});
+            document.querySelector('.bottom-nav').classList.add('d-none');
+            document.querySelector('.fab-btn').classList.add('d-none');
         }
 
+        /* ❌ ฟังก์ชันปิดฟอร์มและกลับหน้าหลัก */
         function closeAppSheet() {
             document.getElementById('app-sheet-form').classList.add('d-none');
             document.getElementById('app-main-scroll-zone').classList.remove('d-none');
             document.querySelector('.app-header').classList.remove('d-none');
-            const fab = document.querySelector('.fab-btn');
-            if(fab) fab.classList.remove('d-none');
+            document.querySelector('.bottom-nav').classList.remove('d-none');
+            document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
+        /* ➕ ฟังก์ชันประมวลผลอัปโหลดไฟล์และบันทึกข้อมูลส่งไปหลังบ้าน */
+        function uploadAndSave() {
+            const btnSubmit = document.getElementById('btn-submit-save');
+            const type = document.getElementById('form-type').value;
+            const dept = document.getElementById('form-dept').value;
+            const year = document.getElementById('form-year').value.trim();
+            const giver = document.getElementById('form-giver').value.trim();
+            const title = document.getElementById('form-title').value.trim();
+            const name = document.getElementById('form-name').value.trim();
+            const fileInput = document.getElementById('form-file');
+
+            // 1. Validation ตรวจเช็คข้อมูลพื้นฐานว่ากรอกครบถ้วนหรือไม่
+            if (!year || !giver || !title || !name) {
+                alert('⚠️ กรุณากรอกข้อมูลในฟอร์มให้ครบถ้วนทุกช่องก่อนบันทึกค่ะ');
+                return;
+            }
+
+            if (fileInput.files.length === 0) {
+                alert('⚠️ กรุณาแนบไฟล์เกียรติบัตร (PDF) เพื่อทำการบันทึกข้อมูลค่ะ');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (file.type !== "application/pdf") {
+                alert('⚠️ ระบบรองรับเฉพาะไฟล์รูปแแบบ PDF เท่านั้นค่ะ');
+                return;
+            }
+
+            // เปลี่ยนสถานะปุ่มกดเพื่อป้องกันผู้ใช้งานกดบันทึกซ้ำซ้อนซ้ำซาก
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<span class="spinner-border spinner-border-smme-2" role="status" aria-hidden="true"></span> กำลังบันทึกข้อมูล...`;
+
+            // 2. แปลงไฟล์ PDF เป็น Base64 string เพื่อส่งไปที่ Google Apps Script
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result.split(',')[1];
+                
+                // จัดโครงสร้าง Object ข้อมูลที่จะส่งไปที่ Code.gs หลังบ้าน
+                const payload = {
+                    action: "insertReward",
+                    type: type,
+                    dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
+                    year: year,
+                    giver: giver,
+                    title: title,
+                    name: name,
+                    filename: `${type}_${year}_${Date.now()}.pdf`,
+                    fileMimeType: file.type,
+                    fileData: base64Data
+                };
+
+                // 3. ส่ง Request ข้อมูลทั้งหมดไปที่ Web App Google Apps Script 
+                fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.status === 'success' || response.result === 'success') {
+                        alert('🎉 บันทึกผลงานรางวัลเกียรติยศลงในระบบสำเร็จเรียบร้อยแล้วค่ะ!');
+                        closeAppSheet();
+                        // สั่งโหลดข้อมูลหลังบ้านใหม่และทำการ Render อัปเดตหน้าจอทันที
+                        loadDataFromServerSilently();
+                        setTimeout(() => { 
+                            if(currentTab === 'welcome') currentTab = 'all';
+                            renderAppContent(); 
+                        }, 1500);
+                    } else {
+                        alert('❌ เกิดข้อผิดพลาดจากระบบหลังบ้าน: ' + (response.message || 'ไม่สามารถบันทึกได้'));
+                    }
+                })
+                .catch(err => {
+                    console.error("Error saving record: ", err);
+                    alert('❌ ไม่สามารถติดต่อเชื่อมต่อกับเซิร์ฟเวอร์ระบบได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ');
+                })
+                .finally(() => {
+                    // คืนค่าปุ่มให้กลับมาพร้อมกดใช้งานเหมือนเดิม
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = 'บันทึกข้อมูล';
+                });
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        /* 📄 ฟังก์ชันเปิดหน้าต่าง Viewer ตรวจสอบ PDF */
         function openAppViewer(encodedUrl) {
-            const cleanUrl = decodeURIComponent(encodedUrl);
-            document.getElementById('pdfAppFrame').src = cleanUrl;
+            const url = decodeURIComponent(encodedUrl);
+            if(!url) {
+                alert("⚠️ ไม่พบลิงก์เอกสารเกียรติบัตรของรางวัลนี้ค่ะ");
+                return;
+            }
+            document.getElementById('pdfAppFrame').src = url;
             document.getElementById('app-viewer-modal').classList.remove('d-none');
         }
 
+        /* ❌ ฟังก์ชันปิดหน้าต่าง Viewer */
         function closeAppViewer() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
-            document.getElementById('pdfAppFrame').src = '';
+            document.getElementById('pdfAppFrame').src = "";
         }
     </script>
 </body>
