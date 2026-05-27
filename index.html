@@ -304,7 +304,7 @@
                         </div>
                     </div>
                     <div class="header-actions">
-                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()" style="display: none;">
                             <option value="all">🔍 ดูทั้งหมดทุกกลุ่มสาระฯ</option>
                             <option value="วิทยาศาสตร์ฯ">กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</option>
                             <option value="คณิตศาสตร์">กลุ่มสาระฯ คณิตศาสตร์</option>
@@ -458,11 +458,17 @@
         let currentTab = 'welcome'; 
         let selectedDept = 'all';
 
-        window.onload = function() { 
-            loadDataFromServerSilently(); 
-            handleFormTypeChange(); 
-            document.getElementById('app-dept-select').style.display = 'none';
-        };
+window.onload = function() { 
+    loadDataFromServerSilently(); 
+    handleFormTypeChange(); 
+    
+    // ตรงนี้เราไม่ต้องสั่งซ่อนซ้ำหากเราใส่ style="display: none;" ใน HTML แล้ว
+    // แต่ถ้าอยากให้ชัวร์ ให้ตรวจสอบเงื่อนไขก่อนซ่อนครับ
+    const deptSelect = document.getElementById('app-dept-select');
+    if (currentTab === 'welcome' || currentTab === 'school') {
+        deptSelect.style.display = 'none';
+    }
+};
 
         function loadDataFromServerSilently() {
             fetch(GAS_WEB_APP_URL)
