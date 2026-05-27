@@ -439,13 +439,15 @@
         </nav>
     </div>
 
-    <div id="app-viewer-modal" class="app-viewer-modal d-none">
-        <div class="viewer-header">
-            <span class="fw-bold small">ตรวจสอบเอกสารเกียรติบัตร</span>
-            <button class="btn btn-sm btn-outline-light" onclick="closeAppViewer()"><i class="fa-solid fa-xmark"></i> ปิด</button>
-        </div>
-        <iframe id="pdfAppFrame" style="width:100%; flex:1; border:none;" src=""></iframe>
+    <div id="app-viewer-modal" class="d-none">
+    <div class="viewer-header">
+        <button type="button" class="btn btn-secondary" onclick="closeAppViewer()">ปิด</button>
+        <a id="btn-download-pdf" href="#" download class="btn btn-primary" target="_blank">
+            <i class="fa-solid fa-download"></i> ดาวน์โหลดเกียรติบัตร
+        </a>
     </div>
+    <iframe id="pdfAppFrame" src="" width="100%" height="800px"></iframe>
+</div>
 
 <div class="modal fade" id="statusNotifyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
@@ -758,26 +760,31 @@ window.onload = function() {
     reader.readAsDataURL(fileInput.files[0]);
 }
 
-        function openAppViewer(encodedUrl) {
+function openAppViewer(encodedUrl) {
     let url = decodeURIComponent(encodedUrl);
     
     if (!url) {
-        showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
+        showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยค่ะ ไม่พบลิงก์เกียรติบัตร');
         return;
     }
 
-    // --- ส่วนที่แก้ไข: แปลงลิงก์ให้เป็นแบบ preview เพื่อให้เปิดใน iframe ได้ ---
-    // หากเป็นลิงก์ Google Drive ปกติ ให้เปลี่ยน /view เป็น /preview
+    // แปลงลิงก์เพื่อแสดงผลใน iframe
+    let previewUrl = url;
     if (url.includes('drive.google.com/file/d/') && url.includes('/view')) {
-        url = url.replace('/view', '/preview');
+        previewUrl = url.replace('/view', '/preview');
+    } else if (url.includes('drive.google.com/file/d/') && !url.includes('/preview')) {
+        previewUrl = url.split('/view')[0] + '/preview';
     }
-    // หากลิงก์ยังไม่มีคำว่า preview ให้เติมต่อท้าย (กรณีลิงก์สั้นหรือรูปแบบอื่น)
-    else if (url.includes('drive.google.com/file/d/') && !url.includes('/preview')) {
-        url = url.split('/view')[0] + '/preview';
-    }
-    // ------------------------------------------------------------------
 
-    document.getElementById('pdfAppFrame').src = url;
+    // กำหนด src ให้ iframe
+    document.getElementById('pdfAppFrame').src = previewUrl;
+    
+    // --- ตั้งค่าปุ่มดาวน์โหลด ---
+    // เปลี่ยนจากลิงก์ /preview ให้เป็นลิงก์ดาวน์โหลดตรง (โดยใช้ export?format=pdf หรือใช้ลิงก์เดิมถ้า Google อนุญาต)
+    const downloadBtn = document.getElementById('btn-download-pdf');
+    downloadBtn.href = url.replace('/view', '/export?format=pdf'); 
+    // -------------------------
+
     document.getElementById('app-viewer-modal').classList.remove('d-none');
 }
 
