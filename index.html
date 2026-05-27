@@ -108,8 +108,44 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* 📱 Main Content Zone */
-        .section-title { font-size: 1.1rem; font-weight: 700; color: var(--pms-main); margin: 25px 0 15px 4px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid var(--pms-light); padding-bottom: 6px; }
+        /* ======================================================= */
+        /* ✨ ส่วนที่ปรับปรุงใหม่: หัวข้อประเภท .section-title ให้สวยงามโดดเด่น ✨ */
+        /* ======================================================= */
+        .section-title { 
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            color: var(--pms-main); 
+            margin: 35px 0 20px 4px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding-bottom: 8px; 
+            position: relative;
+            width: 100%;
+        }
+
+        /* ตกแต่งด้วยเส้นคั่นแบบไล่เฉดสีคมชัดที่ด้านล่างตัวอักษรเพื่อสร้างมิติ */
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 4px;
+            background: linear-gradient(to right, var(--pms-main) 0%, #0099cc 50%, rgba(240, 244, 247, 0) 100%);
+            border-radius: 4px;
+        }
+
+        /* ตกแต่งส่วนที่เป็นสัญลักษณ์ไอคอนในหัวข้อ */
+        .section-title i {
+            background-color: var(--pms-light);
+            color: var(--pms-main);
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(0, 104, 139, 0.1);
+        }
 
         /* 👑 หน้า Welcome Screen ตอนเข้าเว็บครั้งแรก */
         .welcome-screen {
@@ -467,9 +503,10 @@
             } else {
                 let items = filterAppItems(allAwardsData[currentTab] || []);
                 const labels = { 'school':'โรงเรียน', 'staff':'คุณครู', 'student':'นักเรียน' };
+                const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
                 if(items.length > 0) {
                     globalHasData = true;
-                    zone.insertAdjacentHTML('beforeend', `<div class="section-title">ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
+                    zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
                     let rowDiv = document.createElement('div');
                     rowDiv.className = "row g-3";
                     buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
@@ -618,12 +655,12 @@
                     }
                 })
                 .catch(err => {
-                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อหลังบ้าน: ' + err.toString());
+                    console.error(err);
+                    alert('เกิดข้อผิดพลาดในการเชื่อมต่ออินเทอร์เน็ตค่ะ');
                     btnSave.disabled = false;
                     btnSave.innerHTML = `บันทึกข้อมูล`;
                 });
             };
-            
             reader.readAsDataURL(file);
         }
     </script>
