@@ -10,8 +10,8 @@
     
     <style>
         :root {
-            /* 🎨 Deep Sea Blue Theme (#00688B) */
-            --pms-main: #00688B;         
+            /* 🎨 Deep Sea Blue Theme (#A52A2A) */
+            --pms-main: #A52A2A;         
             --pms-dark: #004d66;
             --pms-light: #e6f7ff;
             --bg-app: #f0f4f7;          
@@ -447,6 +447,9 @@
         window.onload = function() { 
             loadDataFromServerSilently(); 
             handleFormTypeChange(); // เรียกใช้งานเพื่อตั้งค่าฟอร์มเริ่มต้นตอนเปิดหน้าแรก
+            
+            // ซ่อนตัวเลือกกลุ่มสาระที่แถบด้านบนสุดไว้ตอนเปิดแอปครั้งแรก (หน้า Welcome)
+            document.getElementById('app-dept-select').style.display = 'none';
         };
 
         function loadDataFromServerSilently() {
@@ -501,6 +504,15 @@
             if(document.getElementById('nav-' + tabName)) {
                 document.getElementById('nav-' + tabName).classList.add('active');
             }
+
+            // เพิ่มการควบคุมการแสดงผลตัวเลือกกลุ่มสาระฯ ตรงนี้
+            const deptSelect = document.getElementById('app-dept-select');
+            if (tabName === 'welcome' || tabName === 'school') {
+                deptSelect.style.display = 'none';  // ซ่อนหน้าแรก และหน้าสถานศึกษา
+            } else {
+                deptSelect.style.display = 'block'; // แสดงเฉพาะหน้าทั้งหมด, ครู, นักเรียน
+            }
+
             renderAppContent();
         }
 
@@ -618,23 +630,18 @@
             document.getElementById('app-main-scroll-zone').classList.remove('d-none');
             document.querySelector('.app-header').classList.remove('d-none');
             const fab = document.querySelector('.fab-btn');
-            if(fab && window.innerWidth < 768) fab.classList.remove('d-none');
+            if(fab) fab.classList.remove('d-none');
         }
 
         function openAppViewer(encodedUrl) {
-            const url = decodeURIComponent(encodedUrl);
-            document.getElementById('pdfAppFrame').src = url;
+            const cleanUrl = decodeURIComponent(encodedUrl);
+            document.getElementById('pdfAppFrame').src = cleanUrl;
             document.getElementById('app-viewer-modal').classList.remove('d-none');
         }
 
         function closeAppViewer() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
             document.getElementById('pdfAppFrame').src = '';
-        }
-
-        /* 💾 จำลองฟังก์ชันบันทึกข้อมูลดั้งเดิมให้คงอยู่สมบูรณ์ */
-        function uploadAndSave() {
-            alert("ระบบกำลังประมวลผลการบันทึกข้อมูล...");
         }
     </script>
 </body>
