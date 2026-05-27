@@ -491,31 +491,37 @@ window.onload = function() {
                 .catch(err => console.error("Error fetching data backend silently: ", err));
         }
 
-        function handleFormTypeChange() {
-            const type = document.getElementById('form-type').value;
-            const deptContainer = document.getElementById('form-dept-container');
-            const nameContainer = document.getElementById('form-name-container');
-            const nameLabel = document.getElementById('form-name-label');
-            const nameInput = document.getElementById('form-name');
+       function handleFormTypeChange() {
+    const type = document.getElementById('form-type').value;
+    const deptContainer = document.getElementById('form-dept-container');
+    const nameContainer = document.getElementById('form-name-container');
+    const nameLabel = document.getElementById('form-name-label');
+    const nameInput = document.getElementById('form-name');
+    
+    // เลือกตัวคอนเทนเนอร์ของระดับชั้น
+    const classContainer = document.getElementById('form-class-container');
 
-            if (type === 'school') {
-                deptContainer.style.display = 'none';
-                nameContainer.style.display = 'none';
-                nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; 
-            } else if (type === 'staff') {
-                deptContainer.style.display = 'block';
-                nameContainer.style.display = 'block';
-                nameLabel.innerHTML = 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล <span class="text-danger">(ระบุได้เพียงชื่อเดียวเท่านั้น)</span>';
-                nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี';
-                if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
-            } else {
-                deptContainer.style.display = 'block';
-                nameContainer.style.display = 'block';
-                nameLabel.innerHTML = 'รายชื่อผู้รับรางวัล <span class="text-primary">(หากเป็นประเภททีม ให้ใช้เครื่องหมายคอมมา , คั่นรายชื่อ)</span>';
-                nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี';
-                if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
-            }
-        }
+    if (type === 'school') {
+        deptContainer.style.display = 'none';
+        nameContainer.style.display = 'none';
+        classContainer.style.display = 'none'; // ซ่อนระดับชั้น
+        nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; 
+    } else if (type === 'staff') {
+        deptContainer.style.display = 'block';
+        nameContainer.style.display = 'block';
+        classContainer.style.display = 'none'; // ซ่อนระดับชั้น
+        nameLabel.innerHTML = 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล';
+        nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี';
+        if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
+    } else if (type === 'student') {
+        deptContainer.style.display = 'block';
+        nameContainer.style.display = 'block';
+        classContainer.style.display = 'block'; // แสดงระดับชั้นเฉพาะกรณีนักเรียน
+        nameLabel.innerHTML = 'รายชื่อผู้รับรางวัล <span class="text-primary">(หากเป็นประเภททีม ให้ใช้เครื่องหมายคอมมา , คั่นรายชื่อ)</span>';
+        nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี';
+        if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
+    }
+}
 
         function onDeptSelectChange() {
             selectedDept = document.getElementById('app-dept-select').value;
