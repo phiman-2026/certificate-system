@@ -696,18 +696,19 @@
             reader.onload = function(e) {
                 const base64Data = e.target.result.split(',')[1];
                 
-                const payload = {
-                    action: "insertReward",
-                    type: type,
-                    dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
-                    year: year,
-                    giver: giver,
-                    title: title,
-                    name: name,
-                    filename: `${type}_${year}_${Date.now()}.pdf`,
-                    fileMimeType: file.type,
-                    fileData: base64Data
-                };
+                // ค้นหาช่วง payload ในฟังก์ชัน uploadAndSave แล้วปรับเป็นแบบนี้ครับ
+const payload = {
+    action: "insertReward",
+    type: type,
+    dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
+    year: year,
+    giver: giver,
+    title: title,
+    name: name,
+    // ไม่ต้องส่ง filename จากฝั่งนี้แล้ว เพราะเราจะให้ GAS รันชื่อเองตาม ID
+    fileMimeType: file.type,
+    fileData: base64Data
+};
 
                 fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
