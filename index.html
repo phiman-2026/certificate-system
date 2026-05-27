@@ -654,24 +654,24 @@ window.onload = function() {
             document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
-        /* 👑 ฟังก์ชันจัดการเปิดแสดงผลกล่อง Modal แจ้งเตือนสถานะความสวยงาม */
-        function showNotification(isSuccess, title, message) {
-            const iconContainer = document.getElementById('notify-icon-container');
-            document.getElementById('notify-title').innerText = title;
-            document.getElementById('notify-message').innerText = message;
+       function showNotification(isSuccess, title, message) {
+    const iconContainer = document.getElementById('notify-icon-container');
+    document.getElementById('notify-title').innerText = title;
+    document.getElementById('notify-message').innerText = message;
 
-            if (isSuccess) {
-                iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success animate__animated animate__zoomIn"></i>`;
-                document.getElementById('notify-title').style.color = "#198754"; // สีเขียว
-            } else {
-                iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger animate__animated animate__shakeX"></i>`;
-                document.getElementById('notify-title').style.color = "#dc3545"; // สีแดง
-            }
+    if (isSuccess) {
+        iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+        document.getElementById('notify-title').style.color = "#198754";
+    } else {
+        iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger"></i>`;
+        document.getElementById('notify-title').style.color = "#dc3545";
+    }
 
-            // สั่งเปิด Modal ของ Bootstrap ด้วย JavaScript
-            const notifyModal = new bootstrap.Modal(document.getElementById('statusNotifyModal'));
-            notifyModal.show();
-        }
+    // แก้ไขตรงนี้สำคัญมาก: ต้องสร้าง Modal Object ก่อนเรียก .show()
+    const modalEl = document.getElementById('statusNotifyModal');
+    const notifyModal = new bootstrap.Modal(modalEl);
+    notifyModal.show();
+}
 
         function uploadAndSave() {
             const btnSubmit = document.getElementById('btn-submit-save');
