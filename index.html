@@ -539,6 +539,7 @@
     <script>
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
         let allAwardsData = {};
+        let notifyModal;
         let currentTab = 'welcome'; 
         let selectedDept = 'all';
 
@@ -619,65 +620,66 @@ window.onload = function() {
             renderAppContent();
         }
 
-        function renderAppContent() {
-            const zone = document.getElementById('dynamic-app-cards-zone'); zone.innerHTML = '';
-            let globalHasData = false; 
-            
-            if(currentTab === 'welcome') {
-                zone.innerHTML = `
-                    <div class="welcome-screen">
-                        <div class="welcome-card">
-                            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
-                            <div class="w-line-1">ยินดีต้อนรับเข้าสู่ระบบ</div>
-                            <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
-                            <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
-                            <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
-                            <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
-                        </div>
-                    </div>`;
-                return;
-            }
+       function renderAppContent() {
+    const zone = document.getElementById('dynamic-app-cards-zone');
+    zone.innerHTML = '';
+    let globalHasData = false;
 
-            if(currentTab === 'all') {
-                const configs = [
-                    { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'โรงเรียน' },
-                    { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
-                    { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
-                ];
-                configs.forEach(config => {
-                    let items = filterAppItems(allAwardsData[config.key] || [], config.key);
-                    if(items.length > 0) {
-                        globalHasData = true;
-                        zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
-                        let rowDiv = document.createElement('div');
-                        rowDiv.className = "row g-3";
-                        buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
-                        zone.appendChild(rowDiv);
-                    }
-                });
-            } else {
-                let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
-                const labels = { 'school':'โรงเรียน', 'staff':'คุณครู', 'student':'นักเรียน' };
-                const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
-                if(items.length > 0) {
-                    globalHasData = true;
-                    zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
-                    let rowDiv = document.createElement('div');
-                    rowDiv.className = "row g-3";
-                    buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
-                    zone.appendChild(rowDiv);
-                }
-            }
+    if (currentTab === 'welcome') {
+        zone.innerHTML = `
+            <div class="welcome-screen" id="welcome-landing-page">
+                <div class="welcome-card">
+                    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
+                    <div class="w-line-1">ยินดีต้อนรับเข้าสู่</div>
+                    <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
+                    <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
+                    <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
+                    <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
+                </div>
+            </div>`;
+        return;
+    }
 
-            if(!globalHasData) {
-                zone.innerHTML = `
-                    <div class="empty-state-box">
-                        <i class="fa-solid fa-folder-open"></i>
-                        <h6 class="fw-bold text-dark">❌ ไม่มีข้อมูลรางวัลในหน้านี้</h6>
-                        <p class="small mb-0">ไม่พบรายชื่อหรือข้อมูลผลงานเกียรติยศที่ตรงกับตัวกรองกลุ่มสาระที่คุณเลือก</p>
-                    </div>`;
+    if (currentTab === 'all') {
+        const configs = [
+            { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'โรงเรียน' },
+            { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
+            { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
+        ];
+        configs.forEach(config => {
+            let items = filterAppItems(allAwardsData[config.key] || [], config.key);
+            if (items.length > 0) {
+                globalHasData = true;
+                zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
+                let rowDiv = document.createElement('div');
+                rowDiv.className = "card-container"; // ปรับใช้ class นี้เพื่อให้ CSS Grid ทำงาน
+                buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
+                zone.appendChild(rowDiv);
             }
+        });
+    } else {
+        let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
+        const labels = { 'school': 'โรงเรียน', 'staff': 'คุณครู', 'student': 'นักเรียน' };
+        const icons = { 'school': 'fa-university', 'staff': 'fa-chalkboard-teacher', 'student': 'fa-user-graduate' };
+        if (items.length > 0) {
+            globalHasData = true;
+            zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
+            let rowDiv = document.createElement('div');
+            rowDiv.className = "card-container"; // ปรับใช้ class นี้เพื่อให้ CSS Grid ทำงาน
+            buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
+            zone.appendChild(rowDiv);
         }
+    }
+
+    if (!globalHasData) {
+        zone.innerHTML = `
+            <div class="empty-state-box">
+                <i class="fa-solid fa-folder-open"></i>
+                <h6 class="fw-bold text-dark">❌ ไม่มีข้อมูลรางวัลในหน้านี้</h6>
+                <p class="small mb-0">ไม่พบรายชื่อหรือข้อมูลผลงานเกียรติยศที่ตรงกับตัวกรองกลุ่มสาระที่คุณเลือก</p>
+            </div>`;
+    }
+}
 
         function filterAppItems(items, type) {
             if (type === 'school') return items;
@@ -781,16 +783,16 @@ window.onload = function() {
 }
 
 
-        function closeNotification() {
+      function closeNotification() {
     if (notifyModal) {
         notifyModal.hide();
-        // คำสั่งด้านล่างนี้จะช่วยลบเงาสีเทาที่ค้างอยู่ออกไปจาก DOM
+        // ลบ backdrop ที่อาจตกค้างออก
         const backdrop = document.querySelector('.modal-backdrop');
         if (backdrop) backdrop.remove();
         document.body.classList.remove('modal-open');
         document.body.style = "";
     }
-} 
+}
         
        function uploadAndSave() {
     const btnSubmit = document.getElementById('btn-submit-save');
