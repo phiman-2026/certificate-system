@@ -172,38 +172,74 @@
         }
 
         /* 🃏 App Cards */
+     /* 🃏 ปรับโฉม Card ให้เป็น Modern Glass Card (แทนที่อันเดิม) */
         .app-card {
-            background: var(--bg-surface);
-            border-radius: var(--global-radius);
-            border: 1px solid var(--border-color);
-            padding: 16px; margin-bottom: 5px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            transition: all 0.2s ease;
-            height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0, 104, 139, 0.08); /* เงาบางๆ นุ่มๆ */
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
         }
-        .app-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 104, 139, 0.15);
+        }
         
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .app-badge { font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 8px; }
-        .b-school { background: var(--color-school); color: #000; }
-        .b-staff { background: var(--color-staff); color: #fff; }
-        .b-student { background: var(--color-student); color: #000; }
-        .card-dept { font-size: 0.72rem; color: var(--pms-main); background: var(--pms-light); padding: 3px 10px; border-radius: 6px; font-weight: 600; }
-
-        .card-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); line-height: 1.5; margin-bottom: 12px; border-left: 4px solid var(--pms-main); padding-left: 10px; }
-        .meta-box-app { flex-grow: 1; }
-        .info-row { display: flex; margin-bottom: 5px; font-size: 0.82rem; }
-        .info-row span { width: 65px; color: var(--text-sub); flex-shrink: 0; }
-        .info-row b { flex: 1; color: var(--text-main); word-break: break-word; }
-
-        .btn-app-action {
-            width: 100%; background: var(--pms-main); border: none;
-            padding: 10px 0; margin-top: 15px; border-radius: 12px;
-            font-size: 0.85rem; font-weight: 600; color: #ffffff;
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 4px 10px rgba(0, 104, 139, 0.2);
+        .card-top { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
         }
 
+        /* ปรับ Badge ให้ดูแพงขึ้น */
+        .app-badge { 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            padding: 5px 12px; 
+            border-radius: 50px; 
+            text-transform: uppercase;
+        }
+
+        /* ปรับ Title ให้ดูเด่น */
+        .card-title { 
+            font-size: 1.05rem; 
+            font-weight: 700; 
+            color: var(--text-main); 
+            line-height: 1.4; 
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* ปรับสไตล์ข้อมูลภายใน */
+        .meta-box-app { flex-grow: 1; }
+        .info-row { display: flex; margin-bottom: 6px; font-size: 0.85rem; }
+        .info-row span { width: 70px; color: var(--text-sub); flex-shrink: 0; font-weight: 500; }
+        .info-row b { color: var(--text-main); font-weight: 600; }
+
+        /* ปรับปุ่มให้โค้งมนและดูทันสมัย */
+        .btn-app-action {
+            width: 100%; 
+            background: var(--pms-main); 
+            border: none;
+            padding: 12px 0; 
+            margin-top: 15px; 
+            border-radius: 50px; /* ทำให้ปุ่มโค้งมนแบบแคปซูล */
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            color: #ffffff;
+            transition: background 0.3s;
+        }
+        .btn-app-action:hover { background: var(--pms-dark); }
+        
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
         .empty-state-box {
             text-align: center; padding: 50px 20px; color: var(--text-sub);
