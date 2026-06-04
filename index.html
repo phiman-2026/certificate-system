@@ -174,6 +174,9 @@
   /* =========================
    AWARD CARD - PIMANPITTAYASAN
 ========================= */
+/* =========================
+   CARD STRUCTURE
+========================= */
 .app-card {
     position: relative;
     display: flex;
@@ -186,34 +189,18 @@
     padding: 20px;
     overflow: hidden;
     height: 100%;
-    /* เพิ่ม Border ซ้ายที่ชัดขึ้นตามประเภท (จะไปกำหนดใน .app-card.type) */
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     border-left: 8px solid transparent; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     transition: 0.35s ease;
 }
 
-/* สี Accent ตามประเภท */
-.app-card.school { border-left-color: #1565C0; }
-.app-card.staff { border-left-color: #00838F; }
-.app-card.student { border-left-color: #EF6C00; }
-
-/* แถบด้านบน (ปรับให้จางลงเพื่อไม่ให้แย่งความเด่นจากเส้นด้านซ้าย) */
-.app-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    opacity: 0.3;
-    z-index: 1;
+.app-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
 }
-.app-card.school::after { background: #1565C0; }
-.app-card.staff::after { background: #00ACC1; }
-.app-card.student::after { background: #43A047; }
 
-/* เพิ่ม Texture ลวดลายจางๆ ด้วย Gradient เฉียง */
+/* ลายจุดและเส้นกราฟิก (คุมโทนด้วย currentColor) */
 .app-card::before {
     content: "";
     position: absolute;
@@ -221,36 +208,76 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+    /* ลายจุด (Dots) และเส้นเฉียง (Lines) ใช้สีเดียวกับขอบการ์ดแต่จางลง */
+    background-image: 
+        radial-gradient(var(--accent-color) 15%, transparent 16%),
+        linear-gradient(45deg, var(--accent-color) 25%, transparent 25%);
+    background-size: 20px 20px, 40px 40px;
+    opacity: 0.07; /* ลายจางๆ หรูๆ */
     pointer-events: none;
     z-index: 1;
 }
 
-/* ลายน้ำโลโก้ (ขยายให้ดูพรีเมียมขึ้น) */
-.app-card::before {
+/* โลโก้ลายน้ำ */
+.app-card::after {
     content: "";
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 80px;
+    height: 80px;
     background-image: url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
-    background-size: 100px;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: bottom 10px right 10px;
     opacity: 0.05;
+    z-index: 1;
 }
 
-/* ปรับปุ่มให้เป็นโทนเดียวกับการ์ด (Accent Color) */
+/* =========================
+   TYPE ACCENT COLORS & VARIABLES
+========================= */
+.app-card.school { 
+    --accent-color: #1565C0;
+    border-left-color: var(--accent-color); 
+}
+.app-card.school .card-title { color: var(--accent-color); border-left-color: var(--accent-color); }
 .app-card.school .btn-app-action { background: linear-gradient(135deg, #42A5F5, #1565C0); }
+
+.app-card.staff { 
+    --accent-color: #00838F;
+    border-left-color: var(--accent-color); 
+}
+.app-card.staff .card-title { color: var(--accent-color); border-left-color: var(--accent-color); }
 .app-card.staff .btn-app-action { background: linear-gradient(135deg, #26C6DA, #00838F); }
+
+.app-card.student { 
+    --accent-color: #EF6C00;
+    border-left-color: var(--accent-color); 
+}
+.app-card.student .card-title { color: var(--accent-color); border-left-color: var(--accent-color); }
 .app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
 
-/* ปรับ Title ให้มีสีตามประเภทด้วย */
-.app-card.school .card-title { color: #1565C0; border-left-color: #1565C0; }
-.app-card.staff .card-title { color: #00838F; border-left-color: #00838F; }
-.app-card.student .card-title { color: #EF6C00; border-left-color: #EF6C00; }
-
-/* ปรับปรุงส่วนอื่นๆ คงเดิม */
-.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; z-index: 2; }
+/* =========================
+   CONTENT STYLING (คงเดิม)
+========================= */
+.app-card > * { position: relative; z-index: 2; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .app-badge { font-size: .72rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; }
+
+.b-school { background: #E3F2FD; color: #1565C0; }
+.b-staff { background: #E0F7FA; color: #00838F; }
+.b-student { background: #FFF3E0; color: #EF6C00; }
+
 .card-title { font-size: 1rem; font-weight: 700; line-height: 1.5; margin-bottom: 14px; padding-left: 12px; border-left: 4px solid; }
-.btn-app-action { width: 100%; margin-top: 16px; padding: 12px; border: none; border-radius: 14px; color: #fff; font-weight: 700; cursor: pointer; transition: .3s; }
+
+.info-row { display: flex; margin-bottom: 8px; font-size: .84rem; }
+.info-row span { width: 75px; color: #607D8B; flex-shrink: 0; font-weight: 600; }
+.info-row b { flex: 1; color: #263238; word-break: break-word; }
+
+.btn-app-action {
+    width: 100%; margin-top: 16px; padding: 12px; border: none; border-radius: 14px;
+    color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer; transition: .3s;
+}
 .btn-app-action:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
