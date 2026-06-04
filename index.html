@@ -59,11 +59,12 @@
         flex-direction: column;
     }
     .app-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 104, 139, 0.25); }
-    .app-card::before {
-        content: "";
-        position: absolute; top: 0; left: 0; width: 100%; height: 8px;
-        background: linear-gradient(90deg, #00688B, #FFD700);
-    }
+   /* แทนที่บรรทัดเดิมด้วยอันนี้ */
+.app-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; width: 100%; height: 8px;
+    background: var(--card-border); /* ดึงค่าสีมาจาก style ที่ใส่ใน JS */
+}
     .premium-logo { width: 70px; height: 70px; margin: 0 auto 20px; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
     .premium-title { font-size: 1.15rem; font-weight: 800; color: #00688B; text-align: center; margin-bottom: 5px; line-height: 1.3; }
     .premium-subtitle { font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -403,25 +404,31 @@ window.onload = function() {
             });
         }
 
-    function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+  function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
     items.forEach(item => {
         let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
         
+        // กำหนดสีขอบตามประเภท (ใช้ตัวแปร CSS ที่คุณมีอยู่แล้ว)
+        let borderGradient = "linear-gradient(90deg, #00688B, #FFD700)"; // ค่าเริ่มต้น
+        if (type === 'school') borderGradient = "linear-gradient(90deg, #FFD700, #FF8C00)";
+        if (type === 'staff') borderGradient = "linear-gradient(90deg, #00CED1, #20B2AA)";
+        if (type === 'student') borderGradient = "linear-gradient(90deg, #7CFC00, #32CD32)";
+
         const cardHtml = `
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="app-card">
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="app-card" style="--card-border: ${borderGradient}">
                 <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="premium-logo">
                 
-                <div class="premium-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ']}</div>
+                <div class="premium-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'ไม่มีชื่อรางวัล'}</div>
                 <div class="premium-subtitle">${item['หน่วยงานผู้มอบรางวัล'] || '-'}</div>
 
-                <div class="meta-box-app" style="border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                <div class="meta-box-app">
                     <div class="info-row"><i class="fa-solid fa-user me-2"></i><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>
                     <div class="info-row"><i class="fa-solid fa-calendar me-2"></i>${item['ปีการศึกษา'] || '-'}</div>
                 </div>
 
-                <button class="btn btn-outline-primary w-100 mt-3 py-2" style="border-radius: 50px; border: 2px solid #00688B; font-weight:bold;" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                    <i class="fa-solid fa-award"></i> ดูเกียรติบัตรฉบับเต็ม
+                <button class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
+                    <i class="fa-solid fa-award me-2"></i> ดูเกียรติบัตรฉบับเต็ม
                 </button>
             </div>
         </div>`;
