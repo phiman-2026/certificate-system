@@ -186,7 +186,6 @@
     padding: 16px;
     overflow: hidden;
     height: 100%;
-    /* เส้นขอบการ์ดชั้นนอก */
     border: 2px solid rgba(0, 0, 0, 0.08); 
     border-left: 8px solid transparent; 
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -199,18 +198,22 @@
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* พื้นหลังอาคารและโลโก้ */
+/* พื้นหลัง (ส่วนกลาง) */
 .app-card::before {
     content: "";
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
-                      url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
     background-size: cover;
     background-position: center;
     pointer-events: none; z-index: 1;
 }
 
+/* กำหนดรูปภาพแยกประเภท */
+.app-card.school::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); }
+.app-card.staff::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('ใส่ลิงก์รูปครูที่นี่'); }
+.app-card.student::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('ใส่ลิงก์รูปนักเรียนที่นี่'); }
+
+/* โลโก้ */
 .app-card::after {
     content: "";
     position: absolute;
@@ -221,37 +224,29 @@
 }
 
 /* =========================
-   BADGE (ประเภท: สถานศึกษา/คุณครู/นักเรียน)
+   BADGE (ประเภท)
 ========================= */
 .app-badge {
     display: inline-block;
-    font-size: 0.7rem; 
-    font-weight: 800; 
-    padding: 4px 12px; 
-    border-radius: 20px; 
-    color: #fff;
-    margin-bottom: 10px;
+    font-size: 0.7rem; font-weight: 800; 
+    padding: 4px 12px; border-radius: 20px; 
+    color: #fff; margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .b-school { background-color: #1565C0; }
 .b-staff { background-color: #00838F; }
 .b-student { background-color: #EF6C00; }
 
 /* =========================
-   CONTENT (ปรับชื่อรางวัลให้มีขีดด้านหน้าตามเดิม)
+   CONTENT
 ========================= */
 .app-card > * { position: relative; z-index: 2; }
 .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
 .card-title { 
-    font-size: 1rem; 
-    font-weight: 700; 
-    line-height: 1.4; 
-    margin-bottom: 14px; 
-    padding-left: 12px; /* ระยะห่างจากขีด */
-    border-left: 4px solid; /* นำเส้นขีดกลับมา */
-    color: #263238;
+    font-size: 1rem; font-weight: 700; line-height: 1.4; 
+    margin-bottom: 14px; padding-left: 12px; 
+    border-left: 4px solid; color: #263238;
 }
 
 .info-row { display: flex; margin-bottom: 6px; font-size: 0.8rem; }
@@ -267,15 +262,15 @@
    ACCENT COLORS
 ========================= */
 .app-card.school { border-left-color: #1565C0; }
-.app-card.school .card-title { border-left-color: #1565C0; } /* ขีดหน้าชื่อเป็นสีน้ำเงิน */
+.app-card.school .card-title { border-left-color: #1565C0; }
 .app-card.school .btn-app-action { background: linear-gradient(135deg, #42A5F5, #1565C0); }
 
 .app-card.staff { border-left-color: #00838F; }
-.app-card.staff .card-title { border-left-color: #00838F; } /* ขีดหน้าชื่อเป็นสีฟ้าอมเขียว */
+.app-card.staff .card-title { border-left-color: #00838F; }
 .app-card.staff .btn-app-action { background: linear-gradient(135deg, #26C6DA, #00838F); }
 
 .app-card.student { border-left-color: #EF6C00; }
-.app-card.student .card-title { border-left-color: #EF6C00; } /* ขีดหน้าชื่อเป็นสีส้ม */
+.app-card.student .card-title { border-left-color: #EF6C00; }
 .app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
