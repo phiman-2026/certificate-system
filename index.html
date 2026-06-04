@@ -179,7 +179,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.85); /* พื้นหลังกึ่งโปร่งใส */
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 22px;
@@ -188,13 +188,19 @@
     height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-left: 8px solid transparent; 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    /* เพิ่มเส้นกรอบด้านใน (Inner Border) เพื่อให้การ์ดเด่นและดูมีมิติ */
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.08), 
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     transition: 0.35s ease;
 }
 
 .app-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
+    /* เพิ่มความชัดของเงาและเส้นกรอบเมื่อเมาส์วาง */
+    box-shadow: 
+        0 18px 35px rgba(0, 0, 0, 0.15), 
+        inset 0 0 0 2px rgba(255, 255, 255, 0.6);
 }
 
 /* พื้นหลังภาพอาคารเรียน */
@@ -209,7 +215,7 @@
                       url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
     background-size: cover;
     background-position: center;
-    pointer-events: none; /* ช่วยให้คลิกปุ่มผ่านได้ */
+    pointer-events: none;
     z-index: 1;
 }
 
@@ -224,7 +230,7 @@
     background-image: url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.3; /* ปรับความชัดโลโก้ */
+    opacity: 0.3;
     z-index: 1;
     pointer-events: none;
 }
