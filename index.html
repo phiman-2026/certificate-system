@@ -651,39 +651,46 @@ window.onload = function() {
             });
         }
 
-       function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+    function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
     items.forEach(item => {
         let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
         let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
-        let className = item['ระดับชั้น'] || item['ชั้นเรียน'] || ''; // ชื่อคอลัมน์ใน Sheet ของคุณ
+        let className = item['ระดับชั้น'] || item['ชั้นเรียน'] || '';
         let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
         let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
+
+        // เลือกไอคอนตามประเภทรางวัล
+        let iconClass = (type === 'school') ? 'fa-university' : (type === 'student' ? 'fa-user-graduate' : 'fa-chalkboard-teacher');
 
         const cardHtml = `
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="app-card">
-                    <div>
-                        <div class="card-top">
-                            <span class="app-badge ${badgeClass}">${typeLabel}</span>
-                            ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
+                    <div class="card-top">
+                        <div style="background: var(--pms-light); color: var(--pms-main); padding: 8px 12px; border-radius: 12px;">
+                            <i class="fa-solid ${iconClass}"></i>
                         </div>
-                        <div class="card-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
-                        <div class="meta-box-app">
-                            <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
-                            ${className ? `<div class="info-row"><span>ชั้นเรียน:</span><b>${className}</b></div>` : ''}
-                            <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
-                            <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
-                        </div>
+                        <span class="app-badge ${badgeClass}">${typeLabel}</span>
                     </div>
+                    
+                    <div class="card-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
+                    
+                    <div class="meta-box-app">
+                        ${(type !== 'school' && dept) ? `<div class="info-row"><span>กลุ่มสาระ:</span><b>${dept}</b></div>` : ''}
+                        <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
+                        ${className ? `<div class="info-row"><span>ระดับชั้น:</span><b>${className}</b></div>` : ''}
+                        <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
+                        <div class="info-row"><span>ปี พ.ศ.:</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
+                    </div>
+
                     <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                        <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
+                        <i class="fa-regular fa-file-pdf"></i> ดูเกียรติบัตร
                     </button>
                 </div>
             </div>`;
         rowContainer.insertAdjacentHTML('beforeend', cardHtml);
     });
 }
-
+        
         function openAppSheet() {
             document.getElementById('main-honor-form').reset(); 
             document.getElementById('form-year').value = "2569"; 
