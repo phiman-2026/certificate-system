@@ -212,6 +212,10 @@ body{
    APP CARD
 ========================= */
 
+/* =========================
+   APP CARD
+========================= */
+
 .app-card{
     position:relative;
 
@@ -219,7 +223,7 @@ body{
     flex-direction:column;
     justify-content:space-between;
 
-    background:rgba(255,255,255,.92);
+    background:rgba(255,255,255,.95);
 
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
@@ -269,6 +273,7 @@ body{
 }
 
 .app-card::after{
+
     content:"";
 
     position:absolute;
@@ -295,6 +300,7 @@ body{
 /* ลายน้ำโลโก้ */
 
 .app-card::before{
+
     content:"";
 
     position:absolute;
@@ -311,7 +317,7 @@ body{
     background-repeat:no-repeat;
     background-position:center;
 
-    opacity:.1;
+    opacity:.1.2;
 
     pointer-events:none;
 }
@@ -328,6 +334,7 @@ body{
 ========================= */
 
 .card-top{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -336,13 +343,18 @@ body{
 }
 
 .app-badge{
-    font-size:.72rem;
 
-    font-weight:700;
+    font-family:'Prompt',sans-serif;
 
-    padding:5px 12px;
+    font-size:.75rem;
 
-    border-radius:8px;
+    font-weight:600;
+
+    padding:6px 12px;
+
+    border-radius:30px;
+
+    letter-spacing:.3px;
 }
 
 .b-school{
@@ -383,33 +395,81 @@ body{
 
     display:flex;
     align-items:flex-start;
-    gap:8px;
+    gap:10px;
+
+    font-family:'Kanit',sans-serif;
 
     font-size:1.05rem;
 
-    font-weight:700;
-
-    color:#0D47A1;
+    font-weight:600;
 
     line-height:1.5;
 
-    padding:12px;
+    padding:12px 14px;
 
     margin-bottom:15px;
 
-    background:#F5FAFF;
-
-    border-left:5px solid #1565C0;
-
     border-radius:12px;
+
+    transition:.3s;
 }
 
 .card-title i{
 
-    color:#42A5F5;
-
     margin-top:3px;
+
+    flex-shrink:0;
 }
+
+.card-title span{
+    flex:1;
+}
+
+/* โรงเรียน */
+
+.app-card.school .card-title{
+
+    color:#1565C0;
+
+    border-left:5px solid #1565C0;
+
+    background:#F3F8FF;
+}
+
+.app-card.school .card-title i{
+    color:#1565C0;
+}
+
+/* บุคลากร */
+
+.app-card.staff .card-title{
+
+    color:#00838F;
+
+    border-left:5px solid #00ACC1;
+
+    background:#F0FDFF;
+}
+
+.app-card.staff .card-title i{
+    color:#00ACC1;
+}
+
+/* นักเรียน */
+
+.app-card.student .card-title{
+
+    color:#2E7D32;
+
+    border-left:5px solid #43A047;
+
+    background:#F4FFF4;
+}
+
+.app-card.student .card-title i{
+    color:#43A047;
+}
+
 /* =========================
    DETAIL
 ========================= */
@@ -455,13 +515,38 @@ body{
 
     width:100%;
 
-    margin-top:16px;
+    margin-top:18px;
 
-    padding:12px;
+    padding:13px 16px;
 
     border:none;
 
     border-radius:14px;
+
+    color:#fff;
+
+    font-size:.88rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    overflow:hidden;
+}
+
+/* โรงเรียน */
+
+.app-card.school .btn-app-action{
 
     background:
     linear-gradient(
@@ -469,16 +554,30 @@ body{
         #42A5F5,
         #1565C0
     );
+}
 
-    color:#fff;
+/* บุคลากร */
 
-    font-size:.85rem;
+.app-card.staff .btn-app-action{
 
-    font-weight:700;
+    background:
+    linear-gradient(
+        135deg,
+        #26C6DA,
+        #00838F
+    );
+}
 
-    cursor:pointer;
+/* นักเรียน */
 
-    transition:.3s;
+.app-card.student .btn-app-action{
+
+    background:
+    linear-gradient(
+        135deg,
+        #66BB6A,
+        #2E7D32
+    );
 }
 
 .btn-app-action:hover{
@@ -486,7 +585,17 @@ body{
     transform:translateY(-2px);
 
     box-shadow:
-        0 8px 20px rgba(21,101,192,.25);
+        0 8px 20px rgba(0,0,0,.15);
+}
+
+.btn-app-action .arrow{
+
+    transition:.3s ease;
+}
+
+.btn-app-action:hover .arrow{
+
+    transform:translateX(6px);
 }
 
 /* =========================
@@ -505,6 +614,10 @@ body{
 
     .info-row{
         font-size:.80rem;
+    }
+
+    .btn-app-action{
+        font-size:.82rem;
     }
 }
         
@@ -998,7 +1111,7 @@ window.onload = function() {
 
                         </div>
 
-                       <div class="card-title">
+                      <div class="card-title" title="${awardTitle}">
     <i class="fa-solid fa-award"></i>
     <span>${awardTitle}</span>
 </div>
@@ -1031,15 +1144,18 @@ window.onload = function() {
 
                     </div>
 
-                    <button
-                        type="button"
-                        class="btn-app-action"
-                        onclick="openAppViewer('${encodeURIComponent(docLink)}')">
+                   <button
+    type="button"
+    class="btn-app-action"
+    onclick="openAppViewer('${encodeURIComponent(docLink)}')">
 
-                        <i class="fa-regular fa-file-pdf"></i>
-                        ดูเกียรติบัตร
+    <i class="fa-regular fa-file-pdf"></i>
 
-                    </button>
+    <span>ดูเกียรติบัตร</span>
+
+    <i class="fa-solid fa-arrow-right arrow"></i>
+
+</button>
 
                 </div>
 
