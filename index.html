@@ -287,11 +287,6 @@
         .viewer-header { background: var(--pms-main); padding: 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
 
         .d-none { display: none !important; }
-
-        /* บังคับให้ Modal แสดงเหนือกว่าทุก Layer */
-#statusNotifyModal {
-    z-index: 2000 !important;
-}
     </style>
 </head>
 <body>
@@ -309,7 +304,7 @@
                         </div>
                     </div>
                     <div class="header-actions">
-                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()" style="display: none;">
+                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
                             <option value="all">🔍 ดูทั้งหมดทุกกลุ่มสาระฯ</option>
                             <option value="วิทยาศาสตร์ฯ">กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</option>
                             <option value="คณิตศาสตร์">กลุ่มสาระฯ คณิตศาสตร์</option>
@@ -399,11 +394,6 @@
                         <textarea id="form-name" class="form-control" rows="3" placeholder="ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี"></textarea>
                     </div>
 
-                    <div class="mb-3" id="form-class-container">
-    <label class="form-label small fw-bold">ระดับชั้น / ห้องเรียน</label>
-    <input type="text" id="form-class" class="form-control" placeholder="ตัวอย่าง: ม.4/1, ม.6/2">
-</div>
-
                     <div class="mb-4">
                         <label class="form-label text-danger small fw-bold"><i class="fa-solid fa-file-pdf"></i> แนบไฟล์เกียรติบัตร (PDF เท่านั้น)</label>
                         <input type="file" id="form-file" class="form-control" accept="application/pdf">
@@ -447,20 +437,19 @@
         <iframe id="pdfAppFrame" style="width:100%; flex:1; border:none;" src=""></iframe>
     </div>
 
-<div class="modal fade" id="statusNotifyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
-        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 15px 30px rgba(0,0,0,0.18);">
-            <div class="modal-body text-center p-4">
-                <div id="notify-icon-container" class="mb-3" style="font-size: 4.5rem;"></div>
-                <h4 id="notify-title" class="fw-bold mb-2"></h4>
-                <p id="notify-message" class="text-secondary small mb-4"></p>
-                <button type="button" class="btn btn-primary w-100 py-2.5 fw-bold" 
-                        style="border-radius: 12px; background: var(--pms-main); border: none;" 
-                        onclick="closeNotification()">ตกลง</button>
+    <div class="modal fade" id="statusNotifyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 15px 30px rgba(0,0,0,0.18);">
+                <div class="modal-body text-center p-4">
+                    <div id="notify-icon-container" class="mb-3" style="font-size: 4.5rem;">
+                        </div>
+                    <h4 id="notify-title" class="fw-bold mb-2"></h4>
+                    <p id="notify-message" class="text-secondary small mb-4"></p>
+                    <button type="button" class="btn btn-primary w-100 py-2.5 fw-bold" style="border-radius: 12px; background: var(--pms-main); border: none;" data-bs-dismiss="modal">ตกลง</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -469,17 +458,11 @@
         let currentTab = 'welcome'; 
         let selectedDept = 'all';
 
-window.onload = function() { 
-    loadDataFromServerSilently(); 
-    handleFormTypeChange(); 
-    
-    // ตรงนี้เราไม่ต้องสั่งซ่อนซ้ำหากเราใส่ style="display: none;" ใน HTML แล้ว
-    // แต่ถ้าอยากให้ชัวร์ ให้ตรวจสอบเงื่อนไขก่อนซ่อนครับ
-    const deptSelect = document.getElementById('app-dept-select');
-    if (currentTab === 'welcome' || currentTab === 'school') {
-        deptSelect.style.display = 'none';
-    }
-};
+        window.onload = function() { 
+            loadDataFromServerSilently(); 
+            handleFormTypeChange(); 
+            document.getElementById('app-dept-select').style.display = 'none';
+        };
 
         function loadDataFromServerSilently() {
             fetch(GAS_WEB_APP_URL)
@@ -491,37 +474,31 @@ window.onload = function() {
                 .catch(err => console.error("Error fetching data backend silently: ", err));
         }
 
-       function handleFormTypeChange() {
-    const type = document.getElementById('form-type').value;
-    const deptContainer = document.getElementById('form-dept-container');
-    const nameContainer = document.getElementById('form-name-container');
-    const nameLabel = document.getElementById('form-name-label');
-    const nameInput = document.getElementById('form-name');
-    
-    // เลือกตัวคอนเทนเนอร์ของระดับชั้น
-    const classContainer = document.getElementById('form-class-container');
+        function handleFormTypeChange() {
+            const type = document.getElementById('form-type').value;
+            const deptContainer = document.getElementById('form-dept-container');
+            const nameContainer = document.getElementById('form-name-container');
+            const nameLabel = document.getElementById('form-name-label');
+            const nameInput = document.getElementById('form-name');
 
-    if (type === 'school') {
-        deptContainer.style.display = 'none';
-        nameContainer.style.display = 'none';
-        classContainer.style.display = 'none'; // ซ่อนระดับชั้น
-        nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; 
-    } else if (type === 'staff') {
-        deptContainer.style.display = 'block';
-        nameContainer.style.display = 'block';
-        classContainer.style.display = 'none'; // ซ่อนระดับชั้น
-        nameLabel.innerHTML = 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล';
-        nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี';
-        if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
-    } else if (type === 'student') {
-        deptContainer.style.display = 'block';
-        nameContainer.style.display = 'block';
-        classContainer.style.display = 'block'; // แสดงระดับชั้นเฉพาะกรณีนักเรียน
-        nameLabel.innerHTML = 'รายชื่อผู้รับรางวัล <span class="text-primary">(หากเป็นประเภททีม ให้ใช้เครื่องหมายคอมมา , คั่นรายชื่อ)</span>';
-        nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี';
-        if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
-    }
-}
+            if (type === 'school') {
+                deptContainer.style.display = 'none';
+                nameContainer.style.display = 'none';
+                nameInput.value = 'โรงเรียนพิมานพิทยาสรรค์'; 
+            } else if (type === 'staff') {
+                deptContainer.style.display = 'block';
+                nameContainer.style.display = 'block';
+                nameLabel.innerHTML = 'ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล <span class="text-danger">(ระบุได้เพียงชื่อเดียวเท่านั้น)</span>';
+                nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี';
+                if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
+            } else {
+                deptContainer.style.display = 'block';
+                nameContainer.style.display = 'block';
+                nameLabel.innerHTML = 'รายชื่อผู้รับรางวัล <span class="text-primary">(หากเป็นประเภททีม ให้ใช้เครื่องหมายคอมมา , คั่นรายชื่อ)</span>';
+                nameInput.placeholder = 'ตัวอย่าง: นายสมชาย รักดี, นางสาวสมหญิง เรียนดี';
+                if(nameInput.value === 'โรงเรียนพิมานพิทยาสรรค์') nameInput.value = '';
+            }
+        }
 
         function onDeptSelectChange() {
             selectedDept = document.getElementById('app-dept-select').value;
@@ -615,38 +592,36 @@ window.onload = function() {
             });
         }
 
-       function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
-    items.forEach(item => {
-        let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
-        let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
-        let className = item['ระดับชั้น'] || item['ชั้นเรียน'] || ''; // ชื่อคอลัมน์ใน Sheet ของคุณ
-        let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
-        let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
+        function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+            items.forEach(item => {
+                let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
+                let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
+                let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
+                let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
 
-        const cardHtml = `
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="app-card">
-                    <div>
-                        <div class="card-top">
-                            <span class="app-badge ${badgeClass}">${typeLabel}</span>
-                            ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
+                const cardHtml = `
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="app-card">
+                            <div>
+                                <div class="card-top">
+                                    <span class="app-badge ${badgeClass}">${typeLabel}</span>
+                                    ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
+                                </div>
+                                <div class="card-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
+                                <div class="meta-box-app">
+                                    <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
+                                    <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
+                                    <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
+                                <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
+                            </button>
                         </div>
-                        <div class="card-title" title="${item['ชื่อรางวัล/ผลงานเกียรติยศ']}">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
-                        <div class="meta-box-app">
-                            <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
-                            ${className ? `<div class="info-row"><span>ชั้นเรียน:</span><b>${className}</b></div>` : ''}
-                            <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
-                            <div class="info-row"><span>ปี พ.ศ.</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                        <i class="fa-regular fa-file-pdf"></i> ตรวจสอบไฟล์เกียรติบัตร
-                    </button>
-                </div>
-            </div>`;
-        rowContainer.insertAdjacentHTML('beforeend', cardHtml);
-    });
-}
+                    </div>`;
+                rowContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
 
         function openAppSheet() {
             document.getElementById('main-honor-form').reset(); 
@@ -668,118 +643,114 @@ window.onload = function() {
             document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
-      function showNotification(isSuccess, title, message) {
-    const iconContainer = document.getElementById('notify-icon-container');
-    document.getElementById('notify-title').innerText = title;
-    document.getElementById('notify-message').innerText = message;
+        /* 👑 ฟังก์ชันจัดการเปิดแสดงผลกล่อง Modal แจ้งเตือนสถานะความสวยงาม */
+        function showNotification(isSuccess, title, message) {
+            const iconContainer = document.getElementById('notify-icon-container');
+            document.getElementById('notify-title').innerText = title;
+            document.getElementById('notify-message').innerText = message;
 
-    if (isSuccess) {
-        iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
-        document.getElementById('notify-title').style.color = "#198754";
-    } else {
-        iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger"></i>`;
-        document.getElementById('notify-title').style.color = "#dc3545";
-    }
-
-    const modalEl = document.getElementById('statusNotifyModal');
-    // เพิ่มการตั้งค่า backdrop เพื่อให้คุมการปิดได้ดีขึ้น
-    notifyModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
-    notifyModal.show();
-}
-
-
-        function closeNotification() {
-    if (notifyModal) {
-        notifyModal.hide();
-        // คำสั่งด้านล่างนี้จะช่วยลบเงาสีเทาที่ค้างอยู่ออกไปจาก DOM
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) backdrop.remove();
-        document.body.classList.remove('modal-open');
-        document.body.style = "";
-    }
-} 
-        
-       function uploadAndSave() {
-    const btnSubmit = document.getElementById('btn-submit-save');
-    const type = document.getElementById('form-type').value;
-    const dept = document.getElementById('form-dept').value;
-    const year = document.getElementById('form-year').value.trim();
-    const giver = document.getElementById('form-giver').value.trim();
-    const title = document.getElementById('form-title').value.trim();
-    const name = document.getElementById('form-name').value.trim();
-    const className = document.getElementById('form-class').value.trim(); // ดึงค่าชั้นเรียน
-    const fileInput = document.getElementById('form-file');
-
-    // ตรวจสอบข้อมูล (เพิ่ม className ถ้าจำเป็นต้องบังคับกรอก)
-    if (!year || !giver || !title || !name || fileInput.files.length === 0) {
-        showNotification(false, 'ข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึกค่ะ');
-        return;
-    }
-
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> กำลังบันทึก...`;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const payload = {
-            action: "insertReward",
-            type: type,
-            dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
-            year: year,
-            giver: giver,
-            title: title,
-            name: name,
-            className: className, // ส่งค่าชั้นเรียนไปที่ Google Apps Script
-            fileMimeType: fileInput.files[0].type,
-            fileData: e.target.result.split(',')[1]
-        };
-
-        fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) })
-        .then(res => res.json())
-        .then(response => {
-            if (response.status === 'success' || response.result === 'success') {
-                showNotification(true, 'บันทึกสำเร็จ', 'ข้อมูลถูกบันทึกเรียบร้อยแล้วค่ะ');
-                closeAppSheet();
-                fetch(GAS_WEB_APP_URL).then(res => res.json()).then(data => {
-                    allAwardsData = data;
-                    if(currentTab === 'welcome') currentTab = 'all';
-                    renderAppContent();
-                });
+            if (isSuccess) {
+                iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success animate__animated animate__zoomIn"></i>`;
+                document.getElementById('notify-title').style.color = "#198754"; // สีเขียว
             } else {
-                showNotification(false, 'เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้');
+                iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger animate__animated animate__shakeX"></i>`;
+                document.getElementById('notify-title').style.color = "#dc3545"; // สีแดง
             }
-        })
-        .catch(() => showNotification(false, 'ผิดพลาด', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'))
-        .finally(() => {
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = 'บันทึกข้อมูล';
-        });
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-}
+
+            // สั่งเปิด Modal ของ Bootstrap ด้วย JavaScript
+            const notifyModal = new bootstrap.Modal(document.getElementById('statusNotifyModal'));
+            notifyModal.show();
+        }
+
+        function uploadAndSave() {
+            const btnSubmit = document.getElementById('btn-submit-save');
+            const type = document.getElementById('form-type').value;
+            const dept = document.getElementById('form-dept').value;
+            const year = document.getElementById('form-year').value.trim();
+            const giver = document.getElementById('form-giver').value.trim();
+            const title = document.getElementById('form-title').value.trim();
+            const name = document.getElementById('form-name').value.trim();
+            const fileInput = document.getElementById('form-file');
+
+            // เปลี่ยนจาก alert() ดั้งเดิม มาใช้ Modal แจ้งเตือนแบบสวยงามแทน
+            if (!year || !giver || !title || !name) {
+                showNotification(false, 'กรอกข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลในฟอร์มให้ครบถ้วนทุกช่องก่อนบันทึกนะคะ');
+                return;
+            }
+
+            if (fileInput.files.length === 0) {
+                showNotification(false, 'ไม่พบไฟล์แนบ', 'กรุณาแนบไฟล์เกียรติบัตร (PDF) เพื่อทำการบันทึกข้อมูลค่ะ');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (file.type !== "application/pdf") {
+                showNotification(false, 'ไฟล์ไม่ถูกต้อง', 'ระบบรองรับเฉพาะรูปแแบบไฟล์ PDF เท่านั้นนะคะ');
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> กำลังบันทึกข้อมูล...`;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result.split(',')[1];
+                
+                // ค้นหาช่วง payload ในฟังก์ชัน uploadAndSave แล้วปรับเป็นแบบนี้ครับ
+const payload = {
+    action: "insertReward",
+    type: type,
+    dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
+    year: year,
+    giver: giver,
+    title: title,
+    name: name,
+    // ไม่ต้องส่ง filename จากฝั่งนี้แล้ว เพราะเราจะให้ GAS รันชื่อเองตาม ID
+    fileMimeType: file.type,
+    fileData: base64Data
+};
+
+                fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.status === 'success' || response.result === 'success') {
+                        // 🌟 เรียกใช้ Modal แจ้งเตือนเมื่อสำเร็จแบบสวยงาม
+                        showNotification(true, 'บันทึกข้อมูลสำเร็จ', 'ระบบได้ทำการบันทึกข้อมูลรางวัลเกียรติยศลงฐานข้อมูลเรียบร้อยแล้วค่ะ');
+                        closeAppSheet();
+                        loadDataFromServerSilently();
+                        setTimeout(() => { 
+                            if(currentTab === 'welcome') currentTab = 'all';
+                            renderAppContent(); 
+                        }, 1500);
+                    } else {
+                        showNotification(false, 'เกิดข้อผิดพลาด', response.message || 'ไม่สามารถบันทึกข้อมูลได้ กรุณาตรวจสอบสิทธิ์ระบบหลังบ้าน');
+                    }
+                })
+                .catch(err => {
+                    console.error("Error saving record: ", err);
+                    showNotification(false, 'การเชื่อมต่อล้มเหลว', 'ไม่สามารถเชื่อมต่อกับหลังบ้านได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ');
+                })
+                .finally(() => {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = 'บันทึกข้อมูล';
+                });
+            };
+            
+            reader.readAsDataURL(file);
+        }
 
         function openAppViewer(encodedUrl) {
-    let url = decodeURIComponent(encodedUrl);
-    
-    if (!url) {
-        showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
-        return;
-    }
-
-    // --- ส่วนที่แก้ไข: แปลงลิงก์ให้เป็นแบบ preview เพื่อให้เปิดใน iframe ได้ ---
-    // หากเป็นลิงก์ Google Drive ปกติ ให้เปลี่ยน /view เป็น /preview
-    if (url.includes('drive.google.com/file/d/') && url.includes('/view')) {
-        url = url.replace('/view', '/preview');
-    }
-    // หากลิงก์ยังไม่มีคำว่า preview ให้เติมต่อท้าย (กรณีลิงก์สั้นหรือรูปแบบอื่น)
-    else if (url.includes('drive.google.com/file/d/') && !url.includes('/preview')) {
-        url = url.split('/view')[0] + '/preview';
-    }
-    // ------------------------------------------------------------------
-
-    document.getElementById('pdfAppFrame').src = url;
-    document.getElementById('app-viewer-modal').classList.remove('d-none');
-}
+            const url = decodeURIComponent(encodedUrl);
+            if(!url) {
+                showNotification(false, 'ไม่พบเอกสาร', 'ขออภัยด้วยค่ะ ไม่พบลิงก์เอกสารเกียรติบัตรสำหรับรางวัลชิ้นนี้ในระบบ');
+                return;
+            }
+            document.getElementById('pdfAppFrame').src = url;
+            document.getElementById('app-viewer-modal').classList.remove('d-none');
+        }
 
         function closeAppViewer() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
