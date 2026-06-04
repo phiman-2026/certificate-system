@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PMS Digital Honor App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -27,13 +31,46 @@
             --color-student: #7CFC00;   
         }
 
-        body { 
-            font-family: 'Kanit', sans-serif; 
-            background-color: var(--bg-app); 
-            color: var(--text-main); 
-            margin: 0; padding: 0;
-            min-height: 100vh;
-        }
+     /* ฟอนต์หลักทั้งระบบ */
+
+body{
+    font-family:'Prompt',sans-serif;
+
+    background-color: var(--bg-app);
+    color: var(--text-main);
+
+    margin:0;
+    padding:0;
+
+    min-height:100vh;
+}
+
+/* หัวข้อสำคัญ */
+
+.card-title{
+
+    font-family:'Kanit',sans-serif;
+
+    font-size:1.08rem;
+
+    font-weight:600;
+
+    color:#0D47A1;
+}
+.card-title{
+
+    font-family:'Kanit',sans-serif;
+
+    font-size:1.08rem;
+
+    font-weight:600;
+
+    color:#0D47A1;
+}
+.modal-title{
+    font-family:'Kanit',sans-serif;
+    font-weight:600;
+}
 
         /* 📱 ปรับ CONTAINER ให้ยืดหยุ่น (Responsive คอม/มือถือ) */
         .app-container {
@@ -575,7 +612,9 @@
                     <div class="app-brand">
                         <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="app-logo" alt="Logo">
                         <div class="app-title">
-                            <h1>PMS DIGITAL HONOR</h1>
+                            <h1 class="system-title">
+ระบบจัดเก็บผลงานรางวัลเกียรติยศ
+</h1>
                             <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล</p>
                         </div>
                     </div>
