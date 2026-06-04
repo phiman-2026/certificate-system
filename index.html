@@ -172,84 +172,50 @@
         }
 
         /* 🃏 App Cards */
-       .app-card{
-    position: relative;
+    /* =========================
+   Award Card
+========================= */
 
-    background: rgba(255,255,255,0.78);
+.app-card{
+    position:relative;
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 
-    border: 1px solid rgba(255,255,255,.45);
+    background:rgba(255,255,255,.78);
 
-    border-radius: 24px;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
 
-    padding: 20px;
+    border:1px solid rgba(255,255,255,.45);
 
-    overflow: hidden;
+    border-radius:24px;
+
+    padding:20px;
+
+    overflow:hidden;
 
     box-shadow:
         0 8px 30px rgba(21,101,192,.12);
 
-    transition: all .3s ease;
+    transition:all .3s ease;
 
     height:100%;
 }
-       .app-card:hover{
-    transform:
-        translateY(-8px);
+
+.app-card:hover{
+    transform:translateY(-8px);
 
     box-shadow:
         0 20px 40px rgba(21,101,192,.18);
 
     border-color:#42A5F5;
 }
-        
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .app-badge { font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 8px; }
-        .b-school { background: var(--color-school); color: #000; }
-        .b-staff { background: var(--color-staff); color: #fff; }
-        .b-student { background: var(--color-student); color: #000; }
-        .card-dept { font-size: 0.72rem; color: var(--pms-main); background: var(--pms-light); padding: 3px 10px; border-radius: 6px; font-weight: 600; }
 
-       .card-title{
-    font-size:1rem;
-    font-weight:700;
+/* โลโก้ลายน้ำ */
 
-    color:#0D47A1;
-
-    line-height:1.5;
-
-    padding-left:14px;
-
-    border-left:5px solid #FFD54F;
-}
-        .meta-box-app { flex-grow: 1; }
-        .info-row { display: flex; margin-bottom: 5px; font-size: 0.82rem; }
-        .info-row span { width: 65px; color: var(--text-sub); flex-shrink: 0; }
-        .info-row b { flex: 1; color: var(--text-main); word-break: break-word; }
-
-      .btn-app-action{
-
-    background:
-    linear-gradient(
-      135deg,
-      #42A5F5,
-      #1565C0
-    );
-
-    border:none;
-
-    border-radius:14px;
-
-    color:white;
-
-    font-weight:700;
-
-    transition:.3s;
-}
-
-        .app-card::before{
+.app-card::before{
     content:"";
 
     position:absolute;
@@ -268,9 +234,13 @@
     opacity:.04;
 
     pointer-events:none;
+
+    z-index:0;
 }
 
-        .app-card::after{
+/* คลื่นพื้นหลัง */
+
+.app-card::after{
     content:"";
 
     position:absolute;
@@ -282,22 +252,162 @@
     height:70px;
 
     background:
-    linear-gradient(
-        90deg,
-        rgba(66,165,245,.18),
-        rgba(21,101,192,.10)
-    );
+        linear-gradient(
+            90deg,
+            rgba(66,165,245,.18),
+            rgba(21,101,192,.10)
+        );
 
-    border-radius:
-        100% 100% 0 0;
+    border-radius:100% 100% 0 0;
+
+    pointer-events:none;
+
+    z-index:0;
 }
 
-        .btn-app-action:hover{
+/* ยกเนื้อหาขึ้นเหนือ Layer */
 
+.app-card > *{
+    position:relative;
+    z-index:1;
+}
+
+/* ส่วนหัว */
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:12px;
+}
+
+.app-badge{
+    font-size:.72rem;
+    font-weight:700;
+
+    padding:4px 12px;
+
+    border-radius:8px;
+}
+
+.b-school{
+    background:#FFD700;
+    color:#000;
+}
+
+.b-staff{
+    background:#00CED1;
+    color:#fff;
+}
+
+.b-student{
+    background:#7CFC00;
+    color:#000;
+}
+
+.card-dept{
+    font-size:.72rem;
+
+    color:var(--pms-main);
+
+    background:var(--pms-light);
+
+    padding:3px 10px;
+
+    border-radius:6px;
+
+    font-weight:600;
+}
+
+/* ชื่อรางวัล */
+
+.card-title{
+    font-size:1rem;
+
+    font-weight:700;
+
+    color:#0D47A1;
+
+    line-height:1.5;
+
+    padding-left:14px;
+
+    margin-bottom:12px;
+
+    border-left:5px solid #FFD54F;
+}
+
+/* รายละเอียด */
+
+.meta-box-app{
+    flex-grow:1;
+}
+
+.info-row{
+    display:flex;
+
+    margin-bottom:6px;
+
+    font-size:.82rem;
+}
+
+.info-row span{
+    width:65px;
+
+    color:var(--text-sub);
+
+    flex-shrink:0;
+}
+
+.info-row b{
+    flex:1;
+
+    color:var(--text-main);
+
+    word-break:break-word;
+}
+
+/* ปุ่ม */
+
+.btn-app-action{
+    position:relative;
+
+    z-index:2;
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:10px 0;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #42A5F5,
+            #1565C0
+        );
+
+    color:white;
+
+    font-size:.85rem;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-app-action:hover{
     transform:translateY(-2px);
 
     box-shadow:
-      0 10px 20px rgba(21,101,192,.25);
+        0 10px 20px rgba(21,101,192,.25);
 }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
