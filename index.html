@@ -174,291 +174,84 @@
   /* =========================
    AWARD CARD - PIMANPITTAYASAN
 ========================= */
-/* =========================
-   APP CARD
-========================= */
-
-.app-card{
-    position:relative;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-
-    background:rgba(255,255,255,.92);
-
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-
-    border-radius:22px;
-
-    padding:20px;
-
-    overflow:hidden;
-
-    height:100%;
-
-    border:3px solid #1565C0;
-
-    box-shadow:
-        0 8px 25px rgba(21,101,192,.10);
-
-    transition:.35s ease;
+.app-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 20px;
+    overflow: hidden;
+    height: 100%;
+    /* เพิ่ม Border ซ้ายที่ชัดขึ้นตามประเภท (จะไปกำหนดใน .app-card.type) */
+    border: 1px solid rgba(0,0,0,0.05);
+    border-left: 8px solid transparent; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: 0.35s ease;
 }
 
-/* สีตามประเภท */
+/* สี Accent ตามประเภท */
+.app-card.school { border-left-color: #1565C0; }
+.app-card.staff { border-left-color: #00838F; }
+.app-card.student { border-left-color: #EF6C00; }
 
-.app-card.school{
-    border-color:#1565C0;
+/* แถบด้านบน (ปรับให้จางลงเพื่อไม่ให้แย่งความเด่นจากเส้นด้านซ้าย) */
+.app-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    opacity: 0.3;
+    z-index: 1;
+}
+.app-card.school::after { background: #1565C0; }
+.app-card.staff::after { background: #00ACC1; }
+.app-card.student::after { background: #43A047; }
+
+/* เพิ่ม Texture ลวดลายจางๆ ด้วย Gradient เฉียง */
+.app-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+    z-index: 1;
 }
 
-.app-card.staff{
-    border-color:#00ACC1;
+/* ลายน้ำโลโก้ (ขยายให้ดูพรีเมียมขึ้น) */
+.app-card::before {
+    content: "";
+    background-image: url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
+    background-size: 100px;
+    background-repeat: no-repeat;
+    background-position: bottom 10px right 10px;
+    opacity: 0.05;
 }
 
-.app-card.student{
-    border-color:#43A047;
-}
-
-/* แถบด้านบน */
-
-.app-card.school::after{
-    background:#1565C0;
-}
-
-.app-card.staff::after{
-    background:#00ACC1;
-}
-
-.app-card.student::after{
-    background:#43A047;
-}
-
-.app-card::after{
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:6px;
-
-    z-index:1;
-}
-
-/* Hover */
-
-.app-card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:
-        0 18px 35px rgba(0,0,0,.12);
-}
-
-/* ลายน้ำโลโก้ */
-
-.app-card::before{
-    content:"";
-
-    position:absolute;
-
-    right:-15px;
-    bottom:-15px;
-
-    width:150px;
-    height:150px;
-
-    background-image:url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
-
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position:center;
-
-    opacity:.1;
-
-    pointer-events:none;
-}
-
-/* เนื้อหา */
-
-.app-card > *{
-    position:relative;
-    z-index:2;
-}
-
-/* =========================
-   TOP
-========================= */
-
-.card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:12px;
-}
-
-.app-badge{
-    font-size:.72rem;
-
-    font-weight:700;
-
-    padding:5px 12px;
-
-    border-radius:8px;
-}
-
-.b-school{
-    background:#E3F2FD;
-    color:#1565C0;
-}
-
-.b-staff{
-    background:#E0F7FA;
-    color:#00838F;
-}
-
-.b-student{
-    background:#E8F5E9;
-    color:#2E7D32;
-}
-
-.card-dept{
-
-    font-size:.72rem;
-
-    padding:4px 10px;
-
-    border-radius:8px;
-
-    background:#F5F7FA;
-
-    color:#546E7A;
-
-    font-weight:600;
-}
-
-/* =========================
-   TITLE
-========================= */
-
-.card-title{
-
-    font-size:1rem;
-
-    font-weight:700;
-
-    color:#0D47A1;
-
-    line-height:1.5;
-
-    margin-bottom:14px;
-
-    padding-left:12px;
-
-    border-left:4px solid #42A5F5;
-}
-
-/* =========================
-   DETAIL
-========================= */
-
-.meta-box-app{
-    flex-grow:1;
-}
-
-.info-row{
-
-    display:flex;
-
-    margin-bottom:8px;
-
-    font-size:.84rem;
-}
-
-.info-row span{
-
-    width:75px;
-
-    color:#607D8B;
-
-    flex-shrink:0;
-
-    font-weight:600;
-}
-
-.info-row b{
-
-    flex:1;
-
-    color:#263238;
-
-    word-break:break-word;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.btn-app-action{
-
-    width:100%;
-
-    margin-top:16px;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #42A5F5,
-        #1565C0
-    );
-
-    color:#fff;
-
-    font-size:.85rem;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.btn-app-action:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(21,101,192,.25);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:768px){
-
-    .app-card{
-        padding:16px;
-    }
-
-    .card-title{
-        font-size:.95rem;
-    }
-
-    .info-row{
-        font-size:.80rem;
-    }
-}
+/* ปรับปุ่มให้เป็นโทนเดียวกับการ์ด (Accent Color) */
+.app-card.school .btn-app-action { background: linear-gradient(135deg, #42A5F5, #1565C0); }
+.app-card.staff .btn-app-action { background: linear-gradient(135deg, #26C6DA, #00838F); }
+.app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
+
+/* ปรับ Title ให้มีสีตามประเภทด้วย */
+.app-card.school .card-title { color: #1565C0; border-left-color: #1565C0; }
+.app-card.staff .card-title { color: #00838F; border-left-color: #00838F; }
+.app-card.student .card-title { color: #EF6C00; border-left-color: #EF6C00; }
+
+/* ปรับปรุงส่วนอื่นๆ คงเดิม */
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; z-index: 2; }
+.app-badge { font-size: .72rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; }
+.card-title { font-size: 1rem; font-weight: 700; line-height: 1.5; margin-bottom: 14px; padding-left: 12px; border-left: 4px solid; }
+.btn-app-action { width: 100%; margin-top: 16px; padding: 12px; border: none; border-radius: 14px; color: #fff; font-weight: 700; cursor: pointer; transition: .3s; }
+.btn-app-action:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
         .empty-state-box {
