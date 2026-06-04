@@ -172,74 +172,28 @@
         }
 
         /* 🃏 App Cards */
-/* 🃏 ปรับโฉม Card ให้เป็น Modern Glass Card (วางทับอันเดิม) */
 .app-card {
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.app-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 104, 139, 0.15);
+    background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
+    border-radius: 30px;
+    padding: 30px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 104, 139, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
 }
 
-/* ส่วนหัวของการ์ด (ไอคอน + Badge) */
-.card-top { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 15px; 
+/* เพิ่มขอบสีทอง/น้ำเงินที่ด้านบนให้ดูหรูหรา */
+.app-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; width: 100%; height: 8px;
+    background: linear-gradient(90deg, #00688B, #FFD700);
 }
 
-/* ไอคอนการ์ด */
-.card-icon-box {
-    background: #e0f2fe; 
-    color: #00688B;
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-}
-
-/* ป้าย Badge */
-.app-badge { 
-    font-size: 0.7rem; 
-    font-weight: 700; 
-    padding: 4px 12px; 
-    border-radius: 50px; 
-}
-
-/* หัวข้อการ์ด */
-.card-title { 
-    font-size: 1rem; 
-    font-weight: 700; 
-    color: #0f172a; 
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
-
-/* ข้อมูลภายใน */
-.meta-box-app { flex-grow: 1; margin-bottom: 15px; }
-.info-row { display: flex; margin-bottom: 5px; font-size: 0.82rem; }
-.info-row span { width: 70px; color: #64748b; }
-.info-row b { color: #1e293b; }
-
-/* ปุ่ม */
-.btn-app-action {
-    width: 100%; 
-    background: var(--pms-main); 
-    border: none;
-    padding: 12px; 
-    border-radius: 12px; 
-    font-weight: 600; 
-    color: #ffffff;
-}
+.premium-logo { width: 60px; height: 60px; margin: 0 auto 15px; display: block; }
+.premium-title { font-size: 1.2rem; font-weight: 800; color: #00688B; text-align: center; margin-bottom: 5px; }
+.premium-subtitle { font-size: 0.9rem; color: #475569; text-align: center; margin-bottom: 20px; }
+        
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
         .empty-state-box {
@@ -655,39 +609,25 @@ window.onload = function() {
     function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
     items.forEach(item => {
         let docLink = item['ลิงก์ไฟล์เกียรติบัตร'] || item['ลิงก์ไฟล์'] || '';
-        let person = (type === 'school' ? 'โรงเรียนพิมานพิทยาสรรค์' : (item['ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล'] || item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'])) || '-';
-        let className = item['ระดับชั้น'] || item['ชั้นเรียน'] || '';
-        let giver = item['ผู้มอบ'] || item['หน่วยงานที่มอบรางวัล'] || item['หน่วยงานผู้มอบรางวัล'] || item['หน่วยงานผู้มอบ'] || '-';
-        let dept = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '';
-
-        // เลือกไอคอนตามประเภทรางวัล
-        let iconClass = (type === 'school') ? 'fa-university' : (type === 'student' ? 'fa-user-graduate' : 'fa-chalkboard-teacher');
-
+        
         const cardHtml = `
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="app-card">
-                    <div class="card-top">
-                        <div style="background: var(--pms-light); color: var(--pms-main); padding: 8px 12px; border-radius: 12px;">
-                            <i class="fa-solid ${iconClass}"></i>
-                        </div>
-                        <span class="app-badge ${badgeClass}">${typeLabel}</span>
-                    </div>
-                    
-                    <div class="card-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ'] || 'Untitled'}</div>
-                    
-                    <div class="meta-box-app">
-                        ${(type !== 'school' && dept) ? `<div class="info-row"><span>กลุ่มสาระ:</span><b>${dept}</b></div>` : ''}
-                        <div class="info-row"><span>ผู้ได้รับ:</span><b>${person}</b></div>
-                        ${className ? `<div class="info-row"><span>ระดับชั้น:</span><b>${className}</b></div>` : ''}
-                        <div class="info-row"><span>ผู้มอบ:</span><b>${giver}</b></div>
-                        <div class="info-row"><span>ปี พ.ศ.:</span><b>${item['ปีการศึกษา'] || '-'}</b></div>
-                    </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="app-card">
+                <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="premium-logo">
+                
+                <div class="premium-title">${item['ชื่อรางวัล/ผลงานเกียรติยศ']}</div>
+                <div class="premium-subtitle">${item['หน่วยงานผู้มอบรางวัล'] || '-'}</div>
 
-                    <button type="button" class="btn-app-action" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
-                        <i class="fa-regular fa-file-pdf"></i> ดูเกียรติบัตร
-                    </button>
+                <div class="meta-box-app" style="border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                    <div class="info-row"><i class="fa-solid fa-user me-2"></i><b>${item['ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล'] || '-'}</b></div>
+                    <div class="info-row"><i class="fa-solid fa-calendar me-2"></i>${item['ปีการศึกษา'] || '-'}</div>
                 </div>
-            </div>`;
+
+                <button class="btn btn-outline-primary w-100 mt-3 py-2" style="border-radius: 50px; border: 2px solid #00688B; font-weight:bold;" onclick="openAppViewer('${encodeURIComponent(docLink)}')">
+                    <i class="fa-solid fa-award"></i> ดูเกียรติบัตรฉบับเต็ม
+                </button>
+            </div>
+        </div>`;
         rowContainer.insertAdjacentHTML('beforeend', cardHtml);
     });
 }
