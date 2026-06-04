@@ -895,10 +895,10 @@ window.onload = function() {
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="app-card">
                     <div>
-                        <div class="card-top">
-    <div class="award-icon">
-        <i class="fa-solid fa-trophy"></i>
-    </div>
+                       <div class="card-top">
+    <span class="app-badge ${badgeClass}">
+        🏆 ${typeLabel}
+    </span>
                             <span class="app-badge ${badgeClass}">${typeLabel}</span>
                             ${(type !== 'school' && dept) ? `<span class="card-dept">${dept}</span>` : ''}
                         </div>
