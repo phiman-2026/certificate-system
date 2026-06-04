@@ -186,7 +186,7 @@
     padding: 16px;
     overflow: hidden;
     height: 100%;
-    /* เส้นขอบการ์ดชัดขึ้น */
+    /* เส้นขอบการ์ดชั้นนอก */
     border: 2px solid rgba(0, 0, 0, 0.08); 
     border-left: 8px solid transparent; 
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
@@ -222,7 +222,6 @@
 
 /* =========================
    BADGE (ประเภท: สถานศึกษา/คุณครู/นักเรียน)
-   ปรับให้เด่นชัดและมีสีพื้นหลัง
 ========================= */
 .app-badge {
     display: inline-block;
@@ -240,7 +239,7 @@
 .b-student { background-color: #EF6C00; }
 
 /* =========================
-   CONTENT (คงสไตล์ชื่อรางวัลเดิมไว้)
+   CONTENT (ปรับชื่อรางวัลให้มีขีดด้านหน้าตามเดิม)
 ========================= */
 .app-card > * { position: relative; z-index: 2; }
 .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -249,7 +248,9 @@
     font-size: 1rem; 
     font-weight: 700; 
     line-height: 1.4; 
-    margin-bottom: 12px; 
+    margin-bottom: 14px; 
+    padding-left: 12px; /* ระยะห่างจากขีด */
+    border-left: 4px solid; /* นำเส้นขีดกลับมา */
     color: #263238;
 }
 
@@ -266,12 +267,15 @@
    ACCENT COLORS
 ========================= */
 .app-card.school { border-left-color: #1565C0; }
+.app-card.school .card-title { border-left-color: #1565C0; } /* ขีดหน้าชื่อเป็นสีน้ำเงิน */
 .app-card.school .btn-app-action { background: linear-gradient(135deg, #42A5F5, #1565C0); }
 
 .app-card.staff { border-left-color: #00838F; }
+.app-card.staff .card-title { border-left-color: #00838F; } /* ขีดหน้าชื่อเป็นสีฟ้าอมเขียว */
 .app-card.staff .btn-app-action { background: linear-gradient(135deg, #26C6DA, #00838F); }
 
 .app-card.student { border-left-color: #EF6C00; }
+.app-card.student .card-title { border-left-color: #EF6C00; } /* ขีดหน้าชื่อเป็นสีส้ม */
 .app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
