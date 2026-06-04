@@ -171,52 +171,65 @@
             box-shadow: 0 2px 6px rgba(0, 104, 139, 0.1);
         }
 
-        /* 🃏 App Cards */
-    /* =========================
-   Award Card
+  /* =========================
+   AWARD CARD - PIMANPITTAYASAN
 ========================= */
 
 .app-card{
-    position:relative;
+    position: relative;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    background:rgba(255,255,255,.78);
+    background:
+        linear-gradient(
+            90deg,
+            #FFD54F 0%,
+            #FFF8E1 15%,
+            rgba(255,255,255,.82) 25%
+        );
 
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-    border:1px solid rgba(255,255,255,.45);
+    border: 2px solid #FFD54F;
+    border-top: 6px solid #FFD54F;
 
-    border-radius:24px;
+    border-radius: 24px;
 
-    padding:20px;
+    padding: 20px;
 
-    overflow:hidden;
+    overflow: hidden;
 
     box-shadow:
-        0 8px 30px rgba(21,101,192,.12);
+        0 8px 30px rgba(21,101,192,.12),
+        0 0 0 2px rgba(255,213,79,.15);
 
-    transition:all .3s ease;
+    transition: all .35s ease;
 
-    height:100%;
+    height: 100%;
 }
+
+/* Hover Effect */
 
 .app-card:hover{
-    transform:translateY(-8px);
+    transform: translateY(-8px);
+
+    border-color: #FFC107;
 
     box-shadow:
-        0 20px 40px rgba(21,101,192,.18);
-
-    border-color:#42A5F5;
+        0 20px 40px rgba(21,101,192,.18),
+        0 0 25px rgba(255,213,79,.35);
 }
 
-/* โลโก้ลายน้ำ */
+/* =========================
+   WATERMARK LOGO
+========================= */
 
 .app-card::before{
     content:"";
+
     position:absolute;
 
     right:-10px;
@@ -234,10 +247,13 @@
     opacity:.08;
 
     pointer-events:none;
+
     z-index:0;
 }
 
-/* คลื่นพื้นหลัง */
+/* =========================
+   BLUE WAVE
+========================= */
 
 .app-card::after{
     content:"";
@@ -264,14 +280,16 @@
     z-index:0;
 }
 
-/* ยกเนื้อหาขึ้นเหนือ Layer */
+/* ให้เนื้อหาอยู่เหนือพื้นหลัง */
 
 .app-card > *{
     position:relative;
     z-index:1;
 }
 
-/* ส่วนหัว */
+/* =========================
+   HEADER
+========================= */
 
 .card-top{
     display:flex;
@@ -285,41 +303,43 @@
     font-size:.72rem;
     font-weight:700;
 
-    padding:4px 12px;
+    padding:5px 12px;
 
     border-radius:8px;
 }
 
 .b-school{
-    background:#FFD700;
+    background:#FFD54F;
     color:#000;
 }
 
 .b-staff{
-    background:#00CED1;
+    background:#00ACC1;
     color:#fff;
 }
 
 .b-student{
-    background:#7CFC00;
-    color:#000;
+    background:#66BB6A;
+    color:#fff;
 }
 
 .card-dept{
     font-size:.72rem;
 
-    color:var(--pms-main);
+    color:#1565C0;
 
-    background:var(--pms-light);
+    background:#E3F2FD;
 
-    padding:3px 10px;
+    padding:4px 10px;
 
-    border-radius:6px;
+    border-radius:8px;
 
     font-weight:600;
 }
 
-/* ชื่อรางวัล */
+/* =========================
+   TITLE
+========================= */
 
 .card-title{
     font-size:1rem;
@@ -332,12 +352,14 @@
 
     padding-left:14px;
 
-    margin-bottom:12px;
+    margin-bottom:14px;
 
     border-left:5px solid #FFD54F;
 }
 
-/* รายละเอียด */
+/* =========================
+   DETAIL
+========================= */
 
 .meta-box-app{
     flex-grow:1;
@@ -346,28 +368,34 @@
 .info-row{
     display:flex;
 
-    margin-bottom:6px;
+    margin-bottom:8px;
 
-    font-size:.82rem;
+    font-size:.84rem;
 }
 
 .info-row span{
-    width:65px;
+    width:75px;
 
-    color:var(--text-sub);
+    color:#546E7A;
 
     flex-shrink:0;
+
+    font-weight:600;
 }
 
 .info-row b{
     flex:1;
 
-    color:var(--text-main);
+    color:#263238;
 
     word-break:break-word;
+
+    font-weight:600;
 }
 
-/* ปุ่ม */
+/* =========================
+   BUTTON
+========================= */
 
 .btn-app-action{
     position:relative;
@@ -376,9 +404,9 @@
 
     width:100%;
 
-    margin-top:15px;
+    margin-top:16px;
 
-    padding:10px 0;
+    padding:12px 0;
 
     border:none;
 
@@ -391,22 +419,53 @@
             #1565C0
         );
 
-    color:white;
+    color:#fff;
 
-    font-size:.85rem;
+    font-size:.88rem;
 
     font-weight:700;
 
     cursor:pointer;
 
     transition:.3s;
+
+    box-shadow:
+        0 5px 15px rgba(21,101,192,.20);
 }
 
 .btn-app-action:hover{
+
     transform:translateY(-2px);
 
     box-shadow:
-        0 10px 20px rgba(21,101,192,.25);
+        0 10px 20px rgba(21,101,192,.30);
+}
+
+.btn-app-action i{
+    margin-right:6px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:768px){
+
+    .app-card{
+        padding:16px;
+    }
+
+    .card-title{
+        font-size:.95rem;
+    }
+
+    .info-row{
+        font-size:.80rem;
+    }
+
+    .btn-app-action{
+        font-size:.82rem;
+    }
 }
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
