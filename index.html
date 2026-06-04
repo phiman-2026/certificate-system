@@ -171,9 +171,6 @@
             box-shadow: 0 2px 6px rgba(0, 104, 139, 0.1);
         }
 
-  /* =========================
-   AWARD CARD - PIMANPITTAYASAN
-========================= */
 /* =========================
    APP CARD
 ========================= */
@@ -347,7 +344,11 @@
 
 .card-title{
 
-    font-size:1rem;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+
+    font-size:1.05rem;
 
     font-weight:700;
 
@@ -355,13 +356,23 @@
 
     line-height:1.5;
 
-    margin-bottom:14px;
+    padding:12px;
 
-    padding-left:12px;
+    margin-bottom:15px;
 
-    border-left:4px solid #42A5F5;
+    background:#F5FAFF;
+
+    border-left:5px solid #1565C0;
+
+    border-radius:12px;
 }
 
+.card-title i{
+
+    color:#42A5F5;
+
+    margin-top:3px;
+}
 /* =========================
    DETAIL
 ========================= */
@@ -948,11 +959,10 @@ window.onload = function() {
 
                         </div>
 
-                        <div
-                            class="card-title"
-                            title="${awardTitle}">
-                            ${awardTitle}
-                        </div>
+                       <div class="card-title">
+    <i class="fa-solid fa-award"></i>
+    <span>${awardTitle}</span>
+</div>
 
                         <div class="meta-box-app">
 
