@@ -287,6 +287,11 @@
         .viewer-header { background: var(--pms-main); padding: 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
 
         .d-none { display: none !important; }
+
+        /* บังคับให้ Modal แสดงเหนือกว่าทุก Layer */
+#statusNotifyModal {
+    z-index: 2000 !important;
+}
     </style>
 </head>
 <body>
@@ -304,7 +309,7 @@
                         </div>
                     </div>
                     <div class="header-actions">
-                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()" style="display: none;">
                             <option value="all">🔍 ดูทั้งหมดทุกกลุ่มสาระฯ</option>
                             <option value="วิทยาศาสตร์ฯ">กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</option>
                             <option value="คณิตศาสตร์">กลุ่มสาระฯ คณิตศาสตร์</option>
@@ -458,11 +463,17 @@
         let currentTab = 'welcome'; 
         let selectedDept = 'all';
 
-        window.onload = function() { 
-            loadDataFromServerSilently(); 
-            handleFormTypeChange(); 
-            document.getElementById('app-dept-select').style.display = 'none';
-        };
+window.onload = function() { 
+    loadDataFromServerSilently(); 
+    handleFormTypeChange(); 
+    
+    // ตรงนี้เราไม่ต้องสั่งซ่อนซ้ำหากเราใส่ style="display: none;" ใน HTML แล้ว
+    // แต่ถ้าอยากให้ชัวร์ ให้ตรวจสอบเงื่อนไขก่อนซ่อนครับ
+    const deptSelect = document.getElementById('app-dept-select');
+    if (currentTab === 'welcome' || currentTab === 'school') {
+        deptSelect.style.display = 'none';
+    }
+};
 
         function loadDataFromServerSilently() {
             fetch(GAS_WEB_APP_URL)
@@ -643,24 +654,24 @@
             document.querySelector('.fab-btn').classList.remove('d-none');
         }
 
-        /* 👑 ฟังก์ชันจัดการเปิดแสดงผลกล่อง Modal แจ้งเตือนสถานะความสวยงาม */
-        function showNotification(isSuccess, title, message) {
-            const iconContainer = document.getElementById('notify-icon-container');
-            document.getElementById('notify-title').innerText = title;
-            document.getElementById('notify-message').innerText = message;
+       function showNotification(isSuccess, title, message) {
+    const iconContainer = document.getElementById('notify-icon-container');
+    document.getElementById('notify-title').innerText = title;
+    document.getElementById('notify-message').innerText = message;
 
-            if (isSuccess) {
-                iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success animate__animated animate__zoomIn"></i>`;
-                document.getElementById('notify-title').style.color = "#198754"; // สีเขียว
-            } else {
-                iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger animate__animated animate__shakeX"></i>`;
-                document.getElementById('notify-title').style.color = "#dc3545"; // สีแดง
-            }
+    if (isSuccess) {
+        iconContainer.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+        document.getElementById('notify-title').style.color = "#198754";
+    } else {
+        iconContainer.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger"></i>`;
+        document.getElementById('notify-title').style.color = "#dc3545";
+    }
 
-            // สั่งเปิด Modal ของ Bootstrap ด้วย JavaScript
-            const notifyModal = new bootstrap.Modal(document.getElementById('statusNotifyModal'));
-            notifyModal.show();
-        }
+    // แก้ไขตรงนี้สำคัญมาก: ต้องสร้าง Modal Object ก่อนเรียก .show()
+    const modalEl = document.getElementById('statusNotifyModal');
+    const notifyModal = new bootstrap.Modal(modalEl);
+    notifyModal.show();
+}
 
         function uploadAndSave() {
             const btnSubmit = document.getElementById('btn-submit-save');
