@@ -757,7 +757,7 @@ window.onload = function() {
     });
 }
 
-   function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+  function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
     const iconMap = { school: '🏫', staff: '👨‍🏫', student: '🎓' };
     const icon = iconMap[type] || '🏆';
 
@@ -775,8 +775,8 @@ window.onload = function() {
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="app-card ${type}" style="position: relative; overflow: hidden;">
                     
-                    <div style="position: absolute; top: 15px; right: -5px; background: linear-gradient(135deg, #00688B, #004d66); color: white; padding: 6px 15px; border-radius: 15px 0 0 15px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 10;">
-                        <i class="fa-solid fa-trophy" style="margin-right: 5px;"></i> ${rewardLevel}
+                    <div style="position: absolute; top: 15px; right: -5px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #5D4037; padding: 6px 15px; border-radius: 15px 0 0 15px; font-size: 0.8rem; font-weight: 800; box-shadow: 0 4px 6px rgba(0,0,0,0.15); z-index: 10; border: 1px solid rgba(255,255,255,0.3);">
+                        <i class="fa-solid fa-medal" style="margin-right: 5px;"></i> ${rewardLevel}
                     </div>
 
                     <div>
