@@ -273,6 +273,23 @@
 .app-card.student { border-left-color: #EF6C00; }
 .app-card.student .card-title { border-left-color: #EF6C00; }
 .app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
+
+
+/* คลาสสำหรับป้ายระดับรางวัลแบบ Ribbon */
+.reward-badge-ribbon {
+    position: absolute;
+    top: 15px;
+    right: -5px; /* ให้ล้นออกนิดๆ ดูมีมิติ */
+    background: linear-gradient(135deg, #FF9800, #F57C00); /* ไล่เฉดสีส้ม-เหลือง */
+    color: white;
+    padding: 6px 15px;
+    border-radius: 15px 0 0 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+        
         
         /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
         .empty-state-box {
@@ -740,7 +757,7 @@ window.onload = function() {
     });
 }
 
-    function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
+   function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
     const iconMap = { school: '🏫', staff: '👨‍🏫', student: '🎓' };
     const icon = iconMap[type] || '🏆';
 
@@ -756,10 +773,11 @@ window.onload = function() {
 
         const cardHtml = `
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="app-card ${type}">
-                    <span class="badge" style="position: absolute; top: 10px; right: 10px; background: var(--pms-main, #0056b3); color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        ${rewardLevel}
-                    </span>
+                <div class="app-card ${type}" style="position: relative; overflow: hidden;">
+                    
+                    <div style="position: absolute; top: 15px; right: -5px; background: linear-gradient(135deg, #00688B, #004d66); color: white; padding: 6px 15px; border-radius: 15px 0 0 15px; font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 10;">
+                        <i class="fa-solid fa-trophy" style="margin-right: 5px;"></i> ${rewardLevel}
+                    </div>
 
                     <div>
                         <div class="card-top">
@@ -803,6 +821,8 @@ window.onload = function() {
         rowContainer.insertAdjacentHTML('beforeend', cardHtml);
     });
 }
+
+        
         function openAppSheet() {
             document.getElementById('main-honor-form').reset(); 
             document.getElementById('form-year').value = "2569"; 
