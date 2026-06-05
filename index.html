@@ -371,34 +371,52 @@
 
     <div class="app-container">
         
-        <header class="app-header">
-            <div class="container-fluid content-limiter">
-                <div class="header-content">
-                    <div class="app-brand">
-                        <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="app-logo" alt="Logo">
-                        <div class="app-title">
-                            <h1>PMS DIGITAL HONOR</h1>
-                            <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล</p>
-                        </div>
-                    </div>
-                    <div class="header-actions">
-                        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()" style="display: none;">
-                            <option value="all">🔍 ดูทั้งหมดทุกกลุ่มสาระฯ</option>
-                            <option value="วิทยาศาสตร์ฯ">กลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</option>
-                            <option value="คณิตศาสตร์">กลุ่มสาระฯ คณิตศาสตร์</option>
-                            <option value="ภาษาไทย">กลุ่มสาระฯ ภาษาไทย</option>
-                            <option value="ภาษาต่างประเทศ">กลุ่มสาระฯ ภาษาต่างประเทศ</option>
-                            <option value="สังคมศึกษาฯ">กลุ่มสาระฯ สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                            <option value="สุขศึกษาฯ">กลุ่มสาระฯ สุขศึกษาและพลศึกษา</option>
-                            <option value="ศิลปะ">กลุ่มสาระฯ ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                            <option value="การงานอาชีพ">กลุ่มสาระฯ การงานอาชีพ</option>
-                            <option value="กิจกรรมพัฒนาผู้เรียน">กลุ่มสาระฯ กิจกรรมพัฒนาผู้เรียน</option>
-                        </select>
-                        <button class="pc-add-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่</button>
-                    </div>
+     <header class="app-header">
+    <div class="container-fluid content-limiter">
+        <div class="header-content">
+            <div class="app-brand">
+                <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="app-logo" alt="Logo">
+                <div class="app-title">
+                    <h1>PMS DIGITAL HONOR</h1>
+                    <p>โรงเรียนพิมานพิทยาสรรค์ จังหวัดสตูล</p>
                 </div>
             </div>
-        </header>
+            
+            <div class="header-actions">
+                <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
+                    <option value="all">ปีการศึกษา (ทั้งหมด)</option>
+                    <option value="2569">2569</option>
+                    <option value="2568">2568</option>
+                </select>
+
+                <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
+                    <option value="all">ระดับรางวัล (ทั้งหมด)</option>
+                    <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+                    <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+                    <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+                    <option value="ระดับภาค">ระดับภาค</option>
+                    <option value="ระดับชาติ">ระดับชาติ</option>
+                    <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+                </select>
+
+                <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+                    <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
+                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                    <option value="ภาษาไทย">ภาษาไทย</option>
+                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+                    <option value="การงานอาชีพ">การงานอาชีพ</option>
+                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+                </select>
+
+                <button class="pc-add-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่</button>
+            </div>
+        </div>
+    </div>
+</header>
 
         <button class="fab-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i></button>
 
@@ -435,6 +453,17 @@
                                 <option value="student" selected>รางวัลนักเรียน</option>
                             </select>
                         </div>
+                        <div class="col-12 col-md-6 mb-3">
+    <label class="form-label small fw-bold">ระดับรางวัล</label>
+    <select id="form-reward-level" class="form-select">
+        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+        <option value="ระดับภาค">ระดับภาค</option>
+        <option value="ระดับชาติ">ระดับชาติ</option>
+        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+    </select>
+</div>
                         <div class="col-12 col-md-6 mb-3" id="form-dept-container">
                             <label class="form-label small fw-bold">กลุ่มสาระการเรียนรู้ / ฝ่ายงาน</label>
                             <select id="form-dept" class="form-select">
@@ -679,14 +708,20 @@ window.onload = function() {
             }
         }
 
-        function filterAppItems(items, type) {
-            if (type === 'school') return items;
-            if (selectedDept === 'all') return items;
-            return items.filter(item => {
-                let d = item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || item['department'];
-                return d === selectedDept;
-            });
-        }
+       function filterAppItems(items, type) {
+    const yearVal = document.getElementById('filter-year').value;
+    const levelVal = document.getElementById('filter-reward-level').value;
+    const deptVal = document.getElementById('app-dept-select').value;
+    
+    return items.filter(item => {
+        // ตรวจสอบว่าปี, ระดับรางวัล, และกลุ่มสาระ ตรงกับที่เลือกไหม
+        const matchYear = (yearVal === 'all' || String(item['ปีการศึกษา']) === yearVal);
+        const matchLevel = (levelVal === 'all' || item['ระดับรางวัล'] === levelVal);
+        const matchDept = (deptVal === 'all' || (item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน']) === deptVal);
+        
+        return matchYear && matchLevel && matchDept;
+    });
+}
 
      function buildAppCards(rowContainer, items, type, typeLabel, badgeClass) {
 
@@ -868,18 +903,19 @@ window.onload = function() {
     }
 } 
         
-       function uploadAndSave() {
+function uploadAndSave() {
     const btnSubmit = document.getElementById('btn-submit-save');
     const type = document.getElementById('form-type').value;
+    const rewardLevel = document.getElementById('form-reward-level').value; // ดึงค่าจาก select ใหม่
     const dept = document.getElementById('form-dept').value;
     const year = document.getElementById('form-year').value.trim();
     const giver = document.getElementById('form-giver').value.trim();
     const title = document.getElementById('form-title').value.trim();
     const name = document.getElementById('form-name').value.trim();
-    const className = document.getElementById('form-class').value.trim(); // ดึงค่าชั้นเรียน
+    const className = document.getElementById('form-class').value.trim();
     const fileInput = document.getElementById('form-file');
 
-    // ตรวจสอบข้อมูล (เพิ่ม className ถ้าจำเป็นต้องบังคับกรอก)
+    // ตรวจสอบข้อมูลให้ครบถ้วน
     if (!year || !giver || !title || !name || fileInput.files.length === 0) {
         showNotification(false, 'ข้อมูลไม่ครบ', 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึกค่ะ');
         return;
@@ -893,27 +929,34 @@ window.onload = function() {
         const payload = {
             action: "insertReward",
             type: type,
+            rewardLevel: rewardLevel, // ส่งค่าระดับรางวัลไปที่ GAS
             dept: (type === 'school') ? 'บริหารงานกลาง' : dept,
             year: year,
             giver: giver,
             title: title,
             name: name,
-            className: className, // ส่งค่าชั้นเรียนไปที่ Google Apps Script
+            className: className,
             fileMimeType: fileInput.files[0].type,
             fileData: e.target.result.split(',')[1]
         };
 
-        fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) })
+        fetch(GAS_WEB_APP_URL, { 
+            method: 'POST', 
+            body: JSON.stringify(payload) 
+        })
         .then(res => res.json())
         .then(response => {
             if (response.status === 'success' || response.result === 'success') {
                 showNotification(true, 'บันทึกสำเร็จ', 'ข้อมูลถูกบันทึกเรียบร้อยแล้วค่ะ');
                 closeAppSheet();
-                fetch(GAS_WEB_APP_URL).then(res => res.json()).then(data => {
-                    allAwardsData = data;
-                    if(currentTab === 'welcome') currentTab = 'all';
-                    renderAppContent();
-                });
+                // โหลดข้อมูลใหม่เพื่ออัปเดตหน้าจอ
+                fetch(GAS_WEB_APP_URL)
+                    .then(res => res.json())
+                    .then(data => {
+                        allAwardsData = data;
+                        if(currentTab === 'welcome') currentTab = 'all';
+                        renderAppContent();
+                    });
             } else {
                 showNotification(false, 'เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้');
             }
