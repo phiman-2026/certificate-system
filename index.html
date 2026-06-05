@@ -61,78 +61,66 @@
             padding: 0 16px;
         }
 
-       /* 🏛️ ปรับปรุง App Top Bar ใหม่ให้มีกราฟฟิกและรูปอาคารจางๆ */
+/* 🏛️ ปรับ Header ให้เป็นแบบ Stacked (ซ้อนกัน) ในมือถือ */
 .app-header {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    z-index: 1000;
-    
-    /* การซ้อนเลเยอร์: รูปอาคาร(จาง) + ไล่เฉดสี + สีพื้นหลัก */
-    background: 
-        linear-gradient(rgba(0, 104, 139, 0.85), rgba(0, 104, 139, 0.85)), /* เฉดสีฟ้าเข้มทับรูป */
-        url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); /* เปลี่ยน URL เป็นรูปอาคารเรียนของคุณ */
-    
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    padding: 20px 0;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.2); /* เพิ่มเส้นขอบบางๆ ให้ดูมีดีเทล */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: linear-gradient(rgba(0, 104, 139, 0.95), rgba(0, 104, 139, 0.95)), 
+                url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
+    background-size: cover; background-position: center;
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* ปรับข้อความให้โดดเด่น */
-.app-title h1 { 
-    font-size: 1.3rem; 
-    font-weight: 800; 
-    margin: 0; 
-    color: #ffffff; 
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* เพิ่มเงาให้ตัวหนังสือลอยเด่น */
+.header-content {
+    display: flex;
+    flex-direction: column; /* ให้โลโก้และฟิลเตอร์ซ้อนกันในมือถือ */
+    gap: 15px; 
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
-.app-title p { 
-    font-size: 0.85rem; 
-    margin: 0; 
-    color: #e0f2fe; /* ปรับให้สีสว่างขึ้นเล็กน้อย */
-    font-weight: 500;
-}
-        /* ในคอมพิวเตอร์ให้ชื่อแอป ตัวเลือก และปุ่มเพิ่มข้อมูล อยู่แถวเดียวกัน */
-        @media (min-width: 768px) {
-            .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .header-actions {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                flex-shrink: 0;
-            }
-            .filter-select-box { max-width: 300px; }
-        }
+.app-brand { display: flex; align-items: center; gap: 12px; }
+.app-logo { width: 45px; height: 45px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.app-title h1 { font-size: 1.1rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.2; }
+.app-title p { font-size: 0.75rem; color: #e0f2fe; margin: 0; }
 
-        .app-brand { display: flex; align-items: center; gap: 12px; }
-        .app-logo { width: 38px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+/* 🔍 ปรับฟิลเตอร์ให้กระชับและเรียงตัวสวย */
+.header-actions {
+    display: flex;
+    flex-direction: column; /* มือถือ: ซ้อนกัน */
+    gap: 8px; /* ระยะห่างระหว่างช่องตัวเลือก */
+    width: 100%;
+}
+
+.filter-select-box {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: var(--pms-main);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* 🖥️ ปรับหน้าจอคอมพิวเตอร์ให้เรียงแถว */
+@media (min-width: 768px) {
+    .header-content { flex-direction: row; justify-content: space-between; }
+    .header-actions { flex-direction: row; width: auto; }
+    .filter-select-box { width: 160px; } /* ปรับความกว้างให้พอดี */
+}
+
+/* ปรับระยะห่าง Container ไม่ให้บังหัวข้อ */
+.app-container {
+    padding-top: 220px; /* สำหรับมือถือ (Header สูงขึ้นเพราะซ้อนกัน) */
+    padding-bottom: 95px;
+}
+@media (min-width: 768px) {
+    .app-container { padding-top: 100px; } /* สำหรับคอม */
+}
      
-
-        /* 🔍 Filter Dropdown */
-        .filter-select-box {
-            width: 100%;
-            padding: 10px 15px;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--pms-main);
-            background-color: #ffffff;
-            border: 2px solid #ffffff;
-            border-radius: 12px;
-            outline: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
         /* 👑 หน้า Welcome Screen ปรับกระชับให้พอดีหน้าจอมือถือโดยไม่ต้องเลื่อนลง */
         .welcome-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
