@@ -151,38 +151,39 @@
             .w-line-5 { font-size: 0.95rem; }
         }
 
-        /* หัวข้อประเภท .section-title */
-        .section-title { 
-            font-size: 1.25rem; 
-            font-weight: 700; 
-            color: var(--pms-main); 
-            margin: 35px 0 20px 4px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            padding-bottom: 8px; 
-            position: relative;
-            width: 100%;
-        }
-        .section-title::after {
-            content: "";
-            flex: 1;
-            height: 4px;
-            background: linear-gradient(to right, var(--pms-main) 0%, #0099cc 50%, rgba(240, 244, 247, 0) 100%);
-            border-radius: 4px;
-        }
-        .section-title i {
-            background-color: var(--pms-light);
-            color: var(--pms-main);
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 6px rgba(0, 104, 139, 0.1);
-        }
+     /* หัวข้อประเภท .section-title แบบ Modern Ribbon */
+.section-title { 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    color: var(--pms-main); 
+    margin: 30px 0 20px 0; /* ปรับ margin ให้ดูสะอาดขึ้น */
+    padding: 12px 20px;     /* เพิ่ม padding ให้ข้อความมีพื้นที่หายใจ */
+    background: #f0f7f9;    /* สีพื้นหลังจางๆ ของโรงเรียนพิมานฯ */
+    border-left: 6px solid var(--pms-main); /* แถบสีเข้มด้านซ้าย */
+    border-radius: 4px;     /* มุมโค้งมนเล็กน้อย */
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* เพิ่มเงาเบาๆ ให้ดูมีมิติ */
+}
+
+/* ลบ .section-title::after ออกไปได้เลย หรือใส่ display: none; ไว้ก็ได้ค่ะ */
+.section-title::after {
+    display: none; 
+}
+
+.section-title i { 
+    background-color: #fff; /* เปลี่ยนพื้นหลังไอคอนให้ขาว จะได้ตัดกับสีพื้นหลังของ Ribbon */
+    color: var(--pms-main); 
+    width: 36px; 
+    height: 36px; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 10px; 
+    font-size: 1.1rem; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* ปรับเงาไอคอนให้นุ่มนวลขึ้น */
+}
 
 /* =========================
    CARD STRUCTURE
