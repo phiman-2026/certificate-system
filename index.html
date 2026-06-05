@@ -92,7 +92,12 @@
     }
 }
 
-.app-brand { display: flex; align-items: center; gap: 12px; }
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden; /* ป้องกันไม่ให้โลโก้ดันเนื้อหาอื่นจนล้น */
+}
 
 /* บังคับขนาดโลโก้ให้พอดีและคงสัดส่วน */
 .app-logo { 
