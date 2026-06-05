@@ -61,19 +61,44 @@
             padding: 0 16px;
         }
 
-        /* 🏛️ App Top Bar - ปรับปรุงเป็นแบบแบนเนอร์เรียบตรง ไม่โค้งมน */
-        .app-header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: var(--pms-main); 
-            padding: 15px 0;
-            border-radius: 0; /* เอาความโค้งมนออก ให้เรียบเป็นทางการ */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+       /* 🏛️ ปรับปรุง App Top Bar ใหม่ให้มีกราฟฟิกและรูปอาคารจางๆ */
+.app-header {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 1000;
+    
+    /* การซ้อนเลเยอร์: รูปอาคาร(จาง) + ไล่เฉดสี + สีพื้นหลัก */
+    background: 
+        linear-gradient(rgba(0, 104, 139, 0.85), rgba(0, 104, 139, 0.85)), /* เฉดสีฟ้าเข้มทับรูป */
+        url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); /* เปลี่ยน URL เป็นรูปอาคารเรียนของคุณ */
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    padding: 20px 0;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2); /* เพิ่มเส้นขอบบางๆ ให้ดูมีดีเทล */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ปรับข้อความให้โดดเด่น */
+.app-title h1 { 
+    font-size: 1.3rem; 
+    font-weight: 800; 
+    margin: 0; 
+    color: #ffffff; 
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* เพิ่มเงาให้ตัวหนังสือลอยเด่น */
+}
+
+.app-title p { 
+    font-size: 0.85rem; 
+    margin: 0; 
+    color: #e0f2fe; /* ปรับให้สีสว่างขึ้นเล็กน้อย */
+    font-weight: 500;
+}
         /* ในคอมพิวเตอร์ให้ชื่อแอป ตัวเลือก และปุ่มเพิ่มข้อมูล อยู่แถวเดียวกัน */
         @media (min-width: 768px) {
             .header-content {
@@ -92,8 +117,7 @@
 
         .app-brand { display: flex; align-items: center; gap: 12px; }
         .app-logo { width: 38px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-        .app-title h1 { font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff; letter-spacing: 0.5px; }
-        .app-title p { font-size: 0.75rem; margin: 0; color: rgba(255,255,255,0.85); }
+     
 
         /* 🔍 Filter Dropdown */
         .filter-select-box {
