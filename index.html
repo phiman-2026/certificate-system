@@ -662,7 +662,8 @@ window.onload = function() {
 
 function changeAppTab(tabName) {
     currentTab = tabName;
-    const filterBox = document.getElementById('filter-box'); // ดึง ID มาใช้งาน
+    const filterBox = document.getElementById('filter-box');
+    const deptSelect = document.getElementById('app-dept-select'); // ดึงตัวเลือกกลุ่มสาระมา
     
     // อัปเดตสถานะปุ่มเมนู
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -670,22 +671,33 @@ function changeAppTab(tabName) {
         document.getElementById('nav-' + tabName).classList.add('active');
     }
 
-    // --- ส่วนที่ปรับปรุง: ควบคุมการแสดงผลฟิลเตอร์ ---
+    // จัดการแสดง/ซ่อนทั้งกล่องฟิลเตอร์
     if (tabName === 'welcome') {
         filterBox.style.display = 'none'; // หน้าแรกซ่อนไว้
     } else {
-        // เมื่อกดดูหมวดอื่น ให้แสดงฟิลเตอร์
-        filterBox.style.display = 'flex'; 
+        filterBox.style.display = 'flex'; // หน้าอื่นๆ แสดงฟิลเตอร์
+        
+        // เงื่อนไข: ถ้าเป็นแท็บ 'school' ให้ซ่อนแค่ช่องกลุ่มสาระฯ
+        if (tabName === 'school') {
+            deptSelect.style.display = 'none';
+        } else {
+            deptSelect.style.display = 'block'; // แท็บอื่นให้แสดงปกติ
+        }
     }
-    // -------------------------------------------
 
     renderAppContent();
 }
 
-      function renderAppContent() {
+function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
+    const deptSelect = document.getElementById('app-dept-select');
+
+    // ตรวจสอบการแสดงผลช่องกลุ่มสาระฯ ให้สอดคล้องกับแท็บที่เลือกเสมอ
+    if (deptSelect) {
+        deptSelect.style.display = (currentTab === 'school') ? 'none' : 'block';
+    }
     
-    // --- เพิ่มส่วนนี้: แสดงสถานะกำลังโหลดถ้าข้อมูลยังไม่มา ---
+    // --- แสดงสถานะกำลังโหลดถ้าข้อมูลยังไม่มา ---
     if (!allAwardsData || Object.keys(allAwardsData).length === 0) {
         zone.innerHTML = `
             <div class="text-center py-5">
@@ -696,7 +708,6 @@ function changeAppTab(tabName) {
             </div>`;
         return;
     }
-    // ----------------------------------------------------
 
     zone.innerHTML = '';
     let globalHasData = false;
@@ -747,7 +758,6 @@ function changeAppTab(tabName) {
         }
     }
 
-    // กรณีไม่มีข้อมูลหลังจากกรองแล้ว
     if(!globalHasData) {
         zone.innerHTML = `
             <div class="empty-state-box">
