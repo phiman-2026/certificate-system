@@ -67,58 +67,64 @@
     background: linear-gradient(rgba(0, 104, 139, 0.95), rgba(0, 104, 139, 0.95)), 
                 url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
     background-size: cover; background-position: center;
-    padding: 15px 0;
+    padding: 12px 0; /* ปรับลดลงเล็กน้อย */
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .header-content {
     display: flex;
-    flex-direction: column; /* ให้โลโก้และฟิลเตอร์ซ้อนกันในมือถือ */
-    gap: 15px; 
+    flex-direction: column; 
+    gap: 10px; /* ลด gap ลงเพื่อให้ประหยัดพื้นที่ */
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
 }
 
-.app-brand { display: flex; align-items: center; gap: 12px; }
-.app-logo { width: 45px; height: 45px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-.app-title h1 { font-size: 1.1rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.2; }
-.app-title p { font-size: 0.75rem; color: #e0f2fe; margin: 0; }
+.app-brand { display: flex; align-items: center; gap: 12px; overflow: hidden; }
+.app-logo { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
+.app-title { flex: 1; min-width: 0; } /* ช่วยให้ตัวหนังสือไม่ล้น */
+.app-title h1 { 
+    font-size: 1rem; color: #fff; margin: 0; font-weight: 700; 
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* ป้องกันการตัดคำ */
+}
+.app-title p { font-size: 0.7rem; color: #e0f2fe; margin: 0; white-space: nowrap; }
 
-/* 🔍 ปรับฟิลเตอร์ให้กระชับและเรียงตัวสวย */
+/* 🔍 ปรับฟิลเตอร์ให้กระชับ */
 .header-actions {
     display: flex;
-    flex-direction: column; /* มือถือ: ซ้อนกัน */
-    gap: 8px; /* ระยะห่างระหว่างช่องตัวเลือก */
+    flex-direction: row; /* ปรับเป็นแถวเดียวในมือถือถ้าพอ หรือถ้าแน่นไปให้ใช้ flex-wrap */
+    flex-wrap: wrap; 
+    gap: 6px; 
     width: 100%;
 }
 
 .filter-select-box {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 0.85rem;
-    border-radius: 10px;
+    flex: 1; /* ให้แต่ละตัวเลือกแบ่งพื้นที่เท่าๆ กัน */
+    min-width: 30%; /* ป้องกันเล็กเกินไป */
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    border-radius: 8px;
     border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     color: var(--pms-main);
     font-weight: 600;
     cursor: pointer;
 }
 
-/* 🖥️ ปรับหน้าจอคอมพิวเตอร์ให้เรียงแถว */
+/* 🖥️ ปรับหน้าจอคอมพิวเตอร์ให้คงเดิม */
 @media (min-width: 768px) {
     .header-content { flex-direction: row; justify-content: space-between; }
-    .header-actions { flex-direction: row; width: auto; }
-    .filter-select-box { width: 160px; } /* ปรับความกว้างให้พอดี */
+    .header-actions { flex-direction: row; width: auto; flex-wrap: nowrap; }
+    .filter-select-box { width: 160px; flex: none; font-size: 0.85rem; }
 }
 
 /* ปรับระยะห่าง Container ไม่ให้บังหัวข้อ */
 .app-container {
-    padding-top: 220px; /* สำหรับมือถือ (Header สูงขึ้นเพราะซ้อนกัน) */
+    padding-top: 180px; /* ปรับลดลงให้พอดีกับ Header ที่เรากระชับขึ้น */
     padding-bottom: 95px;
 }
 @media (min-width: 768px) {
-    .app-container { padding-top: 100px; } /* สำหรับคอม */
+    .app-container { padding-top: 100px; } 
 }
      
         /* 👑 หน้า Welcome Screen ปรับกระชับให้พอดีหน้าจอมือถือโดยไม่ต้องเลื่อนลง */
