@@ -605,11 +605,10 @@ window.onload = function() {
     loadDataFromServerSilently(); 
     handleFormTypeChange(); 
     
-    // ตรงนี้เราไม่ต้องสั่งซ่อนซ้ำหากเราใส่ style="display: none;" ใน HTML แล้ว
-    // แต่ถ้าอยากให้ชัวร์ ให้ตรวจสอบเงื่อนไขก่อนซ่อนครับ
-    const deptSelect = document.getElementById('app-dept-select');
-    if (currentTab === 'welcome' || currentTab === 'school') {
-        deptSelect.style.display = 'none';
+    // ปรับให้ซ่อนทั้งกล่องฟิลเตอร์ตามโครงสร้างใหม่
+    const filterBox = document.getElementById('filter-box');
+    if (filterBox) {
+        filterBox.style.display = 'none'; 
     }
 };
 
@@ -661,22 +660,27 @@ window.onload = function() {
             renderAppContent();
         }
 
-        function changeAppTab(tabName) {
-            currentTab = tabName;
-            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            if(document.getElementById('nav-' + tabName)) {
-                document.getElementById('nav-' + tabName).classList.add('active');
-            }
+function changeAppTab(tabName) {
+    currentTab = tabName;
+    const filterBox = document.getElementById('filter-box'); // ดึง ID มาใช้งาน
+    
+    // อัปเดตสถานะปุ่มเมนู
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    if(document.getElementById('nav-' + tabName)) {
+        document.getElementById('nav-' + tabName).classList.add('active');
+    }
 
-            const deptSelect = document.getElementById('app-dept-select');
-            if (tabName === 'welcome' || tabName === 'school') {
-                deptSelect.style.display = 'none';  
-            } else {
-                deptSelect.style.display = 'block'; 
-            }
+    // --- ส่วนที่ปรับปรุง: ควบคุมการแสดงผลฟิลเตอร์ ---
+    if (tabName === 'welcome') {
+        filterBox.style.display = 'none'; // หน้าแรกซ่อนไว้
+    } else {
+        // เมื่อกดดูหมวดอื่น ให้แสดงฟิลเตอร์
+        filterBox.style.display = 'flex'; 
+    }
+    // -------------------------------------------
 
-            renderAppContent();
-        }
+    renderAppContent();
+}
 
       function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
