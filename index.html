@@ -94,6 +94,15 @@
 
 .app-brand { display: flex; align-items: center; gap: 12px; }
 
+/* บังคับขนาดโลโก้ให้พอดีและคงสัดส่วน */
+.app-logo { 
+    width: 45px !important;  /* ปรับขนาดตามต้องการ แนะนำที่ 40px-50px */
+    height: 45px !important; 
+    object-fit: contain;     /* ป้องกันรูปบิดเบี้ยว */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    flex-shrink: 0;          /* ป้องกันโลโก้ถูกบีบ */
+}
+
 .app-title h1 { 
     font-size: 1.1rem; /* ขนาดพอดีบนมือถือ */
     margin: 0 0 2px 0; color: #fff; font-weight: 800; 
