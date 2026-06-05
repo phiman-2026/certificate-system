@@ -412,38 +412,38 @@
                 </div>
             </div>
             
-            <div class="header-actions">
-                <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
-                    <option value="all">ปีการศึกษา (ทั้งหมด)</option>
-                    <option value="2569">2569</option>
-                    <option value="2568">2568</option>
-                </select>
+<div class="header-actions" id="filter-box" style="display: none;">
+    <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
+        <option value="all">ปีการศึกษา (ทั้งหมด)</option>
+        <option value="2569">2569</option>
+        <option value="2568">2568</option>
+    </select>
 
-                <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
-                    <option value="all">ระดับรางวัล (ทั้งหมด)</option>
-                    <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-                    <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-                    <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-                    <option value="ระดับภาค">ระดับภาค</option>
-                    <option value="ระดับชาติ">ระดับชาติ</option>
-                    <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-                </select>
+    <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
+        <option value="all">ระดับรางวัล (ทั้งหมด)</option>
+        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+        <option value="ระดับภาค">ระดับภาค</option>
+        <option value="ระดับชาติ">ระดับชาติ</option>
+        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+    </select>
 
-                <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-                    <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
-                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                    <option value="ภาษาไทย">ภาษาไทย</option>
-                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                    <option value="การงานอาชีพ">การงานอาชีพ</option>
-                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-                </select>
+    <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+        <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
+        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+        <option value="ภาษาไทย">ภาษาไทย</option>
+        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+        <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+        <option value="การงานอาชีพ">การงานอาชีพ</option>
+        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+    </select>
 
-                <button class="pc-add-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่</button>
-            </div>
+    <button class="pc-add-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่</button>
+</div>
         </div>
     </div>
 </header>
