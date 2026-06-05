@@ -61,72 +61,77 @@
             padding: 0 16px;
         }
 
-/* 🏛️ App Top Bar Responsive Design */
+       /* 🏛️ ปรับปรุง App Top Bar ใหม่ให้มีกราฟฟิกและรูปอาคารจางๆ */
 .app-header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: linear-gradient(rgba(0, 104, 139, 0.88), rgba(0, 104, 139, 0.88)), 
-                url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
-    background-size: cover; background-position: center;
-    padding: 15px 0;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 1000;
+    
+    /* การซ้อนเลเยอร์: รูปอาคาร(จาง) + ไล่เฉดสี + สีพื้นหลัก */
+    background: 
+        linear-gradient(rgba(0, 104, 139, 0.85), rgba(0, 104, 139, 0.85)), /* เฉดสีฟ้าเข้มทับรูป */
+        url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); /* เปลี่ยน URL เป็นรูปอาคารเรียนของคุณ */
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    padding: 20px 0;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2); /* เพิ่มเส้นขอบบางๆ ให้ดูมีดีเทล */
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* 📱 คอนเทนเนอร์หลักใน Header */
-.header-content {
-    display: flex;
-    flex-direction: column; /* มือถือ: เรียงแนวตั้ง */
-    gap: 15px;              /* เว้นระยะระหว่างชื่อ กับ ช่องเลือก */
-    width: 92%;             /* ใช้ 92% ของจอ เพื่อให้มีขอบเล็กน้อย */
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* 🖥️ คอมพิวเตอร์: เรียงแนวนอน */
-@media (min-width: 768px) {
-    .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
-        padding: 0 16px;
-    }
-}
-
-.app-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    overflow: hidden; /* ป้องกันไม่ให้โลโก้ดันเนื้อหาอื่นจนล้น */
-}
-
-/* บังคับขนาดโลโก้ให้พอดีและคงสัดส่วน */
-.app-logo { 
-    width: 45px !important;  /* ปรับขนาดตามต้องการ แนะนำที่ 40px-50px */
-    height: 45px !important; 
-    object-fit: contain;     /* ป้องกันรูปบิดเบี้ยว */
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    flex-shrink: 0;          /* ป้องกันโลโก้ถูกบีบ */
-}
-
+/* ปรับข้อความให้โดดเด่น */
 .app-title h1 { 
-    font-size: 1.1rem; /* ขนาดพอดีบนมือถือ */
-    margin: 0 0 2px 0; color: #fff; font-weight: 800; 
-}
-.app-title p { font-size: 0.75rem; color: #e0f2fe; margin: 0; }
-
-/* ปรับช่องเลือกตัวเลือกให้ยืดหยุ่นตามหน้าจอ */
-.filter-select-box {
-    width: 100%; /* มือถือ: เต็มความกว้าง */
-    max-width: 100%;
-    padding: 10px 15px;
-    border-radius: 12px;
+    font-size: 1.3rem; 
+    font-weight: 800; 
+    margin: 0; 
+    color: #ffffff; 
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* เพิ่มเงาให้ตัวหนังสือลอยเด่น */
 }
 
-@media (min-width: 768px) {
-    .filter-select-box {
-        width: 300px; /* คอมพิวเตอร์: จำกัดความกว้างให้คงที่ */
-    }
+.app-title p { 
+    font-size: 0.85rem; 
+    margin: 0; 
+    color: #e0f2fe; /* ปรับให้สีสว่างขึ้นเล็กน้อย */
+    font-weight: 500;
 }
+        /* ในคอมพิวเตอร์ให้ชื่อแอป ตัวเลือก และปุ่มเพิ่มข้อมูล อยู่แถวเดียวกัน */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .header-actions {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
+            }
+            .filter-select-box { max-width: 300px; }
+        }
+
+        .app-brand { display: flex; align-items: center; gap: 12px; }
+        .app-logo { width: 38px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+     
+
+        /* 🔍 Filter Dropdown */
+        .filter-select-box {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--pms-main);
+            background-color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
         /* 👑 หน้า Welcome Screen ปรับกระชับให้พอดีหน้าจอมือถือโดยไม่ต้องเลื่อนลง */
         .welcome-screen {
