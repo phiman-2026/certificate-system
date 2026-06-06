@@ -146,13 +146,16 @@
 
 .welcome-card {
     background: rgba(255, 255, 255, 0.95); 
-    backdrop-filter: blur(15px); /* เพิ่มเอฟเฟกต์กระจกฝ้า */
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 35px; 
     padding: 40px 25px;
     box-shadow: 0 20px 40px rgba(0, 104, 139, 0.15); 
-    max-width: 500px; 
-    width: 100%;
+    
+    /* ปรับปรุงตรงนี้ค่ะ */
+    width: 90%;          /* ให้กว้าง 90% ของหน้าจอในมือถือ */
+    max-width: 800px;    /* กำหนดเพดานความกว้างสูงสุดในคอมฯ (ปรับได้ตามชอบค่ะ) */
+    
     border: 1px solid rgba(255, 255, 255, 0.5);
     transition: transform 0.4s ease;
 }
