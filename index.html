@@ -846,7 +846,8 @@ function renderAppContent() {
             let items = filterAppItems(allAwardsData[config.key] || [], config.key);
             if(items.length > 0) {
                 globalHasData = true;
-                zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
+               // เปลี่ยนบรรทัดนี้ใน renderAppContent
+zone.insertAdjacentHTML('beforeend', `<div class="section-title ${config.key}"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
                 buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
