@@ -9,23 +9,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
  <style>
-        :root {
-            /* 🎨 Deep Sea Blue Theme (#00688B) */
-            --pms-main: #00688B;         
-            --pms-dark: #004d66;
-            --pms-light: #e6f7ff;
-            --bg-app: #f0f4f7;         
-            --bg-surface: #ffffff;     
-            --text-main: #0f172a;
-            --text-sub: #475569;
-            --border-color: #cbd5e1;
-            --global-radius: 18px;
-            
-            /* สีสำหรับประเภทรางวัล */
-            --color-school: #FFD700;    
-            --color-staff: #00CED1;     
-            --color-student: #7CFC00;   
-        }
+      :root {
+    --pms-main: #00688B;         
+    --pms-dark: #004d66;
+    --bg-app: #f0f4f7;
+    --bg-surface: #ffffff;
+    --text-main: #0f172a;
+    --text-sub: #475569;
+}
+
+/* 🏛️ หัวข้อและสีตามประเภท (Dynamic Colors) */
+.section-title { font-size: 1.35rem; font-weight: 800; color: #fff; margin: 40px 0 25px 0; padding: 16px 24px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.section-title i { background-color: rgba(255, 255, 255, 0.2); color: #fff; width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.3); }
+
+/* สีกำหนดคลาสแยก */
+.section-title.school, .app-card.school { background: linear-gradient(135deg, #1565C0, #0D47A1) !important; color: white !important; }
+.section-title.staff, .app-card.staff { background: linear-gradient(135deg, #00838F, #006064) !important; color: white !important; }
+.section-title.student, .app-card.student { background: linear-gradient(135deg, #EF6C00, #E65100) !important; color: white !important; }
+
+/* 🃏 ปรับแต่ง CARD ให้สีสอดคล้อง */
+.app-card { position: relative; display: flex; flex-direction: column; background: #fff; border-radius: 18px; padding: 16px; border: 2px solid #e2e8f0; border-left: 8px solid #cbd5e1; box-shadow: 0 6px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+.app-card.school { border-left-color: #1565C0 !important; }
+.app-card.staff { border-left-color: #00838F !important; }
+.app-card.student { border-left-color: #EF6C00 !important; }
+
+/* ปุ่มแอ็คชั่น */
+.btn-app-action { width: 100%; margin-top: 12px; padding: 10px; border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; }
+.app-card.school .btn-app-action { background: #1565C0; }
+.app-card.staff .btn-app-action { background: #00838F; }
+.app-card.student .btn-app-action { background: #EF6C00; }
+
+/* ป้าย Badge */
+.app-badge.b-school { background-color: #1565C0; }
+.app-badge.b-staff { background-color: #00838F; }
+.app-badge.b-student { background-color: #EF6C00; }
 
         body { 
             /* เปลี่ยนชื่อตระกูลฟอนต์เป็น 'Prompt' */
