@@ -128,34 +128,45 @@
 }
      
         /* 👑 หน้า Welcome Screen ปรับกระชับให้พอดีหน้าจอมือถือโดยไม่ต้องเลื่อนลง */
-        .welcome-screen {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 10px 10px; min-height: calc(100vh - 250px);
-        }
-        .welcome-card {
-            background: white; border-radius: 24px; padding: 20px 15px;
-            box-shadow: 0 10px 30px rgba(0, 104, 139, 0.08); max-width: 550px; width: 100%;
-            border: 1px solid var(--border-color);
-        }
-        .welcome-img { width: 85px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
-        
-        /* สไตล์ข้อความของ Welcome Card ทั้ง 5 บรรทัด */
-        .w-line-1 { font-size: 1.25rem; font-weight: 700; color: var(--pms-main); margin-bottom: 4px; }
-        .w-line-2 { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 2px; }
-        .w-line-3 { font-size: 1.0rem; font-weight: 500; color: var(--text-sub); margin-bottom: 12px; }
-        .w-line-4 { font-size: 0.88rem; color: #ff4500; font-weight: 500; margin-bottom: 2px; }
-        .w-line-5 { font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0; }
+       /* 👑 ปรับโฉมหน้า Welcome Screen ให้ดูทันสมัย */
+.welcome-screen {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 20px; min-height: calc(100vh - 250px);
+}
+.welcome-card {
+    background: #ffffff; 
+    border-radius: 30px; 
+    padding: 30px 20px;
+    box-shadow: 0 15px 35px rgba(0, 104, 139, 0.1); 
+    max-width: 500px; width: 100%;
+    border: 1px solid rgba(0, 104, 139, 0.1);
+    transition: transform 0.3s ease;
+}
 
-        @media (min-width: 768px) {
-            .welcome-screen { padding: 40px 20px; min-height: 55vh; }
-            .welcome-card { padding: 35px 30px; }
-            .welcome-img { width: 110px; margin-bottom: 20px; }
-            .w-line-1 { font-size: 1.45rem; }
-            .w-line-2 { font-size: 1.25rem; }
-            .w-line-3 { font-size: 1.15rem; margin-bottom: 16px; }
-            .w-line-4 { font-size: 0.95rem; }
-            .w-line-5 { font-size: 0.95rem; }
-        }
+.welcome-img { 
+    width: 90px; height: auto; margin-bottom: 20px; 
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15)); 
+}
+
+/* ปรับ Typography ให้มีระดับชั้นที่ชัดเจน */
+.w-line-1 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--pms-main); font-weight: 700; margin-bottom: 8px; }
+.w-line-2 { font-size: 1.4rem; font-weight: 800; color: #1e293b; line-height: 1.2; margin-bottom: 8px; }
+.w-line-3 { font-size: 1.05rem; color: var(--text-sub); margin-bottom: 25px; font-weight: 400; }
+
+/* สร้างกรอบเน้นส่วนการกระทำ (Call to Action) */
+.w-line-4 { 
+    font-size: 0.9rem; font-weight: 600; color: #fff; 
+    background: var(--pms-main); padding: 8px 16px; 
+    border-radius: 50px; display: inline-block; margin-bottom: 10px;
+}
+.w-line-5 { font-size: 0.85rem; color: var(--text-sub); font-style: italic; }
+
+@media (min-width: 768px) {
+    .welcome-card { padding: 40px; }
+    .w-line-1 { font-size: 1.2rem; }
+    .w-line-2 { font-size: 1.8rem; }
+    .w-line-3 { font-size: 1.2rem; }
+}
 
      /* หัวข้อประเภท .section-title แบบ Modern Ribbon */
 .section-title { 
