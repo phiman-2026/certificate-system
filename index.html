@@ -252,40 +252,49 @@
     .welcome-card { max-width: 1200px; }
 }
 
-     /* หัวข้อประเภท .section-title แบบ Modern Ribbon */
+     
+/* 🏛️ ปรับ Section Title ให้โดดเด่นสะดุดตาแบบ Premium Ribbon */
 .section-title { 
-    font-size: 1.25rem; 
-    font-weight: 700; 
-    color: var(--pms-main); 
-    margin: 30px 0 20px 0; /* ปรับ margin ให้ดูสะอาดขึ้น */
-    padding: 12px 20px;     /* เพิ่ม padding ให้ข้อความมีพื้นที่หายใจ */
-    background: #f0f7f9;    /* สีพื้นหลังจางๆ ของโรงเรียนพิมานฯ */
-    border-left: 6px solid var(--pms-main); /* แถบสีเข้มด้านซ้าย */
-    border-radius: 4px;     /* มุมโค้งมนเล็กน้อย */
+    font-size: 1.35rem; 
+    font-weight: 800; 
+    color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเพื่อให้เด่นบนแถบสี */
+    margin: 40px 0 25px 0;
+    padding: 16px 24px;
+    
+    /* ใช้ Gradient ที่ดูหรูหราแทนสีเรียบๆ */
+    background: linear-gradient(135deg, var(--pms-main), #004d66); 
+    
+    border-radius: 12px; /* มุมโค้งมนที่ทันสมัยขึ้น */
     display: flex; 
     align-items: center; 
-    gap: 12px; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* เพิ่มเงาเบาๆ ให้ดูมีมิติ */
-}
-
-/* ลบ .section-title::after ออกไปได้เลย หรือใส่ display: none; ไว้ก็ได้ค่ะ */
-.section-title::after {
-    display: none; 
+    gap: 15px; 
+    
+    /* เพิ่มเงาที่ดูมีมิติและดู "ลอย" ออกมาจากหน้าจอ */
+    box-shadow: 0 8px 20px rgba(0, 104, 139, 0.25);
+    border: none;
 }
 
 .section-title i { 
-    background-color: #fff; /* เปลี่ยนพื้นหลังไอคอนให้ขาว จะได้ตัดกับสีพื้นหลังของ Ribbon */
-    color: var(--pms-main); 
-    width: 36px; 
-    height: 36px; 
+    /* ไอคอนในกรอบวงกลมสีขาว */
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #fff; 
+    width: 42px; 
+    height: 42px; 
     display: inline-flex; 
     align-items: center; 
     justify-content: center; 
-    border-radius: 10px; 
-    font-size: 1.1rem; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* ปรับเงาไอคอนให้นุ่มนวลขึ้น */
+    border-radius: 50%; /* เปลี่ยนเป็นวงกลมจะดูละมุนกว่าเดิมค่ะ */
+    font-size: 1.2rem; 
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* เพิ่มส่วนขยายเล็กน้อยเพื่อให้ข้อความดูพิเศษขึ้น */
+.section-title span {
+    letter-spacing: 0.5px;
+}
+
+     
 /* =========================
    CARD STRUCTURE
 ========================= */
