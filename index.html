@@ -177,22 +177,73 @@
     100% { transform: translateY(0px); }
 }
 
-/* Typography Hierarchy */
-.w-line-1 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--pms-main); font-weight: 800; margin-bottom: 12px; }
-.w-line-2 { font-size: 1.6rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 12px; }
-.w-line-3 { font-size: 1.1rem; color: #475569; margin-bottom: 30px; font-weight: 400; line-height: 1.5; }
+/* 👑 Typography Modernization */
 
-/* Call to Action */
+/* บรรทัดบนสุด: เน้นความสะอาดและหรูหราด้วยการยืดระยะห่าง */
+.w-line-1 { 
+    font-size: 0.95rem; 
+    text-transform: uppercase; 
+    letter-spacing: 4px; 
+    color: var(--pms-main); 
+    font-weight: 800; 
+    margin-bottom: 15px; 
+    opacity: 0.9;
+}
+
+/* หัวข้อหลัก: เพิ่มขนาดและปรับความหนาให้ดูมีพลัง */
+.w-line-2 { 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #1e293b; 
+    line-height: 1.1; 
+    margin-bottom: 15px;
+    letter-spacing: -0.5px; /* ทำให้ตัวอักษรชิดกันนิดๆ ดูแน่นและมั่นคง */
+}
+
+/* รายละเอียด: ปรับขนาดให้สบายตาและอ่านง่าย */
+.w-line-3 { 
+    font-size: 1.15rem; 
+    color: #475569; 
+    margin-bottom: 35px; 
+    font-weight: 400; 
+    line-height: 1.6;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ปุ่ม Call to Action: เพิ่มเงาและปรับสีให้ดูมีมิติ */
 .w-line-4 { 
-    font-size: 0.95rem; font-weight: 600; color: #fff; 
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: #fff; 
     background: var(--pms-main); 
-    padding: 12px 25px; 
+    padding: 14px 30px; 
     border-radius: 50px; 
     display: inline-block; 
-    margin-bottom: 15px;
-    box-shadow: 0 5px 15px rgba(0, 104, 139, 0.3);
+    margin-bottom: 20px;
+    box-shadow: 0 10px 20px rgba(0, 104, 139, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.w-line-5 { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
+
+/* เพิ่มลูกเล่นเมื่อเอาเมาส์ไปชี้ที่ปุ่ม (ถ้ามีเมาส์) */
+.w-line-4:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0, 104, 139, 0.4);
+}
+
+.w-line-5 { 
+    font-size: 0.85rem; 
+    color: #94a3b8; 
+    font-weight: 500; 
+    letter-spacing: 0.5px;
+}
+
+/* ปรับสำหรับจอคอมให้ดูอลังการขึ้น */
+@media (min-width: 768px) {
+    .w-line-2 { font-size: 2.8rem; }
+    .w-line-3 { font-size: 1.4rem; }
+}
 
 /* ปรับแต่งพิเศษสำหรับหน้าจอคอมพิวเตอร์ */
 @media (min-width: 768px) {
