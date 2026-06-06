@@ -127,8 +127,7 @@
     .app-container { padding-top: 100px; } /* สำหรับคอม */
 }
      
-    /* 👑 หน้า Welcome Screen ปรับโฉมใหม่ให้โดดเด่น */
-/* 👑 หน้า Welcome Screen ปรับโฉมใหม่ */
+/* 👑 หน้า Welcome Screen ปรับโฉมใหม่ (อัปเดตล่าสุด) */
 .welcome-screen {
     display: flex; 
     flex-direction: column; 
@@ -137,28 +136,31 @@
     text-align: center; 
     padding: 20px; 
     min-height: calc(100vh - 200px);
-    background-color: #f0f4f7; /* คืนสีพื้นหลังเดิมของ App */
+    background-color: #f0f4f7; /* สีพื้นหลังเดิมของ App */
 }
 
 .welcome-card {
     background: rgba(255, 255, 255, 0.95); 
-    /* เพิ่มภาพพื้นหลังในการ์ด */
-    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 
+    /* ภาพพื้นหลังการ์ดพร้อม Overlay ให้ภาพดูชัดขึ้นด้วยค่า 0.5 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
                       url('https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 35px; 
     padding: 40px 25px;
-    box-shadow: 0 15px 35px rgba(0, 104, 139, 0.1); 
+    box-shadow: 0 15px 35px rgba(0, 104, 139, 0.15); 
     
-    /* ปรับให้ยืดหยุ่นตามหน้าจอ */
-    width: 90%;
-    max-width: 800px; 
+    /* ขยายความกว้างยืดหยุ่นตามหน้าจอ */
+    width: 92%;
+    max-width: 1000px; /* ขยายขนาดการ์ดในคอมพิวเตอร์ */
     
     border: 1px solid rgba(0, 104, 139, 0.1);
     transition: transform 0.4s ease;
+    margin: 0 auto;
 }
 
 .welcome-img { 
@@ -166,6 +168,13 @@
     height: auto; 
     margin-bottom: 20px; 
     filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); 
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
 /* Typography Hierarchy */
@@ -181,16 +190,21 @@
     border-radius: 50px; 
     display: inline-block; 
     margin-bottom: 15px;
-    box-shadow: 0 5px 15px rgba(0, 104, 139, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 104, 139, 0.3);
 }
 .w-line-5 { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
 
-/* ปรับสำหรับจอคอมให้สวยขึ้น */
+/* ปรับแต่งพิเศษสำหรับหน้าจอคอมพิวเตอร์ */
 @media (min-width: 768px) {
     .welcome-card { padding: 60px; }
     .w-line-2 { font-size: 2.2rem; }
     .w-line-3 { font-size: 1.3rem; }
     .welcome-img { width: 130px; }
+}
+
+/* เพิ่มความกว้างพิเศษสำหรับจอคอมพิวเตอร์ขนาดใหญ่ */
+@media (min-width: 1200px) {
+    .welcome-card { max-width: 1200px; }
 }
 
      /* หัวข้อประเภท .section-title แบบ Modern Ribbon */
