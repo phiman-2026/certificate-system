@@ -254,45 +254,26 @@
 
      
 /* 🏛️ ปรับ Section Title ให้โดดเด่นสะดุดตาแบบ Premium Ribbon */
+/* 🏛️ หัวข้อส่วนงานแบบปรับเปลี่ยนสีได้ */
 .section-title { 
-    font-size: 1.35rem; 
-    font-weight: 800; 
-    color: #fff; /* เปลี่ยนสีตัวอักษรเป็นขาวเพื่อให้เด่นบนแถบสี */
-    margin: 40px 0 25px 0;
-    padding: 16px 24px;
-    
-    /* ใช้ Gradient ที่ดูหรูหราแทนสีเรียบๆ */
-    background: linear-gradient(135deg, var(--pms-main), #004d66); 
-    
-    border-radius: 12px; /* มุมโค้งมนที่ทันสมัยขึ้น */
-    display: flex; 
-    align-items: center; 
-    gap: 15px; 
-    
-    /* เพิ่มเงาที่ดูมีมิติและดู "ลอย" ออกมาจากหน้าจอ */
-    box-shadow: 0 8px 20px rgba(0, 104, 139, 0.25);
-    border: none;
+    font-size: 1.35rem; font-weight: 800; color: #fff;
+    margin: 40px 0 25px 0; padding: 16px 24px;
+    border-radius: 12px; display: flex; align-items: center; gap: 15px;
+    border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .section-title i { 
-    /* ไอคอนในกรอบวงกลมสีขาว */
-    background-color: rgba(255, 255, 255, 0.2); 
-    color: #fff; 
-    width: 42px; 
-    height: 42px; 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    border-radius: 50%; /* เปลี่ยนเป็นวงกลมจะดูละมุนกว่าเดิมค่ะ */
-    font-size: 1.2rem; 
-    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.2); color: #fff; 
+    width: 42px; height: 42px; display: inline-flex; 
+    align-items: center; justify-content: center; 
+    border-radius: 50%; font-size: 1.2rem; backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* เพิ่มส่วนขยายเล็กน้อยเพื่อให้ข้อความดูพิเศษขึ้น */
-.section-title span {
-    letter-spacing: 0.5px;
-}
+/* สีเฉพาะหมวด */
+.section-title.school { background: linear-gradient(135deg, #1565C0, #0D47A1); box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3); }
+.section-title.staff { background: linear-gradient(135deg, #00838F, #006064); box-shadow: 0 8px 20px rgba(0, 131, 143, 0.3); }
+.section-title.student { background: linear-gradient(135deg, #EF6C00, #E65100); box-shadow: 0 8px 20px rgba(239, 108, 0, 0.3); }
 
      
 /* =========================
@@ -357,6 +338,7 @@
     color: #fff; margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+/* ปรับสีให้ตรงกับโทน Section Title */
 .b-school { background-color: #1565C0; }
 .b-staff { background-color: #00838F; }
 .b-student { background-color: #EF6C00; }
@@ -383,27 +365,26 @@
 }
 
 /* =========================
-   ACCENT COLORS
+   ACCENT COLORS (ปรับให้สอดคล้องกับ Section Title)
 ========================= */
 .app-card.school { border-left-color: #1565C0; }
 .app-card.school .card-title { border-left-color: #1565C0; }
-.app-card.school .btn-app-action { background: linear-gradient(135deg, #42A5F5, #1565C0); }
+.app-card.school .btn-app-action { background: linear-gradient(135deg, #1565C0, #0D47A1); }
 
 .app-card.staff { border-left-color: #00838F; }
 .app-card.staff .card-title { border-left-color: #00838F; }
-.app-card.staff .btn-app-action { background: linear-gradient(135deg, #26C6DA, #00838F); }
+.app-card.staff .btn-app-action { background: linear-gradient(135deg, #00838F, #006064); }
 
 .app-card.student { border-left-color: #EF6C00; }
 .app-card.student .card-title { border-left-color: #EF6C00; }
-.app-card.student .btn-app-action { background: linear-gradient(135deg, #FFA726, #EF6C00); }
-
+.app-card.student .btn-app-action { background: linear-gradient(135deg, #EF6C00, #E65100); }
 
 /* คลาสสำหรับป้ายระดับรางวัลแบบ Ribbon */
 .reward-badge-ribbon {
     position: absolute;
     top: 15px;
-    right: -5px; /* ให้ล้นออกนิดๆ ดูมีมิติ */
-    background: linear-gradient(135deg, #FF9800, #F57C00); /* ไล่เฉดสีส้ม-เหลือง */
+    right: -5px;
+    background: linear-gradient(135deg, #FF9800, #F57C00);
     color: white;
     padding: 6px 15px;
     border-radius: 15px 0 0 15px;
