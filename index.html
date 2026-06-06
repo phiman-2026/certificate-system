@@ -846,7 +846,8 @@ function renderAppContent() {
             let items = filterAppItems(allAwardsData[config.key] || [], config.key);
             if(items.length > 0) {
                 globalHasData = true;
-                zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
+                // แก้ไขจุดนี้: เพิ่ม ${config.key} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
+                zone.insertAdjacentHTML('beforeend', `<div class="section-title ${config.key}"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
                 buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
@@ -855,11 +856,12 @@ function renderAppContent() {
         });
     } else {
         let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
-        const labels = { 'school':'โรงเรียน', 'staff':'คุณครู', 'student':'นักเรียน' };
+        const labels = { 'school':'สถานศึกษา', 'staff':'คุณครู', 'student':'นักเรียน' };
         const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
         if(items.length > 0) {
             globalHasData = true;
-            zone.insertAdjacentHTML('beforeend', `<div class="section-title"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
+            // แก้ไขจุดนี้: เพิ่ม ${currentTab} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
+            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
             buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
