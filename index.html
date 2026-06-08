@@ -531,7 +531,13 @@
     font-size:1.3rem;
 }
 
-/* 🔍 ปุ่มเปิด-ปิด Filter (ปรับให้ดูพรีเมียมและชัดเจนขึ้น) */
+/* 🔍 ปุ่มเปิด-ปิด (แสดงเฉพาะมือถือ) */
+.filter-trigger-wrapper {
+    text-align: center;
+    margin-top: 15px;
+    padding: 0 16px;
+}
+
 .filter-toggle-btn {
     background: #ffffff;
     color: var(--pms-main);
@@ -548,36 +554,53 @@
 .filter-toggle-btn:hover { 
     background: var(--pms-main); 
     color: #ffffff; 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 104, 139, 0.3);
 }
 
-/* กล่อง Filter ที่ปรับให้เด่นและเป็นสัดส่วน */
+/* กล่อง Filter (ปรับชิดซ้ายและเป็นสัดส่วน) */
 #filter-box-container {
-    background: #ffffff; /* พื้นหลังสีขาวชัดเจน */
+    background: #ffffff;
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid #e2e8f0; /* มีเส้นขอบบางๆ */
-    margin: 15px 16px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* เพิ่มเงาให้กล่องดูลอยเด่น */
+    border: 1px solid #e2e8f0;
+    margin: 15px 16px; /* ระยะห่างจากขอบ */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
-/* ปรับให้ช่อง Select ดูเป็นส่วนตัวมากขึ้น */
+/* ส่วนของตัวเลือกภายในกล่อง (ชิดซ้าย) */
+#filter-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start; /* ชิดซ้าย */
+    align-items: center;
+}
+
+/* ปรับความกว้างช่อง Select ให้ชิดซ้ายสวยงาม */
 .filter-select-box {
-    background-color: #f8fafc;
+    flex: 0 1 auto;
+    min-width: 180px;
+    padding: 10px 15px;
     border: 2px solid #e2e8f0;
     border-radius: 12px;
-    padding: 10px;
+    font-size: 0.9rem;
+    color: var(--pms-main);
+    font-weight: 600;
+    background-color: #f8fafc;
+    cursor: pointer;
 }
 
-/* 🖥️ ปรับการแสดงผลบนคอมพิวเตอร์ */
+/* 📱 มือถือ: ซ่อนกล่องไว้ก่อน */
+@media (max-width: 767px) {
+    #filter-box-container { display: none; }
+}
+
+/* 🖥️ คอมพิวเตอร์: แสดงกล่องตลอด (ชิดขอบตาม content-limiter) */
 @media (min-width: 768px) {
-    /* ถ้าต้องการให้ในคอมกดเปิด-ปิดได้เหมือนมือถือ ให้ลบส่วน .filter-trigger-wrapper ออกไปเลยค่ะ */
-    .filter-trigger-wrapper { display: block; text-align: center; } 
-    
+    .filter-trigger-wrapper { display: none; }
     #filter-box-container { 
+        display: block !important; 
         margin: 20px auto; 
-        max-width: 900px; 
+        max-width: 1200px; /* ยืดให้เท่ากับความกว้างหน้าเว็บ */
     }
 }
     </style>
