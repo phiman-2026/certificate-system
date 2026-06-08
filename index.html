@@ -435,6 +435,37 @@
     top: 80px; /* ปรับให้พอดีกับความสูง Header */
     z-index: 998;
 }
+
+@media (max-width: 767px) {
+    /* 1. ให้กล่อง Filter บนมือถือมีความกว้างเต็มจอและปรับช่องว่าง */
+    #filter-box {
+        flex-direction: column; /* เรียงเป็นแถวแนวตั้ง */
+        gap: 10px;
+    }
+    .filter-select-box {
+        width: 100%; /* ให้เลือกได้เต็มจอ กดง่าย */
+        padding: 12px;
+    }
+    
+    /* 2. ปรับระยะการ์ดบนมือถือให้ห่างขึ้นเล็กน้อย */
+    .app-card {
+        margin: 0 5px;
+        padding: 14px;
+    }
+
+    /* 3. ทำให้ Section Title บนมือถืออ่านง่ายขึ้น */
+    .section-title {
+        font-size: 1rem;
+        padding: 10px 15px;
+        margin: 20px 10px 15px 10px;
+    }
+    
+    /* 4. ปรับ Sticky Header ของ Filter ให้ชิดขอบบนมากขึ้น */
+    .sticky-top {
+        top: 80px; /* ปรับค่านี้ให้ตรงกับความสูง Header มือถือ */
+        padding: 8px 5px !important;
+    }
+}
      
     </style>
 </head>
@@ -928,25 +959,34 @@ function changeAppTab(tabName) {
 }
 
         
-        function openAppSheet() {
-            document.getElementById('main-honor-form').reset(); 
-            document.getElementById('form-year').value = "2569"; 
-            handleFormTypeChange(); 
-            
-            document.getElementById('app-sheet-form').classList.remove('d-none');
-            document.getElementById('app-main-scroll-zone').classList.add('d-none');
-            document.querySelector('.app-header').classList.add('d-none');
-            document.querySelector('.bottom-nav').classList.add('d-none');
-            document.querySelector('.fab-btn').classList.add('d-none');
-        }
+       function openAppSheet() {
+    document.getElementById('main-honor-form').reset(); 
+    document.getElementById('form-year').value = "2569"; 
+    handleFormTypeChange(); 
+    
+    // ส่วนเดิม
+    document.getElementById('app-sheet-form').classList.remove('d-none');
+    document.getElementById('app-main-scroll-zone').classList.add('d-none');
+    document.querySelector('.app-header').classList.add('d-none');
+    document.querySelector('.bottom-nav').classList.add('d-none');
+    document.querySelector('.fab-btn').classList.add('d-none');
 
-        function closeAppSheet() {
-            document.getElementById('app-sheet-form').classList.add('d-none');
-            document.getElementById('app-main-scroll-zone').classList.remove('d-none');
-            document.querySelector('.app-header').classList.remove('d-none');
-            document.querySelector('.bottom-nav').classList.remove('d-none');
-            document.querySelector('.fab-btn').classList.remove('d-none');
-        }
+    // --- เพิ่มตรงนี้: ซ่อนกล่องตัวเลือกด้วย ---
+    const filterContainer = document.querySelector('.sticky-top');
+    if (filterContainer) filterContainer.classList.add('d-none');
+}
+
+function closeAppSheet() {
+    document.getElementById('app-sheet-form').classList.add('d-none');
+    document.getElementById('app-main-scroll-zone').classList.remove('d-none');
+    document.querySelector('.app-header').classList.remove('d-none');
+    document.querySelector('.bottom-nav').classList.remove('d-none');
+    document.querySelector('.fab-btn').classList.remove('d-none');
+
+    // --- เพิ่มตรงนี้: แสดงกล่องตัวเลือกกลับมา ---
+    const filterContainer = document.querySelector('.sticky-top');
+    if (filterContainer) filterContainer.classList.remove('d-none');
+}
 
       function showNotification(isSuccess, title, message) {
     const iconContainer = document.getElementById('notify-icon-container');
