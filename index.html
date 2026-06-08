@@ -53,11 +53,12 @@
             min-height: 100vh;
         }
 
+/* 2. ลด Padding บนของเนื้อหาลงเพื่อให้ Header ไม่กินที่จนเกินไป */
 .app-container {
     width: 100%;
     background: var(--bg-app);
     min-height: 100vh;
-    padding-top: 90px; /* ปรับให้พอดีกับความสูง Header */
+    padding-top: 110px; /* ปรับให้พอดีกับความสูง Header (100px + ช่องว่างเล็กน้อย) */
     padding-bottom: 95px;
 }
 
@@ -78,12 +79,15 @@
 /* 1. ส่วน Header (แบนเนอร์) */
 .app-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: linear-gradient(rgba(0, 104, 139, 0.95), rgba(0, 104, 139, 0.95)), 
+    /* เพิ่มความสูงเป็น 100px และไล่เฉดสีให้สวยขึ้น */
+    background: linear-gradient(135deg, rgba(0, 104, 139, 0.95), rgba(0, 77, 102, 0.95)), 
                 url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
-    background-size: cover; background-position: center;
-    height: 70px;
-    padding: 20px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    background-size: cover; 
+    background-position: center;
+    height: 100px; /* เพิ่มความสูงเพื่อให้มีพื้นที่มากขึ้น */
+    display: flex;
+    align-items: center; /* จัดให้เนื้อหาอยู่กลางแนวตั้งโดยอัตโนมัติ */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 .header-content {
@@ -434,13 +438,14 @@
     color: var(--pms-main) !important;
 }
 
+/* 3. ปรับ Sticky Filter ให้ชิด Header พอดี */
 .sticky-top {
     position: sticky;
-    top: 70px; /* ให้เกาะอยู่ใต้ Header พอดี */
+    top: 100px; /* ต้องเท่ากับความสูงของ Header ใหม่ที่ตั้งไว้ */
     z-index: 998;
     background-color: var(--bg-app) !important;
-    padding: 5px 0 !important; /* ปรับลดลงจากเดิมที่อาจจะเยอะกว่านี้ */
-    box-shadow: none; /* ลบเงาออก ถ้าไม่อยากให้ดูเหมือนกล่องลอยอยู่ */
+    padding: 10px 0 !important;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 767px) {
