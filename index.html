@@ -789,7 +789,14 @@ function changeAppTab(tabName) {
     renderAppContent();
 }
 
+
+// ประกาศตัวแปร Global ด้านบนสุด
+let allAwardsData = {};
+let currentTab = 'all'; 
+let currentPage = 1;         // เพิ่มตัวแปรนี้
+const ITEMS_PER_PAGE = 18;   // เพิ่มตัวแปรนี้        
 // เพิ่มตัวแปร global สำหรับเก็บหน้าปัจจุบัน (วางไว้นอกฟังก์ชัน)
+// --- ฟังก์ชัน renderAppContent ที่ปรับปรุงแล้ว ---
 function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
     const deptSelect = document.getElementById('app-dept-select');
@@ -849,8 +856,9 @@ function renderAppContent() {
             globalHasData = true;
             zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานหมวดหมู่: ${labels[currentTab]}</div>`);
             
-            // คำนวณ Slice ตามจำนวนหน้า (currentPage กำหนดไว้ด้านนอกแล้ว)
+            // ใช้ตัวแปร Global currentPage และ ITEMS_PER_PAGE ในการคำนวณ
             let reversedItems = [...items].reverse();
+            let totalPages = Math.ceil(reversedItems.length / ITEMS_PER_PAGE);
             let endIndex = currentPage * ITEMS_PER_PAGE;
             let itemsToShow = reversedItems.slice(0, endIndex);
             
@@ -859,8 +867,8 @@ function renderAppContent() {
             buildAppCards(rowDiv, itemsToShow, currentTab, labels[currentTab], `b-${currentTab}`);
             zone.appendChild(rowDiv);
 
-            // แสดงปุ่ม "หน้าถัดไป" ถ้าข้อมูลยังเหลือ
-            if (reversedItems.length > endIndex) {
+            // แสดงปุ่ม "หน้าถัดไป" ถ้ายังแสดงไม่ครบ
+            if (currentPage < totalPages) {
                 zone.insertAdjacentHTML('beforeend', `
                     <div class="text-center mt-4 mb-5">
                         <button class="btn btn-primary px-4" onclick="loadNextPage()">แสดงรายการเพิ่มเติม</button>
@@ -880,25 +888,56 @@ function loadNextPage() {
     renderAppContent(); // เรียก Render ใหม่ โดยจะแสดงรายการเพิ่มจาก slice(0, endIndex)
 }
 
-// อัปเดตฟังก์ชันเปลี่ยน Tab ให้รีเซ็ตหน้าด้วย
 function changeAppTab(tabName) {
-    currentPage = 1; // รีเซ็ตไปหน้าแรกเสมอเมื่อเปลี่ยน Tab
+    // 1. รีเซ็ตหน้าปัจจุบันเป็นหน้าแรกเสมอเมื่อเปลี่ยน Tab
+    currentPage = 1;
     currentTab = tabName;
-    // ... โค้ดเดิมของคุณ (อัปเดตปุ่ม active และแสดง/ซ่อน Filter) ...
+
+    const filterBox = document.getElementById('filter-box');
+    const deptSelect = document.getElementById('app-dept-select');
+    
+    // 2. อัปเดตสถานะปุ่มเมนู (เพิ่ม/ลบ class active)
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    const activeNav = document.getElementById('nav-' + tabName);
+    if (activeNav) {
+        activeNav.classList.add('active');
+    }
+
+    // 3. จัดการการแสดงผลของแถบ Filter
+    if (tabName === 'welcome') {
+        // ถ้าเป็นหน้า Welcome ให้ซ่อน Filter
+        if (filterBox) filterBox.style.display = 'none';
+    } else {
+        // ถ้าเป็นหน้าอื่นๆ ให้แสดง Filter
+        if (filterBox) filterBox.style.display = 'flex';
+        
+        // เงื่อนไขพิเศษ: ถ้าเป็น 'school' ให้ซ่อนเฉพาะ Dropdown กลุ่มสาระ
+        if (deptSelect) {
+            if (tabName === 'school') {
+                deptSelect.style.display = 'none';
+                // รีเซ็ตค่ากลุ่มสาระเป็น 'all' เมื่อเปลี่ยนเป็นหมวดโรงเรียน
+                deptSelect.value = 'all'; 
+            } else {
+                deptSelect.style.display = 'block';
+            }
+        }
+    }
+
+    // 4. สั่ง Render เนื้อหาใหม่ตาม Tab ที่เลือก
     renderAppContent();
 }
 
-       function filterAppItems(items, type) {
+  function filterAppItems(items, type) {
+    if (!items || !Array.isArray(items)) return []; // เพิ่มบรรทัดนี้เพื่อป้องกัน Error
+    
     const yearVal = document.getElementById('filter-year').value;
     const levelVal = document.getElementById('filter-reward-level').value;
     const deptVal = document.getElementById('app-dept-select').value;
     
     return items.filter(item => {
-        // ตรวจสอบว่าปี, ระดับรางวัล, และกลุ่มสาระ ตรงกับที่เลือกไหม
-        const matchYear = (yearVal === 'all' || String(item['ปีการศึกษา']) === yearVal);
-        const matchLevel = (levelVal === 'all' || item['ระดับรางวัล'] === levelVal);
-        const matchDept = (deptVal === 'all' || (item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน']) === deptVal);
-        
+        const matchYear = (yearVal === 'all' || String(item['ปีการศึกษา'] || '') === yearVal);
+        const matchLevel = (levelVal === 'all' || (item['ระดับรางวัล'] || '') === levelVal);
+        const matchDept = (deptVal === 'all' || (item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '') === deptVal);
         return matchYear && matchLevel && matchDept;
     });
 }
