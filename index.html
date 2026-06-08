@@ -535,6 +535,7 @@
 .filter-trigger-wrapper {
     text-align: center;
     margin-top: 15px;
+    padding: 0 16px;
 }
 
 .filter-toggle-btn {
@@ -550,16 +551,42 @@
     transition: all 0.3s ease;
 }
 
-/* กล่อง Filter (ตั้งค่าให้รองรับ content-limiter) */
+.filter-toggle-btn:hover { 
+    background: var(--pms-main); 
+    color: #ffffff; 
+}
+
+/* กล่อง Filter (ปรับชิดซ้ายและเป็นสัดส่วน) */
 #filter-box-container {
     background: #ffffff;
     padding: 20px;
     border-radius: 16px;
     border: 1px solid #e2e8f0;
-    margin: 15px auto; /* ใช้ auto เพื่อจัดกึ่งกลาง */
+    margin: 15px 16px; /* ระยะห่างจากขอบ */
     box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    width: 100%;
-    max-width: 1200px; /* ให้กว้างเท่า content-limiter */
+}
+
+/* ส่วนของตัวเลือกภายในกล่อง (ชิดซ้าย) */
+#filter-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start; /* ชิดซ้าย */
+    align-items: center;
+}
+
+/* ปรับความกว้างช่อง Select ให้ชิดซ้ายสวยงาม */
+.filter-select-box {
+    flex: 0 1 auto;
+    min-width: 180px;
+    padding: 10px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: var(--pms-main);
+    font-weight: 600;
+    background-color: #f8fafc;
+    cursor: pointer;
 }
 
 /* 📱 มือถือ: ซ่อนกล่องไว้ก่อน */
@@ -567,12 +594,13 @@
     #filter-box-container { display: none; }
 }
 
-/* 🖥️ คอมพิวเตอร์: แสดงกล่องตลอด และซ่อนปุ่มเปิด-ปิด */
+/* 🖥️ คอมพิวเตอร์: แสดงกล่องตลอด (ชิดขอบตาม content-limiter) */
 @media (min-width: 768px) {
     .filter-trigger-wrapper { display: none; }
     #filter-box-container { 
         display: block !important; 
-        margin-top: 20px;
+        margin: 20px auto; 
+        max-width: 1200px; /* ยืดให้เท่ากับความกว้างหน้าเว็บ */
     }
 }
     </style>
