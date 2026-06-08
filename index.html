@@ -431,6 +431,11 @@
         </div>
     </div>
 </header>
+        
+        <div id="app-main-scroll-zone">
+    <div class="container-fluid content-limiter" id="dynamic-app-cards-zone">
+        </div>
+</div>
 
 <div class="container-fluid content-limiter">
     <div class="filter-wrapper">
@@ -612,26 +617,23 @@
         let selectedDept = 'all';
 
 window.onload = function() {
-        // แสดงสถานะโหลดทันที
-        renderAppContent(); 
-        // โหลดข้อมูลจากเซิร์ฟเวอร์
-        fetch(GAS_WEB_APP_URL)
-            .then(res => res.json())
-            .then(data => {
-                allAwardsData = data;
-                renderAppContent(); // โหลดเสร็จแล้วแสดงข้อมูลทั้งหมด
-            })
-            .catch(err => console.error("Error: ", err));
-            
-        handleFormTypeChange();
-    };
+    // โหลดข้อมูลจากเซิร์ฟเวอร์
+    fetch(GAS_WEB_APP_URL)
+        .then(res => res.json())
+        .then(data => {
+            allAwardsData = data;
+            renderAppContent(); 
+        })
+        .catch(err => console.error("Error: ", err));
+        
+    handleFormTypeChange();
     
-    // ปรับให้ซ่อนทั้งกล่องฟิลเตอร์ตามโครงสร้างใหม่
-    const filterBox = document.getElementById('filter-box');
+    // ตั้งค่าฟิลเตอร์เริ่มต้นให้ซ่อน
+    const filterBox = document.getElementById('filter-box-container');
     if (filterBox) {
         filterBox.style.display = 'none'; 
     }
-};
+}; // ปิดแค่ตรงนี้พอค่ะ
 
         function loadDataFromServerSilently() {
             fetch(GAS_WEB_APP_URL)
