@@ -616,24 +616,21 @@
         let currentTab = 'all'; 
         let selectedDept = 'all';
 
+// ปรับปรุง window.onload ให้โหลดทันที
 window.onload = function() {
-    // โหลดข้อมูลจากเซิร์ฟเวอร์
     fetch(GAS_WEB_APP_URL)
         .then(res => res.json())
         .then(data => {
             allAwardsData = data;
-            renderAppContent(); 
+            renderAppContent(); // โหลดข้อมูลแล้วแสดงผลทันที
         })
-        .catch(err => console.error("Error: ", err));
-        
-    handleFormTypeChange();
+        .catch(err => {
+            console.error("Error: ", err);
+            document.getElementById('dynamic-app-cards-zone').innerHTML = `<div class="alert alert-danger">ไม่สามารถเชื่อมต่อข้อมูลได้</div>`;
+        });
     
-    // ตั้งค่าฟิลเตอร์เริ่มต้นให้ซ่อน
-    const filterBox = document.getElementById('filter-box-container');
-    if (filterBox) {
-        filterBox.style.display = 'none'; 
-    }
-}; // ปิดแค่ตรงนี้พอค่ะ
+    handleFormTypeChange();
+};
 
         function loadDataFromServerSilently() {
             fetch(GAS_WEB_APP_URL)
@@ -711,75 +708,67 @@ function changeAppTab(tabName) {
     renderAppContent();
 }
 
+// --- ปรับปรุงส่วนการแสดงผล ---
 function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
-    const deptSelect = document.getElementById('app-dept-select');
+    zone.innerHTML = ''; // ล้างค่าเก่า
 
-    // ตรวจสอบการแสดงผลช่องกลุ่มสาระฯ ให้สอดคล้องกับแท็บที่เลือกเสมอ
-    if (deptSelect) {
-        deptSelect.style.display = (currentTab === 'school') ? 'none' : 'block';
-    }
-    
-    // --- แสดงสถานะกำลังโหลดถ้าข้อมูลยังไม่มา ---
+    // เช็คว่าโหลดข้อมูลมาหรือยัง
     if (!allAwardsData || Object.keys(allAwardsData).length === 0) {
-        zone.innerHTML = `
-            <div class="text-center py-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-2 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</p>
-            </div>`;
+        zone.innerHTML = `<div class="text-center py-5"><div class="spinner-border text-primary"></div><p>กำลังโหลดข้อมูล...</p></div>`;
         return;
     }
 
-    // ล้างข้อมูลเก่าออกเพื่อแสดงผลใหม่
-    zone.innerHTML = '';
     let globalHasData = false;
-    
-    // โหมด ALL (แสดงทุกหมวดหมู่)
-    if(currentTab === 'all') {
+
+    // --- ส่วนตรรกะการแสดงผล ---
+    if (currentTab === 'all') {
         const configs = [
-            { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา' },
-            { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
-            { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
+            { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา', limit: 12 },
+            { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู', limit: 12 },
+            { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน', limit: 12 }
         ];
-        
+
         configs.forEach(config => {
             let items = filterAppItems(allAwardsData[config.key] || [], config.key);
-            if(items.length > 0) {
+            if (items.length > 0) {
                 globalHasData = true;
                 zone.insertAdjacentHTML('beforeend', `<div class="section-title ${config.key}"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
-                buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
+                
+                // แสดงแค่ 12 การ์ดตามโจทย์
+                let itemsToShow = items.slice(-config.limit).reverse();
+                buildAppCards(rowDiv, itemsToShow, config.key, config.lbl, config.badge);
                 zone.appendChild(rowDiv);
+
+                // ถ้าข้อมูลมีมากกว่า 12 ให้แสดงปุ่มดูเพิ่มเติม
+                if (items.length > config.limit) {
+                    zone.insertAdjacentHTML('beforeend', `<div class="text-center mt-3"><button class="btn btn-outline-primary" onclick="changeAppTab('${config.key}')">ดูเพิ่มเติมทั้งหมด</button></div>`);
+                }
             }
         });
-    } 
-    // โหมดเจาะจงหมวดหมู่
-    else {
+    } else {
+        // โหมดเจาะจงประเภท (แสดง 18 การ์ด)
         let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
         const labels = { 'school':'สถานศึกษา', 'staff':'คุณครู', 'student':'นักเรียน' };
         const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
         
-        if(items.length > 0) {
+        if (items.length > 0) {
             globalHasData = true;
-            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
+            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ${labels[currentTab]}</div>`);
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
-            buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
+            
+            // แสดง 18 การ์ด
+            let itemsToShow = items.slice(-18).reverse();
+            buildAppCards(rowDiv, itemsToShow, currentTab, labels[currentTab], `b-${currentTab}`);
             zone.appendChild(rowDiv);
         }
     }
 
-    // กรณีไม่พบข้อมูลตามเงื่อนไขที่กรอง
-    if(!globalHasData) {
-        zone.innerHTML = `
-            <div class="empty-state-box">
-                <i class="fa-solid fa-folder-open"></i>
-                <h6 class="fw-bold text-dark">❌ ไม่มีข้อมูลรางวัลในหน้านี้</h6>
-                <p class="small mb-0">ไม่พบรายชื่อหรือข้อมูลผลงานเกียรติยศที่ตรงกับเงื่อนไขที่คุณเลือก</p>
-            </div>`;
+    if (!globalHasData) {
+        zone.innerHTML = `<div class="empty-state-box"><h6>ไม่พบข้อมูลรางวัล</h6></div>`;
     }
 }
 
