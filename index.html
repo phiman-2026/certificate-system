@@ -542,7 +542,7 @@
 
     <div class="app-container">
         
-  <header class="app-header">
+ <header class="app-header">
     <div class="container-fluid content-limiter">
         <div class="header-content">
             <div class="app-brand">
@@ -557,16 +557,16 @@
     </div>
 </header>
 
-<div class="container-fluid content-limiter" style="margin-top: 10px;">
+<div class="container-fluid content-limiter">
     <div class="filter-wrapper">
-        <div class="filter-trigger-wrapper" style="text-align: center;">
+        <div class="filter-trigger-wrapper">
             <button class="filter-toggle-btn" onclick="toggleFilterBox()">
                 <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
             </button>
         </div>
 
-        <div id="filter-box-container" style="display: none; background: #f8f9fa; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid #e9ecef;">
-            <div id="filter-box" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        <div id="filter-box-container">
+            <div id="filter-box">
                 <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
                     <option value="all">ปีการศึกษา (ทั้งหมด)</option>
                     <option value="2569">2569</option>
