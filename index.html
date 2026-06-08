@@ -67,7 +67,7 @@
         /* ในคอมพิวเตอร์ ขยับ padding-top ลงมาอีกนิดเนื่องจาก Header มีปุ่มเพิ่มเข้ามา */
         @media (min-width: 768px) {
             .app-container {
-                padding-top: 180px;
+                padding-top: 150px;
             }
         }
 
@@ -498,7 +498,7 @@
     </div>
 </header>
 
-<div class="sticky-top" style="top: 90px; z-index: 998; background: #f0f4f7; padding: 10px 0;">
+<div class="sticky-top">
     <div class="container-fluid content-limiter">
         <div class="filter-wrapper">
             </div>
@@ -784,29 +784,27 @@ function changeAppTab(tabName) {
 }
 
 // เพิ่มตัวแปร global สำหรับเก็บหน้าปัจจุบัน (วางไว้นอกฟังก์ชัน)
-let currentPage = 1;
-const ITEMS_PER_PAGE = 18;
-
 function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
     const deptSelect = document.getElementById('app-dept-select');
 
-    // ตรวจสอบสถานะการแสดงผลของตัวเลือกกลุ่มสาระ
+    // 1. จัดการการแสดงผลของ Dropdown กลุ่มสาระ
     if (deptSelect) {
         deptSelect.style.display = (currentTab === 'school') ? 'none' : 'block';
     }
 
-    // --- ส่วนสถานะกำลังโหลด (ถ้าข้อมูลยังไม่มา) ---
+    // 2. แสดงสถานะกำลังโหลด (ถ้าข้อมูลยังไม่ถูกดึงมา)
     if (!allAwardsData || Object.keys(allAwardsData).length === 0) {
         zone.innerHTML = `
             <div class="text-center py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-2 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</p>
+                <div class="spinner-border text-primary mb-3" role="status"></div>
+                <h5 class="text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</h5>
             </div>`;
         return;
     }
 
-    zone.innerHTML = ''; // ล้างข้อมูลเก่าเพื่อแสดงผลใหม่
+    // 3. เริ่มการ Render (เคลียร์หน้าจอเก่า)
+    zone.innerHTML = ''; 
     let globalHasData = false;
 
     // --- โหมดหน้าแรก (ALL) ---
@@ -845,10 +843,10 @@ function renderAppContent() {
             globalHasData = true;
             zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานหมวดหมู่: ${labels[currentTab]}</div>`);
             
-            // คำนวณ Slice ตามจำนวนหน้า
+            // คำนวณ Slice ตามจำนวนหน้า (currentPage กำหนดไว้ด้านนอกแล้ว)
             let reversedItems = [...items].reverse();
-            let startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-            let itemsToShow = reversedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+            let endIndex = currentPage * ITEMS_PER_PAGE;
+            let itemsToShow = reversedItems.slice(0, endIndex);
             
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
@@ -856,24 +854,24 @@ function renderAppContent() {
             zone.appendChild(rowDiv);
 
             // แสดงปุ่ม "หน้าถัดไป" ถ้าข้อมูลยังเหลือ
-            if (reversedItems.length > (startIndex + ITEMS_PER_PAGE)) {
+            if (reversedItems.length > endIndex) {
                 zone.insertAdjacentHTML('beforeend', `
                     <div class="text-center mt-4 mb-5">
-                        <button class="btn btn-primary px-4" onclick="loadNextPage()">แสดงหน้าถัดไป</button>
+                        <button class="btn btn-primary px-4" onclick="loadNextPage()">แสดงรายการเพิ่มเติม</button>
                     </div>`);
             }
         }
     }
 
+    // กรณีไม่มีข้อมูลภายใต้ Filter ที่เลือก
     if (!globalHasData) {
-        zone.innerHTML = `<div class="empty-state-box"><h6>❌ ไม่มีข้อมูลรางวัลในเงื่อนไขที่เลือก</h6></div>`;
+        zone.innerHTML = `<div class="empty-state-box text-center py-5"><h6>❌ ไม่มีข้อมูลรางวัลในเงื่อนไขที่เลือก</h6></div>`;
     }
 }
-
-// ฟังก์ชันสำหรับกดหน้าถัดไป
+        
 function loadNextPage() {
-    currentPage++;
-    renderAppContent();
+    currentPage++; // เพิ่มเลขหน้า
+    renderAppContent(); // เรียก Render ใหม่ โดยจะแสดงรายการเพิ่มจาก slice(0, endIndex)
 }
 
 // อัปเดตฟังก์ชันเปลี่ยน Tab ให้รีเซ็ตหน้าด้วย
