@@ -60,7 +60,7 @@
             background: var(--bg-app);
             min-height: 100vh;
             position: relative;
-            padding-top: 140px; 
+            padding-top: 20px; 
             padding-bottom: 95px;
         }
 
@@ -132,12 +132,6 @@
     font-size: 0.9rem;
     color: #334155;
     background-color: #f8fafc;
-}
-
-/* 3. ปรับระยะห่างให้สมดุล */
-.app-container {
-    padding-top: 140px; /* ปรับให้พอดีกับความสูงแบนเนอร์+กล่องค้นหา */
-    padding-bottom: 95px;
 }
 
 /* Responsive สลับโหมด */
@@ -411,13 +405,44 @@
     color:#FFD54F;
     font-size:1.3rem;
 }
+
+/* ปรับแต่งปุ่มดูเพิ่มเติมและโหลดหน้าถัดไป */
+.btn-outline-primary {
+    border-color: var(--pms-main);
+    color: var(--pms-main);
+    font-weight: 600;
+    border-radius: 10px;
+}
+.btn-outline-primary:hover {
+    background-color: var(--pms-main);
+    color: white;
+}
+.btn-primary {
+    background-color: var(--pms-main);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* CSS สำหรับข้อความสถานะกำลังโหลด */
+.spinner-border.text-primary {
+    color: var(--pms-main) !important;
+}
+
+.sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 80px; /* ปรับให้พอดีกับความสูง Header */
+    z-index: 998;
+}
+     
     </style>
 </head>
 <body>
 
     <div class="app-container">
         
- <header class="app-header">
+<header class="app-header">
     <div class="container-fluid content-limiter">
         <div class="header-content">
             <div class="app-brand">
@@ -431,51 +456,54 @@
         </div>
     </div>
 </header>
-        
-        <div id="app-main-scroll-zone">
-    <div class="container-fluid content-limiter" id="dynamic-app-cards-zone">
+
+<div class="sticky-top" style="top: 90px; z-index: 998; background: #f0f4f7; padding: 10px 0;">
+    <div class="container-fluid content-limiter">
+        <div class="filter-wrapper">
+            <div class="filter-trigger-wrapper">
+                <button class="filter-toggle-btn" onclick="toggleFilterBox()">
+                    <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
+                </button>
+            </div>
+            <div id="filter-box-container">
+                <div id="filter-box">
+                    <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
+                        <option value="all">ปีการศึกษา (ทั้งหมด)</option>
+                        <option value="2569">2569</option>
+                        <option value="2568">2568</option>
+                    </select>
+                    <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
+                        <option value="all">ระดับรางวัล (ทั้งหมด)</option>
+                        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+                        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+                        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+                        <option value="ระดับภาค">ระดับภาค</option>
+                        <option value="ระดับชาติ">ระดับชาติ</option>
+                        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+                    </select>
+                    <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+                        <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
+                        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+                        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                        <option value="ภาษาไทย">ภาษาไทย</option>
+                        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+                        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+                        <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+                        <option value="การงานอาชีพ">การงานอาชีพ</option>
+                        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+                    </select>
+                </div>
+            </div>
         </div>
+    </div>
 </div>
 
-<div class="container-fluid content-limiter">
-    <div class="filter-wrapper">
-        <div class="filter-trigger-wrapper">
-            <button class="filter-toggle-btn" onclick="toggleFilterBox()">
-                <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
-            </button>
-        </div>
-
-        <div id="filter-box-container">
-            <div id="filter-box">
-                <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
-                    <option value="all">ปีการศึกษา (ทั้งหมด)</option>
-                    <option value="2569">2569</option>
-                    <option value="2568">2568</option>
-                </select>
-
-                <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
-                    <option value="all">ระดับรางวัล (ทั้งหมด)</option>
-                    <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-                    <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-                    <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-                    <option value="ระดับภาค">ระดับภาค</option>
-                    <option value="ระดับชาติ">ระดับชาติ</option>
-                    <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-                </select>
-
-                <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-                    <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
-                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                    <option value="ภาษาไทย">ภาษาไทย</option>
-                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                    <option value="การงานอาชีพ">การงานอาชีพ</option>
-                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-                </select>
-            </div>
+<div id="app-main-scroll-zone" class="mt-3">
+    <div class="container-fluid content-limiter" id="dynamic-app-cards-zone">
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <h5 class="mt-3 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</h5>
         </div>
     </div>
 </div>
@@ -616,17 +644,27 @@
         let currentTab = 'all'; 
         let selectedDept = 'all';
 
-// ปรับปรุง window.onload ให้โหลดทันที
+// ปรับปรุงฟังก์ชันเริ่มต้น
 window.onload = function() {
+    // 1. แสดงสถานะโหลดทันทีตั้งแต่เปิดเว็บ
+    const zone = document.getElementById('dynamic-app-cards-zone');
+    zone.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary mb-3"></div>
+            <h5>กำลังโหลดข้อมูลรางวัล...</h5>
+        </div>`;
+
+    // 2. เรียกข้อมูล
     fetch(GAS_WEB_APP_URL)
         .then(res => res.json())
         .then(data => {
             allAwardsData = data;
-            renderAppContent(); // โหลดข้อมูลแล้วแสดงผลทันที
+            // ลบ Loading ออก แล้วค่อย Render ข้อมูล
+            renderAppContent(); 
         })
         .catch(err => {
             console.error("Error: ", err);
-            document.getElementById('dynamic-app-cards-zone').innerHTML = `<div class="alert alert-danger">ไม่สามารถเชื่อมต่อข้อมูลได้</div>`;
+            zone.innerHTML = `<div class="alert alert-danger text-center">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>`;
         });
     
     handleFormTypeChange();
@@ -708,20 +746,33 @@ function changeAppTab(tabName) {
     renderAppContent();
 }
 
-// --- ปรับปรุงส่วนการแสดงผล ---
+// เพิ่มตัวแปร global สำหรับเก็บหน้าปัจจุบัน (วางไว้นอกฟังก์ชัน)
+let currentPage = 1;
+const ITEMS_PER_PAGE = 18;
+
 function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
-    zone.innerHTML = ''; // ล้างค่าเก่า
+    const deptSelect = document.getElementById('app-dept-select');
 
-    // เช็คว่าโหลดข้อมูลมาหรือยัง
+    // ตรวจสอบสถานะการแสดงผลของตัวเลือกกลุ่มสาระ
+    if (deptSelect) {
+        deptSelect.style.display = (currentTab === 'school') ? 'none' : 'block';
+    }
+
+    // --- ส่วนสถานะกำลังโหลด (ถ้าข้อมูลยังไม่มา) ---
     if (!allAwardsData || Object.keys(allAwardsData).length === 0) {
-        zone.innerHTML = `<div class="text-center py-5"><div class="spinner-border text-primary"></div><p>กำลังโหลดข้อมูล...</p></div>`;
+        zone.innerHTML = `
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</p>
+            </div>`;
         return;
     }
 
+    zone.innerHTML = ''; // ล้างข้อมูลเก่าเพื่อแสดงผลใหม่
     let globalHasData = false;
 
-    // --- ส่วนตรรกะการแสดงผล ---
+    // --- โหมดหน้าแรก (ALL) ---
     if (currentTab === 'all') {
         const configs = [
             { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา', limit: 12 },
@@ -737,39 +788,63 @@ function renderAppContent() {
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
                 
-                // แสดงแค่ 12 การ์ดตามโจทย์
                 let itemsToShow = items.slice(-config.limit).reverse();
                 buildAppCards(rowDiv, itemsToShow, config.key, config.lbl, config.badge);
                 zone.appendChild(rowDiv);
 
-                // ถ้าข้อมูลมีมากกว่า 12 ให้แสดงปุ่มดูเพิ่มเติม
                 if (items.length > config.limit) {
-                    zone.insertAdjacentHTML('beforeend', `<div class="text-center mt-3"><button class="btn btn-outline-primary" onclick="changeAppTab('${config.key}')">ดูเพิ่มเติมทั้งหมด</button></div>`);
+                    zone.insertAdjacentHTML('beforeend', `<div class="text-center mt-3 mb-4"><button class="btn btn-outline-primary w-100" onclick="changeAppTab('${config.key}')">ดูเพิ่มเติมทั้งหมด</button></div>`);
                 }
             }
         });
-    } else {
-        // โหมดเจาะจงประเภท (แสดง 18 การ์ด)
+    } 
+    // --- โหมดเลือกประเภท (แสดงทีละ 18) ---
+    else {
         let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
         const labels = { 'school':'สถานศึกษา', 'staff':'คุณครู', 'student':'นักเรียน' };
         const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
         
         if (items.length > 0) {
             globalHasData = true;
-            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ${labels[currentTab]}</div>`);
+            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานหมวดหมู่: ${labels[currentTab]}</div>`);
+            
+            // คำนวณ Slice ตามจำนวนหน้า
+            let reversedItems = [...items].reverse();
+            let startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            let itemsToShow = reversedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+            
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
-            
-            // แสดง 18 การ์ด
-            let itemsToShow = items.slice(-18).reverse();
             buildAppCards(rowDiv, itemsToShow, currentTab, labels[currentTab], `b-${currentTab}`);
             zone.appendChild(rowDiv);
+
+            // แสดงปุ่ม "หน้าถัดไป" ถ้าข้อมูลยังเหลือ
+            if (reversedItems.length > (startIndex + ITEMS_PER_PAGE)) {
+                zone.insertAdjacentHTML('beforeend', `
+                    <div class="text-center mt-4 mb-5">
+                        <button class="btn btn-primary px-4" onclick="loadNextPage()">แสดงหน้าถัดไป</button>
+                    </div>`);
+            }
         }
     }
 
     if (!globalHasData) {
-        zone.innerHTML = `<div class="empty-state-box"><h6>ไม่พบข้อมูลรางวัล</h6></div>`;
+        zone.innerHTML = `<div class="empty-state-box"><h6>❌ ไม่มีข้อมูลรางวัลในเงื่อนไขที่เลือก</h6></div>`;
     }
+}
+
+// ฟังก์ชันสำหรับกดหน้าถัดไป
+function loadNextPage() {
+    currentPage++;
+    renderAppContent();
+}
+
+// อัปเดตฟังก์ชันเปลี่ยน Tab ให้รีเซ็ตหน้าด้วย
+function changeAppTab(tabName) {
+    currentPage = 1; // รีเซ็ตไปหน้าแรกเสมอเมื่อเปลี่ยน Tab
+    currentTab = tabName;
+    // ... โค้ดเดิมของคุณ (อัปเดตปุ่ม active และแสดง/ซ่อน Filter) ...
+    renderAppContent();
 }
 
        function filterAppItems(items, type) {
