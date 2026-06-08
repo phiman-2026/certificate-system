@@ -530,6 +530,25 @@
     color:#FFD54F;
     font-size:1.3rem;
 }
+
+.filter-toggle-btn {
+    background: #ffffff;
+    color: var(--pms-main);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+.filter-toggle-btn:hover { background: #e2e8f0; }
+
+@media (min-width: 768px) {
+    .filter-trigger-wrapper { display: none; } /* ซ่อนปุ่มถ้าฟิลเตอร์แสดงตลอดในคอม (เลือกได้ค่ะ) */
+    #filter-box-container { display: flex !important; background: transparent !important; }
+}
     </style>
 </head>
 <body>
@@ -547,41 +566,48 @@
                 </div>
             </div>
             
-<div class="header-actions" id="filter-box" style="display: none;">
-    <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
-        <option value="all">ปีการศึกษา (ทั้งหมด)</option>
-        <option value="2569">2569</option>
-        <option value="2568">2568</option>
-    </select>
-
-    <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
-        <option value="all">ระดับรางวัล (ทั้งหมด)</option>
-        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-        <option value="ระดับภาค">ระดับภาค</option>
-        <option value="ระดับชาติ">ระดับชาติ</option>
-        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-    </select>
-
-    <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-        <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
-        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-        <option value="ภาษาไทย">ภาษาไทย</option>
-        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-        <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-        <option value="การงานอาชีพ">การงานอาชีพ</option>
-        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-    </select>
-
-    <button class="pc-add-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่</button>
+<div class="filter-trigger-wrapper" style="text-align: center; margin-bottom: 10px;">
+    <button class="filter-toggle-btn" onclick="toggleFilterBox()">
+        <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรอง
+    </button>
 </div>
-        </div>
+
+<div class="header-actions" id="filter-box-container" style="display: none; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; margin-top: 10px;">
+    <div id="filter-box" style="display: flex; flex-direction: column; gap: 8px;">
+        <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
+            <option value="all">ปีการศึกษา (ทั้งหมด)</option>
+            <option value="2569">2569</option>
+            <option value="2568">2568</option>
+        </select>
+
+        <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
+            <option value="all">ระดับรางวัล (ทั้งหมด)</option>
+            <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+            <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+            <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+            <option value="ระดับภาค">ระดับภาค</option>
+            <option value="ระดับชาติ">ระดับชาติ</option>
+            <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+        </select>
+
+        <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+            <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
+            <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+            <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+            <option value="ภาษาไทย">ภาษาไทย</option>
+            <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+            <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+            <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+            <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+            <option value="การงานอาชีพ">การงานอาชีพ</option>
+            <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+        </select>
+
+        <button class="pc-add-btn" onclick="openAppSheet()" style="justify-content: center;">
+            <i class="fa-solid fa-plus"></i> บันทึกรางวัลใหม่
+        </button>
     </div>
-</header>
+</div>
 
         <button class="fab-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i></button>
 
@@ -1131,6 +1157,16 @@ function uploadAndSave() {
             document.getElementById('app-viewer-modal').classList.add('d-none');
             document.getElementById('pdfAppFrame').src = "";
         }
+
+function toggleFilterBox() {
+    const box = document.getElementById('filter-box-container');
+    if (box.style.display === 'none' || box.style.display === '') {
+        box.style.display = 'block';
+    } else {
+        box.style.display = 'none';
+    }
+}
+        
     </script>
 </body>
 </html>
