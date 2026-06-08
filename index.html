@@ -53,21 +53,23 @@
             min-height: 100vh;
         }
 
-/* 2. ลด Padding บนของเนื้อหาลงเพื่อให้ Header ไม่กินที่จนเกินไป */
-.app-container {
-    width: 100%;
-    background: var(--bg-app);
-    min-height: 100vh;
-    padding-top: 110px; /* ปรับให้พอดีกับความสูง Header (100px + ช่องว่างเล็กน้อย) */
-    padding-bottom: 95px;
-}
+        /* 📱 ปรับ CONTAINER ให้ยืดหยุ่น (Responsive คอม/มือถือ) */
+        .app-container {
+            width: 100%;
+            max-width: 100%; 
+            background: var(--bg-app);
+            min-height: 100vh;
+            position: relative;
+            padding-top: 140px; 
+            padding-bottom: 95px;
+        }
 
-/* 2. บนจอคอม ให้ปรับ Padding ที่เคยเป็น 150px ลงมา */
-@media (min-width: 768px) {
-    .app-container {
-        padding-top: 100px; /* ลดลงเหลือ 100px จะดูสมดุลกว่าค่ะ */
-    }
-}
+        /* ในคอมพิวเตอร์ ขยับ padding-top ลงมาอีกนิดเนื่องจาก Header มีปุ่มเพิ่มเข้ามา */
+        @media (min-width: 768px) {
+            .app-container {
+                padding-top: 100px;
+            }
+        }
 
         /* จำกัดความกว้างเนื้อหาให้อยู่ตรงกลางสวยๆ เวลาเปิดบนจอคอมขนาดใหญ่ */
         .content-limiter {
@@ -76,83 +78,197 @@
             padding: 0 16px;
         }
 
-/* 1. ส่วน Header (แบนเนอร์) */
 .app-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    /* เพิ่มความสูงเป็น 100px และไล่เฉดสีให้สวยขึ้น */
-    background: linear-gradient(135deg, rgba(0, 104, 139, 0.95), rgba(0, 77, 102, 0.95)), 
+    background: linear-gradient(rgba(0, 104, 139, 0.95), rgba(0, 104, 139, 0.95)), 
                 url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
-    background-size: cover; 
-    background-position: center;
-    height: 100px; /* เพิ่มความสูงเพื่อให้มีพื้นที่มากขึ้น */
-    display: flex;
-    align-items: center; /* จัดให้เนื้อหาอยู่กลางแนวตั้งโดยอัตโนมัติ */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    background-size: cover; background-position: center;
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .header-content {
     display: flex;
-    justify-content: space-between; /* จัดโลโก้ซ้าย ปุ่มขวา */
-    align-items: center;
+    flex-direction: column; /* ให้โลโก้และฟิลเตอร์ซ้อนกันในมือถือ */
+    gap: 15px; 
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 16px;
 }
 
-.app-brand { display: flex; align-items: center; gap: 15px; }
-.app-logo { width: 50px; height: 50px; object-fit: contain; }
-.app-title h1 { font-size: 1.2rem; color: #fff; margin: 0; font-weight: 700; }
-.app-title p { font-size: 0.8rem; color: #e0f2fe; margin: 0; }
+.app-brand { display: flex; align-items: center; gap: 12px; }
+.app-logo { width: 45px; height: 45px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.app-title h1 { font-size: 1.1rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.2; }
+.app-title p { font-size: 0.75rem; color: #e0f2fe; margin: 0; }
 
-/* 2. ส่วนกล่อง Filter (Search Bar) */
-.filter-trigger-wrapper { text-align: center; margin: 15px; }
-
-#filter-box-container {
-    background: #ffffff;
-    padding: 10px 20px; /* ลด padding ลง */
-    border-radius: 12px;
-    border: 1px solid #cbd5e1;
-    margin: 5px auto; /* ลด margin จาก 20px เหลือ 5px */
-    max-width: 1200px;
-    box-shadow: none;
-}
-
-#filter-box {
+/* 🔍 ปรับฟิลเตอร์ให้กระชับและเรียงตัวสวย */
+.header-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column; /* มือถือ: ซ้อนกัน */
+    gap: 8px; /* ระยะห่างระหว่างช่องตัวเลือก */
+    width: 100%;
 }
 
 .filter-select-box {
-    flex: 0 1 auto;
-    min-width: 200px;
-    padding: 10px 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    color: #334155;
-    background-color: #f8fafc;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: var(--pms-main);
+    font-weight: 600;
+    cursor: pointer;
 }
 
-/* แสดงกล่องตัวเลือกตลอดเวลา */
-#filter-box-container { display: block !important; }
-
-/* ซ่อนปุ่มทริกเกอร์ (เพราะไม่จำเป็นต้องกดเปิด/ปิดแล้ว) */
-.filter-trigger-wrapper { display: none !important; }
-
-/* ปรับแต่งบนมือถือให้กล่องเรียงตัวกันสวยงาม */
-@media (max-width: 767px) {
-    #filter-box {
-        flex-direction: column;
-        gap: 10px;
+/* เพิ่มความสูงของแบนเนอร์บนคอมพิวเตอร์ */
+@media (min-width: 768px) {
+    .app-header {
+        padding: 25px 0; /* ปรับจาก 15px เป็น 25px หรือมากกว่าตามชอบค่ะ */
     }
-    .filter-select-box {
-        width: 100%;
-    }
+}
+
+/* 🖥️ ปรับหน้าจอคอมพิวเตอร์ให้เรียงแถว */
+@media (min-width: 768px) {
+    .header-content { flex-direction: row; justify-content: space-between; }
+    .header-actions { flex-direction: row; width: auto; }
+    .filter-select-box { width: 160px; } /* ปรับความกว้างให้พอดี */
+}
+
+/* ปรับระยะห่าง Container ไม่ให้บังหัวข้อ */
+.app-container {
+    padding-top: 220px; /* สำหรับมือถือ (Header สูงขึ้นเพราะซ้อนกัน) */
+    padding-bottom: 95px;
+}
+@media (min-width: 768px) {
+    .app-container { padding-top: 100px; } /* สำหรับคอม */
 }
      
+/* 👑 หน้า Welcome Screen ปรับโฉมใหม่ (อัปเดตล่าสุด) */
+.welcome-screen {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    text-align: center; 
+    padding: 20px; 
+    min-height: calc(100vh - 200px);
+    background-color: #f0f4f7; /* สีพื้นหลังเดิมของ App */
+}
+
+.welcome-card {
+    background: rgba(255, 255, 255, 0.95); 
+    /* ภาพพื้นหลังการ์ดพร้อม Overlay ให้ภาพดูชัดขึ้นด้วยค่า 0.5 */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
+                      url('https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 35px; 
+    padding: 40px 25px;
+    box-shadow: 0 15px 35px rgba(0, 104, 139, 0.15); 
+    
+    /* ขยายความกว้างยืดหยุ่นตามหน้าจอ */
+    width: 92%;
+    max-width: 1000px; /* ขยายขนาดการ์ดในคอมพิวเตอร์ */
+    
+    border: 1px solid rgba(0, 104, 139, 0.1);
+    transition: transform 0.4s ease;
+    margin: 0 auto;
+}
+
+.welcome-img { 
+    width: 100px; 
+    height: auto; 
+    margin-bottom: 20px; 
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); 
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* 👑 Typography Modernization */
+
+/* บรรทัดบนสุด: เน้นความสะอาดและหรูหราด้วยการยืดระยะห่าง */
+.w-line-1 { 
+    font-size: 0.95rem; 
+    text-transform: uppercase; 
+    letter-spacing: 4px; 
+    color: var(--pms-main); 
+    font-weight: 800; 
+    margin-bottom: 15px; 
+    opacity: 0.9;
+}
+
+/* หัวข้อหลัก: เพิ่มขนาดและปรับความหนาให้ดูมีพลัง */
+.w-line-2 { 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #1e293b; 
+    line-height: 1.1; 
+    margin-bottom: 15px;
+    letter-spacing: -0.5px; /* ทำให้ตัวอักษรชิดกันนิดๆ ดูแน่นและมั่นคง */
+}
+
+/* รายละเอียด: ปรับขนาดให้สบายตาและอ่านง่าย */
+.w-line-3 { 
+    font-size: 1.15rem; 
+    color: #475569; 
+    margin-bottom: 35px; 
+    font-weight: 400; 
+    line-height: 1.6;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ปุ่ม Call to Action: เพิ่มเงาและปรับสีให้ดูมีมิติ */
+.w-line-4 { 
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: #fff; 
+    background: var(--pms-main); 
+    padding: 14px 30px; 
+    border-radius: 50px; 
+    display: inline-block; 
+    margin-bottom: 20px;
+    box-shadow: 0 10px 20px rgba(0, 104, 139, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* เพิ่มลูกเล่นเมื่อเอาเมาส์ไปชี้ที่ปุ่ม (ถ้ามีเมาส์) */
+.w-line-4:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0, 104, 139, 0.4);
+}
+
+.w-line-5 { 
+    font-size: 0.85rem; 
+    color: #94a3b8; 
+    font-weight: 500; 
+    letter-spacing: 0.5px;
+}
+
+/* ปรับสำหรับจอคอมให้ดูอลังการขึ้น */
+@media (min-width: 768px) {
+    .welcome-card { padding: 60px; }
+    .w-line-2 { font-size: 2.8rem; }
+    .w-line-3 { font-size: 1.4rem; }
+    .welcome-img { width: 130px; }
+}
+
+/* เพิ่มความกว้างพิเศษสำหรับจอคอมพิวเตอร์ขนาดใหญ่ */
+@media (min-width: 1200px) {
+    .welcome-card { max-width: 1200px; }
+}
+
      
 /* 🏛️ ปรับปรุงหัวข้อสำหรับทุกอุปกรณ์ */
 .section-title { 
@@ -415,83 +531,62 @@
     font-size:1.3rem;
 }
 
-/* ปรับแต่งปุ่มดูเพิ่มเติมและโหลดหน้าถัดไป */
-.btn-outline-primary {
-    border-color: var(--pms-main);
+/* 🔍 ปุ่มเปิด-ปิด Filter (ปรับให้ดูพรีเมียมและชัดเจนขึ้น) */
+.filter-toggle-btn {
+    background: #ffffff;
     color: var(--pms-main);
-    font-weight: 600;
-    border-radius: 10px;
-}
-.btn-outline-primary:hover {
-    background-color: var(--pms-main);
-    color: white;
-}
-.btn-primary {
-    background-color: var(--pms-main);
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
+    border: 2px solid var(--pms-main);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 104, 139, 0.2);
+    transition: all 0.3s ease;
 }
 
-/* CSS สำหรับข้อความสถานะกำลังโหลด */
-.spinner-border.text-primary {
-    color: var(--pms-main) !important;
+.filter-toggle-btn:hover { 
+    background: var(--pms-main); 
+    color: #ffffff; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 104, 139, 0.3);
 }
 
-/* 3. ปรับ Sticky Filter ให้ชิด Header พอดี */
-.sticky-top {
-    position: sticky;
-    top: 100px; /* ต้องเท่ากับความสูงของ Header ใหม่ที่ตั้งไว้ */
-    z-index: 998;
-    background-color: var(--bg-app) !important;
-    padding: 10px 0 !important;
-    margin-bottom: 10px;
+/* กล่อง Filter ที่ปรับให้เด่นและเป็นสัดส่วน */
+#filter-box-container {
+    background: #ffffff; /* พื้นหลังสีขาวชัดเจน */
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0; /* มีเส้นขอบบางๆ */
+    margin: 15px 16px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* เพิ่มเงาให้กล่องดูลอยเด่น */
 }
 
-@media (max-width: 767px) {
-    /* 1. ให้กล่อง Filter บนมือถือมีความกว้างเต็มจอและปรับช่องว่าง */
-    #filter-box {
-        flex-direction: column; /* เรียงเป็นแถวแนวตั้ง */
-        gap: 10px;
-    }
-    .filter-select-box {
-        width: 100%; /* ให้เลือกได้เต็มจอ กดง่าย */
-        padding: 12px;
-    }
+/* ปรับให้ช่อง Select ดูเป็นส่วนตัวมากขึ้น */
+.filter-select-box {
+    background-color: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* 🖥️ ปรับการแสดงผลบนคอมพิวเตอร์ */
+@media (min-width: 768px) {
+    /* ถ้าต้องการให้ในคอมกดเปิด-ปิดได้เหมือนมือถือ ให้ลบส่วน .filter-trigger-wrapper ออกไปเลยค่ะ */
+    .filter-trigger-wrapper { display: block; text-align: center; } 
     
-    /* 2. ปรับระยะการ์ดบนมือถือให้ห่างขึ้นเล็กน้อย */
-    .app-card {
-        margin: 0 5px;
-        padding: 14px;
-    }
-
-    /* 3. ทำให้ Section Title บนมือถืออ่านง่ายขึ้น */
-    .section-title {
-        font-size: 1rem;
-        padding: 10px 15px;
-        margin: 20px 10px 15px 10px;
-    }
-    
-    /* 4. ปรับ Sticky Header ของ Filter ให้ชิดขอบบนมากขึ้น */
-    .sticky-top {
-        top: 70px; /* ปรับค่านี้ให้ตรงกับความสูง Header มือถือ */
-        padding: 8px 5px !important;
+    #filter-box-container { 
+        margin: 20px auto; 
+        max-width: 900px; 
     }
 }
-
-/* ตรวจสอบให้แน่ใจว่า Zone โหลดข้อมูลไม่มี margin-top เยอะเกินไป */
-#dynamic-app-cards-zone {
-    padding-top: 10px;
-    margin-top: 0;
-}
-     
     </style>
 </head>
 <body>
 
     <div class="app-container">
         
-<header class="app-header">
+  <header class="app-header">
     <div class="container-fluid content-limiter">
         <div class="header-content">
             <div class="app-brand">
@@ -506,50 +601,67 @@
     </div>
 </header>
 
-<div class="sticky-top">
-    <div class="container-fluid content-limiter">
-                    <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
-                        <option value="all">ปีการศึกษา (ทั้งหมด)</option>
-                        <option value="2569">2569</option>
-                        <option value="2568">2568</option>
-                    </select>
-                    <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
-                        <option value="all">ระดับรางวัล (ทั้งหมด)</option>
-                        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-                        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-                        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-                        <option value="ระดับภาค">ระดับภาค</option>
-                        <option value="ระดับชาติ">ระดับชาติ</option>
-                        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-                    </select>
-                    <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-                        <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
-                        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                        <option value="ภาษาไทย">ภาษาไทย</option>
-                        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                        <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                        <option value="การงานอาชีพ">การงานอาชีพ</option>
-                        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-                    </select>
-                </div>
+<div class="container-fluid content-limiter" style="margin-top: 10px;">
+    <div class="filter-wrapper">
+        <div class="filter-trigger-wrapper" style="text-align: center;">
+            <button class="filter-toggle-btn" onclick="toggleFilterBox()">
+                <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
+            </button>
+        </div>
+
+        <div id="filter-box-container" style="display: none; background: #f8f9fa; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid #e9ecef;">
+            <div id="filter-box" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
+                    <option value="all">ปีการศึกษา (ทั้งหมด)</option>
+                    <option value="2569">2569</option>
+                    <option value="2568">2568</option>
+                </select>
+
+                <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
+                    <option value="all">ระดับรางวัล (ทั้งหมด)</option>
+                    <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+                    <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+                    <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+                    <option value="ระดับภาค">ระดับภาค</option>
+                    <option value="ระดับชาติ">ระดับชาติ</option>
+                    <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+                </select>
+
+                <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
+                    <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
+                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                    <option value="ภาษาไทย">ภาษาไทย</option>
+                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
+                    <option value="การงานอาชีพ">การงานอาชีพ</option>
+                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+                </select>
             </div>
         </div>
     </div>
 </div>
 
-<div id="app-main-scroll-zone" class="mt-3">
-    <div class="container-fluid content-limiter" id="dynamic-app-cards-zone">
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status"></div>
-            <h5 class="mt-3 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</h5>
-        </div>
-    </div>
-</div>
-
 <button class="fab-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i></button>
+        
+         <main class="content-limiter" id="app-main-scroll-zone">
+            <div id="dynamic-app-cards-zone">
+                
+                <div class="welcome-screen" id="welcome-landing-page">
+                    <div class="welcome-card">
+                        <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
+                        <div class="w-line-1">ยินดีต้อนรับเข้าสู่</div>
+                        <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
+                        <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
+                        <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
+                        <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
 
         <div id="app-sheet-form" class="app-sheet d-none">
             <div class="sheet-header">
@@ -682,33 +794,18 @@
     <script>
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
         let allAwardsData = {};
-        let currentTab = 'all'; 
+        let currentTab = 'welcome'; 
         let selectedDept = 'all';
 
-// ปรับปรุงฟังก์ชันเริ่มต้น
-window.onload = function() {
-    // 1. แสดงสถานะโหลดทันทีตั้งแต่เปิดเว็บ
-    const zone = document.getElementById('dynamic-app-cards-zone');
-    zone.innerHTML = `
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary mb-3"></div>
-            <h5>กำลังโหลดข้อมูลรางวัล...</h5>
-        </div>`;
-
-    // 2. เรียกข้อมูล
-    fetch(GAS_WEB_APP_URL)
-        .then(res => res.json())
-        .then(data => {
-            allAwardsData = data;
-            // ลบ Loading ออก แล้วค่อย Render ข้อมูล
-            renderAppContent(); 
-        })
-        .catch(err => {
-            console.error("Error: ", err);
-            zone.innerHTML = `<div class="alert alert-danger text-center">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>`;
-        });
+window.onload = function() { 
+    loadDataFromServerSilently(); 
+    handleFormTypeChange(); 
     
-    handleFormTypeChange();
+    // ปรับให้ซ่อนทั้งกล่องฟิลเตอร์ตามโครงสร้างใหม่
+    const filterBox = document.getElementById('filter-box');
+    if (filterBox) {
+        filterBox.style.display = 'none'; 
+    }
 };
 
         function loadDataFromServerSilently() {
@@ -787,155 +884,99 @@ function changeAppTab(tabName) {
     renderAppContent();
 }
 
-
-// ประกาศตัวแปร Global ด้านบนสุด
-let allAwardsData = {};
-let currentTab = 'all'; 
-let currentPage = 1;         // เพิ่มตัวแปรนี้
-const ITEMS_PER_PAGE = 18;   // เพิ่มตัวแปรนี้        
-// เพิ่มตัวแปร global สำหรับเก็บหน้าปัจจุบัน (วางไว้นอกฟังก์ชัน)
-// --- ฟังก์ชัน renderAppContent ที่ปรับปรุงแล้ว ---
 function renderAppContent() {
     const zone = document.getElementById('dynamic-app-cards-zone');
     const deptSelect = document.getElementById('app-dept-select');
 
-    // 1. จัดการการแสดงผลของ Dropdown กลุ่มสาระ
+    // ตรวจสอบการแสดงผลช่องกลุ่มสาระฯ ให้สอดคล้องกับแท็บที่เลือกเสมอ
     if (deptSelect) {
         deptSelect.style.display = (currentTab === 'school') ? 'none' : 'block';
     }
-
-    // 2. แสดงสถานะกำลังโหลด (ถ้าข้อมูลยังไม่ถูกดึงมา)
+    
+    // --- แสดงสถานะกำลังโหลดถ้าข้อมูลยังไม่มา ---
     if (!allAwardsData || Object.keys(allAwardsData).length === 0) {
         zone.innerHTML = `
             <div class="text-center py-5">
-                <div class="spinner-border text-primary mb-3" role="status"></div>
-                <h5 class="text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</h5>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">กำลังโหลดข้อมูลรางวัลจากระบบ...</p>
             </div>`;
         return;
     }
 
-    // 3. เริ่มการ Render (เคลียร์หน้าจอเก่า)
-    zone.innerHTML = ''; 
+    zone.innerHTML = '';
     let globalHasData = false;
+    
+    if(currentTab === 'welcome') {
+        zone.innerHTML = `
+            <div class="welcome-screen">
+                <div class="welcome-card">
+                    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
+                    <div class="w-line-1">ยินดีต้อนรับเข้าสู่ระบบ</div>
+                    <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
+                    <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
+                    <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
+                    <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
+                </div>
+            </div>`;
+        return;
+    }
 
-    // --- โหมดหน้าแรก (ALL) ---
-    if (currentTab === 'all') {
+    if(currentTab === 'all') {
         const configs = [
-            { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา', limit: 12 },
-            { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู', limit: 12 },
-            { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน', limit: 12 }
+            { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา' },
+            { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
+            { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
         ];
-
         configs.forEach(config => {
             let items = filterAppItems(allAwardsData[config.key] || [], config.key);
-            if (items.length > 0) {
+            if(items.length > 0) {
                 globalHasData = true;
+                // แก้ไขจุดนี้: เพิ่ม ${config.key} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
                 zone.insertAdjacentHTML('beforeend', `<div class="section-title ${config.key}"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
-                
-                let itemsToShow = items.slice(-config.limit).reverse();
-                buildAppCards(rowDiv, itemsToShow, config.key, config.lbl, config.badge);
+                buildAppCards(rowDiv, items.slice(-6).reverse(), config.key, config.lbl, config.badge);
                 zone.appendChild(rowDiv);
-
-                if (items.length > config.limit) {
-                    zone.insertAdjacentHTML('beforeend', `<div class="text-center mt-3 mb-4"><button class="btn btn-outline-primary w-100" onclick="changeAppTab('${config.key}')">ดูเพิ่มเติมทั้งหมด</button></div>`);
-                }
             }
         });
-    } 
-    // --- โหมดเลือกประเภท (แสดงทีละ 18) ---
-    else {
+    } else {
         let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
         const labels = { 'school':'สถานศึกษา', 'staff':'คุณครู', 'student':'นักเรียน' };
         const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
-        
-        if (items.length > 0) {
+        if(items.length > 0) {
             globalHasData = true;
-            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานหมวดหมู่: ${labels[currentTab]}</div>`);
-            
-            // ใช้ตัวแปร Global currentPage และ ITEMS_PER_PAGE ในการคำนวณ
-            let reversedItems = [...items].reverse();
-            let totalPages = Math.ceil(reversedItems.length / ITEMS_PER_PAGE);
-            let endIndex = currentPage * ITEMS_PER_PAGE;
-            let itemsToShow = reversedItems.slice(0, endIndex);
-            
+            // แก้ไขจุดนี้: เพิ่ม ${currentTab} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
+            zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
-            buildAppCards(rowDiv, itemsToShow, currentTab, labels[currentTab], `b-${currentTab}`);
+            buildAppCards(rowDiv, [...items].reverse(), currentTab, labels[currentTab], `b-${currentTab}`);
             zone.appendChild(rowDiv);
-
-            // แสดงปุ่ม "หน้าถัดไป" ถ้ายังแสดงไม่ครบ
-            if (currentPage < totalPages) {
-                zone.insertAdjacentHTML('beforeend', `
-                    <div class="text-center mt-4 mb-5">
-                        <button class="btn btn-primary px-4" onclick="loadNextPage()">แสดงรายการเพิ่มเติม</button>
-                    </div>`);
-            }
         }
     }
 
-    // กรณีไม่มีข้อมูลภายใต้ Filter ที่เลือก
-    if (!globalHasData) {
-        zone.innerHTML = `<div class="empty-state-box text-center py-5"><h6>❌ ไม่มีข้อมูลรางวัลในเงื่อนไขที่เลือก</h6></div>`;
+    if(!globalHasData) {
+        zone.innerHTML = `
+            <div class="empty-state-box">
+                <i class="fa-solid fa-folder-open"></i>
+                <h6 class="fw-bold text-dark">❌ ไม่มีข้อมูลรางวัลในหน้านี้</h6>
+                <p class="small mb-0">ไม่พบรายชื่อหรือข้อมูลผลงานเกียรติยศที่ตรงกับเงื่อนไขที่คุณเลือก</p>
+            </div>`;
     }
 }
-        
-function loadNextPage() {
-    currentPage++; // เพิ่มเลขหน้า
-    renderAppContent(); // เรียก Render ใหม่ โดยจะแสดงรายการเพิ่มจาก slice(0, endIndex)
-}
 
-function changeAppTab(tabName) {
-    // 1. รีเซ็ตหน้าปัจจุบันเป็นหน้าแรกเสมอเมื่อเปลี่ยน Tab
-    currentPage = 1;
-    currentTab = tabName;
-
-    const filterBox = document.getElementById('filter-box');
-    const deptSelect = document.getElementById('app-dept-select');
-    
-    // 2. อัปเดตสถานะปุ่มเมนู (เพิ่ม/ลบ class active)
-    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-    const activeNav = document.getElementById('nav-' + tabName);
-    if (activeNav) {
-        activeNav.classList.add('active');
-    }
-
-    // 3. จัดการการแสดงผลของแถบ Filter
-    if (tabName === 'welcome') {
-        // ถ้าเป็นหน้า Welcome ให้ซ่อน Filter
-        if (filterBox) filterBox.style.display = 'none';
-    } else {
-        // ถ้าเป็นหน้าอื่นๆ ให้แสดง Filter
-        if (filterBox) filterBox.style.display = 'flex';
-        
-        // เงื่อนไขพิเศษ: ถ้าเป็น 'school' ให้ซ่อนเฉพาะ Dropdown กลุ่มสาระ
-        if (deptSelect) {
-            if (tabName === 'school') {
-                deptSelect.style.display = 'none';
-                // รีเซ็ตค่ากลุ่มสาระเป็น 'all' เมื่อเปลี่ยนเป็นหมวดโรงเรียน
-                deptSelect.value = 'all'; 
-            } else {
-                deptSelect.style.display = 'block';
-            }
-        }
-    }
-
-    // 4. สั่ง Render เนื้อหาใหม่ตาม Tab ที่เลือก
-    renderAppContent();
-}
-
-  function filterAppItems(items, type) {
-    if (!items || !Array.isArray(items)) return []; // เพิ่มบรรทัดนี้เพื่อป้องกัน Error
-    
+       function filterAppItems(items, type) {
     const yearVal = document.getElementById('filter-year').value;
     const levelVal = document.getElementById('filter-reward-level').value;
     const deptVal = document.getElementById('app-dept-select').value;
     
     return items.filter(item => {
-        const matchYear = (yearVal === 'all' || String(item['ปีการศึกษา'] || '') === yearVal);
-        const matchLevel = (levelVal === 'all' || (item['ระดับรางวัล'] || '') === levelVal);
-        const matchDept = (deptVal === 'all' || (item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน'] || '') === deptVal);
+        // ตรวจสอบว่าปี, ระดับรางวัล, และกลุ่มสาระ ตรงกับที่เลือกไหม
+        const matchYear = (yearVal === 'all' || String(item['ปีการศึกษา']) === yearVal);
+        const matchLevel = (levelVal === 'all' || item['ระดับรางวัล'] === levelVal);
+        const matchDept = (deptVal === 'all' || (item['กลุ่มสาระ'] || item['กลุ่มสาระการเรียนรู้'] || item['ฝ่ายงาน']) === deptVal);
+        
         return matchYear && matchLevel && matchDept;
     });
 }
@@ -1006,38 +1047,25 @@ function changeAppTab(tabName) {
 }
 
         
-    function openAppSheet() {
-    document.getElementById('main-honor-form').reset(); 
-    document.getElementById('form-year').value = "2569"; 
-    handleFormTypeChange(); 
-    
-    // ส่วนแสดงผล Form
-    document.getElementById('app-sheet-form').classList.remove('d-none');
-    
-    // ส่วนซ่อน UI หลัก
-    document.getElementById('app-main-scroll-zone').classList.add('d-none');
-    document.querySelector('.app-header').classList.add('d-none');
-    document.querySelector('.bottom-nav').classList.add('d-none');
-    document.querySelector('.fab-btn').classList.add('d-none');
+        function openAppSheet() {
+            document.getElementById('main-honor-form').reset(); 
+            document.getElementById('form-year').value = "2569"; 
+            handleFormTypeChange(); 
+            
+            document.getElementById('app-sheet-form').classList.remove('d-none');
+            document.getElementById('app-main-scroll-zone').classList.add('d-none');
+            document.querySelector('.app-header').classList.add('d-none');
+            document.querySelector('.bottom-nav').classList.add('d-none');
+            document.querySelector('.fab-btn').classList.add('d-none');
+        }
 
-    // ส่วนซ่อน Filter (ลบบรรทัดเหล่านี้ออก หรือใส่เครื่องหมาย // ไว้ข้างหน้า)
-    // const filterContainer = document.querySelector('.sticky-top');
-    // if (filterContainer) filterContainer.classList.add('d-none');
-}
-
-function closeAppSheet() {
-    document.getElementById('app-sheet-form').classList.add('d-none');
-    
-    // ส่วนแสดง UI หลักกลับมา
-    document.getElementById('app-main-scroll-zone').classList.remove('d-none');
-    document.querySelector('.app-header').classList.remove('d-none');
-    document.querySelector('.bottom-nav').classList.remove('d-none');
-    document.querySelector('.fab-btn').classList.remove('d-none');
-
-    // ส่วนแสดง Filter (ลบบรรทัดเหล่านี้ออก เพราะ Filter ไม่เคยหายไปไหน)
-    // const filterContainer = document.querySelector('.sticky-top');
-    // if (filterContainer) filterContainer.classList.remove('d-none');
-}
+        function closeAppSheet() {
+            document.getElementById('app-sheet-form').classList.add('d-none');
+            document.getElementById('app-main-scroll-zone').classList.remove('d-none');
+            document.querySelector('.app-header').classList.remove('d-none');
+            document.querySelector('.bottom-nav').classList.remove('d-none');
+            document.querySelector('.fab-btn').classList.remove('d-none');
+        }
 
       function showNotification(isSuccess, title, message) {
     const iconContainer = document.getElementById('notify-icon-container');
