@@ -67,7 +67,7 @@
         /* ในคอมพิวเตอร์ ขยับ padding-top ลงมาอีกนิดเนื่องจาก Header มีปุ่มเพิ่มเข้ามา */
         @media (min-width: 768px) {
             .app-container {
-                padding-top: 100px;
+                padding-top: 180px;
             }
         }
 
@@ -439,8 +439,11 @@
 .sticky-top {
     position: -webkit-sticky;
     position: sticky;
-    top: 80px; /* ปรับให้พอดีกับความสูง Header */
+    top: 70px; /* ปรับให้พอดีกับความสูง Header ของคุณ */
     z-index: 998;
+    background-color: var(--bg-app) !important; /* ใช้สีเดียวกับพื้นหลังแอป */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* เพิ่มเงาจางๆ ให้ดูแยกชั้น */
+    border-bottom: 1px solid #e2e8f0;
 }
 
 @media (max-width: 767px) {
@@ -469,7 +472,7 @@
     
     /* 4. ปรับ Sticky Header ของ Filter ให้ชิดขอบบนมากขึ้น */
     .sticky-top {
-        top: 80px; /* ปรับค่านี้ให้ตรงกับความสูง Header มือถือ */
+        top: 70px; /* ปรับค่านี้ให้ตรงกับความสูง Header มือถือ */
         padding: 8px 5px !important;
     }
 }
