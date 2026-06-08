@@ -134,14 +134,21 @@
     background-color: #f8fafc;
 }
 
-/* Responsive สลับโหมด */
-@media (max-width: 767px) {
-    #filter-box-container { display: none; }
-}
+/* แสดงกล่องตัวเลือกตลอดเวลา */
+#filter-box-container { display: block !important; }
 
-@media (min-width: 768px) {
-    .filter-trigger-wrapper { display: none; }
-    #filter-box-container { display: block !important; }
+/* ซ่อนปุ่มทริกเกอร์ (เพราะไม่จำเป็นต้องกดเปิด/ปิดแล้ว) */
+.filter-trigger-wrapper { display: none !important; }
+
+/* ปรับแต่งบนมือถือให้กล่องเรียงตัวกันสวยงาม */
+@media (max-width: 767px) {
+    #filter-box {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .filter-select-box {
+        width: 100%;
+    }
 }
      
      
@@ -491,10 +498,6 @@
 <div class="sticky-top" style="top: 90px; z-index: 998; background: #f0f4f7; padding: 10px 0;">
     <div class="container-fluid content-limiter">
         <div class="filter-wrapper">
-            <div class="filter-trigger-wrapper">
-                <button class="filter-toggle-btn" onclick="toggleFilterBox()">
-                    <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
-                </button>
             </div>
             <div id="filter-box-container">
                 <div id="filter-box">
@@ -959,33 +962,37 @@ function changeAppTab(tabName) {
 }
 
         
-       function openAppSheet() {
+    function openAppSheet() {
     document.getElementById('main-honor-form').reset(); 
     document.getElementById('form-year').value = "2569"; 
     handleFormTypeChange(); 
     
-    // ส่วนเดิม
+    // ส่วนแสดงผล Form
     document.getElementById('app-sheet-form').classList.remove('d-none');
+    
+    // ส่วนซ่อน UI หลัก
     document.getElementById('app-main-scroll-zone').classList.add('d-none');
     document.querySelector('.app-header').classList.add('d-none');
     document.querySelector('.bottom-nav').classList.add('d-none');
     document.querySelector('.fab-btn').classList.add('d-none');
 
-    // --- เพิ่มตรงนี้: ซ่อนกล่องตัวเลือกด้วย ---
-    const filterContainer = document.querySelector('.sticky-top');
-    if (filterContainer) filterContainer.classList.add('d-none');
+    // ส่วนซ่อน Filter (ลบบรรทัดเหล่านี้ออก หรือใส่เครื่องหมาย // ไว้ข้างหน้า)
+    // const filterContainer = document.querySelector('.sticky-top');
+    // if (filterContainer) filterContainer.classList.add('d-none');
 }
 
 function closeAppSheet() {
     document.getElementById('app-sheet-form').classList.add('d-none');
+    
+    // ส่วนแสดง UI หลักกลับมา
     document.getElementById('app-main-scroll-zone').classList.remove('d-none');
     document.querySelector('.app-header').classList.remove('d-none');
     document.querySelector('.bottom-nav').classList.remove('d-none');
     document.querySelector('.fab-btn').classList.remove('d-none');
 
-    // --- เพิ่มตรงนี้: แสดงกล่องตัวเลือกกลับมา ---
-    const filterContainer = document.querySelector('.sticky-top');
-    if (filterContainer) filterContainer.classList.remove('d-none');
+    // ส่วนแสดง Filter (ลบบรรทัดเหล่านี้ออก เพราะ Filter ไม่เคยหายไปไหน)
+    // const filterContainer = document.querySelector('.sticky-top');
+    // if (filterContainer) filterContainer.classList.remove('d-none');
 }
 
       function showNotification(isSuccess, title, message) {
