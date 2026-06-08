@@ -54,15 +54,14 @@
         }
 
         /* 📱 ปรับ CONTAINER ให้ยืดหยุ่น (Responsive คอม/มือถือ) */
-        .app-container {
-            width: 100%;
-            max-width: 100%; 
-            background: var(--bg-app);
-            min-height: 100vh;
-            position: relative;
-            padding-top: 20px; 
-            padding-bottom: 95px;
-        }
+/* ปรับตัวครอบหลักไม่ให้ดันเนื้อหาเยอะเกินไป */
+.app-container {
+    width: 100%;
+    background: var(--bg-app);
+    min-height: 100vh;
+    padding-top: 80px; /* ปรับลดลงให้พอดีกับความสูง Header */
+    padding-bottom: 95px;
+}
 
         /* ในคอมพิวเตอร์ ขยับ padding-top ลงมาอีกนิดเนื่องจาก Header มีปุ่มเพิ่มเข้ามา */
         @media (min-width: 768px) {
@@ -436,14 +435,14 @@
     color: var(--pms-main) !important;
 }
 
+/* ปรับ Sticky Top ให้เกาะ Header ไว้พอดี */
 .sticky-top {
-    position: -webkit-sticky;
     position: sticky;
-    top: 70px; /* ปรับให้พอดีกับความสูง Header ของคุณ */
+    top: 90px; /* ให้เว้นระยะจาก Header ที่ fix อยู่ด้านบน */
     z-index: 998;
-    background-color: var(--bg-app) !important; /* ใช้สีเดียวกับพื้นหลังแอป */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* เพิ่มเงาจางๆ ให้ดูแยกชั้น */
-    border-bottom: 1px solid #e2e8f0;
+    background-color: var(--bg-app) !important;
+    padding: 10px 0; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 @media (max-width: 767px) {
@@ -475,6 +474,12 @@
         top: 70px; /* ปรับค่านี้ให้ตรงกับความสูง Header มือถือ */
         padding: 8px 5px !important;
     }
+}
+
+/* ตรวจสอบให้แน่ใจว่า Zone โหลดข้อมูลไม่มี margin-top เยอะเกินไป */
+#dynamic-app-cards-zone {
+    padding-top: 10px;
+    margin-top: 0;
 }
      
     </style>
