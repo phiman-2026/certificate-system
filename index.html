@@ -601,23 +601,6 @@
 </div>
 
 <button class="fab-btn" onclick="openAppSheet()"><i class="fa-solid fa-plus"></i></button>
-        
-         <main class="content-limiter" id="app-main-scroll-zone">
-            <div id="dynamic-app-cards-zone">
-                
-                <div class="welcome-screen" id="welcome-landing-page">
-                    <div class="welcome-card">
-                        <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
-                        <div class="w-line-1">ยินดีต้อนรับเข้าสู่</div>
-                        <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
-                        <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
-                        <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
-                        <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
-                    </div>
-                </div>
-
-            </div>
-        </main>
 
         <div id="app-sheet-form" class="app-sheet d-none">
             <div class="sheet-header">
@@ -750,12 +733,23 @@
     <script>
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec';
         let allAwardsData = {};
-        let currentTab = 'welcome'; 
+        let currentTab = 'all'; 
         let selectedDept = 'all';
 
-window.onload = function() { 
-    loadDataFromServerSilently(); 
-    handleFormTypeChange(); 
+window.onload = function() {
+        // แสดงสถานะโหลดทันที
+        renderAppContent(); 
+        // โหลดข้อมูลจากเซิร์ฟเวอร์
+        fetch(GAS_WEB_APP_URL)
+            .then(res => res.json())
+            .then(data => {
+                allAwardsData = data;
+                renderAppContent(); // โหลดเสร็จแล้วแสดงข้อมูลทั้งหมด
+            })
+            .catch(err => console.error("Error: ", err));
+            
+        handleFormTypeChange();
+    };
     
     // ปรับให้ซ่อนทั้งกล่องฟิลเตอร์ตามโครงสร้างใหม่
     const filterBox = document.getElementById('filter-box');
@@ -861,35 +855,22 @@ function renderAppContent() {
         return;
     }
 
+    // ล้างข้อมูลเก่าออกเพื่อแสดงผลใหม่
     zone.innerHTML = '';
     let globalHasData = false;
     
-    if(currentTab === 'welcome') {
-        zone.innerHTML = `
-            <div class="welcome-screen">
-                <div class="welcome-card">
-                    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="welcome-img" alt="Welcome">
-                    <div class="w-line-1">ยินดีต้อนรับเข้าสู่ระบบ</div>
-                    <div class="w-line-2">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
-                    <div class="w-line-3">โรงเรียนพิมานพิทยาสรรค์</div>
-                    <div class="w-line-4">กรุณาเลือกประเภทรางวัลที่เมนูด้านล่าง</div>
-                    <div class="w-line-5">เพื่อเริ่มต้นการเข้าชมค่ะ</div>
-                </div>
-            </div>`;
-        return;
-    }
-
+    // โหมด ALL (แสดงทุกหมวดหมู่)
     if(currentTab === 'all') {
         const configs = [
             { key: 'school', title: 'รางวัลสถานศึกษา', icon: 'fa-university', badge: 'b-school', lbl: 'สถานศึกษา' },
             { key: 'staff', title: 'รางวัลครูและบุคลากร', icon: 'fa-chalkboard-teacher', badge: 'b-staff', lbl: 'คุณครู' },
             { key: 'student', title: 'รางวัลนักเรียน', icon: 'fa-user-graduate', badge: 'b-student', lbl: 'นักเรียน' }
         ];
+        
         configs.forEach(config => {
             let items = filterAppItems(allAwardsData[config.key] || [], config.key);
             if(items.length > 0) {
                 globalHasData = true;
-                // แก้ไขจุดนี้: เพิ่ม ${config.key} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
                 zone.insertAdjacentHTML('beforeend', `<div class="section-title ${config.key}"><i class="fa-solid ${config.icon}"></i> ${config.title}</div>`);
                 let rowDiv = document.createElement('div');
                 rowDiv.className = "row g-3";
@@ -897,13 +878,15 @@ function renderAppContent() {
                 zone.appendChild(rowDiv);
             }
         });
-    } else {
+    } 
+    // โหมดเจาะจงหมวดหมู่
+    else {
         let items = filterAppItems(allAwardsData[currentTab] || [], currentTab);
         const labels = { 'school':'สถานศึกษา', 'staff':'คุณครู', 'student':'นักเรียน' };
         const icons = { 'school':'fa-university', 'staff':'fa-chalkboard-teacher', 'student':'fa-user-graduate' };
+        
         if(items.length > 0) {
             globalHasData = true;
-            // แก้ไขจุดนี้: เพิ่ม ${currentTab} เพื่อให้ CSS เปลี่ยนสีหัวข้อ
             zone.insertAdjacentHTML('beforeend', `<div class="section-title ${currentTab}"><i class="fa-solid ${icons[currentTab]}"></i> ผลงานรางวัลหมวดหมู่: ${labels[currentTab]} ทั้งหมด</div>`);
             let rowDiv = document.createElement('div');
             rowDiv.className = "row g-3";
@@ -912,6 +895,7 @@ function renderAppContent() {
         }
     }
 
+    // กรณีไม่พบข้อมูลตามเงื่อนไขที่กรอง
     if(!globalHasData) {
         zone.innerHTML = `
             <div class="empty-state-box">
