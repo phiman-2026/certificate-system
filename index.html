@@ -531,23 +531,54 @@
     font-size:1.3rem;
 }
 
+/* 🔍 ปุ่มเปิด-ปิด Filter (ปรับให้ดูพรีเมียมและชัดเจนขึ้น) */
 .filter-toggle-btn {
     background: #ffffff;
     color: var(--pms-main);
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    border: 2px solid var(--pms-main);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 104, 139, 0.2);
+    transition: all 0.3s ease;
 }
-.filter-toggle-btn:hover { background: #e2e8f0; }
 
+.filter-toggle-btn:hover { 
+    background: var(--pms-main); 
+    color: #ffffff; 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 104, 139, 0.3);
+}
+
+/* กล่อง Filter ที่ปรับให้เด่นและเป็นสัดส่วน */
+#filter-box-container {
+    background: #ffffff; /* พื้นหลังสีขาวชัดเจน */
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0; /* มีเส้นขอบบางๆ */
+    margin: 15px 16px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* เพิ่มเงาให้กล่องดูลอยเด่น */
+}
+
+/* ปรับให้ช่อง Select ดูเป็นส่วนตัวมากขึ้น */
+.filter-select-box {
+    background-color: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* 🖥️ ปรับการแสดงผลบนคอมพิวเตอร์ */
 @media (min-width: 768px) {
-    .filter-trigger-wrapper { display: none; } /* ซ่อนปุ่มถ้าฟิลเตอร์แสดงตลอดในคอม (เลือกได้ค่ะ) */
-    #filter-box-container { display: flex !important; background: transparent !important; }
+    /* ถ้าต้องการให้ในคอมกดเปิด-ปิดได้เหมือนมือถือ ให้ลบส่วน .filter-trigger-wrapper ออกไปเลยค่ะ */
+    .filter-trigger-wrapper { display: block; text-align: center; } 
+    
+    #filter-box-container { 
+        margin: 20px auto; 
+        max-width: 900px; 
+    }
 }
     </style>
 </head>
