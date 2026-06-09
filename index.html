@@ -671,6 +671,24 @@ body{
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
+const TYPE_CONFIG = {
+  school: {
+    icon: "🏫",
+    color: "#8B0000",
+    title: "รางวัลสถานศึกษา"
+  },
+  staff: {
+    icon: "👨‍🏫",
+    color: "#2563EB",
+    title: "รางวัลครู"
+  },
+  student: {
+    icon: "🎓",
+    color: "#16A34A",
+    title: "รางวัลนักเรียน"
+  }
+};
+      
 let filters = {
   year: "all",
   level: "all",
@@ -779,6 +797,8 @@ function renderSection(type, title) {
 ========================= */
 function buildCards(container, data, type) {
 
+  const config = TYPE_CONFIG[type] || TYPE_CONFIG.school;
+
   data.forEach(item => {
 
     const title = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
@@ -802,14 +822,9 @@ function buildCards(container, data, type) {
       person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
     }
 
-    // ✅ เพิ่มตรงนี้
-    let icon = "🏆";
-    if (type === "school") icon = "🏫";
-    if (type === "staff") icon = "👨‍🏫";
-    if (type === "student") icon = "🎓";
-
-    container.insertAdjacentHTML("beforeend",
-      createCardHTML(type, title, person, giver, year, level, dept, className, icon)
+    container.insertAdjacentHTML(
+      "beforeend",
+      createCardHTML(type, title, person, giver, year, level, dept, className, config)
     );
   });
 }
@@ -817,15 +832,17 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, icon) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, config) {
 
   return `
   <div class="col-12 col-md-6 col-lg-4">
-    <div class="award-card ${type}">
+    <div class="award-card ${type}" style="border-top:4px solid ${config.color}">
 
-      <div class="award-icon">${icon}</div>
+      <div class="award-icon">${config.icon}</div>
 
-      <div class="award-level">${level}</div>
+      <div class="award-level" style="color:${config.color};border-color:${config.color}">
+        ${level}
+      </div>
 
       <div class="award-title">${title}</div>
 
