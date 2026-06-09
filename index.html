@@ -1298,23 +1298,20 @@ class="award-form-modal d-none">
         <form id="awardForm">
 
 <div class="mb-3">
-
     <label>ประเภทรางวัล</label>
 
-    <select
-        id="awardType"
-        class="form-select"
-        onchange="changeAwardType()">
+    <select id="awardType"
+            class="form-select"
+            onchange="changeAwardType()">
 
         <option value="school">รางวัลสถานศึกษา</option>
         <option value="staff">รางวัลครูและบุคลากร</option>
         <option value="student">รางวัลนักเรียน</option>
 
     </select>
-
 </div>
 
-<!-- ✅ ต้องอยู่ตรงนี้ (ถูกแล้ว) -->
+<!-- 🔥 ฟอร์มเปลี่ยนตรงนี้ -->
 <div id="dynamicFormArea"></div>
 
             <div class="mb-3">
@@ -1930,81 +1927,86 @@ function closeAwardForm(){
 function changeAwardType(){
 
     const type = document.getElementById("awardType").value;
-
     const area = document.getElementById("dynamicFormArea");
 
-    let html = "";
+    area.style.opacity = "0.3";
 
-    // ================= SCHOOL
-    if(type === "school"){
+    setTimeout(()=>{
 
-        html = `
-        <div class="mb-3">
-            <label>ชื่อหน่วยงาน</label>
-            <input type="text" id="awardPerson"
-                   class="form-control"
-                   value="โรงเรียนพิมานพิทยาสรรค์"
-                   readonly>
-        </div>
-        `;
-    }
+        let html = "";
 
-    // ================= STAFF
-    else if(type === "staff"){
+        // ================= SCHOOL
+        if(type === "school"){
 
-        html = `
-        <div class="mb-3">
-            <label>ชื่อครู/บุคลากร</label>
-            <input type="text" id="awardPerson" class="form-control">
-        </div>
+            html = `
+            <div class="mb-3">
+                <label>ชื่อโรงเรียน</label>
+                <input id="awardPerson" class="form-control"
+                       value="โรงเรียนพิมานพิทยาสรรค์" readonly>
+            </div>
+            `;
+        }
 
-        <div class="mb-3">
-            <label>กลุ่มสาระ</label>
-            <select id="awardDept" class="form-select">
-                <option>วิทยาศาสตร์และเทคโนโลยี</option>
-                <option>คณิตศาสตร์</option>
-                <option>ภาษาไทย</option>
-                <option>ภาษาต่างประเทศ</option>
-                <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                <option>สุขศึกษาและพลศึกษา</option>
-                <option>ศิลปะ</option>
-                <option>การงานอาชีพ</option>
-            </select>
-        </div>
-        `;
-    }
+        // ================= STAFF
+        else if(type === "staff"){
 
-    // ================= STUDENT
-    else if(type === "student"){
+            html = `
+            <div class="mb-3">
+                <label>ชื่อครู/บุคลากร</label>
+                <input id="awardPerson" class="form-control">
+            </div>
 
-        html = `
-        <div class="mb-3">
-            <label>ชื่อนักเรียน</label>
-            <input type="text" id="awardPerson" class="form-control">
-        </div>
+            <div class="mb-3">
+                <label>กลุ่มสาระ</label>
+                <select id="awardDept" class="form-select">
+                    <option>วิทยาศาสตร์และเทคโนโลยี</option>
+                    <option>คณิตศาสตร์</option>
+                    <option>ภาษาไทย</option>
+                    <option>ภาษาต่างประเทศ</option>
+                    <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                    <option>สุขศึกษาและพลศึกษา</option>
+                    <option>ศิลปะ</option>
+                    <option>การงานอาชีพ</option>
+                </select>
+            </div>
+            `;
+        }
 
-        <div class="mb-3">
-            <label>ชั้นเรียน</label>
-            <input type="text" id="awardClass" class="form-control">
-        </div>
+        // ================= STUDENT
+        else if(type === "student"){
 
-        <div class="mb-3">
-            <label>กลุ่มสาระ</label>
-            <select id="awardDept" class="form-select">
-                <option>วิทยาศาสตร์และเทคโนโลยี</option>
-                <option>คณิตศาสตร์</option>
-                <option>ภาษาไทย</option>
-                <option>ภาษาต่างประเทศ</option>
-                <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                <option>สุขศึกษาและพลศึกษา</option>
-                <option>ศิลปะ</option>
-                <option>การงานอาชีพ</option>
-            </select>
-        </div>
-        `;
-    }
+            html = `
+            <div class="mb-3">
+                <label>ชื่อนักเรียน</label>
+                <input id="awardPerson" class="form-control">
+            </div>
 
-    area.innerHTML = html;
+            <div class="mb-3">
+                <label>ชั้นเรียน</label>
+                <input id="awardClass" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>กลุ่มสาระ</label>
+                <select id="awardDept" class="form-select">
+                    <option>วิทยาศาสตร์และเทคโนโลยี</option>
+                    <option>คณิตศาสตร์</option>
+                    <option>ภาษาไทย</option>
+                    <option>ภาษาต่างประเทศ</option>
+                    <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                    <option>สุขศึกษาและพลศึกษา</option>
+                    <option>ศิลปะ</option>
+                    <option>การงานอาชีพ</option>
+                </select>
+            </div>
+            `;
+        }
+
+        area.innerHTML = html;
+
+        area.style.opacity = "1";
+
+    },150);
 }
 
 function validateAwardForm(){
@@ -2055,168 +2057,70 @@ function validateAwardForm(){
 
 async function saveAward(){
 
-   const type =
-document.getElementById('awardType').value;
+    const type = document.getElementById('awardType').value;
+    const year = document.getElementById('awardYear').value.trim();
+    const rewardLevel = document.getElementById('awardLevel').value;
 
-const year =
-document.getElementById('awardYear').value.trim();
+    const title = document.getElementById('awardTitle').value.trim();
+    const giver = document.getElementById('awardGiver').value.trim();
 
-const rewardLevel =
-document.getElementById('awardLevel').value;
+    const name = document.getElementById('awardPerson')?.value || "";
+    const dept = document.getElementById('awardDept')?.value || "";
+    const className = document.getElementById('awardClass')?.value || "";
 
-const dept = document.getElementById('awardDept')?.value || "";
+    const fileInput = document.getElementById('awardFile');
 
-const title =
-document.getElementById('awardTitle').value.trim();
-
-const giver =
-document.getElementById('awardGiver').value.trim();
-
-const name =
-document.getElementById('awardPerson').value.trim();
-
-const className = document.getElementById('awardClass')?.value || "";
-
-const fileInput =
-document.getElementById('awardFile');
-
-    // -------------------------
-    // VALIDATE
-    // -------------------------
-
-    if(!year){
-        showAlert('กรุณาระบุปีการศึกษา');
+    if(!year || !title || !giver){
+        alert("กรอกข้อมูลไม่ครบ");
         return;
     }
 
-    if(!title){
-        showAlert('กรุณาระบุชื่อรางวัล');
+    if(type !== "school" && !name){
+        alert("กรุณากรอกชื่อผู้รับรางวัล");
         return;
     }
 
-    if(!giver){
-        showAlert('กรุณาระบุหน่วยงานที่มอบ');
+    if(type === "student" && !className){
+        alert("กรุณากรอกชั้นเรียน");
         return;
     }
-
-    if(type !== 'school' && !name){
-        showAlert('กรุณาระบุชื่อผู้ได้รับรางวัล');
-        return;
-    }
-
-   if(type === 'student' && !className){
-    showAlert('กรุณาระบุชั้นเรียน');
-    return;
-   }
 
     if(fileInput.files.length === 0){
-        showAlert('กรุณาแนบไฟล์ PDF');
+        alert("กรุณาแนบ PDF");
         return;
     }
 
     const file = fileInput.files[0];
 
-    if(file.type !== 'application/pdf'){
-        showAlert('รองรับเฉพาะ PDF เท่านั้น');
-        return;
+    const base64 = await fileToBase64(file);
+
+    const payload = {
+        type,
+        year,
+        rewardLevel,
+        title,
+        giver,
+        name,
+        dept,
+        className,
+        fileMimeType: file.type,
+        fileData: base64.split(',')[1]
+    };
+
+    const res = await fetch(GAS_WEB_APP_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    if(result.status === "success"){
+        alert("บันทึกสำเร็จ");
+        document.getElementById("awardForm").reset();
+        document.getElementById("dynamicFormArea").innerHTML = "";
+    }else{
+        alert("บันทึกไม่สำเร็จ");
     }
-
-    // -------------------------
-    // BUTTON LOADING
-    // -------------------------
-
-    const btn =
-    document.getElementById('btn-save');
-
-    btn.disabled = true;
-
-    btn.innerHTML =
-    `<span class="spinner-border spinner-border-sm me-2"></span>
-     กำลังบันทึก...`;
-
-    try{
-
-        const base64 =
-        await fileToBase64(file);
-
-        const payload = {
-
-            type:type,
-
-            year:year,
-
-            rewardLevel:rewardLevel,
-
-            dept:dept,
-
-            title:title,
-
-            giver:giver,
-
-            name:name,
-
-            className:className,
-
-            fileMimeType:file.type,
-
-            fileData:
-            base64.split(',')[1]
-
-        };
-
-        const response =
-        await fetch(GAS_WEB_APP_URL,{
-
-            method:'POST',
-
-            body:JSON.stringify(payload)
-
-        });
-
-        const result =
-        await response.json();
-
-        if(result.status === 'success'){
-
-            showSuccess(
-                'บันทึกข้อมูลสำเร็จ'
-            );
-
-            document
-           .getElementById('awardForm')
-           .reset();
-
-            closeAddModal();
-
-            await loadAwards();
-
-        }else{
-
-            showAlert(
-                result.message ||
-                'ไม่สามารถบันทึกข้อมูลได้'
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        showAlert(
-            'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์'
-        );
-
-    }finally{
-
-        btn.disabled = false;
-
-        btn.innerHTML =
-        `<i class="fa-solid fa-floppy-disk"></i>
-         บันทึกข้อมูล`;
-
-    }
-
 }
 
 function fileToBase64(file){
