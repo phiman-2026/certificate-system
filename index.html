@@ -296,9 +296,10 @@ body{
 
 .row.g-3{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:20px;
 }
+
 
 /* CARD */
 .award-card{
@@ -309,6 +310,7 @@ body{
     overflow:hidden;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
     transition:.25s ease;
+    min-height:220px;
 }
 
 .award-card:hover{
