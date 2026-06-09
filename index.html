@@ -990,6 +990,17 @@ BOTTOM TAB BAR (APP STYLE)
 .app-container{
     padding-bottom:95px;
 }
+
+.form-control, .form-select{
+    border-radius:14px;
+    padding:12px;
+}
+
+label{
+    font-weight:600;
+    margin-bottom:6px;
+    color:#334155;
+}
 </style>
 
 </head>
@@ -1286,32 +1297,25 @@ class="award-form-modal d-none">
 
         <form id="awardForm">
 
-            <div class="mb-3">
+<div class="mb-3">
 
-                <label>
-                    ประเภทรางวัล
-                </label>
+    <label>ประเภทรางวัล</label>
 
-                <select
-                id="awardType"
-                class="form-select"
-                onchange="changeAwardType()">
+    <select
+        id="awardType"
+        class="form-select"
+        onchange="changeAwardType()">
 
-                    <option value="school">
-                        รางวัลสถานศึกษา
-                    </option>
+        <option value="school">รางวัลสถานศึกษา</option>
+        <option value="staff">รางวัลครูและบุคลากร</option>
+        <option value="student">รางวัลนักเรียน</option>
 
-                    <option value="staff">
-                        รางวัลครูและบุคลากร
-                    </option>
+    </select>
 
-                    <option value="student">
-                        รางวัลนักเรียน
-                    </option>
+</div>
 
-                </select>
-
-            </div>
+<!-- ✅ ต้องอยู่ตรงนี้ (ถูกแล้ว) -->
+<div id="dynamicFormArea"></div>
 
             <div class="mb-3">
 
@@ -1907,11 +1911,11 @@ function closeSearchScreen(){
 
 function openAwardForm(){
 
-    document
-    .getElementById("awardFormModal")
-    .classList
-    .remove("d-none");
+    document.getElementById("awardFormModal")
+    .classList.remove("d-none");
 
+    // สำคัญมาก
+    changeAwardType();
 }
 
 function closeAwardForm(){
@@ -1927,32 +1931,80 @@ function changeAwardType(){
 
     const type = document.getElementById("awardType").value;
 
-    const personInput = document.getElementById("awardPerson");
+    const area = document.getElementById("dynamicFormArea");
 
-    // reset ทุกครั้งที่เปลี่ยน type
-    personInput.value = "";
+    let html = "";
 
-    // SCHOOL
+    // ================= SCHOOL
     if(type === "school"){
 
-        personInput.value = "โรงเรียนพิมานพิทยาสรรค์";
-        personInput.disabled = true;
-
+        html = `
+        <div class="mb-3">
+            <label>ชื่อหน่วยงาน</label>
+            <input type="text" id="awardPerson"
+                   class="form-control"
+                   value="โรงเรียนพิมานพิทยาสรรค์"
+                   readonly>
+        </div>
+        `;
     }
 
-    // STAFF
+    // ================= STAFF
     else if(type === "staff"){
 
-        personInput.disabled = false;
+        html = `
+        <div class="mb-3">
+            <label>ชื่อครู/บุคลากร</label>
+            <input type="text" id="awardPerson" class="form-control">
+        </div>
 
+        <div class="mb-3">
+            <label>กลุ่มสาระ</label>
+            <select id="awardDept" class="form-select">
+                <option>วิทยาศาสตร์และเทคโนโลยี</option>
+                <option>คณิตศาสตร์</option>
+                <option>ภาษาไทย</option>
+                <option>ภาษาต่างประเทศ</option>
+                <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                <option>สุขศึกษาและพลศึกษา</option>
+                <option>ศิลปะ</option>
+                <option>การงานอาชีพ</option>
+            </select>
+        </div>
+        `;
     }
 
-    // STUDENT
+    // ================= STUDENT
     else if(type === "student"){
 
-        personInput.disabled = false;
+        html = `
+        <div class="mb-3">
+            <label>ชื่อนักเรียน</label>
+            <input type="text" id="awardPerson" class="form-control">
+        </div>
 
+        <div class="mb-3">
+            <label>ชั้นเรียน</label>
+            <input type="text" id="awardClass" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label>กลุ่มสาระ</label>
+            <select id="awardDept" class="form-select">
+                <option>วิทยาศาสตร์และเทคโนโลยี</option>
+                <option>คณิตศาสตร์</option>
+                <option>ภาษาไทย</option>
+                <option>ภาษาต่างประเทศ</option>
+                <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+                <option>สุขศึกษาและพลศึกษา</option>
+                <option>ศิลปะ</option>
+                <option>การงานอาชีพ</option>
+            </select>
+        </div>
+        `;
     }
+
+    area.innerHTML = html;
 }
 
 function validateAwardForm(){
@@ -2012,8 +2064,7 @@ document.getElementById('awardYear').value.trim();
 const rewardLevel =
 document.getElementById('awardLevel').value;
 
-const dept =
-document.getElementById('awardDept').value;
+const dept = document.getElementById('awardDept')?.value || "";
 
 const title =
 document.getElementById('awardTitle').value.trim();
@@ -2024,8 +2075,7 @@ document.getElementById('awardGiver').value.trim();
 const name =
 document.getElementById('awardPerson').value.trim();
 
-const className =
-document.getElementById('awardClass').value.trim();
+const className = document.getElementById('awardClass')?.value || "";
 
 const fileInput =
 document.getElementById('awardFile');
