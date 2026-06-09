@@ -486,15 +486,12 @@ font-family:'Prompt',sans-serif;
 </head>
 <body>
 
-   <body>
-
 <!-- =========================
      LOADING SCREEN
 ========================= -->
 
 <div id="loading-screen" class="loading-screen">
 
-```
 <img
     src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png"
     class="loading-logo"
@@ -509,7 +506,6 @@ font-family:'Prompt',sans-serif;
 </div>
 
 <div class="loading-spinner"></div>
-```
 
 </div>
 
@@ -519,7 +515,6 @@ font-family:'Prompt',sans-serif;
 
 <div class="app-container">
 
-```
 <!-- =========================
      APP HEADER
 ========================= -->
@@ -566,7 +561,7 @@ font-family:'Prompt',sans-serif;
 
     <button
         class="add-btn"
-        onclick="openAddAwardForm()">
+        onclick="openAwardForm()">
 
         <i class="fa-solid fa-plus"></i>
 
@@ -582,7 +577,7 @@ font-family:'Prompt',sans-serif;
 
     <!-- Dashboard จะถูก Render ตรงนี้ -->
 
-    <div id="dashboard-container">
+    <div id="app-content"></div>
 
         <!-- Loading Skeleton -->
 
@@ -602,7 +597,6 @@ font-family:'Prompt',sans-serif;
     </div>
 
 </main>
-```
 
 </div>
 
@@ -614,7 +608,6 @@ font-family:'Prompt',sans-serif;
     id="search-screen"
     class="search-screen d-none">
 
-```
 <!-- HEADER -->
 
 <div class="search-header">
@@ -627,15 +620,10 @@ font-family:'Prompt',sans-serif;
 
     </button>
 
-  <input
-
+<input
 id="search-input"
-
-onkeyup="searchAwards()"
-
 placeholder="ค้นหารางวัล..."
->
-        onkeyup="renderDashboard()">
+onkeyup="searchAwards()">
 
 </div>
 
@@ -779,7 +767,6 @@ placeholder="ค้นหารางวัล..."
     class="content-wrap">
 
 </div>
-```
 
 </div>
 
@@ -1069,36 +1056,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 });
 
-async function loadAwardsData(){
-
-    try{
-
-        const response =
-        await fetch(GAS_WEB_APP_URL);
-
-        const data =
-        await response.json();
-
-        allAwardsData = data;
-
-        hideLoadingScreen();
-
-        renderHomePage();
-
-    }catch(error){
-
-        console.error(error);
-
-        document.getElementById("app-content").innerHTML = `
-        <div class="empty-box">
-            ไม่สามารถโหลดข้อมูลได้
-        </div>
-        `;
-
-    }
-
-}
-
 function showLoadingScreen(){
 
     document.getElementById("app-content").innerHTML=`
@@ -1117,36 +1074,6 @@ function showLoadingScreen(){
 
 }
 
-function hideLoadingScreen(){}
-
-function renderHomePage(){
-
-    currentTab = "home";
-
-    const zone =
-    document.getElementById("app-content");
-
-    zone.innerHTML = "";
-
-    createSection(
-        "school",
-        "รางวัลสถานศึกษา",
-        allAwardsData.school.slice(-12).reverse()
-    );
-
-    createSection(
-        "staff",
-        "รางวัลครูและบุคลากร",
-        allAwardsData.staff.slice(-12).reverse()
-    );
-
-    createSection(
-        "student",
-        "รางวัลนักเรียน",
-        allAwardsData.student.slice(-12).reverse()
-    );
-
-}
 
 function createSection(type,title,data){
 
@@ -1466,7 +1393,7 @@ function searchAwards(){
 function renderSearchResult(result){
 
     const zone =
-    document.getElementById("search-result-zone");
+    document.getElementById("search-result-container");
 
     zone.innerHTML="";
 
@@ -1506,7 +1433,7 @@ function renderSearchResult(result){
 function openSearchScreen(){
 
     document
-    .getElementById("searchScreen")
+    .getElementById("search-screen")
     .classList
     .remove("d-none");
 
@@ -1644,32 +1571,32 @@ function validateAwardForm(){
 
 async function saveAward(){
 
-    const type =
-    document.getElementById('form-type').value;
+   const type =
+document.getElementById('awardType').value;
 
-    const year =
-    document.getElementById('form-year').value.trim();
+const year =
+document.getElementById('awardYear').value.trim();
 
-    const rewardLevel =
-    document.getElementById('form-reward-level').value;
+const rewardLevel =
+document.getElementById('awardLevel').value;
 
-    const dept =
-    document.getElementById('form-dept').value;
+const dept =
+document.getElementById('awardDept').value;
 
-    const title =
-    document.getElementById('form-title').value.trim();
+const title =
+document.getElementById('awardTitle').value.trim();
 
-    const giver =
-    document.getElementById('form-giver').value.trim();
+const giver =
+document.getElementById('awardGiver').value.trim();
 
-    const name =
-    document.getElementById('form-name').value.trim();
+const name =
+document.getElementById('awardPerson').value.trim();
 
-    const className =
-    document.getElementById('form-class').value.trim();
+const className =
+document.getElementById('awardClass').value.trim();
 
-    const fileInput =
-    document.getElementById('form-file');
+const fileInput =
+document.getElementById('awardFile');
 
     // -------------------------
     // VALIDATE
@@ -1751,7 +1678,7 @@ async function saveAward(){
         };
 
         const response =
-        await fetch(GAS_URL,{
+        await fetch(GAS_WEB_APP_URL,{
 
             method:'POST',
 
@@ -1865,7 +1792,7 @@ async function loadAwards(){
         showLoadingScreen();
 
         const response =
-        await fetch(GAS_URL);
+        await fetch(GAS_WEB_APP_URL);
 
         const data =
         await response.json();
