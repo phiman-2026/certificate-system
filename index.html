@@ -1901,38 +1901,59 @@ function changeAwardType(){
 
     // STAFF
     else if(type === "staff"){
-        area.innerHTML = `
-            <div class="mb-3">
-                <label>ชื่อครู / บุคลากร</label>
-                <input type="text" id="awardPerson" class="form-control">
-            </div>
+       area.innerHTML = `
+    <div class="mb-3">
+        <label>ชื่อครู / บุคลากร</label>
+        <input type="text" id="awardPerson" class="form-control">
+    </div>
 
-            <div class="mb-3">
-                <label>กลุ่มสาระ</label>
-                <input type="text" id="awardDept" class="form-control">
-            </div>
-        `;
+    <div class="mb-3">
+        <label>กลุ่มสาระ</label>
+        <select id="awardDept" class="form-select">
+            <option value="">-- เลือกกลุ่มสาระ --</option>
+            <option>วิทยาศาสตร์และเทคโนโลยี</option>
+            <option>คณิตศาสตร์</option>
+            <option>ภาษาไทย</option>
+            <option>ภาษาต่างประเทศ</option>
+            <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+            <option>สุขศึกษาและพลศึกษา</option>
+            <option>ศิลปะ</option>
+            <option>การงานอาชีพ</option>
+            <option>กิจกรรมพัฒนาผู้เรียน</option>
+        </select>
+    </div>
+`;
     }
 
     // STUDENT
     else if(type === "student"){
         area.innerHTML = `
-            <div class="mb-3">
-                <label>ชื่อนักเรียน</label>
-                <input type="text" id="awardPerson" class="form-control">
+    <div class="mb-3">
+        <label>ชื่อนักเรียน</label>
+        <input type="text" id="awardPerson" class="form-control">
+    </div>
 
-            </div>
+    <div class="mb-3">
+        <label>ชั้นเรียน</label>
+        <input type="text" id="awardClass" class="form-control">
+    </div>
 
-            <div class="mb-3">
-                <label>ชั้นเรียน</label>
-                <input type="text" id="awardClass" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label>กลุ่มสาระ</label>
-                <input type="text" id="awardDept" class="form-control">
-            </div>
-        `;
+    <div class="mb-3">
+        <label>กลุ่มสาระ</label>
+        <select id="awardDept" class="form-select">
+            <option value="">-- เลือกกลุ่มสาระ --</option>
+            <option>วิทยาศาสตร์และเทคโนโลยี</option>
+            <option>คณิตศาสตร์</option>
+            <option>ภาษาไทย</option>
+            <option>ภาษาต่างประเทศ</option>
+            <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+            <option>สุขศึกษาและพลศึกษา</option>
+            <option>ศิลปะ</option>
+            <option>การงานอาชีพ</option>
+            <option>กิจกรรมพัฒนาผู้เรียน</option>
+        </select>
+    </div>
+`;
     }
 }
 
