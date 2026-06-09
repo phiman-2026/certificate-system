@@ -842,12 +842,14 @@ linear-gradient(
 }
 
 /* BODY */
+/* ทำให้ฟอร์ม scroll จริง */
 .award-form-body{
     flex:1;
     overflow-y:auto;
     padding:16px;
     background:#f5f6f8;
 }
+
 
 /* FORM STYLE (flat) */
 .award-form-body input,
@@ -857,14 +859,10 @@ linear-gradient(
     height:42px;
 }
 
-/* FOOTER BUTTON BAR */
+/* FIX ปุ่มล่างให้ติดจริง */
 .form-action-bar{
-    height:70px;
-    display:flex;
-    gap:10px;
-    padding:10px;
-    background:#fff;
-    border-top:1px solid #ddd;
+    position:sticky;
+    bottom:0;
 }
 
 /* BUTTONS */
@@ -883,6 +881,14 @@ linear-gradient(
     border:none;
     border-radius:0;
     font-weight:600;
+}
+
+.award-form-container{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    overflow:hidden;
 }
       
 /* =========================
