@@ -403,11 +403,13 @@ body{
    FORM MODAL
 ========================= */
 .award-form-modal{
-    position:fixed;
-    inset:0;
-    background:#fff;
-    display:flex;
-    flex-direction:column;
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    z-index: 5000; /* 🔥 ต้องสูงกว่า tab */
+    height: 100vh;
 }
 
 .award-form-header{
@@ -421,9 +423,17 @@ body{
 }
 
 .award-form-body{
-    flex:1;
-    padding:15px;
-    background:#f8fafc;
+    flex: 1;
+    padding: 15px;
+    background: #f8fafc;
+    overflow-y: auto;   /* 🔥 สำคัญมาก */
+    padding-bottom: 120px; /* กัน tab บัง */
+}
+
+.award-form-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* INPUT */
@@ -478,7 +488,7 @@ body{
     justify-content:space-around;
     align-items:center;
     border-top:1px solid #eee;
-    z-index:2000;
+    z-index:1000;
 }
 
 .tab-item{
