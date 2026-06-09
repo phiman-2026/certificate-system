@@ -914,6 +914,82 @@ linear-gradient(
     padding:25px;
 
 }
+
+/* =========================
+BOTTOM TAB BAR (APP STYLE)
+========================= */
+
+.bottom-tabbar{
+
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+
+    height:75px;
+
+    background:#ffffff;
+
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+
+    border-top:1px solid #E5E7EB;
+
+    box-shadow:0 -5px 20px rgba(0,0,0,.08);
+
+    z-index:2000;
+
+}
+
+.tab-item{
+
+    flex:1;
+
+    border:none;
+    background:none;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    font-family:'Prompt',sans-serif;
+
+    color:#64748B;
+
+    font-size:12px;
+
+    gap:5px;
+
+    cursor:pointer;
+
+    transition:all .2s ease;
+
+}
+
+.tab-item i{
+    font-size:20px;
+}
+
+.tab-item.active{
+
+    color:#8B0000;
+
+    transform:translateY(-2px);
+
+}
+
+.tab-item.active i{
+
+    color:#8B0000;
+
+}
+
+/* เว้นพื้นที่ให้ไม่โดน tab bar บัง */
+.app-container{
+    padding-bottom:95px;
+}
 </style>
 
 </head>
@@ -1342,6 +1418,33 @@ onclick="saveAward()">
 
 </div>
 
+<!-- =========================
+BOTTOM TAB BAR
+========================= -->
+<nav class="bottom-tabbar">
+
+    <button class="tab-item active" id="nav-home" onclick="changeTab('home')">
+        <i class="fa-solid fa-house"></i>
+        <span>หน้าแรก</span>
+    </button>
+
+    <button class="tab-item" id="nav-school" onclick="changeTab('school')">
+        <i class="fa-solid fa-school"></i>
+        <span>สถานศึกษา</span>
+    </button>
+
+    <button class="tab-item" id="nav-staff" onclick="changeTab('staff')">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span>ครู</span>
+    </button>
+
+    <button class="tab-item" id="nav-student" onclick="changeTab('student')">
+        <i class="fa-solid fa-user-graduate"></i>
+        <span>นักเรียน</span>
+    </button>
+
+</nav>
+
  <script>
 const GAS_WEB_APP_URL =
 "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
@@ -1665,24 +1768,26 @@ function changeTab(tab){
 
     currentTab = tab;
 
-    if(tab==="home"){
+    // เปลี่ยน active tab
+    document.querySelectorAll('.tab-item')
+    .forEach(btn => btn.classList.remove('active'));
 
+    document.getElementById('nav-' + tab)
+    .classList.add('active');
+
+    const zone = document.getElementById("app-content");
+    zone.innerHTML = "";
+
+    if(tab === "home"){
         renderHomePage();
-
         return;
     }
-
-    const zone =
-    document.getElementById("app-content");
-
-    zone.innerHTML="";
 
     createSection(
         tab,
         getTabTitle(tab),
-        allAwardsData[tab].slice().reverse()
+        (allAwardsData[tab] || []).slice().reverse()
     );
-
 }
 
 function getTabTitle(tab){
