@@ -519,8 +519,6 @@ font-family:'Prompt',sans-serif;
 
 .section-title::before{
 
-    content:"🏆";
-
     font-size:1.3rem;
 
 }
@@ -814,6 +812,106 @@ linear-gradient(
     margin:auto;
 
     padding:20px;
+
+}
+
+/* =========================
+   AWARD FORM MODAL
+========================= */
+
+.award-form-modal{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:9999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    backdrop-filter:blur(5px);
+
+}
+
+.award-form-container{
+
+    width:100%;
+    max-width:750px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:28px;
+
+    box-shadow:
+    0 25px 70px rgba(0,0,0,.25);
+
+    animation:modalFade .3s ease;
+
+}
+
+@keyframes modalFade{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.award-form-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 25px;
+
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        #8B0000,
+        #B22222
+    );
+
+}
+
+.award-form-header h5{
+
+    margin:0;
+    font-weight:700;
+
+}
+
+.award-form-header button{
+
+    border:none;
+    background:none;
+
+    color:white;
+
+    font-size:24px;
+
+}
+
+.award-form-body{
+
+    padding:25px;
 
 }
 </style>
@@ -2027,8 +2125,8 @@ document.getElementById('awardFile');
             );
 
             document
-            .getElementById('award-form')
-            .reset();
+           .getElementById('awardForm')
+           .reset();
 
             closeAddModal();
 
@@ -2097,7 +2195,7 @@ function showSuccess(message){
 function closeAddModal(){
 
     document
-    .getElementById('app-sheet-form')
+    .getElementById('awardFormModal')
     .classList
     .add('d-none');
 
@@ -2106,7 +2204,7 @@ function closeAddModal(){
 function openAddModal(){
 
     document
-    .getElementById('app-sheet-form')
+    .getElementById('awardFormModal')
     .classList
     .remove('d-none');
 
@@ -2229,7 +2327,7 @@ function openSearchScreen(){
 function closeSearchScreen(){
 
     document
-    .getElementById('search-screen')
+   .getElementById("search-screen")
     .classList
     .add('d-none');
 
