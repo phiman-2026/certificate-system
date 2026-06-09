@@ -1927,39 +1927,30 @@ function changeAwardType(){
 
     const type = document.getElementById("awardType").value;
 
-    document.getElementById("awardPerson").value = "";
-    document.getElementById("awardClass").value = "";
-
-    const deptBox = document.getElementById("deptBox");
-    const classBox = document.getElementById("classBox");
-    const personLabel = document.getElementById("personLabel");
     const personInput = document.getElementById("awardPerson");
 
+    // reset ทุกครั้งที่เปลี่ยน type
+    personInput.value = "";
+
+    // SCHOOL
     if(type === "school"){
 
-        deptBox.style.display = "none";
-        classBox.style.display = "none";
-
-        personLabel.innerText = "ชื่อสถานศึกษา";
         personInput.value = "โรงเรียนพิมานพิทยาสรรค์";
+        personInput.disabled = true;
 
     }
 
+    // STAFF
     else if(type === "staff"){
 
-        deptBox.style.display = "block";
-        classBox.style.display = "none";
-
-        personLabel.innerText = "ชื่อครู / บุคลากร";
+        personInput.disabled = false;
 
     }
 
-    else{
+    // STUDENT
+    else if(type === "student"){
 
-        deptBox.style.display = "block";
-        classBox.style.display = "block";
-
-        personLabel.innerText = "ชื่อนักเรียน";
+        personInput.disabled = false;
 
     }
 }
