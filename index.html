@@ -18,32 +18,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <style>
 
 :root{
-
     --primary:#8B0000;
     --primary-dark:#650000;
-
     --gold:#D4AF37;
-
-    --blue:#0B5ED7;
-
     --bg:#F4F7FA;
-
-    --surface:#FFFFFF;
-
     --text:#1E293B;
-
     --text-light:#64748B;
-
     --border:#E2E8F0;
-
-    --radius:24px;
-
+    --radius:18px;
 }
 
 /* =========================
-   GLOBAL
+   RESET
 ========================= */
-
 *{
     margin:0;
     padding:0;
@@ -55,49 +42,36 @@ html{
 }
 
 body{
-
     font-family:'Prompt',sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
     overflow-x:hidden;
-    overflow-y:auto; /* เปลี่ยนจาก hidden */
-}
 }
 
 .d-none{
     display:none !important;
 }
 
+/* =========================
+   APP LAYOUT
+========================= */
 .app-container{
-
     width:100%;
-
     min-height:100vh;
-
     padding-top:85px;
-
-    padding-bottom:90px;
+    padding-bottom:95px;
 }
 
 .content-wrap{
-
-    width:100%;
-
     max-width:1400px;
-
     margin:auto;
-
     padding:15px;
 }
 
 /* =========================
    SCROLLBAR
 ========================= */
-
 ::-webkit-scrollbar{
     width:8px;
 }
@@ -110,2275 +84,760 @@ body{
 /* =========================
    LOADING SCREEN
 ========================= */
-
 .loading-screen{
-
     position:fixed;
-
     inset:0;
-
-    background:#ffffff;
-
+    background:#fff;
     z-index:9999;
-
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
-
-    gap:20px;
+    gap:15px;
 }
 
 .loading-logo{
-
-    width:100px;
-
+    width:90px;
     animation:pulse 1.5s infinite;
 }
 
 .loading-title{
-
     font-size:1.2rem;
-
     font-weight:700;
-
     color:var(--primary);
 }
 
 .loading-sub{
-
-    color:#64748B;
+    color:var(--text-light);
 }
 
 .loading-spinner{
-
-    width:50px;
-    height:50px;
-
+    width:45px;
+    height:45px;
     border:5px solid #eee;
-
     border-top-color:var(--primary);
-
     border-radius:50%;
-
     animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
+    to{transform:rotate(360deg);}
 }
 
 @keyframes pulse{
-
-    0%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.05);
-    }
-
-    100%{
-        transform:scale(1);
-    }
+    0%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+    100%{transform:scale(1);}
 }
 
 /* =========================
-   MOBILE APP HEADER
+   HEADER
 ========================= */
-
 .mobile-header{
-
     position:fixed;
-
     top:0;
     left:0;
     right:0;
-
     height:75px;
-
-    background:#ffffff;
-
-    z-index:1000;
-
+    background:#fff;
     display:flex;
-
     align-items:center;
-
     gap:12px;
-
     padding:12px 15px;
-
     box-shadow:0 2px 15px rgba(0,0,0,.08);
+    z-index:1000;
 }
 
 .logo-box img{
-
     width:48px;
     height:48px;
-
     object-fit:contain;
 }
 
 .system-title{
-
     display:none;
 }
 
 .search-box{
-
     flex:1;
-
     background:#F1F5F9;
-
-    border-radius:15px;
-
-    padding:12px 15px;
-
+    border-radius:14px;
+    padding:10px 12px;
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     cursor:pointer;
-}
-
-.search-box i{
-    color:#64748B;
-}
-
-.search-box span{
-
-    color:#64748B;
-
-    font-size:.9rem;
+    color:var(--text-light);
 }
 
 .add-btn{
-
     width:46px;
     height:46px;
-
     border:none;
-
     border-radius:14px;
-
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary-dark)
-    );
-
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
     color:#fff;
-
-    font-size:18px;
-
-    box-shadow:0 5px 15px rgba(139,0,0,.25);
 }
 
 /* =========================
-   DESKTOP HEADER
+   DESKTOP
 ========================= */
-
 @media(min-width:992px){
+    .mobile-header{
+        height:90px;
+        padding:15px 30px;
+    }
 
-.mobile-header{
+    .system-title{
+        display:block;
+    }
 
-    height:90px;
+    .system-title h1{
+        font-size:1.1rem;
+        font-weight:800;
+        color:var(--primary);
+        margin:0;
+    }
 
-    padding:15px 30px;
-}
+    .system-title p{
+        font-size:.8rem;
+        color:var(--text-light);
+        margin:0;
+    }
 
-.logo-box{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-}
-
-.system-title{
-
-    display:block;
-}
-
-.system-title h1{
-
-    margin:0;
-
-    font-size:1.2rem;
-
-    font-weight:800;
-
-    color:var(--primary);
-}
-
-.system-title p{
-
-    margin:0;
-
-    color:#64748B;
-
-    font-size:.8rem;
-}
-
-.search-box{
-
-    max-width:600px;
-}
-
-.app-container{
-
-    padding-top:110px;
-}
-
+    .app-container{
+        padding-top:110px;
+    }
 }
 
 /* =========================
-SEARCH SCREEN
+   SEARCH SCREEN
 ========================= */
-
 .search-screen{
-
-```
-position:fixed;
-
-inset:0;
-
-background:#F8FAFC;
-
-z-index:3000;
-
-overflow-y:auto;
-```
-
+    position:fixed;
+    inset:0;
+    background:#F8FAFC;
+    z-index:3000;
+    overflow-y:auto;
 }
 
 .search-header{
-
-```
-position:sticky;
-
-top:0;
-
-background:#FFFFFF;
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-padding:15px;
-
-box-shadow:0 2px 15px rgba(0,0,0,.08);
-```
-
-}
-
-.search-back-btn{
-
-```
-width:45px;
-height:45px;
-
-border:none;
-
-border-radius:14px;
-
-background:#F1F5F9;
-```
-
+    position:sticky;
+    top:0;
+    background:#fff;
+    display:flex;
+    gap:10px;
+    padding:15px;
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
 }
 
 .search-header input{
-
-```
-flex:1;
-
-height:45px;
-
-border:none;
-
-outline:none;
-
-border-radius:14px;
-
-background:#F1F5F9;
-
-padding:0 15px;
-
-font-family:'Prompt',sans-serif;
-```
-
+    flex:1;
+    height:45px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:#F1F5F9;
+    padding:0 15px;
 }
 
+.search-back-btn{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:12px;
+    background:#F1F5F9;
+}
+
+/* FILTER */
 .search-filter-panel{
-
-```
-background:#FFFFFF;
-
-margin:15px;
-
-padding:20px;
-
-border-radius:20px;
-
-box-shadow:0 3px 15px rgba(0,0,0,.05);
-```
-
+    background:#fff;
+    margin:15px;
+    padding:18px;
+    border-radius:16px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
 }
 
 .search-filter-title{
-
-```
-font-weight:700;
-
-color:var(--primary);
-
-margin-bottom:15px;
-```
-
+    font-weight:700;
+    color:var(--primary);
+    margin-bottom:10px;
 }
 
 .filter-label{
-
-```
-display:block;
-
-margin-top:12px;
-
-margin-bottom:5px;
-
-font-size:.9rem;
-
-font-weight:600;
-```
-
+    display:block;
+    margin-top:10px;
+    font-size:.9rem;
+    font-weight:600;
 }
 
 .filter-select{
-
-```
-width:100%;
-
-height:45px;
-
-border:1px solid #E2E8F0;
-
-border-radius:12px;
-
-padding:0 12px;
-
-font-family:'Prompt',sans-serif;
-```
-
+    width:100%;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:0 10px;
 }
 
 /* =========================
-   AWARD CARD
+   CARD SYSTEM
 ========================= */
-
 .section-title{
-
     display:flex;
-
     align-items:center;
-
-    gap:12px;
-
-    margin:35px 0 20px;
-
-    padding:16px 22px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #8B0000,
-    #B22222
-    );
-
-    color:white;
-
-    border-radius:18px;
-
-    font-size:1.15rem;
-
-    font-weight:800;
-
-    box-shadow:
-    0 6px 20px rgba(139,0,0,.18);
-
-}
-
-.section-title::before{
-
-    font-size:1.3rem;
-
-}
-
-.section-title::after{
-
-    content:"";
-
-    flex:1;
-
-    height:2px;
-
-    background:
-
-    linear-gradient(
-    to right,
-    rgba(255,255,255,.7),
-    rgba(255,255,255,0)
-    );
-
-}
-
-.award-card{
-
-    background:#ffffff;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    border:1px solid #E5E7EB;
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,.08);
-
-    transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-
-    height:100%;
-
-    display:flex;
-
-    flex-direction:column;
-    position:relative;
-    overflow:hidden;
-    padding:22px;
-    animation:fadeCard .4s ease;
-}
-
-@keyframes fadeCard{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(15px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-.award-card:hover{
-
-    transform:translateY(-6px);
-
-    box-shadow:
-    0 18px 40px rgba(0,0,0,.14);
-
-}
-      
-.award-level{
-
-    position:absolute;
-    top:15px;
-    right:15px;
-
-    background:rgba(255,255,255,.95);
-
-    color:#8B0000;
-
-    padding:6px 12px;
-
-    border-radius:30px;
-
-    font-size:.75rem;
-
-    font-weight:700;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.12);
-
-    z-index:2;
-    border:1px solid rgba(139,0,0,.15);
-
-    backdrop-filter:blur(10px);
-}
-
-.award-title{
-
-    position:relative;
-
-    margin-top:65px;
-
-    margin-bottom:18px;
-
-    padding-bottom:12px;
-
-    font-size:1.08rem;
-
-    font-weight:800;
-
-    color:#111827;
-
-    line-height:1.55;
-
-    letter-spacing:.2px;
-
-    border-bottom:1px solid #E5E7EB;
-
-    min-height:55px;
-}
-
-.award-detail{
-
-    color:#374151;
-
-    font-size:.93rem;
-
-    line-height:1.8;
-
-}
-
-.award-detail b{
-
-    color:#111827;
-
-    font-weight:700;
-
-}
-
-.btn-view-award{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
     gap:10px;
-
-    font-size:.95rem;
-
-}
-
-.btn-view-award i{
-
-    font-size:1.05rem;
-
-}
-
-.btn-view-award:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 6px 15px rgba(212,175,55,.35);
-
-}   
-
-.award-icon{
-
-    width:60px;
-    height:60px;
-
-    border-radius:50%;
-
-    background:#FFF7E0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:28px;
-
-    margin:20px auto 10px;
-
-    border:3px solid #D4AF37;
-}
-
-.award-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:0;
-    right:0;
-
-    height:80px;
-
-    background:
-linear-gradient(
-135deg,
-#7A0000 0%,
-#A00000 45%,
-#D4AF37 100%
-);
-
-}
-
-.award-icon{
-
-    position:absolute;
-
-    top:22px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:50px;
-    height:50px;
-
-    border-radius:50%;
-
-    background:white;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:24px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,.15);
-
-    z-index:2;
-}
-
-.award-card::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:80px;
-
-    left:0;
-
-    right:0;
-
-    height:3px;
-
-    background:#D4AF37;
-
+    margin:25px 0 15px;
+    padding:14px 18px;
+    background:linear-gradient(135deg,var(--primary),#B22222);
+    color:#fff;
+    border-radius:14px;
+    font-weight:700;
 }
 
 .row.g-3{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(auto-fill,minmax(320px,1fr));
-
-    gap:24px;
-
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px;
 }
 
-.row.g-3 > div{
+/* CARD */
+.award-card{
+    background:#fff;
+    border-radius:16px;
+    padding:18px;
+    position:relative;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    transition:.2s;
+}
 
+.award-card:hover{
+    transform:translateY(-5px);
+}
+
+/* LEVEL */
+.award-level{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#fff;
+    border:1px solid #eee;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:.75rem;
+}
+
+/* TITLE */
+.award-title{
+    margin-top:35px;
+    font-weight:800;
+    font-size:1rem;
+    border-bottom:1px solid #eee;
+    padding-bottom:10px;
+}
+
+/* DETAIL */
+.award-detail{
+    font-size:.9rem;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+/* BUTTON */
+.btn-view-award{
+    margin-top:12px;
     width:100%;
-
-    max-width:none;
-
-}
-
-.content-wrap{
-
-    max-width:1600px;
-
-    margin:auto;
-
-    padding:20px;
-
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:var(--gold);
+    color:#000;
+    font-weight:600;
 }
 
 /* =========================
-   AWARD FORM MODAL
+   FORM MODAL
 ========================= */
-
-/* FULL SCREEN MODAL */
 .award-form-modal{
     position:fixed;
     inset:0;
-    width:100vw;
-    height:100vh;
     background:#fff;
     display:flex;
+    flex-direction:column;
 }
 
-/* HEADER */
 .award-form-header{
     height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 16px;
-    background:#8B0000;
+    background:var(--primary);
     color:#fff;
-    font-weight:700;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 15px;
 }
 
-/* BODY */
 .award-form-body{
     flex:1;
-    padding:16px;
+    padding:15px;
     background:#f8fafc;
-    padding-top:10px;
 }
+
+/* INPUT */
 .form-control,
 .form-select{
-    border-radius:0 !important;
-    border:1px solid #d1d5db;
-    height:44px;
-    font-size:14px;
-}
-
-/* FORM STYLE (flat) */
-.award-form-body input,
-.award-form-body select{
-    border-radius:0 !important;
-    border:1px solid #d0d0d0;
     height:42px;
+    border-radius:10px !important;
+    border:1px solid var(--border);
+    padding:10px;
 }
 
+/* ACTION BAR */
 .form-action-bar{
     position:sticky;
     bottom:0;
     display:flex;
-    gap:12px;
-    padding:12px 16px;
+    gap:10px;
+    padding:12px;
     background:#fff;
-    border-top:1px solid #e5e7eb;
-    box-shadow:0 -4px 15px rgba(0,0,0,.05);
+    border-top:1px solid #eee;
 }
 
 .btn-save,
 .btn-cancel{
     flex:1;
-    height:46px;
+    height:45px;
+    border:none;
+    border-radius:10px;
     font-weight:600;
-    border-radius:0;
 }
 
-.award-form-container{
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
+.btn-save{
+    background:var(--primary);
+    color:#fff;
 }
-      
+
+.btn-cancel{
+    background:#e5e7eb;
+}
+
 /* =========================
-BOTTOM TAB BAR (APP STYLE)
+   TAB BAR
 ========================= */
-
 .bottom-tabbar{
-
     position:fixed;
     bottom:0;
     left:0;
     right:0;
-
-    height:75px;
-
-    background:#ffffff;
-
+    height:70px;
+    background:#fff;
     display:flex;
     justify-content:space-around;
     align-items:center;
-
-    border-top:1px solid #E5E7EB;
-
-    box-shadow:0 -5px 20px rgba(0,0,0,.08);
-
+    border-top:1px solid #eee;
     z-index:2000;
-
 }
 
 .tab-item{
-
-    flex:1;
-
-    border:none;
     background:none;
-
+    border:none;
+    font-size:12px;
+    color:var(--text-light);
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-
-    font-family:'Prompt',sans-serif;
-
-    color:#64748B;
-
-    font-size:12px;
-
-    gap:5px;
-
-    cursor:pointer;
-
-    transition:all .2s ease;
-
-}
-
-.tab-item i{
-    font-size:20px;
 }
 
 .tab-item.active{
-
-    color:#8B0000;
-
-    transform:translateY(-2px);
-
-}
-
-.tab-item.active i{
-
-    color:#8B0000;
-
-}
-
-/* เว้นพื้นที่ให้ไม่โดน tab bar บัง */
-.app-container{
-    padding-bottom:95px;
-}
-
-.form-control, .form-select{
-    border-radius:14px;
-    padding:12px;
-}
-
-label{
-    font-weight:600;
-    margin-bottom:6px;
-    color:#334155;
+    color:var(--primary);
 }
 </style>
 
 </head>
 <body>
 
-<!-- =========================
-     LOADING SCREEN
-========================= -->
-
+<!-- LOADING -->
 <div id="loading-screen" class="loading-screen">
-
-<img
-    src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png"
-    class="loading-logo"
-    alt="logo">
-
-<div class="loading-title">
-    PMS Digital Honor App
+  <div class="loading-spinner"></div>
+  <div class="loading-title">PMS Digital Honor App</div>
+  <div class="loading-sub">กำลังโหลดข้อมูล...</div>
 </div>
 
-<div class="loading-sub">
-    กำลังโหลดข้อมูลจากระบบ...
-</div>
-
-<div class="loading-spinner"></div>
-
-</div>
-
-<!-- =========================
-     APP CONTAINER
-========================= -->
-
+<!-- APP -->
 <div class="app-container">
 
-<!-- =========================
-     APP HEADER
-========================= -->
-
-<header class="mobile-header">
-
-    <!-- LOGO -->
+  <!-- HEADER -->
+  <header class="mobile-header">
 
     <div class="logo-box">
-
-        <img
-            src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png"
-            alt="logo">
-
-        <div class="system-title">
-
-            <h1>
-                ระบบจัดเก็บผลงานรางวัลเกียรติยศ
-            </h1>
-
-            <p>
-                โรงเรียนพิมานพิทยาสรรค์
-            </p>
-
-        </div>
-
+      <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
     </div>
 
-    <!-- SEARCH -->
-
-    <div
-        class="search-box"
-        onclick="openSearchScreen()">
-
-        <i class="fa-solid fa-search"></i>
-
-        <span>
-            ค้นหารางวัล เกียรติบัตร หรือชื่อผู้ได้รับรางวัล...
-        </span>
-
+    <div class="search-box" onclick="openSearchScreen()">
+      <i class="fa-solid fa-search"></i>
+      <span>ค้นหารางวัล...</span>
     </div>
 
-    <!-- ADD BUTTON -->
-
-    <button
-        class="add-btn"
-        onclick="openAwardForm()">
-
-        <i class="fa-solid fa-plus"></i>
-
+    <button class="add-btn" onclick="openAwardForm()">
+      <i class="fa-solid fa-plus"></i>
     </button>
 
-</header>
+  </header>
 
-<!-- =========================
-     MAIN CONTENT
-========================= -->
-<main class="content-wrap">
-
+  <!-- CONTENT -->
+  <main class="content-wrap">
     <div id="app-content"></div>
+  </main>
 
-</main>
+</div>
 
+<!-- SEARCH -->
+<div id="search-screen" class="search-screen d-none">
 
-<!-- =========================
-     SEARCH SCREEN
-========================= -->
+  <div class="search-header">
 
-<div
-    id="search-screen"
-    class="search-screen d-none">
-
-<!-- HEADER -->
-
-<div class="search-header">
-
-    <button
-        class="search-back-btn"
-        onclick="closeSearchScreen()">
-
-        <i class="fa-solid fa-arrow-left"></i>
-
+    <button class="search-back-btn" onclick="closeSearchScreen()">
+      <i class="fa-solid fa-arrow-left"></i>
     </button>
 
-<input
-id="search-input"
-placeholder="ค้นหารางวัล..."
-onkeyup="searchAwards()">
+    <input id="search-input"
+           placeholder="ค้นหารางวัล..."
+           onkeyup="searchAwards()">
+
+  </div>
+
+  <div id="search-result-container" class="content-wrap"></div>
 
 </div>
 
-<!-- FILTER -->
-
-<div class="search-filter-panel">
-
-    <div class="search-filter-title">
-
-        <i class="fa-solid fa-sliders"></i>
-
-        ตัวกรองข้อมูล
-
-    </div>
-
-    <!-- ปีการศึกษา -->
-
-    <label class="filter-label">
-
-        ปีการศึกษา
-
-    </label>
-
-    <select
-        id="filter-year"
-        class="filter-select"
-        onchange="renderDashboard()">
-
-        <option value="all">
-            ทั้งหมด
-        </option>
-
-        <option value="2570">
-            2570
-        </option>
-
-        <option value="2569">
-            2569
-        </option>
-
-        <option value="2568">
-            2568
-        </option>
-
-        <option value="2567">
-            2567
-        </option>
-
-    </select>
-
-    <!-- ระดับรางวัล -->
-
-    <label class="filter-label">
-
-        ระดับรางวัล
-
-    </label>
-
-    <select
-        id="filter-level"
-        class="filter-select"
-        onchange="renderDashboard()">
-
-        <option value="all">ทั้งหมด</option>
-
-        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-
-        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-
-        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-
-        <option value="ระดับภาค">ระดับภาค</option>
-
-        <option value="ระดับชาติ">ระดับชาติ</option>
-
-        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-
-    </select>
-
-    <!-- กลุ่มสาระ -->
-
-    <label class="filter-label">
-
-        กลุ่มสาระการเรียนรู้
-
-    </label>
-
-    <select
-        id="filter-dept"
-        class="filter-select"
-        onchange="renderDashboard()">
-
-        <option value="all">
-            ทั้งหมด
-        </option>
-
-        <option value="วิทยาศาสตร์และเทคโนโลยี">
-            วิทยาศาสตร์และเทคโนโลยี
-        </option>
-
-        <option value="คณิตศาสตร์">
-            คณิตศาสตร์
-        </option>
-
-        <option value="ภาษาไทย">
-            ภาษาไทย
-        </option>
-
-        <option value="ภาษาต่างประเทศ">
-            ภาษาต่างประเทศ
-        </option>
-
-        <option value="สังคมศึกษา ศาสนา และวัฒนธรรม">
-            สังคมศึกษา ศาสนา และวัฒนธรรม
-        </option>
-
-        <option value="สุขศึกษาและพลศึกษา">
-            สุขศึกษาและพลศึกษา
-        </option>
-
-        <option value="ศิลปะ">
-            ศิลปะ
-        </option>
-
-        <option value="การงานอาชีพ">
-            การงานอาชีพ
-        </option>
-
-        <option value="กิจกรรมพัฒนาผู้เรียน">
-            กิจกรรมพัฒนาผู้เรียน
-        </option>
-
-    </select>
-
-</div>
-
-<!-- RESULT -->
-
-<div
-    id="search-result-container"
-    class="content-wrap">
-
-</div>
-
-</div>
-
-<!-- =========================
-     APP SHEET (NEW VERSION)
-========================= -->
-
+<!-- FORM MODAL (สำคัญ ต้องเก็บ) -->
 <div id="awardFormModal" class="award-form-modal d-none">
 
-<div class="award-form-container">
+  <div class="award-form-container">
 
     <div class="award-form-header">
-
-        <h5>
-            <i class="fa-solid fa-trophy"></i>
-            บันทึกรางวัลใหม่
-        </h5>
-
-        <button onclick="closeAwardForm()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
+      <h5>บันทึกรางวัลใหม่</h5>
+      <button onclick="closeAwardForm()">✕</button>
     </div>
 
     <div class="award-form-body">
 
-        <form id="awardForm">
+      <form id="awardForm">
 
-            <!-- TYPE -->
-            <div class="mb-3">
-                <label>ประเภทรางวัล</label>
+        <label>ประเภทรางวัล</label>
+        <select id="awardType" onchange="changeAwardType()" class="form-select">
+          <option value="school">รางวัลสถานศึกษา</option>
+          <option value="staff">รางวัลครู</option>
+          <option value="student">รางวัลนักเรียน</option>
+        </select>
 
-                <select id="awardType"
-                        class="form-select"
-                        onchange="changeAwardType()">
+        <div id="dynamicFormArea"></div>
 
-                    <option value="school">รางวัลสถานศึกษา</option>
-                    <option value="staff">รางวัลครูและบุคลากร</option>
-                    <option value="student">รางวัลนักเรียน</option>
+        <label>ปีการศึกษา</label>
+        <input id="awardYear" type="number" value="2569" class="form-control">
 
-                </select>
-            </div>
+        <label>ระดับรางวัล</label>
+        <select id="awardLevel" class="form-select">
+          <option>ระดับโรงเรียน</option>
+          <option>ระดับเขตพื้นที่</option>
+          <option>ระดับจังหวัด</option>
+          <option>ระดับชาติ</option>
+        </select>
 
-            <!-- 🔥 DYNAMIC FORM -->
-            <div id="dynamicFormArea"></div>
+        <label>ชื่อรางวัล</label>
+        <input id="awardTitle" class="form-control">
 
-            <!-- YEAR -->
-            <div class="mb-3">
-                <label>ปีการศึกษา</label>
-                <input type="number" id="awardYear" class="form-control" value="2569">
-            </div>
+        <label>หน่วยงาน</label>
+        <input id="awardGiver" class="form-control">
 
-            <!-- LEVEL -->
-            <div class="mb-3">
-                <label>ระดับรางวัล</label>
-                <select id="awardLevel" class="form-select">
-                    <option>ระดับโรงเรียน</option>
-                    <option>ระดับเขตพื้นที่</option>
-                    <option>ระดับจังหวัด</option>
-                    <option>ระดับภาค</option>
-                    <option>ระดับชาติ</option>
-                    <option>ระดับนานาชาติ</option>
-                </select>
-            </div>
+        <label>ไฟล์ PDF</label>
+        <input id="awardFile" type="file" accept="application/pdf" class="form-control">
 
-            <!-- TITLE -->
-            <div class="mb-3">
-                <label>ชื่อรางวัล</label>
-                <input type="text" id="awardTitle" class="form-control">
-            </div>
-
-            <!-- GIVER -->
-            <div class="mb-3">
-                <label>หน่วยงานที่มอบ</label>
-                <input type="text" id="awardGiver" class="form-control">
-            </div>
-
-            <!-- FILE -->
-            <div class="mb-4">
-                <label>แนบไฟล์ PDF</label>
-                <input type="file" id="awardFile" accept="application/pdf" class="form-control">
-            </div>
-        </form>
-      <!-- FOOTER BUTTON -->
-<div class="form-action-bar">
-
-    <button type="button"
-            class="btn-cancel"
-            onclick="closeAwardForm()">
-        ยกเลิก
-    </button>
-
-    <button type="button"
-            id="btn-save"
-            class="btn-save"
-            onclick="saveAward()">
-        บันทึกข้อมูล
-    </button>
-
-</div>
+      </form>
 
     </div>
 
-</div>
-
-</div>
-
+    <div class="form-action-bar">
+      <button class="btn-cancel" onclick="closeAwardForm()">ยกเลิก</button>
+      <button id="btn-save" class="btn-save" onclick="saveAward()">บันทึก</button>
     </div>
 
-</div>
+  </div>
 
 </div>
 
-<!-- =========================
-BOTTOM TAB BAR
-========================= -->
+<!-- TAB BAR -->
 <nav class="bottom-tabbar">
 
-    <button class="tab-item active" id="nav-home" onclick="changeTab('home')">
-        <i class="fa-solid fa-house"></i>
-        <span>หน้าแรก</span>
-    </button>
+  <button class="tab-item active" id="nav-home" onclick="changeTab('home')">
+    <i class="fa-solid fa-house"></i><span>หน้าแรก</span>
+  </button>
 
-    <button class="tab-item" id="nav-school" onclick="changeTab('school')">
-        <i class="fa-solid fa-school"></i>
-        <span>สถานศึกษา</span>
-    </button>
+  <button class="tab-item" id="nav-school" onclick="changeTab('school')">
+    <i class="fa-solid fa-school"></i><span>สถานศึกษา</span>
+  </button>
 
-    <button class="tab-item" id="nav-staff" onclick="changeTab('staff')">
-        <i class="fa-solid fa-chalkboard-user"></i>
-        <span>ครู</span>
-    </button>
+  <button class="tab-item" id="nav-staff" onclick="changeTab('staff')">
+    <i class="fa-solid fa-user-tie"></i><span>ครู</span>
+  </button>
 
-    <button class="tab-item" id="nav-student" onclick="changeTab('student')">
-        <i class="fa-solid fa-user-graduate"></i>
-        <span>นักเรียน</span>
-    </button>
+  <button class="tab-item" id="nav-student" onclick="changeTab('student')">
+    <i class="fa-solid fa-user-graduate"></i><span>นักเรียน</span>
+  </button>
 
 </nav>
 
- <script>
-const GAS_WEB_APP_URL =
-"https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
+</body>
 
-let allAwardsData = {};
+<script>
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
-let currentTab = 'home';
+let allAwardsData = {
+  school: [],
+  staff: [],
+  student: []
+};
 
-let currentYear = 'all';
+let currentTab = "home";
 
-let currentRewardLevel = 'all';
-
-let currentDept = 'all';
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    showLoadingScreen();
-
-    loadAwardsData();
-
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  initApp();
 });
 
+async function initApp() {
+  showLoadingScreen();
+  await loadAwards();
+  hideLoadingScreen();
+  renderHomePage();
+}
 
-async function loadAwardsData(){
+/* =========================
+   LOAD DATA
+========================= */
+async function loadAwards() {
+  try {
+    const res = await fetch(GAS_WEB_APP_URL);
+    const data = await res.json();
+    allAwardsData = data;
+  } catch (err) {
+    console.error(err);
+    alert("โหลดข้อมูลไม่สำเร็จ");
+  }
+}
 
-    try{
+/* =========================
+   LOADING
+========================= */
+function showLoadingScreen() {
+  document.getElementById("loading-screen").style.display = "flex";
+}
 
-        const response =
-        await fetch(GAS_WEB_APP_URL);
+function hideLoadingScreen() {
+  document.getElementById("loading-screen").style.display = "none";
+}
 
-        const data =
-        await response.json();
+/* =========================
+   HOME
+========================= */
+function renderHomePage() {
+  const zone = document.getElementById("app-content");
+  zone.innerHTML = "";
 
-        allAwardsData = data;
+  renderSection("school", "รางวัลสถานศึกษา");
+  renderSection("staff", "รางวัลครูและบุคลากร");
+  renderSection("student", "รางวัลนักเรียน");
+}
 
-        hideLoadingScreen();
+/* =========================
+   SECTION + CARDS (MAIN)
+========================= */
+function renderSection(type, title) {
+  const zone = document.getElementById("app-content");
 
-        renderHomePage();
+  const data = (allAwardsData[type] || []).slice().reverse().slice(0, 12);
 
-    }catch(error){
+  zone.insertAdjacentHTML("beforeend", `
+    <div class="section-title">🏆 ${title}</div>
+    <div class="row g-3 mb-4" id="row-${type}"></div>
+  `);
 
-        console.error(error);
+  const row = document.getElementById(`row-${type}`);
+  buildCards(row, data, type);
+}
 
-        hideLoadingScreen();
+/* =========================
+   CARD BUILDER (สำคัญ)
+========================= */
+function buildCards(container, data, type) {
 
-        alert("ไม่สามารถโหลดข้อมูลได้");
+  data.forEach(item => {
 
+    const title = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
+    const year = item["ปีการศึกษา"] || "-";
+    const level = item["ระดับรางวัล"] || "-";
+    const giver = item["หน่วยงานที่มอบรางวัล"] || "-";
+    const dept = item["กลุ่มสาระการเรียนรู้"] || "";
+    const className = item["ชั้นเรียน"] || "";
+
+    let person = "";
+
+    if (type === "school") {
+      person = "โรงเรียนพิมานพิทยาสรรค์";
     }
 
-}
+    if (type === "staff") {
+      person = item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
+    }
 
+    if (type === "student") {
+      person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
+    }
 
-
-
-
-
-       
-
-function showLoadingScreen(){
-
-    document.getElementById("app-content").innerHTML=`
-
-    <div class="loading-screen">
-
-        <div class="spinner-border text-primary"></div>
-
-        <h5 class="mt-3">
-            กำลังโหลดข้อมูลรางวัล...
-        </h5>
-
-    </div>
-
-    `;
-
-}
-
-
-function createSection(type,title,data){
-
-    const zone =
-    document.getElementById("app-content");
-
-    zone.insertAdjacentHTML(
-        "beforeend",
-        `
-       <div class="section-title">
-    🏆 ${title}
-</div>
-
-        <div class="row g-3 mb-4"
-             id="row-${type}">
-        </div>
-        `
+    container.insertAdjacentHTML("beforeend",
+      createCardHTML(type, title, person, giver, year, level, dept, className)
     );
-
-    const row =
-    document.getElementById(`row-${type}`);
-
-    buildCards(row,data,type);
-
+  });
 }
 
-function buildCards(container,data,type){
+/* =========================
+   CARD HTML
+========================= */
+function createCardHTML(type, title, person, giver, year, level, dept, className) {
 
-    data.forEach(item=>{
+  return `
+  <div class="col-12 col-md-6 col-lg-4">
+    <div class="award-card ${type}">
 
-        let awardTitle =
-        item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
+      <div class="award-icon">🏆</div>
 
-        let year =
-        item["ปีการศึกษา"] || "-";
+      <div class="award-level">${level}</div>
 
-        let level =
-        item["ระดับรางวัล"] || "";
+      <div class="award-title">${title}</div>
 
-        let giver =
-        item["หน่วยงานที่มอบรางวัล"] || "-";
+      <div class="award-detail">
 
-        let person = "";
+        <div><b>ผู้ได้รับ :</b><br>${person}</div>
 
-        let dept = "";
+        ${className ? `<div class="mt-2"><b>ชั้นเรียน :</b><br>${className}</div>` : ""}
 
-        let className = "";
+        ${dept ? `<div class="mt-2"><b>กลุ่มสาระ :</b><br>${dept}</div>` : ""}
 
-        let pdfLink =
-        item["ลิงก์ไฟล์เกียรติบัตร"] || "";
+        <div class="mt-2"><b>หน่วยงาน :</b><br>${giver}</div>
 
-        if(type==="school"){
+        <div class="mt-2"><b>ปีการศึกษา :</b><br>${year}</div>
 
-            person =
-            "โรงเรียนพิมานพิทยาสรรค์";
+      </div>
 
-        }
-
-        if(type==="staff"){
-
-            person =
-            item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
-
-            dept =
-            item["กลุ่มสาระการเรียนรู้"] || "";
-
-        }
-
-        if(type==="student"){
-
-            person =
-            item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
-
-            dept =
-            item["กลุ่มสาระการเรียนรู้"] || "";
-
-            className =
-            item["ชั้นเรียน"] || "";
-
-        }
-
-        container.insertAdjacentHTML(
-            "beforeend",
-            createCardHTML(
-                type,
-                awardTitle,
-                person,
-                giver,
-                year,
-                level,
-                dept,
-                className,
-                pdfLink
-            )
-        );
-
-    });
-
-}
-
-function createCardHTML(
-    type,
-    title,
-    person,
-    giver,
-    year,
-    level,
-    dept,
-    className,
-    pdfLink
-){
-
-return `
-
-<div class="col-12 col-md-6 col-lg-4">
-
-<div class="award-card ${type}">
-
-<div class="award-icon">
-🏆
-</div>
-
-<div class="award-level">
-${level}
-</div>
-
-<div class="award-title">
-${title}
-</div>
-
-<div class="award-detail">
-
-<div>
-<b>ผู้ได้รับ :</b><br>
-${person}
-</div>
-
-${
-className
-?
-`
-<div class="mt-2">
-<b>ชั้นเรียน :</b><br>
-${className}
-</div>
-`
-:
-''
-}
-
-${
-dept
-?
-`
-<div class="mt-2">
-<b>กลุ่มสาระ :</b><br>
-${dept}
-</div>
-`
-:
-''
-}
-
-<div class="mt-2">
-<b>หน่วยงาน :</b><br>
-${giver}
-</div>
-
-<div class="mt-2">
-<b>ปีการศึกษา :</b><br>
-${year}
-</div>
-
-</div>
-
-<button
-class="btn-view-award"
-onclick="openPDF('${encodeURIComponent(pdfLink)}')">
-
-<i class="fa-solid fa-file-pdf text-danger"></i>
-
-ดูเกียรติบัตร
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-function openPDF(encoded){
-
-    let url =
-    decodeURIComponent(encoded);
-
-    if(!url){
-
-        alert("ไม่พบไฟล์");
-
-        return;
-    }
-
-    if(
-        url.includes(
-            "drive.google.com/file/d/"
-        )
-    ){
-
-        url =
-        url.replace(
-            "/view",
-            "/preview"
-        );
-
-    }
-
-    document
-    .getElementById("pdfFrame")
-    .src = url;
-
-    document
-    .getElementById("viewerModal")
-    .classList
-    .remove("d-none");
-
-}
-
-function closePDF(){
-
-    document
-    .getElementById("viewerModal")
-    .classList
-    .add("d-none");
-
-    document
-    .getElementById("pdfFrame")
-    .src="";
-
-}
-
-function changeTab(tab){
-
-    currentTab = tab;
-
-    // เปลี่ยน active tab
-    document.querySelectorAll('.tab-item')
-    .forEach(btn => btn.classList.remove('active'));
-
-    document.getElementById('nav-' + tab)
-    .classList.add('active');
-
-    const zone = document.getElementById("app-content");
-    zone.innerHTML = "";
-
-    if(tab === "home"){
-        renderHomePage();
-        return;
-    }
-
-    createSection(
-        tab,
-        getTabTitle(tab),
-        (allAwardsData[tab] || []).slice().reverse()
-    );
-}
-
-function getTabTitle(tab){
-
-    if(tab==="school")
-    return "รางวัลสถานศึกษา";
-
-    if(tab==="staff")
-    return "รางวัลครูและบุคลากร";
-
-    return "รางวัลนักเรียน";
-
-}
-
-function searchAwards(){
-
-    const keyword =
-    document
-    .getElementById("search-input")
-    .value
-    .toLowerCase();
-
-    let result = [];
-
-    ["school","staff","student"]
-    .forEach(type=>{
-
-        allAwardsData[type]
-        .forEach(item=>{
-
-            const text =
-            JSON.stringify(item)
-            .toLowerCase();
-
-            if(
-                text.includes(keyword)
-            ){
-
-                result.push({
-                    type:type,
-                    item:item
-                });
-
-            }
-
-        });
-
-    });
-
-    renderSearchResult(result);
-
-}
-
-function renderSearchResult(result){
-
-    const zone =
-    document.getElementById("search-result-container");
-
-    zone.innerHTML="";
-
-    if(result.length===0){
-
-        zone.innerHTML=`
-
-        <div class="empty-box">
-            ไม่พบข้อมูล
-        </div>
-
-        `;
-
-        return;
-    }
-
-    result.forEach(obj=>{
-
-        const row =
-        document.createElement("div");
-
-        row.className =
-        "mb-3";
-
-        buildCards(
-            row,
-            [obj.item],
-            obj.type
-        );
-
-        zone.appendChild(row);
-
-    });
-
-}
-
-function openSearchScreen(){
-
-    document
-    .getElementById("search-screen")
-    .classList
-    .remove("d-none");
-
-    document.body.style.overflow =
-    "hidden";
-
-}
-
-function closeSearchScreen(){
-
-    document
-    .getElementById("searchScreen")
-    .classList
-    .add("d-none");
-
-    document.body.style.overflow =
-    "";
-
-}
-
-function openAwardForm(){
-
-    document.getElementById("awardFormModal")
-    .classList.remove("d-none");
-
-    // สำคัญมาก
-    changeAwardType();
-}
-
-function closeAwardForm(){
-
-    document
-    .getElementById("awardFormModal")
-    .classList
-    .add("d-none");
-
-}
-
-function changeAwardType(){
-
-    const type = document.getElementById("awardType").value;
-    const area = document.getElementById("dynamicFormArea");
-
-    area.innerHTML = "";
-
-    // SCHOOL
-    if(type === "school"){
-        area.innerHTML = `
-            <div class="mb-3">
-                <label>ชื่อโรงเรียน</label>
-                <input type="text"
-                       id="awardPerson"
-                       class="form-control"
-                       value="โรงเรียนพิมานพิทยาสรรค์"
-                       readonly>
-            </div>
-        `;
-    }
-
-    // STAFF
-    else if(type === "staff"){
-       area.innerHTML = `
-    <div class="mb-3">
-        <label>ชื่อครู / บุคลากร</label>
-        <input type="text" id="awardPerson" class="form-control">
     </div>
-
-    <div class="mb-3">
-        <label>กลุ่มสาระ</label>
-        <select id="awardDept" class="form-select">
-            <option value="">-- เลือกกลุ่มสาระ --</option>
-            <option>วิทยาศาสตร์และเทคโนโลยี</option>
-            <option>คณิตศาสตร์</option>
-            <option>ภาษาไทย</option>
-            <option>ภาษาต่างประเทศ</option>
-            <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-            <option>สุขศึกษาและพลศึกษา</option>
-            <option>ศิลปะ</option>
-            <option>การงานอาชีพ</option>
-            <option>กิจกรรมพัฒนาผู้เรียน</option>
-        </select>
-    </div>
-`;
-    }
-
-    // STUDENT
-    else if(type === "student"){
-        area.innerHTML = `
-    <div class="mb-3">
-        <label>ชื่อนักเรียน</label>
-        <input type="text" id="awardPerson" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label>ชั้นเรียน</label>
-        <input type="text" id="awardClass" class="form-control">
-    </div>
-
-    <div class="mb-3">
-        <label>กลุ่มสาระ</label>
-        <select id="awardDept" class="form-select">
-            <option value="">-- เลือกกลุ่มสาระ --</option>
-            <option>วิทยาศาสตร์และเทคโนโลยี</option>
-            <option>คณิตศาสตร์</option>
-            <option>ภาษาไทย</option>
-            <option>ภาษาต่างประเทศ</option>
-            <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-            <option>สุขศึกษาและพลศึกษา</option>
-            <option>ศิลปะ</option>
-            <option>การงานอาชีพ</option>
-            <option>กิจกรรมพัฒนาผู้เรียน</option>
-        </select>
-    </div>
-`;
-    }
+  </div>
+  `;
 }
 
-function validateAwardForm(){
+/* =========================
+   TAB SYSTEM (FIXED)
+========================= */
+function changeTab(tab) {
 
-    if(
-        !document
-        .getElementById("awardTitle")
-        .value.trim()
-    ){
+  currentTab = tab;
 
-        alert("กรุณากรอกชื่อรางวัล");
+  document.querySelectorAll(".tab-item")
+    .forEach(el => el.classList.remove("active"));
 
-        return false;
+  document.getElementById("nav-" + tab).classList.add("active");
 
-    }
+  const zone = document.getElementById("app-content");
+  zone.innerHTML = "";
 
-    if(
-        !document
-        .getElementById("awardGiver")
-        .value.trim()
-    ){
+  if (tab === "home") {
+    renderHomePage();
+    return;
+  }
 
-        alert("กรุณากรอกหน่วยงาน");
-
-        return false;
-
-    }
-
-    if(
-        document
-        .getElementById("awardFile")
-        .files.length===0
-    ){
-
-        alert("กรุณาแนบไฟล์ PDF");
-
-        return false;
-
-    }
-
-    return true;
-
+  renderSection(
+    tab,
+    tab === "school"
+      ? "รางวัลสถานศึกษา"
+      : tab === "staff"
+        ? "รางวัลครูและบุคลากร"
+        : "รางวัลนักเรียน"
+  );
 }
 
-// ==========================================
-// SAVE AWARD
-// ==========================================
-
-async function saveAward(){
-
-    const type = document.getElementById('awardType').value;
-    const year = document.getElementById('awardYear').value.trim();
-    const rewardLevel = document.getElementById('awardLevel').value;
-
-    const title = document.getElementById('awardTitle').value.trim();
-    const giver = document.getElementById('awardGiver').value.trim();
-
-    const nameEl = document.getElementById('awardPerson');
-    const deptEl = document.getElementById('awardDept');
-    const classEl = document.getElementById('awardClass');
-
-    const name = nameEl ? nameEl.value.trim() : "";
-    const dept = deptEl ? deptEl.value.trim() : "";
-    const className = classEl ? classEl.value.trim() : "";
-
-    const fileInput = document.getElementById('awardFile');
-
-    // VALIDATE
-    if(!year) return alert('กรุณาระบุปีการศึกษา');
-    if(!title) return alert('กรุณาระบุชื่อรางวัล');
-    if(!giver) return alert('กรุณาระบุหน่วยงานที่มอบ');
-
-    if(type !== 'school' && !name)
-        return alert('กรุณาระบุชื่อผู้รับรางวัล');
-
-    if(type === 'student' && !className)
-        return alert('กรุณาระบุชั้นเรียน');
-
-    if(fileInput.files.length === 0)
-        return alert('กรุณาแนบไฟล์ PDF');
-
-    const file = fileInput.files[0];
-
-    if(file.type !== 'application/pdf')
-        return alert('รองรับเฉพาะ PDF เท่านั้น');
-
-    // BUTTON LOADING
-    const btn = document.getElementById('btn-save');
-    btn.disabled = true;
-    btn.innerHTML = `กำลังบันทึก...`;
-
-    try{
-
-        const base64 = await fileToBase64(file);
-
-        const payload = {
-            type,
-            year,
-            rewardLevel,
-            title,
-            giver,
-            name,
-            dept,
-            className,
-            fileMimeType: file.type,
-            fileData: base64.split(',')[1]
-        };
-
-        const res = await fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        });
-
-        const result = await res.json();
-
-        if(result.status === 'success'){
-
-            alert('บันทึกสำเร็จ');
-
-            document.getElementById('awardForm').reset();
-            document.getElementById('dynamicFormArea').innerHTML = "";
-
-            closeAwardForm();
-
-            await loadAwards();
-
-        } else {
-            alert(result.message || 'บันทึกไม่สำเร็จ');
-        }
-
-    } catch(err){
-        console.error(err);
-        alert('เกิดข้อผิดพลาด');
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูล`;
+/* =========================
+   SEARCH (FIXED)
+========================= */
+function openSearchScreen() {
+  document.getElementById("search-screen").classList.remove("d-none");
+  document.body.style.overflow = "hidden";
 }
 
-// =============================
-function fileToBase64(file){
-    return new Promise((resolve,reject)=>{
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
+function closeSearchScreen() {
+  document.getElementById("search-screen").classList.add("d-none");
+  document.body.style.overflow = "";
 }
 
-function showAlert(message){
+function searchAwards() {
 
-    alert(message);
+  const keyword = document.getElementById("search-input").value.toLowerCase();
 
-}
+  let result = [];
 
-function showSuccess(message){
+  ["school", "staff", "student"].forEach(type => {
 
-    alert(message);
+    (allAwardsData[type] || []).forEach(item => {
 
-}
+      const text = JSON.stringify(item).toLowerCase();
 
-function closeAddModal(){
-
-    document
-    .getElementById('awardFormModal')
-    .classList
-    .add('d-none');
-
-}
-
-function openAddModal(){
-
-    document
-    .getElementById('awardFormModal')
-    .classList
-    .remove('d-none');
-
-}
-
-// =====================================
-// LOAD DATA
-// =====================================
-
-async function loadAwards(){
-
-    try{
-
-        showLoadingScreen();
-
-        const response =
-        await fetch(GAS_WEB_APP_URL);
-
-        const data =
-        await response.json();
-
-        allAwardsData = data;
-
-        hideLoadingScreen();
-
-        renderHomePage();
-
-    }catch(error){
-
-        console.error(error);
-
-        hideLoadingScreen();
-
-        showAlert(
-            'ไม่สามารถโหลดข้อมูลได้'
-        );
-
-    }
-
-}
-
-function showLoadingScreen(){
-
-    document
-    .getElementById('loading-screen')
-    .style.display = 'flex';
-
-}
-
-function hideLoadingScreen(){
-
-    document
-    .getElementById('loading-screen')
-    .style.display = 'none';
-
-}
-
-function renderHomePage(){
-
-    const zone =
-    document.getElementById("app-content");
-
-    zone.innerHTML = "";
-
-    createSection(
-        "school",
-        "รางวัลสถานศึกษา",
-        (allAwardsData.school || [])
-        .slice(-12)
-        .reverse()
-    );
-
-    createSection(
-        "staff",
-        "รางวัลครูและบุคลากร",
-        (allAwardsData.staff || [])
-        .slice(-12)
-        .reverse()
-    );
-
-    createSection(
-        "student",
-        "รางวัลนักเรียน",
-        (allAwardsData.student || [])
-        .slice(-12)
-        .reverse()
-    );
-
-}
-
-function getLatestAwards(data){
-
-    return [...data]
-
-    .reverse()
-
-    .slice(0,12);
-
-}
-
-function openSearchScreen(){
-
-    document
-    .getElementById('search-screen')
-    .classList
-    .remove('d-none');
-
-    document.body.style.overflow='hidden';
-
-    setTimeout(()=>{
-
-        document
-        .getElementById('search-input')
-        .focus();
-
-    },200);
-
-}
-
-function closeSearchScreen(){
-
-    document
-   .getElementById("search-screen")
-    .classList
-    .add('d-none');
-
-    document.body.style.overflow='';
-
-}
-
-function searchAwards(){
-
-    const keyword =
-
-    document
-    .getElementById('search-input')
-    .value
-    .toLowerCase();
-
-    let result = [];
-
-    ['school','staff','student']
-
-    .forEach(type=>{
-
-        const rows =
-        allAwardsData[type] || [];
-
-        rows.forEach(item=>{
-
-            const txt =
-            JSON.stringify(item)
-            .toLowerCase();
-
-            if(txt.includes(keyword)){
-
-                result.push(item);
-
-            }
-
-        });
+      if (text.includes(keyword)) {
+        result.push({ type, item });
+      }
 
     });
 
-    renderSearchResult(result);
+  });
 
+  renderSearchResult(result);
 }
 
-function getSelectedYear(){
+/* =========================
+   SEARCH RESULT
+========================= */
+function renderSearchResult(result) {
 
-    return document
-    .getElementById('filter-year')
-    .value;
+  const zone = document.getElementById("search-result-container");
+  zone.innerHTML = "";
 
+  if (result.length === 0) {
+    zone.innerHTML = `<div class="empty-box">ไม่พบข้อมูล</div>`;
+    return;
+  }
+
+  result.forEach(obj => {
+
+    const wrap = document.createElement("div");
+    wrap.className = "mb-3";
+
+    buildCards(wrap, [obj.item], obj.type);
+
+    zone.appendChild(wrap);
+  });
 }
 
-function getSelectedRewardLevel(){
-    return document.getElementById('filter-level').value;
+/* =========================
+   PDF VIEW (SAFE FIX)
+========================= */
+function openPDF(url) {
+
+  if (!url) return alert("ไม่พบไฟล์");
+
+  if (url.includes("drive.google.com")) {
+    url = url.replace("/view", "/preview");
+  }
+
+  window.open(url, "_blank");
 }
 
-function getSelectedDepartment(){
-
-    return document
-    .getElementById('filter-dept')
-    .value;
-
-}
-
-function openPdf(url){
-
-    if(!url){
-
-        showAlert(
-            'ไม่พบไฟล์เกียรติบัตร'
-        );
-
-        return;
-
-    }
-
-    if(
-        url.includes(
-            'drive.google.com'
-        )
-    ){
-
-        url =
-        url.replace(
-            '/view',
-            '/preview'
-        );
-
-    }
-
-    document
-    .getElementById('pdf-frame')
-    .src = url;
-
-    document
-    .getElementById('pdf-viewer')
-    .classList
-    .remove('d-none');
-
-}
-
-function closePdfViewer(){
-
-    document
-    .getElementById('pdf-viewer')
-    .classList
-    .add('d-none');
-
-    document
-    .getElementById('pdf-frame')
-    .src='';
-
-}
-
-function changeTab(tab){
-
-    currentTab = tab;
-
-    document
-    .querySelectorAll('.nav-item')
-    .forEach(btn=>{
-
-        btn.classList.remove(
-            'active'
-        );
-
-    });
-
-    document
-    .getElementById(
-        'nav-'+tab
-    )
-    .classList
-    .add('active');
-
-    renderTab(tab);
-
-}
-
-// =============================
-document.addEventListener("DOMContentLoaded",()=>{
-    changeAwardType();
-});
-
-    </script>     
+</script>
 </body>
 </html>
