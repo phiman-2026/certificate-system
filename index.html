@@ -1056,6 +1056,42 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 });
 
+
+async function loadAwardsData(){
+
+    try{
+
+        const response =
+        await fetch(GAS_WEB_APP_URL);
+
+        const data =
+        await response.json();
+
+        allAwardsData = data;
+
+        hideLoadingScreen();
+
+        renderHomePage();
+
+    }catch(error){
+
+        console.error(error);
+
+        hideLoadingScreen();
+
+        alert("ไม่สามารถโหลดข้อมูลได้");
+
+    }
+
+}
+
+
+
+
+
+
+       
+
 function showLoadingScreen(){
 
     document.getElementById("app-content").innerHTML=`
@@ -1835,19 +1871,33 @@ function hideLoadingScreen(){
 
 function renderHomePage(){
 
-    renderCategoryCards(
-        'school',
-        'รางวัลสถานศึกษา'
+    const zone =
+    document.getElementById("app-content");
+
+    zone.innerHTML = "";
+
+    createSection(
+        "school",
+        "รางวัลสถานศึกษา",
+        (allAwardsData.school || [])
+        .slice(-12)
+        .reverse()
     );
 
-    renderCategoryCards(
-        'staff',
-        'รางวัลครูและบุคลากร'
+    createSection(
+        "staff",
+        "รางวัลครูและบุคลากร",
+        (allAwardsData.staff || [])
+        .slice(-12)
+        .reverse()
     );
 
-    renderCategoryCards(
-        'student',
-        'รางวัลนักเรียน'
+    createSection(
+        "student",
+        "รางวัลนักเรียน",
+        (allAwardsData.student || [])
+        .slice(-12)
+        .reverse()
     );
 
 }
@@ -2028,48 +2078,6 @@ function changeTab(tab){
     renderTab(tab);
 
 }
-
-function renderWelcome(){
-
-    document
-    .getElementById('main-content')
-    .innerHTML =
-
-    `
-    <div class="welcome-screen">
-
-        <img
-        class="welcome-logo"
-        src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
-
-        <h1>
-        ระบบจัดเก็บผลงานรางวัลเกียรติยศ
-        </h1>
-
-        <p>
-        โรงเรียนพิมานพิทยาสรรค์
-        </p>
-
-    </div>
-    `;
-
-}
-
-renderWelcome();
-
-
-
-window.addEventListener(
-
-    'DOMContentLoaded',
-
-    ()=>{
-
-        loadAwards();
-
-    }
-
-);
 
     </script>     
 </body>
