@@ -1003,15 +1003,16 @@ class="award-form-modal d-none">
 
             </div>
 
-            <button
-            type="button"
-            class="btn btn-primary w-100"
-            id="saveAwardBtn"
-            onclick="saveAward()">
+          <button
+type="button"
+id="btn-save"
+class="btn btn-primary"
+onclick="saveAward()">
 
-                บันทึกข้อมูล
+<i class="fa-solid fa-floppy-disk"></i>
+บันทึกข้อมูล
 
-            </button>
+</button>
 
         </form>
 
@@ -1610,6 +1611,223 @@ function validateAwardForm(){
     return true;
 
 }
+
+// ==========================================
+// SAVE AWARD
+// ==========================================
+
+async function saveAward(){
+
+    const type =
+    document.getElementById('form-type').value;
+
+    const year =
+    document.getElementById('form-year').value.trim();
+
+    const rewardLevel =
+    document.getElementById('form-reward-level').value;
+
+    const dept =
+    document.getElementById('form-dept').value;
+
+    const title =
+    document.getElementById('form-title').value.trim();
+
+    const giver =
+    document.getElementById('form-giver').value.trim();
+
+    const name =
+    document.getElementById('form-name').value.trim();
+
+    const className =
+    document.getElementById('form-class').value.trim();
+
+    const fileInput =
+    document.getElementById('form-file');
+
+    // -------------------------
+    // VALIDATE
+    // -------------------------
+
+    if(!year){
+        showAlert('กรุณาระบุปีการศึกษา');
+        return;
+    }
+
+    if(!title){
+        showAlert('กรุณาระบุชื่อรางวัล');
+        return;
+    }
+
+    if(!giver){
+        showAlert('กรุณาระบุหน่วยงานที่มอบ');
+        return;
+    }
+
+    if(type !== 'school' && !name){
+        showAlert('กรุณาระบุชื่อผู้ได้รับรางวัล');
+        return;
+    }
+
+    if(fileInput.files.length === 0){
+        showAlert('กรุณาแนบไฟล์ PDF');
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    if(file.type !== 'application/pdf'){
+        showAlert('รองรับเฉพาะ PDF เท่านั้น');
+        return;
+    }
+
+    // -------------------------
+    // BUTTON LOADING
+    // -------------------------
+
+    const btn =
+    document.getElementById('btn-save');
+
+    btn.disabled = true;
+
+    btn.innerHTML =
+    `<span class="spinner-border spinner-border-sm me-2"></span>
+     กำลังบันทึก...`;
+
+    try{
+
+        const base64 =
+        await fileToBase64(file);
+
+        const payload = {
+
+            type:type,
+
+            year:year,
+
+            rewardLevel:rewardLevel,
+
+            dept:dept,
+
+            title:title,
+
+            giver:giver,
+
+            name:name,
+
+            className:className,
+
+            fileMimeType:file.type,
+
+            fileData:
+            base64.split(',')[1]
+
+        };
+
+        const response =
+        await fetch(GAS_URL,{
+
+            method:'POST',
+
+            body:JSON.stringify(payload)
+
+        });
+
+        const result =
+        await response.json();
+
+        if(result.status === 'success'){
+
+            showSuccess(
+                'บันทึกข้อมูลสำเร็จ'
+            );
+
+            document
+            .getElementById('award-form')
+            .reset();
+
+            closeAddModal();
+
+            await loadAwards();
+
+        }else{
+
+            showAlert(
+                result.message ||
+                'ไม่สามารถบันทึกข้อมูลได้'
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showAlert(
+            'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์'
+        );
+
+    }finally{
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+        `<i class="fa-solid fa-floppy-disk"></i>
+         บันทึกข้อมูล`;
+
+    }
+
+}
+
+function fileToBase64(file){
+
+    return new Promise((resolve,reject)=>{
+
+        const reader =
+        new FileReader();
+
+        reader.onload =
+        () => resolve(reader.result);
+
+        reader.onerror =
+        error => reject(error);
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+function showAlert(message){
+
+    alert(message);
+
+}
+
+function showSuccess(message){
+
+    alert(message);
+
+}
+
+function closeAddModal(){
+
+    document
+    .getElementById('app-sheet-form')
+    .classList
+    .add('d-none');
+
+}
+
+function openAddModal(){
+
+    document
+    .getElementById('app-sheet-form')
+    .classList
+    .remove('d-none');
+
+}
+
 
 
        
