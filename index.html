@@ -627,10 +627,14 @@ font-family:'Prompt',sans-serif;
 
     </button>
 
-    <input
-        id="search-input"
-        type="text"
-        placeholder="ค้นหารางวัล ชื่อผู้ได้รับรางวัล หรือหน่วยงาน..."
+  <input
+
+id="search-input"
+
+onkeyup="searchAwards()"
+
+placeholder="ค้นหารางวัล..."
+>
         onkeyup="renderDashboard()">
 
 </div>
@@ -1022,18 +1026,40 @@ onclick="saveAward()">
 
 </div>
 
-       <script>
+<div id="loading-screen">
 
+    <div class="loading-box">
+
+        <img
+        src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
+
+        <div class="loading-title">
+            PMS Digital Honor
+        </div>
+
+        <div class="spinner-border text-primary mt-3"></div>
+
+        <div class="loading-text mt-3">
+            กำลังโหลดข้อมูลรางวัล...
+        </div>
+
+    </div>
+
+</div>
+
+ <script>
 const GAS_WEB_APP_URL =
 "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
-let allAwardsData = {
-    school:[],
-    staff:[],
-    student:[]
-};
+let allAwardsData = {};
 
-let currentTab = "home";
+let currentTab = 'home';
+
+let currentYear = 'all';
+
+let currentRewardLevel = 'all';
+
+let currentDept = 'all';
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -1828,7 +1854,295 @@ function openAddModal(){
 
 }
 
+// =====================================
+// LOAD DATA
+// =====================================
 
+async function loadAwards(){
+
+    try{
+
+        showLoadingScreen();
+
+        const response =
+        await fetch(GAS_URL);
+
+        const data =
+        await response.json();
+
+        allAwardsData = data;
+
+        hideLoadingScreen();
+
+        renderHomePage();
+
+    }catch(error){
+
+        console.error(error);
+
+        hideLoadingScreen();
+
+        showAlert(
+            'ไม่สามารถโหลดข้อมูลได้'
+        );
+
+    }
+
+}
+
+function showLoadingScreen(){
+
+    document
+    .getElementById('loading-screen')
+    .style.display = 'flex';
+
+}
+
+function hideLoadingScreen(){
+
+    document
+    .getElementById('loading-screen')
+    .style.display = 'none';
+
+}
+
+function renderHomePage(){
+
+    renderCategoryCards(
+        'school',
+        'รางวัลสถานศึกษา'
+    );
+
+    renderCategoryCards(
+        'staff',
+        'รางวัลครูและบุคลากร'
+    );
+
+    renderCategoryCards(
+        'student',
+        'รางวัลนักเรียน'
+    );
+
+}
+
+function getLatestAwards(data){
+
+    return [...data]
+
+    .reverse()
+
+    .slice(0,12);
+
+}
+
+function openSearchScreen(){
+
+    document
+    .getElementById('search-screen')
+    .classList
+    .remove('d-none');
+
+    document.body.style.overflow='hidden';
+
+    setTimeout(()=>{
+
+        document
+        .getElementById('search-input')
+        .focus();
+
+    },200);
+
+}
+
+function closeSearchScreen(){
+
+    document
+    .getElementById('search-screen')
+    .classList
+    .add('d-none');
+
+    document.body.style.overflow='';
+
+}
+
+function searchAwards(){
+
+    const keyword =
+
+    document
+    .getElementById('search-input')
+    .value
+    .toLowerCase();
+
+    let result = [];
+
+    ['school','staff','student']
+
+    .forEach(type=>{
+
+        const rows =
+        allAwardsData[type] || [];
+
+        rows.forEach(item=>{
+
+            const txt =
+            JSON.stringify(item)
+            .toLowerCase();
+
+            if(txt.includes(keyword)){
+
+                result.push(item);
+
+            }
+
+        });
+
+    });
+
+    renderSearchResult(result);
+
+}
+
+function getSelectedYear(){
+
+    return document
+    .getElementById('filter-year')
+    .value;
+
+}
+
+function getSelectedRewardLevel(){
+
+    return document
+    .getElementById('filter-reward-level')
+    .value;
+
+}
+
+function getSelectedDepartment(){
+
+    return document
+    .getElementById('filter-dept')
+    .value;
+
+}
+
+function openPdf(url){
+
+    if(!url){
+
+        showAlert(
+            'ไม่พบไฟล์เกียรติบัตร'
+        );
+
+        return;
+
+    }
+
+    if(
+        url.includes(
+            'drive.google.com'
+        )
+    ){
+
+        url =
+        url.replace(
+            '/view',
+            '/preview'
+        );
+
+    }
+
+    document
+    .getElementById('pdf-frame')
+    .src = url;
+
+    document
+    .getElementById('pdf-viewer')
+    .classList
+    .remove('d-none');
+
+}
+
+function closePdfViewer(){
+
+    document
+    .getElementById('pdf-viewer')
+    .classList
+    .add('d-none');
+
+    document
+    .getElementById('pdf-frame')
+    .src='';
+
+}
+
+function changeTab(tab){
+
+    currentTab = tab;
+
+    document
+    .querySelectorAll('.nav-item')
+    .forEach(btn=>{
+
+        btn.classList.remove(
+            'active'
+        );
+
+    });
+
+    document
+    .getElementById(
+        'nav-'+tab
+    )
+    .classList
+    .add('active');
+
+    renderTab(tab);
+
+}
+
+function renderWelcome(){
+
+    document
+    .getElementById('main-content')
+    .innerHTML =
+
+    `
+    <div class="welcome-screen">
+
+        <img
+        class="welcome-logo"
+        src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
+
+        <h1>
+        ระบบจัดเก็บผลงานรางวัลเกียรติยศ
+        </h1>
+
+        <p>
+        โรงเรียนพิมานพิทยาสรรค์
+        </p>
+
+    </div>
+    `;
+
+}
+
+renderWelcome();
+
+
+
+window.addEventListener(
+
+    'DOMContentLoaded',
+
+    ()=>{
+
+        loadAwards();
+
+    }
+
+);
 
        
 </body>
