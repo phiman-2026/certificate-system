@@ -1319,15 +1319,24 @@ onkeyup="searchAwards()">
                 <input type="file" id="awardFile" accept="application/pdf" class="form-control">
             </div>
 
-            <!-- SAVE -->
-            <button type="button"
-                    id="btn-save"
-                    class="btn btn-primary"
-                    onclick="saveAward()">
+          
+<!-- FOOTER BUTTON -->
+<div class="form-action-bar">
 
-                <i class="fa-solid fa-floppy-disk"></i>
-                บันทึกข้อมูล
-            </button>
+    <button type="button"
+            class="btn-cancel"
+            onclick="closeAwardForm()">
+        ยกเลิก
+    </button>
+
+    <button type="button"
+            id="btn-save"
+            class="btn-save"
+            onclick="saveAward()">
+        บันทึกข้อมูล
+    </button>
+
+</div>
 
         </form>
 
