@@ -487,19 +487,60 @@ font-family:'Prompt',sans-serif;
 
 .section-title{
 
-    font-size:1.3rem;
-
-    font-weight:700;
-
-    color:#8B0000;
-
-    margin:25px 0 15px;
-
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:12px;
+
+    margin:35px 0 20px;
+
+    padding:16px 22px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #8B0000,
+    #B22222
+    );
+
+    color:white;
+
+    border-radius:18px;
+
+    font-size:1.15rem;
+
+    font-weight:800;
+
+    box-shadow:
+    0 6px 20px rgba(139,0,0,.18);
+
+}
+
+.section-title::before{
+
+    content:"🏆";
+
+    font-size:1.3rem;
+
+}
+
+.section-title::after{
+
+    content:"";
+
+    flex:1;
+
+    height:2px;
+
+    background:
+
+    linear-gradient(
+    to right,
+    rgba(255,255,255,.7),
+    rgba(255,255,255,0)
+    );
+
 }
 
 .award-card{
@@ -527,8 +568,28 @@ font-family:'Prompt',sans-serif;
     position:relative;
     overflow:hidden;
     padding:22px;
+    animation:fadeCard .4s ease;
 }
 
+@keyframes fadeCard{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
 .award-card:hover{
 
     transform:translateY(-6px);
@@ -586,8 +647,7 @@ font-family:'Prompt',sans-serif;
 
     border-bottom:1px solid #E5E7EB;
 
-    min-height:85px;
-
+    min-height:55px;
 }
 
 .award-detail{
@@ -725,6 +785,35 @@ linear-gradient(
     height:3px;
 
     background:#D4AF37;
+
+}
+
+.row.g-3{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(320px,1fr));
+
+    gap:24px;
+
+}
+
+.row.g-3 > div{
+
+    width:100%;
+
+    max-width:none;
+
+}
+
+.content-wrap{
+
+    max-width:1600px;
+
+    margin:auto;
+
+    padding:20px;
 
 }
 </style>
