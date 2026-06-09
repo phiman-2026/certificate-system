@@ -679,13 +679,17 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
     <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
 </div>
 
-<div class="header-search">
-    <i class="fa-solid fa-search"></i>
-    <input
-        type="text"
-        id="search-input"
-        placeholder="ค้นหารางวัล..."
-        onkeyup="renderAppContent()">
+
+  <div class="header-search" onclick="openSearchScreen()">
+
+```
+<i class="fa-solid fa-search"></i>
+
+<span>
+    ค้นหารางวัล...
+</span>
+```
+
 </div>
 
 <button class="header-add-btn" onclick="openAppSheet()">
@@ -694,52 +698,7 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
 ```
 
 </div>
-
-
-<div class="container-fluid content-limiter">
-    <div class="filter-wrapper">
-        <div class="filter-trigger-wrapper">
-            <button class="filter-toggle-btn" onclick="toggleFilterBox()">
-                <i class="fa-solid fa-filter"></i> ค้นหาและตัวกรองข้อมูล
-            </button>
-        </div>
-
-        <div id="filter-box-container">
-            <div id="filter-box">
-                <select class="filter-select-box" id="filter-year" onchange="renderAppContent()">
-                    <option value="all">ปีการศึกษา (ทั้งหมด)</option>
-                    <option value="2569">2569</option>
-                    <option value="2568">2568</option>
-                </select>
-
-                <select class="filter-select-box" id="filter-reward-level" onchange="renderAppContent()">
-                    <option value="all">ระดับรางวัล (ทั้งหมด)</option>
-                    <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-                    <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
-                    <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-                    <option value="ระดับภาค">ระดับภาค</option>
-                    <option value="ระดับชาติ">ระดับชาติ</option>
-                    <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
-                </select>
-
-                <select class="filter-select-box" id="app-dept-select" onchange="onDeptSelectChange()">
-                    <option value="all">กลุ่มสาระฯ (ทั้งหมด)</option>
-                    <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
-                    <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                    <option value="ภาษาไทย">ภาษาไทย</option>
-                    <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-                    <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-                    <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
-                    <option value="ศิลปะ">ศิลปะ (ดนตรี/นาฏศิลป์)</option>
-                    <option value="การงานอาชีพ">การงานอาชีพ</option>
-                    <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-
-        
+    
          <main class="content-limiter" id="app-main-scroll-zone">
             <div id="dynamic-app-cards-zone">
                 
@@ -842,6 +801,92 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
                 </form>
             </div>
         </div>
+
+<div id="search-screen" class="search-screen d-none">
+
+```
+<div class="search-header">
+
+    <button type="button" class="search-back-btn" onclick="closeSearchScreen()">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <input
+        id="search-input"
+        type="text"
+        placeholder="ค้นหารางวัล ชื่อผู้รับ หรือหน่วยงาน..."
+        onkeyup="renderAppContent()">
+
+</div>
+
+<div class="search-filter-panel">
+
+    <div class="search-filter-title">
+        <i class="fa-solid fa-sliders"></i>
+        ตัวกรองข้อมูล
+    </div>
+
+    <label class="filter-label">
+        ปีการศึกษา
+    </label>
+
+    <select
+        class="filter-select-box"
+        id="filter-year"
+        onchange="renderAppContent()">
+
+        <option value="all">ทั้งหมด</option>
+        <option value="2569">2569</option>
+        <option value="2568">2568</option>
+
+    </select>
+
+    <label class="filter-label">
+        ระดับรางวัล
+    </label>
+
+    <select
+        class="filter-select-box"
+        id="filter-reward-level"
+        onchange="renderAppContent()">
+
+        <option value="all">ทั้งหมด</option>
+        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+        <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+        <option value="ระดับภาค">ระดับภาค</option>
+        <option value="ระดับชาติ">ระดับชาติ</option>
+        <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+
+    </select>
+
+    <label class="filter-label">
+        กลุ่มสาระการเรียนรู้
+    </label>
+
+    <select
+        class="filter-select-box"
+        id="app-dept-select"
+        onchange="onDeptSelectChange()">
+
+        <option value="all">ทั้งหมด</option>
+        <option value="วิทยาศาสตร์ฯ">วิทยาศาสตร์และเทคโนโลยี</option>
+        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+        <option value="ภาษาไทย">ภาษาไทย</option>
+        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+        <option value="สังคมศึกษาฯ">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+        <option value="สุขศึกษาฯ">สุขศึกษาและพลศึกษา</option>
+        <option value="ศิลปะ">ศิลปะ</option>
+        <option value="การงานอาชีพ">การงานอาชีพ</option>
+        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+
+    </select>
+
+</div>
+```
+
+</div>
+
 
         <nav class="bottom-nav">
             <div class="bottom-nav-container">
@@ -1360,7 +1405,42 @@ function toggleFilterBox() {
         box.style.display = 'none';
     }
 }
-        
+
+function openSearchScreen(){
+
+```
+document
+    .getElementById('search-screen')
+    .classList
+    .remove('d-none');
+
+document.body.style.overflow = 'hidden';
+
+setTimeout(() => {
+
+    const txt =
+        document.getElementById('search-input');
+
+    if(txt) txt.focus();
+
+},100);
+```
+
+}
+
+function closeSearchScreen(){
+
+```
+document
+    .getElementById('search-screen')
+    .classList
+    .add('d-none');
+
+document.body.style.overflow = '';
+```
+
+}
+       
     </script>
 </body>
 </html>
