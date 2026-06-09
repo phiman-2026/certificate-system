@@ -8,665 +8,799 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
- <style>
-      :root {
-    --pms-main: #00688B;         
-    --pms-dark: #004d66;
-    --bg-app: #f0f4f7;
-    --bg-surface: #ffffff;
-    --text-main: #0f172a;
-    --text-sub: #475569;
+<style>
+:root{
+    --pms-main:#00688B;
+    --pms-dark:#004d66;
+    --bg-app:#f0f4f7;
+    --bg-surface:#ffffff;
+    --text-main:#0f172a;
+    --text-sub:#475569;
+    --border-color:#e2e8f0;
+    --global-radius:18px;
 }
 
-/* 🏛️ หัวข้อและสีตามประเภท (Dynamic Colors) */
-.section-title { font-size: 1.35rem; font-weight: 800; color: #fff; margin: 40px 0 25px 0; padding: 16px 24px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-.section-title i { background-color: rgba(255, 255, 255, 0.2); color: #fff; width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.3); }
-
-/* สีกำหนดคลาสแยก */
-.section-title.school, .app-card.school { background: linear-gradient(135deg, #1565C0, #0D47A1) !important; color: white !important; }
-.section-title.staff, .app-card.staff { background: linear-gradient(135deg, #00838F, #006064) !important; color: white !important; }
-.section-title.student, .app-card.student { background: linear-gradient(135deg, #EF6C00, #E65100) !important; color: white !important; }
-
-/* 🃏 ปรับแต่ง CARD ให้สีสอดคล้อง */
-.app-card { position: relative; display: flex; flex-direction: column; background: #fff; border-radius: 18px; padding: 16px; border: 2px solid #e2e8f0; border-left: 8px solid #cbd5e1; box-shadow: 0 6px 20px rgba(0,0,0,0.05); transition: 0.3s; }
-.app-card.school { border-left-color: #1565C0 !important; }
-.app-card.staff { border-left-color: #00838F !important; }
-.app-card.student { border-left-color: #EF6C00 !important; }
-
-/* ปุ่มแอ็คชั่น */
-.btn-app-action { width: 100%; margin-top: 12px; padding: 10px; border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; }
-.app-card.school .btn-app-action { background: #1565C0; }
-.app-card.staff .btn-app-action { background: #00838F; }
-.app-card.student .btn-app-action { background: #EF6C00; }
-
-/* ป้าย Badge */
-.app-badge.b-school { background-color: #1565C0; }
-.app-badge.b-staff { background-color: #00838F; }
-.app-badge.b-student { background-color: #EF6C00; }
-
-        body { 
-            /* เปลี่ยนชื่อตระกูลฟอนต์เป็น 'Prompt' */
-            font-family: 'Prompt', sans-serif; 
-            background-color: var(--bg-app); 
-            color: var(--text-main); 
-            margin: 0; padding: 0;
-            min-height: 100vh;
-        }
-
-      .app-container{
-width:100%;
-min-height:100vh;
-
-```
-padding-top:80px;
-padding-bottom:90px;
-
-background:#f5f7fb;
-```
-
-}
-
-
-        /* ในคอมพิวเตอร์ ขยับ padding-top ลงมาอีกนิดเนื่องจาก Header มีปุ่มเพิ่มเข้ามา */
-        @media (min-width: 768px) {
-            .app-container {
-                padding-top: 100px;
-            }
-        }
-
-        /* จำกัดความกว้างเนื้อหาให้อยู่ตรงกลางสวยๆ เวลาเปิดบนจอคอมขนาดใหญ่ */
-        .content-limiter {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-/* 1. ส่วน Header (แบนเนอร์) */
-.app-header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: linear-gradient(rgba(0, 104, 139, 0.95), rgba(0, 104, 139, 0.95)), 
-                url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
-    background-size: cover; background-position: center;
-    padding: 20px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between; /* จัดโลโก้ซ้าย ปุ่มขวา */
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.app-brand { display: flex; align-items: center; gap: 15px; }
-.app-logo { width: 50px; height: 50px; object-fit: contain; }
-.app-title h1 { font-size: 1.2rem; color: #fff; margin: 0; font-weight: 700; }
-.app-title p { font-size: 0.8rem; color: #e0f2fe; margin: 0; }
-
-/* 2. ส่วนกล่อง Filter (Search Bar) */
-.filter-trigger-wrapper { text-align: center; margin: 15px; }
-
-#filter-box-container {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #cbd5e1;
-    margin: 20px auto;
-    max-width: 1200px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-#filter-box {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.filter-select-box {
-    flex: 0 1 auto;
-    min-width: 200px;
-    padding: 10px 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    color: #334155;
-    background-color: #f8fafc;
-}
-
-/* 3. ปรับระยะห่างให้สมดุล */
-.app-container {
-    padding-top: 140px; /* ปรับให้พอดีกับความสูงแบนเนอร์+กล่องค้นหา */
-    padding-bottom: 95px;
-}
-
-/* Responsive สลับโหมด */
-@media (max-width: 767px) {
-    #filter-box-container { display: none; }
-}
-
-@media (min-width: 768px) {
-    .filter-trigger-wrapper { display: none; }
-    #filter-box-container { display: block !important; }
-}
-     
-/* 👑 หน้า Welcome Screen ปรับโฉมใหม่ (อัปเดตล่าสุด) */
-.welcome-screen {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    text-align: center; 
-    padding: 20px; 
-    min-height: calc(100vh - 200px);
-    background-color: #f0f4f7; /* สีพื้นหลังเดิมของ App */
-}
-
-.welcome-card {
-    background: rgba(255, 255, 255, 0.95); 
-    /* ภาพพื้นหลังการ์ดพร้อม Overlay ให้ภาพดูชัดขึ้นด้วยค่า 0.5 */
-    background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
-                      url('https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 35px; 
-    padding: 40px 25px;
-    box-shadow: 0 15px 35px rgba(0, 104, 139, 0.15); 
-    
-    /* ขยายความกว้างยืดหยุ่นตามหน้าจอ */
-    width: 92%;
-    max-width: 1000px; /* ขยายขนาดการ์ดในคอมพิวเตอร์ */
-    
-    border: 1px solid rgba(0, 104, 139, 0.1);
-    transition: transform 0.4s ease;
-    margin: 0 auto;
-}
-
-.welcome-img { 
-    width: 100px; 
-    height: auto; 
-    margin-bottom: 20px; 
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); 
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-}
-
-/* 👑 Typography Modernization */
-
-/* บรรทัดบนสุด: เน้นความสะอาดและหรูหราด้วยการยืดระยะห่าง */
-.w-line-1 { 
-    font-size: 0.95rem; 
-    text-transform: uppercase; 
-    letter-spacing: 4px; 
-    color: var(--pms-main); 
-    font-weight: 800; 
-    margin-bottom: 15px; 
-    opacity: 0.9;
-}
-
-/* หัวข้อหลัก: เพิ่มขนาดและปรับความหนาให้ดูมีพลัง */
-.w-line-2 { 
-    font-size: 1.8rem; 
-    font-weight: 900; 
-    color: #1e293b; 
-    line-height: 1.1; 
-    margin-bottom: 15px;
-    letter-spacing: -0.5px; /* ทำให้ตัวอักษรชิดกันนิดๆ ดูแน่นและมั่นคง */
-}
-
-/* รายละเอียด: ปรับขนาดให้สบายตาและอ่านง่าย */
-.w-line-3 { 
-    font-size: 1.15rem; 
-    color: #475569; 
-    margin-bottom: 35px; 
-    font-weight: 400; 
-    line-height: 1.6;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* ปุ่ม Call to Action: เพิ่มเงาและปรับสีให้ดูมีมิติ */
-.w-line-4 { 
-    font-size: 1rem; 
-    font-weight: 700; 
-    color: #fff; 
-    background: var(--pms-main); 
-    padding: 14px 30px; 
-    border-radius: 50px; 
-    display: inline-block; 
-    margin-bottom: 20px;
-    box-shadow: 0 10px 20px rgba(0, 104, 139, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* เพิ่มลูกเล่นเมื่อเอาเมาส์ไปชี้ที่ปุ่ม (ถ้ามีเมาส์) */
-.w-line-4:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 25px rgba(0, 104, 139, 0.4);
-}
-
-.w-line-5 { 
-    font-size: 0.85rem; 
-    color: #94a3b8; 
-    font-weight: 500; 
-    letter-spacing: 0.5px;
-}
-
-/* ปรับสำหรับจอคอมให้ดูอลังการขึ้น */
-@media (min-width: 768px) {
-    .welcome-card { padding: 60px; }
-    .w-line-2 { font-size: 2.8rem; }
-    .w-line-3 { font-size: 1.4rem; }
-    .welcome-img { width: 130px; }
-}
-
-/* เพิ่มความกว้างพิเศษสำหรับจอคอมพิวเตอร์ขนาดใหญ่ */
-@media (min-width: 1200px) {
-    .welcome-card { max-width: 1200px; }
-}
-
-     
-/* 🏛️ ปรับปรุงหัวข้อสำหรับทุกอุปกรณ์ */
-.section-title { 
-    font-size: 1.1rem; /* ลดขนาดตัวอักษรบนมือถือ */
-    font-weight: 800; 
-    color: #fff;
-    margin: 25px 0 15px 0; /* ลด margin ในมือถือให้กระชับขึ้น */
-    padding: 12px 16px; 
-    border-radius: 12px; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* ลดความฟุ้งของเงาในมือถือ */
-}
-
-.section-title i { 
-    background-color: rgba(255, 255, 255, 0.2); 
-    color: #fff; 
-    width: 36px; /* ปรับขนาดไอคอนให้เล็กลงในมือถือ */
-    height: 36px; 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    border-radius: 50%; 
-    font-size: 1rem; 
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    flex-shrink: 0; /* ป้องกันไอคอนเบี้ยว */
-}
-
-/* 🖥️ ปรับขนาดสำหรับจอคอมพิวเตอร์ (หน้าจอใหญ่) */
-@media (min-width: 768px) {
-    .section-title { 
-        font-size: 1.35rem; 
-        padding: 16px 24px; 
-        margin: 40px 0 25px 0; 
-    }
-    .section-title i { 
-        width: 42px; 
-        height: 42px; 
-        font-size: 1.2rem; 
-    }
-}
-
-/* สีเฉพาะหมวด (คงเดิม) */
-.section-title.school { background: linear-gradient(135deg, #1565C0, #0D47A1); box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3); }
-.section-title.staff { background: linear-gradient(135deg, #00838F, #006064); box-shadow: 0 8px 20px rgba(0, 131, 143, 0.3); }
-.section-title.student { background: linear-gradient(135deg, #EF6C00, #E65100); box-shadow: 0 8px 20px rgba(239, 108, 0, 0.3); }
-
-     
 /* =========================
-   CARD STRUCTURE
+   GLOBAL
+========================= */
+body{
+    font-family:'Prompt',sans-serif;
+    background:var(--bg-app);
+    color:var(--text-main);
+    margin:0;
+    padding:0;
+    min-height:100vh;
+}
+
+.d-none{
+    display:none!important;
+}
+
+.content-limiter{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 16px;
+}
+
+.app-container{
+    width:100%;
+    min-height:100vh;
+    padding-top:140px;
+    padding-bottom:95px;
+    background:#f5f7fb;
+}
+
+@media(min-width:768px){
+    .app-container{
+        padding-top:140px;
+    }
+}
+
+/* =========================
+   HEADER
+========================= */
+.app-header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+
+    background:
+        linear-gradient(
+            rgba(0,104,139,.95),
+            rgba(0,104,139,.95)
+        ),
+        url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
+
+    background-size:cover;
+    background-position:center;
+
+    padding:20px 0;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.header-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 20px;
+}
+
+.app-brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.app-logo{
+    width:50px;
+    height:50px;
+    object-fit:contain;
+}
+
+.app-title h1{
+    margin:0;
+    color:#fff;
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+.app-title p{
+    margin:0;
+    color:#e0f2fe;
+    font-size:.8rem;
+}
+
+/* =========================
+   SEARCH FILTER
+========================= */
+.filter-trigger-wrapper{
+    text-align:center;
+    margin:15px;
+}
+
+#filter-box-container{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #cbd5e1;
+    margin:20px auto;
+    max-width:1200px;
+    box-shadow:0 4px 6px rgba(0,0,0,.05);
+}
+
+#filter-box{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    align-items:center;
+}
+
+.filter-select-box{
+    min-width:200px;
+    padding:10px 15px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    background:#f8fafc;
+    color:#334155;
+    font-size:.9rem;
+}
+
+@media(max-width:767px){
+    #filter-box-container{
+        display:none;
+    }
+}
+
+@media(min-width:768px){
+    .filter-trigger-wrapper{
+        display:none;
+    }
+
+    #filter-box-container{
+        display:block!important;
+    }
+}
+
+/* =========================
+   WELCOME SCREEN
+========================= */
+.welcome-screen{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    min-height:calc(100vh - 200px);
+    padding:20px;
+}
+
+.welcome-card{
+    width:92%;
+    max-width:1000px;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.30),
+            rgba(255,255,255,.30)
+        ),
+        url('https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png');
+
+    background-size:cover;
+    background-position:center;
+
+    border-radius:35px;
+    padding:40px 25px;
+
+    box-shadow:0 15px 35px rgba(0,104,139,.15);
+
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
+    border:1px solid rgba(0,104,139,.10);
+}
+
+.welcome-img{
+    width:100px;
+    margin-bottom:20px;
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0);}
+}
+
+.w-line-1{
+    font-size:.95rem;
+    letter-spacing:4px;
+    color:var(--pms-main);
+    font-weight:800;
+}
+
+.w-line-2{
+    font-size:1.8rem;
+    font-weight:900;
+    color:#1e293b;
+    margin:15px 0;
+}
+
+.w-line-3{
+    font-size:1.15rem;
+    color:#475569;
+    margin-bottom:35px;
+}
+
+.w-line-4{
+    display:inline-block;
+    background:var(--pms-main);
+    color:#fff;
+    padding:14px 30px;
+    border-radius:50px;
+    font-weight:700;
+    box-shadow:0 10px 20px rgba(0,104,139,.30);
+}
+
+.w-line-5{
+    font-size:.85rem;
+    color:#94a3b8;
+}
+
+@media(min-width:768px){
+
+    .welcome-card{
+        padding:60px;
+    }
+
+    .welcome-img{
+        width:130px;
+    }
+
+    .w-line-2{
+        font-size:2.8rem;
+    }
+
+    .w-line-3{
+        font-size:1.4rem;
+    }
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#fff;
+    font-weight:800;
+
+    padding:12px 16px;
+    margin:25px 0 15px;
+
+    border-radius:12px;
+
+    font-size:1.1rem;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.10);
+}
+
+.section-title i{
+    width:36px;
+    height:36px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.2);
+
+    border:1px solid rgba(255,255,255,.3);
+}
+
+@media(min-width:768px){
+
+    .section-title{
+        font-size:1.35rem;
+        padding:16px 24px;
+        margin:40px 0 25px;
+    }
+
+    .section-title i{
+        width:42px;
+        height:42px;
+    }
+}
+
+.section-title.school{
+    background:linear-gradient(135deg,#1565C0,#0D47A1);
+}
+
+.section-title.staff{
+    background:linear-gradient(135deg,#00838F,#006064);
+}
+
+.section-title.student{
+    background:linear-gradient(135deg,#EF6C00,#E65100);
+}
+
+/* =========================
+   CARD
 ========================= */
 .app-card{
+    position:relative;
 
-```
-background:#ffffff;
+    background:#fff;
 
-border:none;
+    border-radius:24px;
+    border:none;
 
-border-radius:24px;
+    padding:18px;
 
-padding:18px;
+    overflow:hidden;
 
-box-shadow:
-0 4px 12px rgba(0,0,0,.05);
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
 
-transition:.25s;
+    transition:.25s;
 
-height:100%;
-```
-
+    height:100%;
 }
 
 .app-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
 
-```
-transform:translateY(-3px);
+.app-card::before{
+    content:"";
 
-box-shadow:
-0 8px 25px rgba(0,0,0,.08);
-```
+    position:absolute;
+    inset:0;
 
+    background:
+        linear-gradient(
+            rgba(255,255,255,.90),
+            rgba(255,255,255,.90)
+        ),
+        url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png');
+
+    background-size:cover;
+    background-position:center;
+
+    z-index:1;
+}
+
+.app-card::after{
+    content:"";
+
+    position:absolute;
+    right:12px;
+    bottom:12px;
+
+    width:70px;
+    height:70px;
+
+    background-image:url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
+    background-size:contain;
+    background-repeat:no-repeat;
+
+    opacity:.12;
+
+    z-index:1;
+}
+
+.app-card > *{
+    position:relative;
+    z-index:2;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
 }
 
 .card-title{
+    font-size:1rem;
+    font-weight:700;
+    line-height:1.5;
 
-```
-font-size:1rem;
+    margin-top:10px;
+    margin-bottom:14px;
 
-font-weight:700;
+    padding-left:12px;
 
-line-height:1.5;
-
-border:none;
-
-padding-left:0;
-
-margin-top:10px;
-```
-
+    border-left:4px solid;
+    color:#263238;
 }
 
 .info-row{
-
-```
-font-size:.85rem;
-
-margin-top:8px;
-```
-
+    display:flex;
+    margin-bottom:8px;
+    font-size:.85rem;
 }
 
-
-.app-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0, 0, 0, 0.15);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+.info-row span{
+    width:70px;
+    flex-shrink:0;
+    font-weight:600;
+    color:#546E7A;
 }
 
-/* พื้นหลัง (ส่วนกลาง) */
-.app-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-size: cover;
-    background-position: center;
-    pointer-events: none; z-index: 1;
-}
-
-/* กำหนดรูปภาพแยกประเภท */
-.app-card.school::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); }
-.app-card.staff::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); }
-.app-card.student::before { background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png'); }
-
-/* โลโก้ */
-.app-card::after {
-    content: "";
-    position: absolute;
-    right: 12px; bottom: 12px; width: 80px; height: 80px;
-    background-image: url('https://cdn.jsdelivr.net/gh/phiman-2026/picture@main/logo%20phiman.png');
-    background-size: contain; background-repeat: no-repeat;
-    opacity: 0.25; z-index: 1; pointer-events: none;
+.info-row b{
+    color:#263238;
 }
 
 /* =========================
-   BADGE (ประเภท)
+   CARD COLORS
 ========================= */
-.app-badge {
-    display: inline-block;
-    font-size: 0.9rem; font-weight: 500; 
-    padding: 4px 12px; border-radius: 20px; 
-    color: #fff; margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-/* ปรับสีให้ตรงกับโทน Section Title */
-.b-school { background-color: #1565C0; }
-.b-staff { background-color: #00838F; }
-.b-student { background-color: #EF6C00; }
-
-/* =========================
-   CONTENT
-========================= */
-.app-card > * { position: relative; z-index: 2; }
-.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-
-.card-title { 
-    font-size: 0.9rem; font-weight: 700; line-height: 1.4; 
-    margin-bottom: 14px; padding-left: 12px; 
-    border-left: 4px solid; color: #263238;
+.app-card.school .card-title{
+    border-left-color:#1565C0;
 }
 
-.info-row { display: flex; margin-bottom: 6px; font-size: 0.8rem; }
-.info-row span { width: 65px; color: #546E7A; flex-shrink: 0; font-weight: 600; }
-.info-row b { color: #263238; }
+.app-card.staff .card-title{
+    border-left-color:#00838F;
+}
 
-.btn-app-action {
-    width: 100%; margin-top: 12px; padding: 10px; border: none; border-radius: 10px;
-    color: #fff; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;
+.app-card.student .card-title{
+    border-left-color:#EF6C00;
 }
 
 /* =========================
-   ACCENT COLORS (ปรับให้สอดคล้องกับ Section Title)
+   BADGE
 ========================= */
-.app-card.school { border-left-color: #1565C0; }
-.app-card.school .card-title { border-left-color: #1565C0; }
-.app-card.school .btn-app-action { background: linear-gradient(135deg, #1565C0, #0D47A1); }
+.app-badge{
+    display:inline-block;
+    padding:4px 12px;
 
-.app-card.staff { border-left-color: #00838F; }
-.app-card.staff .card-title { border-left-color: #00838F; }
-.app-card.staff .btn-app-action { background: linear-gradient(135deg, #00838F, #006064); }
+    border-radius:20px;
 
-.app-card.student { border-left-color: #EF6C00; }
-.app-card.student .card-title { border-left-color: #EF6C00; }
-.app-card.student .btn-app-action { background: linear-gradient(135deg, #EF6C00, #E65100); }
+    color:#fff;
+    font-size:.9rem;
+    font-weight:500;
 
-/* คลาสสำหรับป้ายระดับรางวัลแบบ Ribbon */
-.reward-badge-ribbon {
-    position: absolute;
-    top: 15px;
-    right: -5px;
-    background: linear-gradient(135deg, #FF9800, #F57C00);
-    color: white;
-    padding: 6px 15px;
-    border-radius: 15px 0 0 15px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    z-index: 10;
+    margin-bottom:10px;
 }
-        
-        
-        /* ❌ Empty State ดีไซน์กรณีไม่มีข้อมูล */
-        .empty-state-box {
-            text-align: center; padding: 50px 20px; color: var(--text-sub);
-            background: white; border-radius: var(--global-radius);
-            border: 1px dashed var(--border-color); margin-top: 15px;
-        }
-        .empty-state-box i { font-size: 2.5rem; color: #cbd5e1; margin-bottom: 15px; }
 
-        /* ➕ Floating Action Button (แสดงเฉพาะบนมือถือ) */
-        .fab-btn {
-            position: fixed; bottom: 95px; right: 20px; z-index: 999;
-            width: 56px; height: 56px; border-radius: 50%;
-            background: #ff4500; color: #ffffff; border: none;
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.4); transition: all 0.2s;
-        }
-        .fab-btn:active { transform: scale(0.9); }
+.b-school{
+    background:#1565C0;
+}
 
-        /* 🖥️ ปุ่มเพิ่มข้อมูลเวอร์ชันคอมพิวเตอร์ */
-        .pc-add-btn {
-            display: none;
-            background: #ff4500; color: #ffffff; border: none;
-            padding: 10px 18px; font-size: 0.88rem; font-weight: 600;
-            border-radius: 12px; box-shadow: 0 4px 10px rgba(255, 69, 0, 0.3);
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .pc-add-btn:hover { background: #e03d00; color: #ffffff; transform: translateY(-1px); }
-        
-        @media (min-width: 768px) {
-            .fab-btn { display: none !important; }
-            .pc-add-btn { display: inline-flex; align-items: center; gap: 8px; }
-        }
+.b-staff{
+    background:#00838F;
+}
 
-        /* 📝 Full Screen Form Sheet */
-        .app-sheet {
-            position: fixed; top: 0; bottom: 0; left: 0; right: 0;
-            background: var(--bg-surface); z-index: 1100;
-            display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 40px;
-        }
-        @media (min-width: 768px) {
-            .app-sheet {
-                left: 50%; transform: translateX(-50%);
-                width: 100%; max-width: 800px;
-                border-left: 1px solid var(--border-color);
-                border-right: 1px solid var(--border-color);
-                box-shadow: 0 0 40px rgba(0,0,0,0.1);
-            }
-        }
-        .sheet-header { 
-            background: var(--pms-main); padding: 25px 20px; color: #fff; 
-            border-radius: 0; margin-bottom: 25px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .sheet-header h2 { font-size: 1.2rem; font-weight: 700; margin: 0; }
-        .sheet-body { padding: 0 24px; max-width: 100%; width: 100%; margin: 0 auto; }
-        .sheet-header .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+.b-student{
+    background:#EF6C00;
+}
 
-        /* 🧭 Bottom Navigation Bar */
-     .bottom-nav{
+/* =========================
+   BUTTON
+========================= */
+.btn-app-action{
+    width:100%;
+    margin-top:12px;
+
+    padding:10px;
+
+    border:none;
+    border-radius:10px;
+
+    color:#fff;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.app-card.school .btn-app-action{
+    background:linear-gradient(135deg,#1565C0,#0D47A1);
+}
+
+.app-card.staff .btn-app-action{
+    background:linear-gradient(135deg,#00838F,#006064);
+}
+
+.app-card.student .btn-app-action{
+    background:linear-gradient(135deg,#EF6C00,#E65100);
+}
+
+/* =========================
+   REWARD BADGE
+========================= */
+.reward-badge-ribbon{
+    position:absolute;
+    top:15px;
+    right:-5px;
+
+    background:linear-gradient(135deg,#FF9800,#F57C00);
+
+    color:#fff;
+
+    padding:6px 15px;
+
+    border-radius:15px 0 0 15px;
+
+    font-size:.8rem;
+    font-weight:700;
+
+    z-index:10;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+.empty-state-box{
+    text-align:center;
+    padding:50px 20px;
+
+    background:#fff;
+
+    border-radius:var(--global-radius);
+
+    border:1px dashed var(--border-color);
+
+    color:var(--text-sub);
+}
+
+.empty-state-box i{
+    font-size:2.5rem;
+    color:#cbd5e1;
+}
+
+/* =========================
+   FAB
+========================= */
+.fab-btn{
     position:fixed;
-    bottom:0;
+    right:20px;
+    bottom:95px;
+
+    width:56px;
+    height:56px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#ff4500;
+    color:#fff;
+
+    font-size:1.5rem;
+
+    z-index:999;
+
+    box-shadow:0 6px 20px rgba(255,69,0,.4);
+}
+
+@media(min-width:768px){
+    .fab-btn{
+        display:none!important;
+    }
+}
+
+/* =========================
+   PC ADD BUTTON
+========================= */
+.pc-add-btn{
+    display:none;
+
+    background:#ff4500;
+    color:#fff;
+
+    border:none;
+    border-radius:12px;
+
+    padding:10px 18px;
+
+    font-weight:600;
+}
+
+@media(min-width:768px){
+    .pc-add-btn{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+    }
+}
+
+/* =========================
+   SHEET
+========================= */
+.app-sheet{
+    position:fixed;
+    inset:0;
+
+    background:#fff;
+
+    z-index:1100;
+
+    overflow-y:auto;
+}
+
+.sheet-header{
+    background:var(--pms-main);
+    color:#fff;
+
+    padding:25px 20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.sheet-body{
+    padding:24px;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+.bottom-nav{
+    position:fixed;
     left:0;
     right:0;
+    bottom:0;
 
     height:70px;
 
-    background:#ffffff;
+    background:#fff;
 
     border-top:1px solid #e5e7eb;
 
-    box-shadow:
-    0 -2px 12px rgba(0,0,0,.05);
+    box-shadow:0 -2px 12px rgba(0,0,0,.05);
 }
-        .bottom-nav-container {
-            width: 100%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around;
-        }
-        .nav-item {
-            background: none; border: none; padding: 8px 0; width: 22%;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-            color: #94a3b8; font-size: 0.75rem; font-weight: 500; transition: all 0.2s;
-        }
-        .nav-item i { font-size: 1.4rem; }
-        .nav-item.active { color: var(--pms-main); font-weight: 700; }
 
-        /* 📄 App PDF Viewer Modal */
-        .app-viewer-modal {
-            position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: #000; z-index: 1200; display: flex; flex-direction: column;
-        }
-        .viewer-header { background: var(--pms-main); padding: 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
+.bottom-nav-container{
+    display:flex;
+    justify-content:space-around;
 
-        .d-none { display: none !important; }
-
-        /* บังคับให้ Modal แสดงเหนือกว่าทุก Layer */
-#statusNotifyModal {
-    z-index: 2000 !important;
+    max-width:1200px;
+    margin:0 auto;
 }
-        .award-icon{
+
+.nav-item{
+    width:22%;
+
+    border:none;
+    background:none;
+
+    padding:8px 0;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+
+    color:#94a3b8;
+    font-size:.75rem;
+}
+
+.nav-item i{
+    font-size:1.4rem;
+}
+
+.nav-item.active{
+    color:var(--pms-main);
+    font-weight:700;
+}
+
+/* =========================
+   VIEWER
+========================= */
+.app-viewer-modal{
+    position:fixed;
+    inset:0;
+
+    background:#000;
+
+    z-index:1200;
+}
+
+.viewer-header{
+    background:var(--pms-main);
+    color:#fff;
+
+    padding:15px;
+
+    display:flex;
+    justify-content:space-between;
+}
+
+/* =========================
+   OTHER
+========================= */
+#statusNotifyModal{
+    z-index:2000!important;
+}
+
+.award-icon{
     color:#FFD54F;
     font-size:1.3rem;
 }
 
 .mobile-app-header{
-position:fixed;
-top:0;
-left:0;
-right:0;
-z-index:1000;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
 
-```
-background:#ffffff;
+    z-index:1000;
 
-display:flex;
-align-items:center;
-gap:12px;
+    background:#fff;
 
-padding:12px 15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
 
-box-shadow:0 2px 12px rgba(0,0,0,.08);
-```
+    padding:12px 15px;
 
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
 }
 
 .header-logo img{
-width:42px;
-height:42px;
-object-fit:contain;
+    width:42px;
+    height:42px;
+    object-fit:contain;
 }
 
 .header-search{
-flex:1;
-display:flex;
-align-items:center;
-gap:10px;
+    flex:1;
 
-```
-background:#f3f4f6;
+    display:flex;
+    align-items:center;
+    gap:10px;
 
-border-radius:16px;
+    background:#f3f4f6;
 
-padding:10px 14px;
-```
+    border-radius:16px;
 
+    padding:10px 14px;
 }
 
 .header-search i{
-color:#6b7280;
+    color:#6b7280;
 }
 
 .header-search input{
-border:none;
-outline:none;
-background:transparent;
-width:100%;
-font-size:15px;
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
 }
 
 .header-add-btn{
-width:42px;
-height:42px;
+    width:42px;
+    height:42px;
 
-```
-border:none;
+    border:none;
+    border-radius:14px;
 
-border-radius:14px;
+    background:#8B0000;
+    color:#fff;
 
-background:#8B0000;
-color:white;
+    font-size:18px;
 
-font-size:18px;
-
-box-shadow:0 4px 10px rgba(139,0,0,.25);
-```
-
+    box-shadow:0 4px 10px rgba(139,0,0,.25);
 }
 
-    </style>
+.search-placeholder{
+    color:#6b7280;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+</style>
 </head>
 <body>
 
@@ -674,28 +808,20 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
         
 <div class="mobile-app-header">
 
-```
-<div class="header-logo">
-    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
-</div>
+    <div class="header-logo">
+        <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" alt="Logo">
+    </div>
 
+    <div class="header-search" onclick="openSearchScreen()">
+        <i class="fa-solid fa-search"></i>
+        <div class="search-placeholder">
+            ค้นหารางวัล...
+        </div>
+    </div>
 
-  <div class="header-search" onclick="openSearchScreen()">
-
-```
-<i class="fa-solid fa-search"></i>
-
-<span>
-    ค้นหารางวัล...
-</span>
-```
-
-</div>
-
-<button class="header-add-btn" onclick="openAppSheet()">
-    <i class="fa-solid fa-plus"></i>
-</button>
-```
+    <button class="header-add-btn" onclick="openAppSheet()">
+        <i class="fa-solid fa-plus"></i>
+    </button>
 
 </div>
     
@@ -803,10 +929,7 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
         </div>
 
 <div id="search-screen" class="search-screen d-none">
-
-```
 <div class="search-header">
-
     <button type="button" class="search-back-btn" onclick="closeSearchScreen()">
         <i class="fa-solid fa-arrow-left"></i>
     </button>
@@ -883,11 +1006,8 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
     </select>
 
 </div>
-```
 
 </div>
-
-
         <nav class="bottom-nav">
             <div class="bottom-nav-container">
                 <button id="nav-all" class="nav-item" onclick="changeAppTab('all')">
@@ -928,6 +1048,10 @@ box-shadow:0 4px 10px rgba(139,0,0,.25);
         </div>
     </div>
 </div>
+
+<button class="fab-btn" onclick="openAppSheet()">
+    <i class="fa-solid fa-plus"></i>
+</button>
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
