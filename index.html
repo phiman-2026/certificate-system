@@ -1272,93 +1272,10 @@ class="award-form-modal d-none">
 
             </div>
 
-            <div
-            id="deptBox"
-            class="mb-3">
-
-                <label>
-                    กลุ่มสาระการเรียนรู้
-                </label>
-
-                <select
-                id="awardDept"
-                class="form-select">
-
-                    <option>
-                    วิทยาศาสตร์และเทคโนโลยี
-                    </option>
-
-                    <option>
-                    คณิตศาสตร์
-                    </option>
-
-                    <option>
-                    ภาษาไทย
-                    </option>
-
-                    <option>
-                    ภาษาต่างประเทศ
-                    </option>
-
-                    <option>
-                    สังคมศึกษา ศาสนา และวัฒนธรรม
-                    </option>
-
-                    <option>
-                    สุขศึกษาและพลศึกษา
-                    </option>
-
-                    <option>
-                    ศิลปะ
-                    </option>
-
-                    <option>
-                    การงานอาชีพ
-                    </option>
-
-                    <option>
-                    กิจกรรมพัฒนาผู้เรียน
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div
-            id="personBox"
-            class="mb-3">
-
-                <label id="personLabel">
-
-                    ผู้รับรางวัล
-
-                </label>
-
-                <textarea
-                id="awardPerson"
-                rows="3"
-                class="form-control">
-
-                </textarea>
-
-            </div>
-
-            <div
-            id="classBox"
-            class="mb-3">
-
-                <label>
-
-                    ชั้นเรียน
-
-                </label>
-
-                <input
-                type="text"
-                id="awardClass"
-                class="form-control">
-
-            </div>
+           <div class="mb-3">
+    <label>ผู้รับรางวัล</label>
+    <input type="text" id="awardPerson" class="form-control">
+</div>
 
             <div class="mb-3">
 
@@ -1903,53 +1820,43 @@ function closeAwardForm(){
 
 function changeAwardType(){
 
-    const type =
-    document.getElementById("awardType").value;
+    const type = document.getElementById("awardType").value;
 
-    const deptBox =
-    document.getElementById("deptBox");
+    document.getElementById("awardPerson").value = "";
+    document.getElementById("awardClass").value = "";
 
-    const classBox =
-    document.getElementById("classBox");
+    const deptBox = document.getElementById("deptBox");
+    const classBox = document.getElementById("classBox");
+    const personLabel = document.getElementById("personLabel");
+    const personInput = document.getElementById("awardPerson");
 
-    const personLabel =
-    document.getElementById("personLabel");
+    if(type === "school"){
 
-    if(type==="school"){
+        deptBox.style.display = "none";
+        classBox.style.display = "none";
 
-        deptBox.style.display="none";
-        classBox.style.display="none";
-
-        personLabel.innerHTML =
-        "ชื่อสถานศึกษา";
-
-        document
-        .getElementById("awardPerson")
-        .value =
-        "โรงเรียนพิมานพิทยาสรรค์";
+        personLabel.innerText = "ชื่อสถานศึกษา";
+        personInput.value = "โรงเรียนพิมานพิทยาสรรค์";
 
     }
 
-    else if(type==="staff"){
+    else if(type === "staff"){
 
-        deptBox.style.display="block";
-        classBox.style.display="none";
+        deptBox.style.display = "block";
+        classBox.style.display = "none";
 
-        personLabel.innerHTML =
-        "ชื่อคุณครู / บุคลากร";
+        personLabel.innerText = "ชื่อครู / บุคลากร";
 
     }
 
     else{
 
-        deptBox.style.display="block";
-        classBox.style.display="block";
+        deptBox.style.display = "block";
+        classBox.style.display = "block";
 
-        personLabel.innerHTML =
-        "ชื่อนักเรียน";
+        personLabel.innerText = "ชื่อนักเรียน";
 
     }
-
 }
 
 function validateAwardForm(){
@@ -2050,6 +1957,11 @@ document.getElementById('awardFile');
         showAlert('กรุณาระบุชื่อผู้ได้รับรางวัล');
         return;
     }
+
+   if(type === 'student' && !className){
+    showAlert('กรุณาระบุชั้นเรียน');
+    return;
+   }
 
     if(fileInput.files.length === 0){
         showAlert('กรุณาแนบไฟล์ PDF');
@@ -2382,11 +2294,7 @@ function getSelectedYear(){
 }
 
 function getSelectedRewardLevel(){
-
-    return document
-    .getElementById('filter-reward-level')
-    .value;
-
+    return document.getElementById('filter-level').value;
 }
 
 function getSelectedDepartment(){
