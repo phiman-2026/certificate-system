@@ -491,6 +491,9 @@ body{
 
 <!-- SEARCH -->
 <div id="search-screen" class="search-screen d-none">
+      <select id="filter-year" onchange="setFilter('year', this.value)">
+      <select id="filter-level" onchange="setFilter('level', this.value)">
+      <select id="filter-dept" onchange="setFilter('dept', this.value)">
 
   <div class="search-header">
 
@@ -590,6 +593,12 @@ body{
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
+let filters = {
+  year: "all",
+  level: "all",
+  dept: "all"
+};
+      
 let allAwardsData = {
   school: [],
   staff: [],
@@ -655,7 +664,28 @@ function renderHomePage() {
 function renderSection(type, title) {
   const zone = document.getElementById("app-content");
 
-  const data = (allAwardsData[type] || []).slice().reverse().slice(0, 12);
+  let data = (allAwardsData[type] || []).slice().reverse();
+
+  // ===== FILTER SYSTEM =====
+  data = data.filter(item => {
+
+    const yearMatch =
+      filters.year === "all" ||
+      item["ปีการศึกษา"] == filters.year;
+
+    const levelMatch =
+      filters.level === "all" ||
+      item["ระดับรางวัล"] == filters.level;
+
+    const deptMatch =
+      filters.dept === "all" ||
+      (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
+
+    return yearMatch && levelMatch && deptMatch;
+  });
+
+  // limit
+  data = data.slice(0, 12);
 
   zone.insertAdjacentHTML("beforeend", `
     <div class="section-title">🏆 ${title}</div>
@@ -787,12 +817,16 @@ function searchAwards() {
 
     (allAwardsData[type] || []).forEach(item => {
 
-      const text = JSON.stringify(item).toLowerCase();
+      const matchText = JSON.stringify(item).toLowerCase();
 
-      if (text.includes(keyword)) {
+      const filterMatch =
+        (filters.year === "all" || item["ปีการศึกษา"] == filters.year) &&
+        (filters.level === "all" || item["ระดับรางวัล"] == filters.level) &&
+        (filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept);
+
+      if (matchText.includes(keyword) && filterMatch) {
         result.push({ type, item });
       }
-
     });
 
   });
@@ -837,6 +871,109 @@ function openPDF(url) {
 
   window.open(url, "_blank");
 }
+
+function openAwardForm() {
+  document.getElementById("awardFormModal").classList.remove("d-none");
+  document.body.style.overflow = "hidden";
+}
+
+function closeAwardForm() {
+  document.getElementById("awardFormModal").classList.add("d-none");
+  document.body.style.overflow = "";
+}
+
+function changeAwardType() {
+  const type = document.getElementById("awardType").value;
+  const zone = document.getElementById("dynamicFormArea");
+
+  zone.innerHTML = "";
+
+  if (type === "staff") {
+    zone.innerHTML = `
+      <label>ชื่อครู/บุคลากร</label>
+      <input id="awardPerson" class="form-control" placeholder="กรอกชื่อครู">
+    `;
+  }
+
+  if (type === "student") {
+    zone.innerHTML = `
+      <label>ชื่อนักเรียน</label>
+      <input id="awardPerson" class="form-control" placeholder="กรอกชื่อนักเรียน">
+
+      <label class="mt-2">ชั้นเรียน</label>
+      <input id="awardClass" class="form-control" placeholder="เช่น ม.1/1">
+    `;
+  }
+
+  if (type === "school") {
+    zone.innerHTML = `
+      <div class="text-muted">รางวัลสถานศึกษา ไม่ต้องกรอกผู้รับ</div>
+    `;
+  }
+}
+
+function renderDashboard() {
+  // ตอนนี้ยังไม่ทำ filter logic เต็ม
+  // แต่กัน error ไม่ให้ระบบพัง
+  if (currentTab === "home") {
+    renderHomePage();
+  } else {
+    changeTab(currentTab);
+  }
+}
+
+async function saveAward() {
+  const btn = document.getElementById("btn-save");
+  btn.disabled = true;
+  btn.innerText = "กำลังบันทึก...";
+
+  try {
+    const type = document.getElementById("awardType").value;
+    const year = document.getElementById("awardYear").value;
+    const level = document.getElementById("awardLevel").value;
+    const title = document.getElementById("awardTitle").value;
+    const giver = document.getElementById("awardGiver").value;
+
+    const payload = {
+      type,
+      year,
+      level,
+      title,
+      giver
+    };
+
+    const res = await fetch(GAS_WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    alert("บันทึกสำเร็จ");
+
+    closeAwardForm();
+    await loadAwards();
+    renderHomePage();
+
+  } catch (err) {
+    console.error(err);
+    alert("บันทึกไม่สำเร็จ");
+  }
+
+  btn.disabled = false;
+  btn.innerText = "บันทึก";
+}
+
+function setFilter(type, value) {
+  filters[type] = value;
+  renderHomePage(); // รีโหลดหน้าหลัก
+}
+
+function resetFilters() {
+  filters = { year: "all", level: "all", dept: "all" };
+  renderHomePage();
+}
+
 
 </script>
 </body>
