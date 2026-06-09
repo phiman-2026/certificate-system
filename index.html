@@ -387,34 +387,6 @@ body{
     background:#D4AF37;
 }
 
-/* LEVEL */
-.award-level{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:#fff;
-    border:1px solid #eee;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:.75rem;
-}
-
-/* TITLE */
-.award-title{
-    margin-top:35px;
-    font-weight:800;
-    font-size:1rem;
-    border-bottom:1px solid #eee;
-    padding-bottom:10px;
-}
-
-/* DETAIL */
-.award-detail{
-    font-size:.9rem;
-    line-height:1.6;
-    margin-top:10px;
-}
-
 /* BUTTON */
 .btn-view-award{
     margin-top:12px;
@@ -830,8 +802,14 @@ function buildCards(container, data, type) {
       person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
     }
 
+    // ✅ เพิ่มตรงนี้
+    let icon = "🏆";
+    if (type === "school") icon = "🏫";
+    if (type === "staff") icon = "👨‍🏫";
+    if (type === "student") icon = "🎓";
+
     container.insertAdjacentHTML("beforeend",
-      createCardHTML(type, title, person, giver, year, level, dept, className)
+      createCardHTML(type, title, person, giver, year, level, dept, className, icon)
     );
   });
 }
@@ -839,13 +817,13 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, icon) {
 
   return `
   <div class="col-12 col-md-6 col-lg-4">
     <div class="award-card ${type}">
 
-      <div class="award-icon">🏆</div>
+      <div class="award-icon">${icon}</div>
 
       <div class="award-level">${level}</div>
 
