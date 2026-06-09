@@ -303,15 +303,88 @@ body{
 /* CARD */
 .award-card{
     background:#fff;
-    border-radius:16px;
-    padding:18px;
+    border-radius:22px;
+    padding:22px;
     position:relative;
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
-    transition:.2s;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.25s ease;
 }
 
 .award-card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-6px);
+    box-shadow:0 18px 40px rgba(0,0,0,.14);
+}
+
+/* TOP GRADIENT BAR */
+.award-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+    background:linear-gradient(135deg,#7A0000,#A00000,#D4AF37);
+}
+
+/* ICON */
+.award-icon{
+    position:absolute;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    z-index:2;
+}
+
+/* LEVEL BADGE */
+.award-level{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:rgba(255,255,255,.9);
+    border:1px solid rgba(139,0,0,.2);
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:700;
+    color:#8B0000;
+}
+
+/* TITLE */
+.award-title{
+    margin-top:70px;
+    font-size:1.05rem;
+    font-weight:800;
+    padding-bottom:10px;
+    border-bottom:1px solid #eee;
+}
+
+/* DETAIL */
+.award-detail{
+    margin-top:12px;
+    font-size:.9rem;
+    line-height:1.7;
+    color:#374151;
+}
+
+/* GOLD LINE */
+.award-card::after{
+    content:"";
+    position:absolute;
+    top:70px;
+    left:0;
+    right:0;
+    height:3px;
+    background:#D4AF37;
 }
 
 /* LEVEL */
@@ -456,9 +529,16 @@ body{
 
 <!-- LOADING -->
 <div id="loading-screen" class="loading-screen">
+
+  <img
+    src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png"
+    class="loading-logo"
+    alt="logo">
+
   <div class="loading-spinner"></div>
   <div class="loading-title">PMS Digital Honor App</div>
   <div class="loading-sub">กำลังโหลดข้อมูล...</div>
+
 </div>
 
 <!-- APP -->
@@ -491,9 +571,6 @@ body{
 
 <!-- SEARCH -->
 <div id="search-screen" class="search-screen d-none">
-      <select id="filter-year" onchange="setFilter('year', this.value)">
-      <select id="filter-level" onchange="setFilter('level', this.value)">
-      <select id="filter-dept" onchange="setFilter('dept', this.value)">
 
   <div class="search-header">
 
@@ -504,6 +581,35 @@ body{
     <input id="search-input"
            placeholder="ค้นหารางวัล..."
            onkeyup="searchAwards()">
+
+  </div>
+
+  <!-- FILTER PANEL -->
+  <div class="search-filter-panel">
+
+    <label class="filter-label">ปีการศึกษา</label>
+    <select id="filter-year" onchange="setFilter('year', this.value)" class="filter-select">
+      <option value="all">ทั้งหมด</option>
+      <option value="2570">2570</option>
+      <option value="2569">2569</option>
+      <option value="2568">2568</option>
+    </select>
+
+    <label class="filter-label">ระดับรางวัล</label>
+    <select id="filter-level" onchange="setFilter('level', this.value)" class="filter-select">
+      <option value="all">ทั้งหมด</option>
+      <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+      <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+      <option value="ระดับชาติ">ระดับชาติ</option>
+    </select>
+
+    <label class="filter-label">กลุ่มสาระ</label>
+    <select id="filter-dept" onchange="setFilter('dept', this.value)" class="filter-select">
+      <option value="all">ทั้งหมด</option>
+      <option value="วิทยาศาสตร์และเทคโนโลยี">วิทยาศาสตร์และเทคโนโลยี</option>
+      <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+      <option value="ภาษาไทย">ภาษาไทย</option>
+    </select>
 
   </div>
 
