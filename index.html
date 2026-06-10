@@ -182,13 +182,13 @@ body{
 }
 
 /* =========================
-   DESKTOP (PREMIUM BANNER - ปรับแก้ใหม่)
+   DESKTOP (PREMIUM BANNER - สี #009ACD)
 ========================= */
 @media(min-width: 992px) {
     .mobile-header {
-        height: 90px; /* ปรับกลับเป็นความสูงปกติ 90px เหมือนตอนแรก */
+        height: 90px;
         padding: 0 40px;
-        position: fixed; /* ใช้ fixed เหมือนเดิมเพื่อให้เกาะติดด้านบน */
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
@@ -198,8 +198,8 @@ body{
         z-index: 1000;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
-        /* พื้นหลังหรูหราแบบโปร่งแสงเล็กน้อย */
-        background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(37, 99, 235, 0.9)),
+        /* พื้นหลัง: ไล่เฉดสีฟ้า #009ACD + รูปอาคาร */
+        background: linear-gradient(135deg, rgba(0, 154, 205, 0.95), rgba(0, 120, 160, 0.95)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
         background-position: center;
@@ -216,25 +216,49 @@ body{
         background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
     }
 
+    /* ปรับโลโก้ */
     .logo-box img {
         width: 50px !important;
         height: 50px !important;
     }
 
-    .search-box {
-        max-width: 500px;
-        height: 45px !important; /* ปรับความสูงกล่องค้นหาให้พอดีกับ Header */
-        background: rgba(255, 255, 255, 0.9) !important;
+    /* ทำให้ .system-title กลับมาแสดงผล */
+    .system-title {
+        display: block !important;
+        color: #fff;
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+    .system-title h1 {
+        font-size: 1.1rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        color: #fff !important;
+    }
+    .system-title p {
+        font-size: 0.75rem !important;
+        margin: 0 !important;
+        color: rgba(255, 255, 255, 0.8) !important;
     }
 
+    /* กล่องค้นหา */
+    .search-box {
+        flex: 1;
+        max-width: 500px;
+        height: 45px !important;
+        background: rgba(255, 255, 255, 0.25) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: #fff !important;
+    }
+
+    /* ปุ่มเพิ่มรางวัล (สีคุมโทน) */
     .add-btn {
         width: 45px !important;
         height: 45px !important;
-        background: #fbbf24 !important;
-        color: #1e3a8a !important;
+        background: #fbbf24 !important; /* สีทอง */
+        color: #009ACD !important; /* สีฟ้าตรงกับแบนเนอร์ */
     }
 
-    /* แก้ไขปัญหาพื้นที่ว่าง: ปรับ padding ให้สัมพันธ์กับความสูง 90px */
     .app-container {
         padding-top: 100px !important; 
     }
@@ -726,11 +750,15 @@ body{
   <!-- HEADER -->
   <header class="mobile-header">
 
-    <div class="logo-box">
-      <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
-    </div>
+      <div class="logo-box">
+  <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
+</div>
 
-    <div class="search-box" onclick="openSearchScreen()">
+<div class="system-title">
+  <h1>PMS Digital Honor App</h1>
+  <p>โรงเรียนพิมานพิทยาสรรค์</p>
+</div>
+<div class="search-box" onclick="openSearchScreen()">
       <i class="fa-solid fa-search"></i>
       <span>ค้นหารางวัล...</span>
     </div>
