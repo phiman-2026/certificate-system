@@ -306,10 +306,14 @@ color:white;
 
 .row.g-3{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;
+    grid-template-columns:
+    repeat(auto-fit,minmax(420px,1fr));
+    gap:24px;
 }
 
+.award-card-wrapper{
+    width:100%;
+}
 
 /* CARD */
 .award-card{
@@ -321,6 +325,7 @@ color:white;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
     transition:.25s ease;
     min-height:220px;
+    height:100%;
 }
 
 .award-card:hover{
@@ -1200,8 +1205,8 @@ function buildCards(container, data, type) {
 function createCardHTML(type, title, person, giver, year, level, dept, className, config) {
 
   return `
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="award-card ${type}" style="border-top:4px solid ${config.color}">
+  <div class="award-card-wrapper">
+  <div class="award-card ${type}" style="border-top:4px solid ${config.color}">
 
       <div class="award-icon">${config.icon}</div>
 
