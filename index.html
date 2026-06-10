@@ -10,10 +10,12 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
 
@@ -930,23 +932,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function initApp() {
   showLoadingScreen();
-  await loadAwards();
-  hideLoadingScreen();
-  renderHomePage();
+  try {
+    await loadAwards();
+    renderHomePage();
+  } finally {
+    hideLoadingScreen();
+  }
 }
 
 /* =========================
    LOAD DATA
 ========================= */
 async function loadAwards() {
+
   try {
+
     const res = await fetch(GAS_WEB_APP_URL);
+
+    if (!res.ok) {
+      throw new Error(`HTTP Error ${res.status}`);
+    }
+
     const data = await res.json();
+
     allAwardsData = data;
+
   } catch (err) {
+
     console.error(err);
-    alert("โหลดข้อมูลไม่สำเร็จ");
+
+    Swal.fire({
+      icon: "error",
+      title: "โหลดข้อมูลไม่สำเร็จ",
+      text: "ไม่สามารถเชื่อมต่อฐานข้อมูลได้",
+      confirmButtonColor: "#8B0000"
+    });
+
   }
+
 }
 
 /* =========================
@@ -1182,7 +1205,14 @@ function renderSearchResult(result) {
 ========================= */
 function openPDF(url) {
 
-  if (!url) return alert("ไม่พบไฟล์");
+  if (!url){
+  Swal.fire({
+    icon: "warning",
+    title: "ไม่พบไฟล์ PDF",
+    confirmButtonColor:"#8B0000"
+  });
+  return;
+}
 
   if (url.includes("drive.google.com")) {
     url = url.replace("/view", "/preview");
@@ -1309,36 +1339,56 @@ async function saveAward() {
   let className = "";
 
   // =====================
-  // ตรวจสอบข้อมูลพื้นฐาน
+  // VALIDATION
   // =====================
 
   if (!year) {
-    alert("กรุณาระบุปีการศึกษา");
-    return;
+    return Swal.fire({
+      icon: "warning",
+      title: "ข้อมูลไม่ครบ",
+      text: "กรุณาระบุปีการศึกษา",
+      confirmButtonColor: "#8B0000"
+    });
   }
 
   if (!rewardLevel) {
-    alert("กรุณาเลือกระดับรางวัล");
-    return;
+    return Swal.fire({
+      icon: "warning",
+      title: "ข้อมูลไม่ครบ",
+      text: "กรุณาเลือกระดับรางวัล",
+      confirmButtonColor: "#8B0000"
+    });
   }
 
   if (!title) {
-    alert("กรุณากรอกชื่อรางวัล");
-    return;
+    return Swal.fire({
+      icon: "warning",
+      title: "ข้อมูลไม่ครบ",
+      text: "กรุณากรอกชื่อรางวัล",
+      confirmButtonColor: "#8B0000"
+    });
   }
 
   if (!giver) {
-    alert("กรุณากรอกหน่วยงานที่มอบรางวัล");
-    return;
+    return Swal.fire({
+      icon: "warning",
+      title: "ข้อมูลไม่ครบ",
+      text: "กรุณากรอกหน่วยงานที่มอบรางวัล",
+      confirmButtonColor: "#8B0000"
+    });
   }
 
   if (!file) {
-    alert("กรุณาแนบไฟล์ PDF");
-    return;
+    return Swal.fire({
+      icon: "warning",
+      title: "ยังไม่ได้เลือกไฟล์",
+      text: "กรุณาแนบไฟล์ PDF",
+      confirmButtonColor: "#8B0000"
+    });
   }
 
   // =====================
-  // รางวัลครู
+  // STAFF
   // =====================
 
   if (type === "staff") {
@@ -1347,18 +1397,26 @@ async function saveAward() {
       document.getElementById("awardPerson")?.value.trim() || "";
 
     if (!name) {
-      alert("กรุณากรอกชื่อครู/บุคลากร");
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ครบ",
+        text: "กรุณากรอกชื่อครู/บุคลากร",
+        confirmButtonColor: "#8B0000"
+      });
     }
 
     if (!dept) {
-      alert("กรุณาเลือกกลุ่มสาระ");
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ครบ",
+        text: "กรุณาเลือกกลุ่มสาระ",
+        confirmButtonColor: "#8B0000"
+      });
     }
   }
 
   // =====================
-  // รางวัลนักเรียน
+  // STUDENT
   // =====================
 
   if (type === "student") {
@@ -1370,40 +1428,76 @@ async function saveAward() {
       document.getElementById("awardClass")?.value.trim() || "";
 
     if (!name) {
-      alert("กรุณากรอกชื่อนักเรียน");
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ครบ",
+        text: "กรุณากรอกชื่อนักเรียน",
+        confirmButtonColor: "#8B0000"
+      });
     }
 
     if (!className) {
-      alert("กรุณากรอกชั้นเรียน");
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ครบ",
+        text: "กรุณากรอกชั้นเรียน",
+        confirmButtonColor: "#8B0000"
+      });
     }
 
     if (!dept) {
-      alert("กรุณาเลือกกลุ่มสาระ");
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "ข้อมูลไม่ครบ",
+        text: "กรุณาเลือกกลุ่มสาระ",
+        confirmButtonColor: "#8B0000"
+      });
     }
   }
 
   // =====================
-  // ตรวจสอบไฟล์
+  // FILE CHECK
   // =====================
 
   if (file.type !== "application/pdf") {
-    alert("อนุญาตเฉพาะไฟล์ PDF เท่านั้น");
-    return;
+
+    return Swal.fire({
+      icon: "error",
+      title: "ไฟล์ไม่ถูกต้อง",
+      text: "อนุญาตเฉพาะไฟล์ PDF เท่านั้น",
+      confirmButtonColor: "#8B0000"
+    });
+
   }
 
   if (file.size > 10 * 1024 * 1024) {
-    alert("ไฟล์ใหญ่เกิน 10 MB");
-    return;
+
+    return Swal.fire({
+      icon: "error",
+      title: "ไฟล์ใหญ่เกินกำหนด",
+      text: "กรุณาเลือกไฟล์ไม่เกิน 10 MB",
+      confirmButtonColor: "#8B0000"
+    });
+
   }
 
   // =====================
-  // เริ่มบันทึก
+  // LOADING
   // =====================
 
+  Swal.fire({
+    title: "กำลังบันทึกข้อมูล",
+    text: "กรุณารอสักครู่...",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonColor: "#8B0000",
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
   btn.disabled = true;
+
   btn.innerHTML = `
     <i class="fa-solid fa-spinner fa-spin"></i>
     กำลังบันทึก...
@@ -1443,11 +1537,26 @@ async function saveAward() {
       );
     }
 
-    alert("🎉 บันทึกรางวัลสำเร็จ");
+    Swal.close();
+
+    await Swal.fire({
+      icon: "success",
+      title: "บันทึกรางวัลสำเร็จ",
+      html: `
+        <div style="font-size:15px">
+          เพิ่มข้อมูลรางวัลเรียบร้อยแล้ว
+          <br><br>
+          <b style="color:#8B0000">${title}</b>
+        </div>
+      `,
+      confirmButtonColor: "#8B0000"
+    });
 
     document.getElementById("awardForm").reset();
 
     document.getElementById("pdfPreview").innerHTML = "";
+
+    changeAwardType();
 
     closeAwardForm();
 
@@ -1463,10 +1572,14 @@ async function saveAward() {
 
     console.error(err);
 
-    alert(
-      "❌ บันทึกไม่สำเร็จ\n\n" +
-      err.message
-    );
+    Swal.close();
+
+    Swal.fire({
+      icon: "error",
+      title: "บันทึกไม่สำเร็จ",
+      text: err.message,
+      confirmButtonColor: "#8B0000"
+    });
 
   } finally {
 
