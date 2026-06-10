@@ -182,41 +182,67 @@ body{
 }
 
 /* =========================
-   DESKTOP
+   DESKTOP (PREMIUM BANNER)
 ========================= */
-@media(min-width:992px){
-    .mobile-header{
-        height:90px;
-        padding:15px 30px;
-        background:
-linear-gradient(
-  135deg,
-  #1E3A8A,
-  #2563EB
-);
-
-color:white;
+@media(min-width: 992px) {
+    .mobile-header {
+        height: 220px; 
+        padding: 30px 60px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        /* เปลี่ยน URL รูปอาคารของคุณที่นี่ */
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.8)),
+                    url("https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
     }
 
-    .system-title{
-        display:block;
+    /* เส้นสีทองขอบล่างให้ดูหรูหรา */
+    .mobile-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
     }
 
-    .system-title h1{
-        font-size:1.1rem;
-        font-weight:800;
-        color:var(--primary);
-        margin:0;
+    /* ปรับแต่งโลโก้ให้เด่นขึ้น */
+    .logo-box img {
+        width: 70px !important;
+        height: 70px !important;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
     }
 
-    .system-title p{
-        font-size:.8rem;
-        color:var(--text-light);
-        margin:0;
+    /* ปรับกล่องค้นหาให้อยู่ในแบนเนอร์อย่างลงตัว */
+    .search-box {
+        flex: 1;
+        max-width: 600px;
+        height: 55px;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 15px !important;
+        padding: 0 20px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .app-container{
-        padding-top:110px;
+    /* ปรับปุ่มเพิ่มรางวัลให้เข้ากับธีม */
+    .add-btn {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px !important;
+        background: #fbbf24 !important;
+        color: #1e3a8a !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .app-container {
+        padding-top: 240px; 
     }
 }
 
