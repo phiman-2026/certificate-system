@@ -1225,7 +1225,7 @@ function buildCards(container, data, type) {
 function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
     // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
-        school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png', // เปลี่ยนเป็น URL รูปของคุณ
+        school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
         staff: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Teacher.png',
         student: 'https://raw.githubusercontent.com/phiman-2026/picture/main/student.png'
     };
@@ -1236,8 +1236,11 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
 
     return `
     <div class="award-card">
-        <div class="card-header-img" style="background-image: url('${headerImg}');">
-            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" style="width: 60px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+        <div class="card-header-img" style="background-image: url('${headerImg}'); position: relative;">
+            
+            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" 
+                 style="position: absolute; top: 10px; left: 10px; width: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index: 2;">
+            
             <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}; background: rgba(255,255,255,0.9);">
                 ${level}
             </div>
