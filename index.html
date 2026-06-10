@@ -402,78 +402,79 @@ body{
 }
 
 /* =========================
-   FORM MODAL
+   AWARD FORM PRO
 ========================= */
+
 .award-form-modal{
-    position: fixed;
-    inset: 0;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    z-index: 5000; /* 🔥 ต้องสูงกว่า tab */
-    height: 100vh;
-}
-
-.award-form-header{
-    height:60px;
-    background:var(--primary);
-    color:#fff;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
-    padding:0 15px;
-}
-
-.award-form-body{
-    flex: 1;
-    padding: 15px;
-    background: #f8fafc;
-    overflow-y: auto;   /* 🔥 สำคัญมาก */
-    padding-bottom: 120px; /* กัน tab บัง */
+    z-index:9999;
+    padding:20px;
 }
 
 .award-form-container{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-/* INPUT */
-.form-control,
-.form-select{
-    height:42px;
-    border-radius:10px !important;
-    border:1px solid var(--border);
-    padding:10px;
-}
-
-/* ACTION BAR */
-.form-action-bar{
-    position:sticky;
-    bottom:0;
-    display:flex;
-    gap:10px;
-    padding:12px;
+    width:100%;
+    max-width:900px;
+    max-height:90vh;
     background:#fff;
-    border-top:1px solid #eee;
+    border-radius:24px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
 }
 
-.btn-save,
-.btn-cancel{
-    flex:1;
-    height:45px;
-    border:none;
-    border-radius:10px;
-    font-weight:600;
-}
-
-.btn-save{
-    background:var(--primary);
+.award-form-header{
+    background:linear-gradient(
+        135deg,
+        #8B0000,
+        #B22222
+    );
     color:#fff;
+    padding:18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.btn-cancel{
-    background:#e5e7eb;
+.award-form-header h5{
+    margin:0;
+    font-weight:700;
+}
+
+.award-form-header button{
+    border:none;
+    background:none;
+    color:#fff;
+    font-size:22px;
+}
+
+.award-form-body{
+    flex:1;
+    overflow-y:auto;
+    padding:25px;
+    background:#f8fafc;
+}
+
+.form-action-bar{
+    padding:18px;
+    background:#fff;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    gap:12px;
+}
+
+@media(max-width:768px){
+
+    .award-form-container{
+        max-height:100vh;
+        border-radius:0;
+    }
+
 }
 
 /* =========================
@@ -649,38 +650,205 @@ body{
 
     <div class="award-form-body">
 
-      <form id="awardForm">
+     <form id="awardForm">
 
-        <label>ประเภทรางวัล</label>
-        <select id="awardType" onchange="changeAwardType()" class="form-select">
-          <option value="school">รางวัลสถานศึกษา</option>
-          <option value="staff">รางวัลครู</option>
-          <option value="student">รางวัลนักเรียน</option>
-        </select>
+  <!-- ประเภท + ปีการศึกษา -->
+  <div class="row g-3">
 
-        <div id="dynamicFormArea"></div>
+    <div class="col-md-6">
 
-        <label>ปีการศึกษา</label>
-        <input id="awardYear" type="number" value="2569" class="form-control">
+      <label class="form-label">
+        ประเภทรางวัล
+      </label>
 
-        <label>ระดับรางวัล</label>
-        <select id="awardLevel" class="form-select">
-          <option>ระดับโรงเรียน</option>
-          <option>ระดับเขตพื้นที่</option>
-          <option>ระดับจังหวัด</option>
-          <option>ระดับชาติ</option>
-        </select>
+      <select id="awardType"
+              class="form-select"
+              onchange="changeAwardType()">
 
-        <label>ชื่อรางวัล</label>
-        <input id="awardTitle" class="form-control">
+        <option value="school">
+          รางวัลสถานศึกษา
+        </option>
 
-        <label>หน่วยงาน</label>
-        <input id="awardGiver" class="form-control">
+        <option value="staff">
+          รางวัลครู / บุคลากร
+        </option>
 
-        <label>ไฟล์ PDF</label>
-        <input id="awardFile" type="file" accept="application/pdf" class="form-control">
+        <option value="student">
+          รางวัลนักเรียน
+        </option>
 
-      </form>
+      </select>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <label class="form-label">
+        ปีการศึกษา
+      </label>
+
+      <input
+        id="awardYear"
+        type="number"
+        value="2569"
+        class="form-control">
+
+    </div>
+
+  </div>
+
+  <!-- Dynamic Area -->
+  <div id="dynamicFormArea" class="mt-3">
+
+    <div class="alert alert-info">
+      🏫 รางวัลสถานศึกษา ไม่ต้องกรอกชื่อผู้รับรางวัล
+    </div>
+
+  </div>
+
+  <!-- กลุ่มสาระ -->
+  <div class="mt-3">
+
+    <label class="form-label">
+      กลุ่มสาระการเรียนรู้
+    </label>
+
+    <select id="awardDept"
+            class="form-select">
+
+      <option value="">
+        เลือกกลุ่มสาระการเรียนรู้
+      </option>
+
+      <option value="ภาษาไทย">
+        ภาษาไทย
+      </option>
+
+      <option value="คณิตศาสตร์">
+        คณิตศาสตร์
+      </option>
+
+      <option value="วิทยาศาสตร์และเทคโนโลยี">
+        วิทยาศาสตร์และเทคโนโลยี
+      </option>
+
+      <option value="สังคมศึกษา ศาสนา และวัฒนธรรม">
+        สังคมศึกษา ศาสนา และวัฒนธรรม
+      </option>
+
+      <option value="สุขศึกษาและพลศึกษา">
+        สุขศึกษาและพลศึกษา
+      </option>
+
+      <option value="ศิลปะ">
+        ศิลปะ
+      </option>
+
+      <option value="การงานอาชีพ">
+        การงานอาชีพ
+      </option>
+
+      <option value="ภาษาต่างประเทศ">
+        ภาษาต่างประเทศ
+      </option>
+
+      <option value="กิจกรรมพัฒนาผู้เรียน">
+        กิจกรรมพัฒนาผู้เรียน
+      </option>
+
+    </select>
+
+  </div>
+
+  <!-- ระดับรางวัล -->
+  <div class="mt-3">
+
+    <label class="form-label">
+      ระดับรางวัล
+    </label>
+
+    <select id="awardLevel"
+            class="form-select">
+
+      <option value="ระดับโรงเรียน">
+        ระดับโรงเรียน
+      </option>
+
+      <option value="ระดับเขตพื้นที่">
+        ระดับเขตพื้นที่
+      </option>
+
+      <option value="ระดับจังหวัด">
+        ระดับจังหวัด
+      </option>
+
+      <option value="ระดับภาค">
+        ระดับภาค
+      </option>
+
+      <option value="ระดับชาติ">
+        ระดับชาติ
+      </option>
+
+      <option value="ระดับนานาชาติ">
+        ระดับนานาชาติ
+      </option>
+
+    </select>
+
+  </div>
+
+  <!-- ชื่อรางวัล -->
+  <div class="mt-3">
+
+    <label class="form-label">
+      ชื่อรางวัล / ผลงานเกียรติยศ
+    </label>
+
+    <input
+      id="awardTitle"
+      type="text"
+      class="form-control"
+      placeholder="กรอกชื่อรางวัล">
+
+  </div>
+
+  <!-- หน่วยงาน -->
+  <div class="mt-3">
+
+    <label class="form-label">
+      หน่วยงานที่มอบรางวัล
+    </label>
+
+    <input
+      id="awardGiver"
+      type="text"
+      class="form-control"
+      placeholder="กรอกชื่อหน่วยงาน">
+
+  </div>
+
+  <!-- PDF -->
+  <div class="mt-3">
+
+    <label class="form-label">
+      ไฟล์เกียรติบัตร PDF
+    </label>
+
+    <input
+      id="awardFile"
+      type="file"
+      accept=".pdf"
+      class="form-control"
+      onchange="previewPDFName()">
+
+    <div id="pdfPreview"
+         class="mt-2 text-success fw-semibold">
+    </div>
+
+  </div>
+
+</form>
 
     </div>
 
@@ -1024,8 +1192,13 @@ function openPDF(url) {
 }
 
 function openAwardForm() {
-  document.getElementById("awardFormModal").classList.remove("d-none");
+
+  document.getElementById("awardFormModal")
+          .classList.remove("d-none");
+
   document.body.style.overflow = "hidden";
+
+  changeAwardType();
 }
 
 function closeAwardForm() {
@@ -1033,34 +1206,64 @@ function closeAwardForm() {
   document.body.style.overflow = "";
 }
 
-function changeAwardType() {
-  const type = document.getElementById("awardType").value;
-  const zone = document.getElementById("dynamicFormArea");
+function changeAwardType(){
 
-  zone.innerHTML = "";
+  const type =
+    document.getElementById("awardType").value;
 
-  if (type === "staff") {
+  const zone =
+    document.getElementById("dynamicFormArea");
+
+  if(type==="school"){
+
     zone.innerHTML = `
-      <label>ชื่อครู/บุคลากร</label>
-      <input id="awardPerson" class="form-control" placeholder="กรอกชื่อครู">
+      <div class="alert alert-info">
+        🏫 รางวัลสถานศึกษา ไม่ต้องกรอกชื่อผู้รับรางวัล
+      </div>
     `;
   }
 
-  if (type === "student") {
-    zone.innerHTML = `
-      <label>ชื่อนักเรียน</label>
-      <input id="awardPerson" class="form-control" placeholder="กรอกชื่อนักเรียน">
+  if(type==="staff"){
 
-      <label class="mt-2">ชั้นเรียน</label>
-      <input id="awardClass" class="form-control" placeholder="เช่น ม.1/1">
+    zone.innerHTML = `
+
+      <label class="form-label">
+        ชื่อ-นามสกุลครู / บุคลากร
+      </label>
+
+      <input
+        id="awardPerson"
+        class="form-control"
+        placeholder="กรอกชื่อครูหรือบุคลากร">
+
     `;
   }
 
-  if (type === "school") {
+  if(type==="student"){
+
     zone.innerHTML = `
-      <div class="text-muted">รางวัลสถานศึกษา ไม่ต้องกรอกผู้รับ</div>
+
+      <label class="form-label">
+        ชื่อ-นามสกุลนักเรียน
+      </label>
+
+      <input
+        id="awardPerson"
+        class="form-control"
+        placeholder="กรอกชื่อนักเรียน">
+
+      <label class="form-label mt-3">
+        ชั้นเรียน
+      </label>
+
+      <input
+        id="awardClass"
+        class="form-control"
+        placeholder="เช่น ม.3/2">
+
     `;
   }
+
 }
 
 function renderDashboard() {
@@ -1077,77 +1280,139 @@ async function saveAward() {
 
   const btn = document.getElementById("btn-save");
 
+  // =====================
+  // ดึงข้อมูลจากฟอร์ม
+  // =====================
+
+  const type =
+    document.getElementById("awardType").value;
+
+  const year =
+    document.getElementById("awardYear").value.trim();
+
+  const dept =
+    document.getElementById("awardDept").value.trim();
+
+  const rewardLevel =
+    document.getElementById("awardLevel").value.trim();
+
+  const title =
+    document.getElementById("awardTitle").value.trim();
+
+  const giver =
+    document.getElementById("awardGiver").value.trim();
+
+  const file =
+    document.getElementById("awardFile").files[0];
+
+  let name = "";
+  let className = "";
+
+  // =====================
+  // ตรวจสอบข้อมูลพื้นฐาน
+  // =====================
+
+  if (!year) {
+    alert("กรุณาระบุปีการศึกษา");
+    return;
+  }
+
+  if (!rewardLevel) {
+    alert("กรุณาเลือกระดับรางวัล");
+    return;
+  }
+
+  if (!title) {
+    alert("กรุณากรอกชื่อรางวัล");
+    return;
+  }
+
+  if (!giver) {
+    alert("กรุณากรอกหน่วยงานที่มอบรางวัล");
+    return;
+  }
+
+  if (!file) {
+    alert("กรุณาแนบไฟล์ PDF");
+    return;
+  }
+
+  // =====================
+  // รางวัลครู
+  // =====================
+
+  if (type === "staff") {
+
+    name =
+      document.getElementById("awardPerson")?.value.trim() || "";
+
+    if (!name) {
+      alert("กรุณากรอกชื่อครู/บุคลากร");
+      return;
+    }
+
+    if (!dept) {
+      alert("กรุณาเลือกกลุ่มสาระ");
+      return;
+    }
+  }
+
+  // =====================
+  // รางวัลนักเรียน
+  // =====================
+
+  if (type === "student") {
+
+    name =
+      document.getElementById("awardPerson")?.value.trim() || "";
+
+    className =
+      document.getElementById("awardClass")?.value.trim() || "";
+
+    if (!name) {
+      alert("กรุณากรอกชื่อนักเรียน");
+      return;
+    }
+
+    if (!className) {
+      alert("กรุณากรอกชั้นเรียน");
+      return;
+    }
+
+    if (!dept) {
+      alert("กรุณาเลือกกลุ่มสาระ");
+      return;
+    }
+  }
+
+  // =====================
+  // ตรวจสอบไฟล์
+  // =====================
+
+  if (file.type !== "application/pdf") {
+    alert("อนุญาตเฉพาะไฟล์ PDF เท่านั้น");
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    alert("ไฟล์ใหญ่เกิน 10 MB");
+    return;
+  }
+
+  // =====================
+  // เริ่มบันทึก
+  // =====================
+
   btn.disabled = true;
-  btn.innerHTML =
-  `<span class="spinner-border spinner-border-sm"></span>
-   กำลังบันทึก...`;
+  btn.innerHTML = `
+    <i class="fa-solid fa-spinner fa-spin"></i>
+    กำลังบันทึก...
+  `;
 
   try {
 
-    const type =
-      document.getElementById("awardType").value;
-
-    const year =
-      document.getElementById("awardYear").value;
-
-    const rewardLevel =
-      document.getElementById("awardLevel").value;
-
-    const title =
-      document.getElementById("awardTitle").value;
-
-    const giver =
-      document.getElementById("awardGiver").value;
-
-    const fileInput =
-      document.getElementById("awardFile");
-
-    if(fileInput.files.length === 0){
-      throw new Error("กรุณาเลือกไฟล์ PDF");
-    }
-
-    const file = fileInput.files[0];
-
-    const fileData = await new Promise((resolve,reject)=>{
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        resolve(
-          reader.result.split(",")[1]
-        );
-      };
-
-      reader.onerror = reject;
-
-      reader.readAsDataURL(file);
-
-    });
-
-    let name = "";
-    let dept = "";
-    let className = "";
-
-    const person =
-      document.getElementById("awardPerson");
-
-    if(person){
-      name = person.value;
-    }
-
-    const deptInput =
-      document.getElementById("awardDept");
-
-    if(deptInput){
-      dept = deptInput.value;
-    }
-
-    const classInput =
-      document.getElementById("awardClass");
-
-    if(classInput){
-      className = classInput.value;
-    }
+    const fileBase64 =
+      await convertFileToBase64(file);
 
     const payload = {
       type,
@@ -1158,46 +1423,80 @@ async function saveAward() {
       name,
       dept,
       className,
-      fileData,
-      fileMimeType:file.type
+      fileData: fileBase64,
+      fileMimeType: file.type
     };
 
     const response = await fetch(
       GAS_WEB_APP_URL,
       {
-        method:"POST",
-        body:JSON.stringify(payload)
+        method: "POST",
+        body: JSON.stringify(payload)
       }
     );
 
     const result = await response.json();
 
-    if(result.status !== "success"){
+    if (result.status !== "success") {
       throw new Error(
-        result.message || "ไม่สามารถบันทึกได้"
+        result.message || "เกิดข้อผิดพลาด"
       );
     }
 
-    showSuccessPopup();
+    alert("🎉 บันทึกรางวัลสำเร็จ");
+
+    document.getElementById("awardForm").reset();
+
+    document.getElementById("pdfPreview").innerHTML = "";
 
     closeAwardForm();
 
     await loadAwards();
 
-    renderHomePage();
+    if (currentTab === "home") {
+      renderHomePage();
+    } else {
+      changeTab(currentTab);
+    }
 
-  }
-  catch(err){
+  } catch (err) {
 
     console.error(err);
 
-    showErrorPopup(
-      err.message || "บันทึกไม่สำเร็จ"
+    alert(
+      "❌ บันทึกไม่สำเร็จ\n\n" +
+      err.message
     );
-  }
 
-  btn.disabled = false;
-  btn.innerHTML = "บันทึก";
+  } finally {
+
+    btn.disabled = false;
+
+    btn.innerHTML = `
+      <i class="fa-solid fa-floppy-disk"></i>
+      บันทึก
+    `;
+  }
+}
+
+function convertFileToBase64(file) {
+
+  return new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      const base64 =
+        reader.result.split(",")[1];
+
+      resolve(base64);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsDataURL(file);
+  });
 }
 
 function setFilter(type, value) {
@@ -1250,6 +1549,25 @@ function showErrorPopup(msg){
   setTimeout(()=>{
     toast.remove();
   },4000);
+}
+
+function previewPDFName() {
+
+  const file =
+    document.getElementById("awardFile").files[0];
+
+  const preview =
+    document.getElementById("pdfPreview");
+
+  if (!file) {
+    preview.innerHTML = "";
+    return;
+  }
+
+  preview.innerHTML = `
+    <i class="fa-solid fa-file-pdf text-danger"></i>
+    ${file.name}
+  `;
 }
 
 </script>
