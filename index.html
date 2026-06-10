@@ -1203,10 +1203,7 @@ function closeSearchScreen() {
 }
 
 function searchAwards() {
-  // 1. ดึงค่าคำค้นหา
-  const keyword = document.getElementById("search-input").value.toLowerCase();
-  
-  // 2. ดึงค่าตัวกรองจากหน้า Search โดยตรง
+  const keyword = document.getElementById("search-input").value.toLowerCase().trim();
   const fYear = document.getElementById("filter-year").value;
   const fLevel = document.getElementById("filter-level").value;
   const fDept = document.getElementById("filter-dept").value;
@@ -1215,15 +1212,25 @@ function searchAwards() {
 
   ["school", "staff", "student"].forEach(type => {
     (allAwardsData[type] || []).forEach(item => {
-      const matchText = JSON.stringify(item).toLowerCase();
+      
+      // 1. สร้างข้อความสำหรับค้นหา (รวมทุกฟิลด์ที่สำคัญ)
+      const textToSearch = (
+        (item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "") + 
+        (item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "") + 
+        (item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "") +
+        (item["หน่วยงานที่มอบรางวัล"] || "")
+      ).toLowerCase();
 
-      // เช็คเงื่อนไขจากค่าที่ดึงมาใหม่
-      const filterMatch =
-        (fYear === "all" || item["ปีการศึกษา"] == fYear) &&
-        (fLevel === "all" || item["ระดับรางวัล"] == fLevel) &&
-        (fDept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == fDept);
+      // 2. เช็คเงื่อนไข Filter
+      const matchYear = (fYear === "all" || item["ปีการศึกษา"] == fYear);
+      const matchLevel = (fLevel === "all" || item["ระดับรางวัล"] == fLevel);
+      const matchDept = (fDept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == fDept);
 
-      if (matchText.includes(keyword) && filterMatch) {
+      // 3. เช็คเงื่อนไข keyword (ถ้าช่องว่าง ให้ถือว่าผ่าน)
+      const matchKeyword = (keyword === "" || textToSearch.includes(keyword));
+
+      // ถ้าผ่านทุกเงื่อนไข ให้เก็บข้อมูล
+      if (matchKeyword && matchYear && matchLevel && matchDept) {
         result.push({ type, item });
       }
     });
