@@ -467,12 +467,12 @@ body{
 }
       
 /* =========================
-   FORM MODAL
+   FORM MODAL (PREMIUM RED-GREY THEME)
 ========================= */
 .award-form-modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.45);
+    background:rgba(0,0,0,.5);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -489,20 +489,12 @@ body{
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    box-shadow:
-      0 20px 60px rgba(0,0,0,.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER: แดงเข้ม */
 .award-form-header{
-    background:
-      linear-gradient(
-        135deg,
-        #1E3A8A,
-        #2563EB
-      );
+    background: linear-gradient(135deg, #881313, #7f1d1d);
     color:#fff;
     padding:18px 24px;
     display:flex;
@@ -516,15 +508,12 @@ body{
     font-weight:700;
 }
 
-/* ปุ่มปิด */
-
 .award-form-header button{
     width:42px;
     height:42px;
     border:none;
     border-radius:50%;
-    background:
-      rgba(255,255,255,.15);
+    background: rgba(255,255,255,.2);
     color:#fff;
     font-size:20px;
     cursor:pointer;
@@ -532,15 +521,11 @@ body{
 }
 
 .award-form-header button:hover{
-    background:
-      rgba(255,255,255,.30);
+    background: rgba(255,255,255,.4);
     transform:scale(1.05);
 }
 
-/* =========================
-   BODY
-========================= */
-
+/* BODY */
 .award-form-body{
     flex:1;
     overflow-y:auto;
@@ -548,21 +533,10 @@ body{
     background:#F8FAFC;
 }
 
-/* Scrollbar */
+.award-form-body::-webkit-scrollbar{ width:8px; }
+.award-form-body::-webkit-scrollbar-thumb{ background:#CBD5E1; border-radius:20px; }
 
-.award-form-body::-webkit-scrollbar{
-    width:8px;
-}
-
-.award-form-body::-webkit-scrollbar-thumb{
-    background:#CBD5E1;
-    border-radius:20px;
-}
-
-/* =========================
-   FORM INPUT
-========================= */
-
+/* INPUT STYLING */
 .award-form-body label{
     font-weight:600;
     color:#334155;
@@ -570,8 +544,7 @@ body{
     display:block;
 }
 
-.form-control,
-.form-select{
+.form-control, .form-select{
     min-height:48px;
     border-radius:12px !important;
     border:1px solid #CBD5E1;
@@ -579,46 +552,24 @@ body{
     transition:.25s;
 }
 
-.form-control:focus,
-.form-select:focus{
-    border-color:#2563EB;
-    box-shadow:
-      0 0 0 4px
-      rgba(37,99,235,.15);
+.form-control:focus, .form-select:focus{
+    border-color:#881313;
+    box-shadow: 0 0 0 4px rgba(136, 19, 19, .15);
 }
 
-/* =========================
-   PDF PREVIEW
-========================= */
-
+/* PDF PREVIEW: โทนแดงอ่อน */
 #pdfPreview{
-    background:#EFF6FF;
-    border:1px solid #BFDBFE;
-    color:#1D4ED8;
+    background:#FEF2F2;
+    border:1px solid #FECACA;
+    color:#991B1B;
     padding:10px 14px;
     border-radius:10px;
     margin-top:10px;
     font-weight:500;
 }
 
-/* =========================
-   ACTION BAR
-========================= */
-
-.form-action-bar{
-    padding:18px;
-    background:#fff;
-    border-top:1px solid #E5E7EB;
-    display:flex;
-    gap:12px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn-save,
-.btn-cancel{
+/* BUTTONS */
+.btn-save, .btn-cancel{
     flex:1;
     height:54px;
     border:none;
@@ -627,38 +578,28 @@ body{
     font-weight:700;
     cursor:pointer;
     transition:.25s;
-    box-shadow:
-      0 5px 15px rgba(0,0,0,.08);
 }
 
-/* SAVE */
-
+/* SAVE: แดงเข้ม */
 .btn-save{
-    background:
-      linear-gradient(
-        135deg,
-        #2563EB,
-        #1D4ED8
-      );
+    background: linear-gradient(135deg, #881313, #7f1d1d);
     color:#fff;
+    box-shadow: 0 5px 15px rgba(136, 19, 19,.25);
 }
 
 .btn-save:hover{
     transform:translateY(-2px);
-    box-shadow:
-      0 12px 24px
-      rgba(37,99,235,.25);
+    box-shadow: 0 10px 20px rgba(136, 19, 19,.35);
 }
 
-/* CANCEL */
-
+/* CANCEL: เทาหรูหรา */
 .btn-cancel{
-    background:#F1F5F9;
-    color:#334155;
+    background:#E2E8F0;
+    color:#475569;
 }
 
 .btn-cancel:hover{
-    background:#E2E8F0;
+    background:#CBD5E1;
     transform:translateY(-2px);
 }
 
