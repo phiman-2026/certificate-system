@@ -1320,33 +1320,18 @@ function renderDashboard() {
 }
 
 async function saveAward() {
-
   const btn = document.getElementById("btn-save");
 
   // =====================
   // ดึงข้อมูลจากฟอร์ม
   // =====================
-
-  const type =
-    document.getElementById("awardType").value;
-
-  const year =
-    document.getElementById("awardYear").value.trim();
-
-  const dept =
-    document.getElementById("awardDept").value.trim();
-
-  const rewardLevel =
-    document.getElementById("awardLevel").value.trim();
-
-  const title =
-    document.getElementById("awardTitle").value.trim();
-
-  const giver =
-    document.getElementById("awardGiver").value.trim();
-
-  const file =
-    document.getElementById("awardFile").files[0];
+  const type = document.getElementById("awardType").value;
+  const year = document.getElementById("awardYear").value.trim();
+  const dept = document.getElementById("awardDept").value.trim();
+  const rewardLevel = document.getElementById("awardLevel").value.trim();
+  const title = document.getElementById("awardTitle").value.trim();
+  const giver = document.getElementById("awardGiver").value.trim();
+  const file = document.getElementById("awardFile").files[0];
 
   let name = "";
   let className = "";
@@ -1354,227 +1339,67 @@ async function saveAward() {
   // =====================
   // VALIDATION
   // =====================
-
-  if (!year) {
+  if (!year || !rewardLevel || !title || !giver || !file) {
     return Swal.fire({
       icon: "warning",
       title: "ข้อมูลไม่ครบ",
-      text: "กรุณาระบุปีการศึกษา",
+      text: "กรุณากรอกข้อมูลให้ครบและแนบไฟล์ PDF",
       confirmButtonColor: "#8B0000"
     });
   }
-
-  if (!rewardLevel) {
-    return Swal.fire({
-      icon: "warning",
-      title: "ข้อมูลไม่ครบ",
-      text: "กรุณาเลือกระดับรางวัล",
-      confirmButtonColor: "#8B0000"
-    });
-  }
-
-  if (!title) {
-    return Swal.fire({
-      icon: "warning",
-      title: "ข้อมูลไม่ครบ",
-      text: "กรุณากรอกชื่อรางวัล",
-      confirmButtonColor: "#8B0000"
-    });
-  }
-
-  if (!giver) {
-    return Swal.fire({
-      icon: "warning",
-      title: "ข้อมูลไม่ครบ",
-      text: "กรุณากรอกหน่วยงานที่มอบรางวัล",
-      confirmButtonColor: "#8B0000"
-    });
-  }
-
-  if (!file) {
-    return Swal.fire({
-      icon: "warning",
-      title: "ยังไม่ได้เลือกไฟล์",
-      text: "กรุณาแนบไฟล์ PDF",
-      confirmButtonColor: "#8B0000"
-    });
-  }
-
-  // =====================
-  // STAFF
-  // =====================
 
   if (type === "staff") {
-
-    name =
-      document.getElementById("awardPerson")?.value.trim() || "";
-
-    if (!name) {
-      return Swal.fire({
-        icon: "warning",
-        title: "ข้อมูลไม่ครบ",
-        text: "กรุณากรอกชื่อครู/บุคลากร",
-        confirmButtonColor: "#8B0000"
-      });
-    }
-
-    if (!dept) {
-      return Swal.fire({
-        icon: "warning",
-        title: "ข้อมูลไม่ครบ",
-        text: "กรุณาเลือกกลุ่มสาระ",
-        confirmButtonColor: "#8B0000"
-      });
-    }
+    name = document.getElementById("awardPerson")?.value.trim() || "";
+    if (!name || !dept) return Swal.fire({ icon: "warning", title: "ข้อมูลไม่ครบ", text: "กรุณากรอกชื่อครูและเลือกกลุ่มสาระ", confirmButtonColor: "#8B0000" });
   }
-
-  // =====================
-  // STUDENT
-  // =====================
 
   if (type === "student") {
-
-    name =
-      document.getElementById("awardPerson")?.value.trim() || "";
-
-    className =
-      document.getElementById("awardClass")?.value.trim() || "";
-
-    if (!name) {
-      return Swal.fire({
-        icon: "warning",
-        title: "ข้อมูลไม่ครบ",
-        text: "กรุณากรอกชื่อนักเรียน",
-        confirmButtonColor: "#8B0000"
-      });
-    }
-
-    if (!className) {
-      return Swal.fire({
-        icon: "warning",
-        title: "ข้อมูลไม่ครบ",
-        text: "กรุณากรอกชั้นเรียน",
-        confirmButtonColor: "#8B0000"
-      });
-    }
-
-    if (!dept) {
-      return Swal.fire({
-        icon: "warning",
-        title: "ข้อมูลไม่ครบ",
-        text: "กรุณาเลือกกลุ่มสาระ",
-        confirmButtonColor: "#8B0000"
-      });
-    }
+    name = document.getElementById("awardPerson")?.value.trim() || "";
+    className = document.getElementById("awardClass")?.value.trim() || "";
+    if (!name || !className || !dept) return Swal.fire({ icon: "warning", title: "ข้อมูลไม่ครบ", text: "กรุณากรอกชื่อนักเรียน ชั้นเรียน และกลุ่มสาระ", confirmButtonColor: "#8B0000" });
   }
 
-  // =====================
-  // FILE CHECK
-  // =====================
-
-  if (file.type !== "application/pdf") {
-
-    return Swal.fire({
-      icon: "error",
-      title: "ไฟล์ไม่ถูกต้อง",
-      text: "อนุญาตเฉพาะไฟล์ PDF เท่านั้น",
-      confirmButtonColor: "#8B0000"
-    });
-
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-
-    return Swal.fire({
-      icon: "error",
-      title: "ไฟล์ใหญ่เกินกำหนด",
-      text: "กรุณาเลือกไฟล์ไม่เกิน 10 MB",
-      confirmButtonColor: "#8B0000"
-    });
-
-  }
+  if (file.type !== "application/pdf") return Swal.fire({ icon: "error", title: "ไฟล์ไม่ถูกต้อง", text: "อนุญาตเฉพาะไฟล์ PDF เท่านั้น", confirmButtonColor: "#8B0000" });
+  if (file.size > 10 * 1024 * 1024) return Swal.fire({ icon: "error", title: "ไฟล์ใหญ่เกินกำหนด", text: "ขนาดไฟล์ต้องไม่เกิน 10 MB", confirmButtonColor: "#8B0000" });
 
   // =====================
   // LOADING
   // =====================
-
   Swal.fire({
     title: "กำลังบันทึกข้อมูล",
     text: "กรุณารอสักครู่...",
     allowOutsideClick: false,
-    allowEscapeKey: false,
-    confirmButtonColor: "#8B0000",
-    didOpen: () => {
-      Swal.showLoading();
-    }
+    didOpen: () => Swal.showLoading()
   });
 
   btn.disabled = true;
-
-  btn.innerHTML = `
-    <i class="fa-solid fa-spinner fa-spin"></i>
-    กำลังบันทึก...
-  `;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
 
   try {
+    const fileBase64 = await convertFileToBase64(file);
+    const payload = { type, year, rewardLevel, title, giver, name, dept, className, fileData: fileBase64, fileMimeType: file.type };
 
-    const fileBase64 =
-      await convertFileToBase64(file);
-
-    const payload = {
-      type,
-      year,
-      rewardLevel,
-      title,
-      giver,
-      name,
-      dept,
-      className,
-      fileData: fileBase64,
-      fileMimeType: file.type
-    };
-
-    const response = await fetch(
-      GAS_WEB_APP_URL,
-      {
-        method: "POST",
-        body: JSON.stringify(payload)
-      }
-    );
-
+    const response = await fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
     const result = await response.json();
 
-    if (result.status !== "success") {
-      throw new Error(
-        result.message || "เกิดข้อผิดพลาด"
-      );
-    }
+    if (result.status !== "success") throw new Error(result.message || "เกิดข้อผิดพลาด");
 
-    Swal.close();
-
-    await Swal.fire({
-      icon: "success",
-      title: "บันทึกรางวัลสำเร็จ",
-      html: `
-        <div style="font-size:15px">
-          เพิ่มข้อมูลรางวัลเรียบร้อยแล้ว
-          <br><br>
-          <b style="color:#8B0000">${title}</b>
-        </div>
-      `,
-      confirmButtonColor: "#8B0000"
-    });
-
+    // 1. ปิดฟอร์มและเคลียร์ค่าทันที
+    closeAwardForm();
     document.getElementById("awardForm").reset();
-
     document.getElementById("pdfPreview").innerHTML = "";
-
     changeAwardType();
 
-    closeAwardForm();
+    // 2. แสดงแจ้งเตือนความสำเร็จแบบปิดเองอัตโนมัติ
+    Swal.fire({
+      icon: "success",
+      title: "บันทึกรางวัลสำเร็จ",
+      showConfirmButton: false,
+      timer: 2000
+    });
 
+    // 3. รีเฟรชข้อมูลใหม่
     await loadAwards();
-
     if (currentTab === "home") {
       renderHomePage();
     } else {
@@ -1582,26 +1407,11 @@ async function saveAward() {
     }
 
   } catch (err) {
-
     console.error(err);
-
-    Swal.close();
-
-    Swal.fire({
-      icon: "error",
-      title: "บันทึกไม่สำเร็จ",
-      text: err.message,
-      confirmButtonColor: "#8B0000"
-    });
-
+    Swal.fire({ icon: "error", title: "บันทึกไม่สำเร็จ", text: err.message, confirmButtonColor: "#8B0000" });
   } finally {
-
     btn.disabled = false;
-
-    btn.innerHTML = `
-      <i class="fa-solid fa-floppy-disk"></i>
-      บันทึก
-    `;
+    btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> บันทึก`;
   }
 }
 
