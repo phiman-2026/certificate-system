@@ -774,9 +774,9 @@ body{
     </div>
     <div class="award-form-body">
       <form id="awardForm">
-       <div style="display: flex; gap: 15px; width: 100%;">
+<div style="display: flex; flex-wrap: wrap; gap: 15px; width: 100%;">
     
-    <div style="flex: 1;">
+    <div style="flex: 1 1 200px;">
         <label class="form-label">ประเภทรางวัล</label>
         <select id="awardType" class="form-select" onchange="changeAwardType()">
             <option value="school">รางวัลสถานศึกษา</option>
@@ -785,7 +785,7 @@ body{
         </select>
     </div>
 
-    <div style="flex: 1;">
+    <div style="flex: 1 1 150px;">
         <label class="form-label">ปีการศึกษา</label>
         <input id="awardYear" type="number" value="2569" class="form-control">
     </div>
