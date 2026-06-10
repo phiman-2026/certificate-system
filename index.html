@@ -491,15 +491,18 @@ body{
 /* =========================
    FORM MODAL: PREMIUM RED-GREY THEME
 ========================= */
+/* แก้ไขจากของเดิม */
 .award-form-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6); /* เพิ่มความเข้มพื้นหลังเพื่อให้เห็นโมดัลชัดขึ้น */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 999999; /* ปรับให้สูงที่สุดในระบบ */
     padding: 20px;
+    /* เพิ่มส่วนนี้เพื่อให้แน่ใจว่าโมดัลไม่โดนตัด */
+    overflow-y: auto; 
 }
 
 .award-form-container {
@@ -696,70 +699,44 @@ body{
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loading-screen" class="loading-screen">
-
-  <img
-    src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png"
-    class="loading-logo"
-    alt="logo">
-
+  <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="loading-logo" alt="logo">
   <div class="loading-spinner"></div>
   <div class="loading-title">PMS Digital Honor App</div>
   <div class="loading-sub">กำลังโหลดข้อมูล...</div>
-
 </div>
 
-<!-- APP -->
 <div class="app-container">
-
-  <!-- HEADER -->
   <header class="mobile-header">
-
-      <div class="logo-box">
-  <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
-</div>
-
-<div class="system-title">
-  <h1>PMS Digital Honor App</h1>
-  <p>โรงเรียนพิมานพิทยาสรรค์</p>
-</div>
-<div class="search-box" onclick="openSearchScreen()">
+    <div class="logo-box">
+      <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png">
+    </div>
+    <div class="system-title">
+      <h1>PMS Digital Honor App</h1>
+      <p>โรงเรียนพิมานพิทยาสรรค์</p>
+    </div>
+    <div class="search-box" onclick="openSearchScreen()">
       <i class="fa-solid fa-search"></i>
       <span>ค้นหารางวัล...</span>
     </div>
-
     <button class="add-btn" onclick="openAwardForm()">
       <i class="fa-solid fa-plus"></i>
     </button>
-
   </header>
 
-  <!-- CONTENT -->
   <main class="content-wrap">
     <div id="app-content"></div>
   </main>
-
 </div>
 
-<!-- SEARCH -->
 <div id="search-screen" class="search-screen d-none">
-
   <div class="search-header">
-
     <button class="search-back-btn" onclick="closeSearchScreen()">
       <i class="fa-solid fa-arrow-left"></i>
     </button>
-
-    <input id="search-input"
-           placeholder="ค้นหารางวัล..."
-           onkeyup="searchAwards()">
-
+    <input id="search-input" placeholder="ค้นหารางวัล..." onkeyup="searchAwards()">
   </div>
-
-  <!-- FILTER PANEL -->
   <div class="search-filter-panel">
-
     <label class="filter-label">ปีการศึกษา</label>
     <select id="filter-year" onchange="setFilter('year', this.value)" class="filter-select">
       <option value="all">ทั้งหมด</option>
@@ -767,7 +744,6 @@ body{
       <option value="2569">2569</option>
       <option value="2568">2568</option>
     </select>
-
     <label class="filter-label">ระดับรางวัล</label>
     <select id="filter-level" onchange="setFilter('level', this.value)" class="filter-select">
       <option value="all">ทั้งหมด</option>
@@ -775,7 +751,6 @@ body{
       <option value="ระดับจังหวัด">ระดับจังหวัด</option>
       <option value="ระดับชาติ">ระดับชาติ</option>
     </select>
-
     <label class="filter-label">กลุ่มสาระ</label>
     <select id="filter-dept" onchange="setFilter('dept', this.value)" class="filter-select">
       <option value="all">ทั้งหมด</option>
@@ -783,232 +758,101 @@ body{
       <option value="คณิตศาสตร์">คณิตศาสตร์</option>
       <option value="ภาษาไทย">ภาษาไทย</option>
     </select>
-
   </div>
-
   <div id="search-result-container" class="content-wrap"></div>
-
 </div>
 
-<!-- FORM MODAL (สำคัญ ต้องเก็บ) -->
 <div id="awardFormModal" class="award-form-modal d-none">
-
   <div class="award-form-container">
-
     <div class="award-form-header">
       <h5>บันทึกรางวัลใหม่</h5>
       <button onclick="closeAwardForm()">✕</button>
     </div>
-
     <div class="award-form-body">
-
-     <form id="awardForm">
-
-  <!-- ประเภท + ปีการศึกษา -->
-  <div class="row g-3">
-
-    <div class="col-md-6">
-
-      <label class="form-label">
-        ประเภทรางวัล
-      </label>
-
-      <select id="awardType"
-              class="form-select"
-              onchange="changeAwardType()">
-
-        <option value="school">
-          รางวัลสถานศึกษา
-        </option>
-
-        <option value="staff">
-          รางวัลครู / บุคลากร
-        </option>
-
-        <option value="student">
-          รางวัลนักเรียน
-        </option>
-
-      </select>
-
+      <form id="awardForm">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">ประเภทรางวัล</label>
+            <select id="awardType" class="form-select" onchange="changeAwardType()">
+              <option value="school">รางวัลสถานศึกษา</option>
+              <option value="staff">รางวัลครู / บุคลากร</option>
+              <option value="student">รางวัลนักเรียน</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">ปีการศึกษา</label>
+            <input id="awardYear" type="number" value="2569" class="form-control">
+          </div>
+        </div>
+        <div id="dynamicFormArea" class="mt-3">
+          <div class="alert alert-info">🏫 รางวัลสถานศึกษา ไม่ต้องกรอกชื่อผู้รับรางวัล</div>
+        </div>
+        <div id="deptArea" class="mt-3">
+          <label>กลุ่มสาระ</label>
+          <select id="awardDept" class="form-select">
+            <option value="">เลือกกลุ่มสาระ</option>
+            <option>ภาษาไทย</option>
+            <option>คณิตศาสตร์</option>
+            <option>วิทยาศาสตร์และเทคโนโลยี</option>
+            <option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+            <option>ภาษาต่างประเทศ</option>
+            <option>สุขศึกษาและพลศึกษา</option>
+            <option>ศิลปะ</option>
+            <option>การงานอาชีพ</option>
+            <option>กิจกรรมพัฒนาผู้เรียน</option>
+          </select>
+        </div>
+        <div class="mt-3">
+          <label class="form-label">ระดับรางวัล</label>
+          <select id="awardLevel" class="form-select">
+            <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+            <option value="ระดับเขตพื้นที่">ระดับเขตพื้นที่</option>
+            <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+            <option value="ระดับภาค">ระดับภาค</option>
+            <option value="ระดับชาติ">ระดับชาติ</option>
+            <option value="ระดับนานาชาติ">ระดับนานาชาติ</option>
+          </select>
+        </div>
+        <div class="mt-3">
+          <label class="form-label">ชื่อรางวัล / ผลงานเกียรติยศ</label>
+          <input id="awardTitle" type="text" class="form-control" placeholder="กรอกชื่อรางวัล">
+        </div>
+        <div class="mt-3">
+          <label class="form-label">หน่วยงานที่มอบรางวัล</label>
+          <input id="awardGiver" type="text" class="form-control" placeholder="กรอกชื่อหน่วยงาน">
+        </div>
+        <div class="mt-3">
+          <label class="form-label">ไฟล์เกียรติบัตร PDF</label>
+          <input id="awardFile" type="file" accept=".pdf" class="form-control" onchange="previewPDFName()">
+          <div id="pdfPreview" class="mt-2 text-success fw-semibold"></div>
+        </div>
+      </form>
     </div>
-
-    <div class="col-md-6">
-
-      <label class="form-label">
-        ปีการศึกษา
-      </label>
-
-      <input
-        id="awardYear"
-        type="number"
-        value="2569"
-        class="form-control">
-
-    </div>
-
-  </div>
-
-  <!-- Dynamic Area -->
-  <div id="dynamicFormArea" class="mt-3">
-
-    <div class="alert alert-info">
-      🏫 รางวัลสถานศึกษา ไม่ต้องกรอกชื่อผู้รับรางวัล
-    </div>
-
-  </div>
-
-  <!-- กลุ่มสาระ -->
-<div id="deptArea" class="mt-3">
-
-<label>กลุ่มสาระ</label>
-
-<select id="awardDept"
-class="form-select">
-
-<option value="">เลือกกลุ่มสาระ</option>
-
-<option>ภาษาไทย</option>
-<option>คณิตศาสตร์</option>
-<option>วิทยาศาสตร์และเทคโนโลยี</option>
-<option>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-<option>ภาษาต่างประเทศ</option>
-<option>สุขศึกษาและพลศึกษา</option>
-<option>ศิลปะ</option>
-<option>การงานอาชีพ</option>
-
-<option>กิจกรรมพัฒนาผู้เรียน</option>
-
-</select>
-
-</div>
-
-  <!-- ระดับรางวัล -->
-  <div class="mt-3">
-
-    <label class="form-label">
-      ระดับรางวัล
-    </label>
-
-    <select id="awardLevel"
-            class="form-select">
-
-      <option value="ระดับโรงเรียน">
-        ระดับโรงเรียน
-      </option>
-
-      <option value="ระดับเขตพื้นที่">
-        ระดับเขตพื้นที่
-      </option>
-
-      <option value="ระดับจังหวัด">
-        ระดับจังหวัด
-      </option>
-
-      <option value="ระดับภาค">
-        ระดับภาค
-      </option>
-
-      <option value="ระดับชาติ">
-        ระดับชาติ
-      </option>
-
-      <option value="ระดับนานาชาติ">
-        ระดับนานาชาติ
-      </option>
-
-    </select>
-
-  </div>
-
-  <!-- ชื่อรางวัล -->
-  <div class="mt-3">
-
-    <label class="form-label">
-      ชื่อรางวัล / ผลงานเกียรติยศ
-    </label>
-
-    <input
-      id="awardTitle"
-      type="text"
-      class="form-control"
-      placeholder="กรอกชื่อรางวัล">
-
-  </div>
-
-  <!-- หน่วยงาน -->
-  <div class="mt-3">
-
-    <label class="form-label">
-      หน่วยงานที่มอบรางวัล
-    </label>
-
-    <input
-      id="awardGiver"
-      type="text"
-      class="form-control"
-      placeholder="กรอกชื่อหน่วยงาน">
-
-  </div>
-
-  <!-- PDF -->
-  <div class="mt-3">
-
-    <label class="form-label">
-      ไฟล์เกียรติบัตร PDF
-    </label>
-
-    <input
-      id="awardFile"
-      type="file"
-      accept=".pdf"
-      class="form-control"
-      onchange="previewPDFName()">
-
-    <div id="pdfPreview"
-         class="mt-2 text-success fw-semibold">
-    </div>
-
-  </div>
-
-</form>
-
-    </div>
-
     <div class="form-action-bar">
       <button class="btn-cancel" onclick="closeAwardForm()">ยกเลิก</button>
       <button id="btn-save" class="btn-save" onclick="saveAward()">บันทึก</button>
     </div>
-
   </div>
-
 </div>
 
-<!-- TAB BAR -->
 <nav class="bottom-tabbar">
-
   <button class="tab-item active" id="nav-home" onclick="changeTab('home')">
     <i class="fa-solid fa-house"></i><span>หน้าแรก</span>
   </button>
-
   <button class="tab-item" id="nav-school" onclick="changeTab('school')">
     <i class="fa-solid fa-school"></i><span>สถานศึกษา</span>
   </button>
-
   <button class="tab-item" id="nav-staff" onclick="changeTab('staff')">
     <i class="fa-solid fa-user-tie"></i><span>ครู</span>
   </button>
-
   <button class="tab-item" id="nav-student" onclick="changeTab('student')">
     <i class="fa-solid fa-user-graduate"></i><span>นักเรียน</span>
   </button>
-
 </nav>
 
 <div id="toastBox"></div>
 
 </body>
-
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
