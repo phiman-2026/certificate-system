@@ -489,36 +489,34 @@ body{
 }
       
 /* =========================
-   FORM MODAL: PREMIUM RED-GREY THEME
+   FORM MODAL: PREMIUM RED-GREY THEME (ปรับปรุงให้ Responsive สวยงาม)
 ========================= */
-/* แก้ไขจากของเดิม */
 .award-form-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6); /* เพิ่มความเข้มพื้นหลังเพื่อให้เห็นโมดัลชัดขึ้น */
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999999; /* ปรับให้สูงที่สุดในระบบ */
-    padding: 20px;
-    /* เพิ่มส่วนนี้เพื่อให้แน่ใจว่าโมดัลไม่โดนตัด */
-    overflow-y: auto; 
+    z-index: 999999;
+    padding: 0; /* ปรับเป็น 0 เพื่อให้บนมือถือแสดงผลได้เต็มจอ */
 }
 
 .award-form-container {
-    width: 100%;
-    max-width: 700px; /* ปรับขนาดให้พอดี ไม่กว้างเกินไป */
-    max-height: 90vh;
+    width: 95%;          /* ให้ขยายตัวตามหน้าจอ แต่มีช่องว่างขอบเล็กน้อย */
+    max-width: 700px;    /* จำกัดความกว้างไม่ให้ยืดจนเกินไปบนจอใหญ่ */
+    max-height: 90vh;    /* สูงสุดไม่เกิน 90% ของหน้าจอ */
     background: #fff;
     border-radius: 24px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: auto;        /* จัดให้อยู่กึ่งกลางเสมอ */
 }
 
 .award-form-header {
-    background: #881313; /* แดงเข้ม */
+    background: #881313;
     color: #fff;
     padding: 20px 25px;
     display: flex;
@@ -537,7 +535,7 @@ body{
     height: 40px;
     border: none;
     border-radius: 50%;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     color: #fff;
     font-size: 18px;
     cursor: pointer;
@@ -545,7 +543,7 @@ body{
 }
 
 .award-form-header button:hover {
-    background: rgba(255,255,255,0.4);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .award-form-body {
@@ -568,6 +566,7 @@ body{
     border-radius: 12px !important;
     border: 1px solid #cbd5e1 !important;
     font-size: 0.95rem;
+    width: 100%; /* ให้ Input ขยายเต็มความกว้างของฟอร์ม */
 }
 
 .form-control:focus, .form-select:focus {
@@ -624,7 +623,11 @@ body{
 
 /* Mobile responsive */
 @media(max-width: 768px) {
-    .award-form-container { border-radius: 0; height: 100vh; }
+    .award-form-container { 
+        border-radius: 24px 24px 0 0; /* มุมมนเฉพาะด้านบนเมื่อเป็นหน้าจอมือถือ */
+        height: 90vh;               /* ให้สูงขึ้นบนมือถือ */
+        margin-top: auto;           /* ดันฟอร์มลงมาด้านล่าง */
+    }
 }
 
 /* =========================
