@@ -503,16 +503,17 @@ body{
 }
 
 .award-form-container {
-    width: 95%;          /* ให้ขยายตัวตามหน้าจอ แต่มีช่องว่างขอบเล็กน้อย */
-    max-width: 700px;    /* จำกัดความกว้างไม่ให้ยืดจนเกินไปบนจอใหญ่ */
-    max-height: 90vh;    /* สูงสุดไม่เกิน 90% ของหน้าจอ */
+    width: 90%;          /* ขยายกว้างขึ้นบนหน้าจอเล็ก */
+    max-width: 800px;    /* เพิ่มพื้นที่ให้กว้างขึ้นอีกนิดบนหน้าจอคอม */
+    height: auto;        /* ปรับให้ความสูงยืดตามเนื้อหา */
+    max-height: 90vh;    /* แต่ยังล็อคไว้ไม่ให้ล้นหน้าจอ */
     background: #fff;
     border-radius: 24px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    margin: auto;        /* จัดให้อยู่กึ่งกลางเสมอ */
+    margin: auto;        /* ตัวนี้สำคัญมาก: ช่วยให้ฟอร์มอยู่กึ่งกลางจอเสมอ */
 }
 
 .award-form-header {
