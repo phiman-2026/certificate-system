@@ -352,27 +352,21 @@ body{
     font-weight:600;
 }
 
-/* Container สำหรับใส่การ์ดในหน้าค้นหาหรือหน้าหลัก */
+/* เพิ่มเติมจากที่คุณมี เพื่อรองรับหน้าค้นหา */
 .cards-grid {
     display: grid;
     gap: 20px;
-    padding: 15px;
-    /* มือถือ: 1 คอลัมน์ */
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* มือถือ */
 }
 
-/* แท็บเล็ต: 2 คอลัมน์ */
-@media (min-width: 768px) {
-    .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+@media (min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } } /* แท็บเล็ต */
+@media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(4, 1fr); } } /* คอม */
 
-/* คอมพิวเตอร์: 4 คอลัมน์ */
-@media (min-width: 1024px) {
-    .cards-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+.empty-box {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: #94a3b8;
 }
 
 /* =========================
@@ -777,40 +771,45 @@ body{
     <button class="search-back-btn" onclick="closeSearchScreen()">
       <i class="fa-solid fa-arrow-left"></i>
     </button>
-    <input id="search-input" placeholder="ค้นหารางวัล..." onkeyup="searchAwards()">
+    <input id="search-input" placeholder="ค้นหาชื่อรางวัล, ผู้รับ, หน่วยงาน..." onkeyup="searchAwards()">
   </div>
-<div class="search-filter-panel">
+
+  <div class="search-filter-panel">
     <div class="filter-group">
-        <label class="filter-label">ปีการศึกษา</label>
-        <select id="filter-year" onchange="searchAwards()" class="filter-select">
-            <option value="all">ทั้งหมด</option>
-            <option value="2570">2570</option>
-            <option value="2569">2569</option>
-        </select>
+      <label class="filter-label">ปีการศึกษา</label>
+      <select id="filter-year" onchange="searchAwards()" class="filter-select">
+        <option value="all">ทั้งหมด</option>
+        <option value="2570">2570</option>
+        <option value="2569">2569</option>
+      </select>
     </div>
+    <div class="filter-group">
+      <label class="filter-label">ระดับรางวัล</label>
+      <select id="filter-level" onchange="searchAwards()" class="filter-select">
+        <option value="all">ทั้งหมด</option>
+        <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+        <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+        <option value="ระดับชาติ">ระดับชาติ</option>
+      </select>
     </div>
-
-<select id="filter-level" onchange="searchAwards()" class="filter-select">
-  <option value="all">ทั้งหมด</option>
-  <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-  <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-  <option value="ระดับชาติ">ระดับชาติ</option>
-</select>
-
-<select id="filter-dept" onchange="searchAwards()" class="filter-select">
-  <option value="all">ทั้งหมด</option>
-  <option value="ภาษาไทย">ภาษาไทย</option>
-  <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-  <option value="วิทยาศาสตร์และเทคโนโลยี">วิทยาศาสตร์และเทคโนโลยี</option>
-  <option value="สังคมศึกษา ศาสนา และวัฒนธรรม">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
-  <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-  <option value="สุขศึกษาและพลศึกษา">สุขศึกษาและพลศึกษา</option>
-  <option value="ศิลปะ">ศิลปะ</option>
-  <option value="การงานอาชีพ">การงานอาชีพ</option>
-  <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
-</select>
+    <div class="filter-group">
+      <label class="filter-label">กลุ่มสาระ</label>
+      <select id="filter-dept" onchange="searchAwards()" class="filter-select">
+        <option value="all">ทั้งหมด</option>
+        <option value="ภาษาไทย">ภาษาไทย</option>
+        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+        <option value="วิทยาศาสตร์และเทคโนโลยี">วิทยาศาสตร์และเทคโนโลยี</option>
+        <option value="สังคมศึกษา ศาสนา และวัฒนธรรม">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+        <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
+        <option value="สุขศึกษาและพลศึกษา">สุขศึกษาและพลศึกษา</option>
+        <option value="ศิลปะ">ศิลปะ</option>
+        <option value="การงานอาชีพ">การงานอาชีพ</option>
+        <option value="กิจกรรมพัฒนาผู้เรียน">กิจกรรมพัฒนาผู้เรียน</option>
+      </select>
+    </div>
   </div>
-  <div id="search-result-container" class="content-wrap"></div>
+
+  <div id="search-result-container" style="padding: 15px;"></div>
 </div>
 
 <div id="awardFormModal" class="award-form-modal d-none">
@@ -1236,17 +1235,19 @@ function searchAwards() {
 /* =========================
    SEARCH RESULT
 ========================= */
-// ปรับตัวอย่างใน renderSearchResult
 function renderSearchResult(result) {
     const zone = document.getElementById("search-result-container");
-    zone.innerHTML = `<div class="cards-grid" id="search-grid"></div>`; // ใส่ Grid เข้าไป
-    const grid = document.getElementById("search-grid");
-
+    
     if (result.length === 0) {
-        zone.innerHTML = `<div class="empty-box">🔍 ไม่พบผลลัพธ์</div>`;
+        zone.innerHTML = `<div class="empty-box">🔍 ไม่พบข้อมูลที่ค้นหา</div>`;
         return;
     }
 
+    // สร้าง Grid Container ขึ้นมาใหม่
+    zone.innerHTML = `<div class="cards-grid" id="search-grid"></div>`;
+    const grid = document.getElementById("search-grid");
+
+    // ใช้ buildCards ของเดิม แต่เปลี่ยนที่วางไปที่ grid
     result.forEach(obj => {
         buildCards(grid, [obj.item], obj.type);
     });
