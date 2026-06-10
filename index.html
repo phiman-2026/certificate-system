@@ -359,78 +359,69 @@ box-shadow:
 ========================= */
 
 /* สถานศึกษา */
+/* =========================
+สถานศึกษา (แดง-ทอง)
+========================= */
 
 .award-card.school{
+
 background:
 linear-gradient(
-  rgba(255,255,255,.96),
-  rgba(255,255,255,.96)
+    135deg,
+    rgba(178,34,34,.08),
+    rgba(255,248,220,.45)
 ),
 url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
+
 background-repeat:no-repeat;
 background-position:right 15px bottom 15px;
 background-size:120px;
+
+border:1px solid rgba(178,34,34,.12);
+
 }
 
-.award-card.school .top-line{
-background:
-linear-gradient(
-  90deg,
-  #8B0000,
-  #B22222,
-  #D4AF37
-);
-}
-
-/* ครู */
+/* =========================
+ครู (น้ำเงิน)
+========================= */
 
 .award-card.staff{
+
 background:
 linear-gradient(
-  rgba(255,255,255,.96),
-  rgba(255,255,255,.96)
+    135deg,
+    rgba(37,99,235,.08),
+    rgba(219,234,254,.45)
 ),
 url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
+
 background-repeat:no-repeat;
 background-position:right 15px bottom 15px;
 background-size:120px;
 
-}
-
-.award-card.staff .top-line{
-background:
-linear-gradient(
-  90deg,
-  #1E40AF,
-  #2563EB,
-  #60A5FA
-);
+border:1px solid rgba(37,99,235,.12);
 
 }
 
-/* นักเรียน */
+/* =========================
+นักเรียน (เขียว)
+========================= */
 
 .award-card.student{
+
 background:
 linear-gradient(
-  rgba(255,255,255,.96),
-  rgba(255,255,255,.96)
+    135deg,
+    rgba(22,163,74,.08),
+    rgba(220,252,231,.45)
 ),
 url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
+
 background-repeat:no-repeat;
 background-position:right 15px bottom 15px;
 background-size:120px;
 
-}
-
-.award-card.student .top-line{
-background:
-linear-gradient(
-  90deg,
-  #15803D,
-  #16A34A,
-  #4ADE80
-);
+border:1px solid rgba(22,163,74,.12);
 
 }
 
@@ -495,14 +486,12 @@ BADGE
 position:absolute;
 top:15px;
 right:15px;
-padding:6px 12px;
+padding:7px 13px;
 border-radius:30px;
 font-size:.75rem;
 font-weight:700;
-background:#FFF8E1;
-color:#B45309;
 z-index:3;
-
+backdrop-filter:blur(6px);
 }
 
 /* =========================
@@ -586,6 +575,21 @@ linear-gradient(
 .btn-view-award:hover{
 transform:translateY(-2px);
 
+}
+
+.school .award-level{
+background:#FFE5E5;
+color:#B22222;
+}
+
+.staff .award-level{
+background:#DBEAFE;
+color:#1D4ED8;
+}
+
+.student .award-level{
+background:#DCFCE7;
+color:#15803D;
 }
 
 /* =========================
