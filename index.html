@@ -1257,7 +1257,18 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type,title,person,giver,year,level,dept,className,pdfUrl,config) {
+function createCardHTML(
+  type,
+  title,
+  person,
+  giver,
+  year,
+  level,
+  dept,
+  className,
+  config,
+  pdfUrl
+) {
   return `
   <div class="award-card-wrapper">
     <div class="award-card ${type}"
