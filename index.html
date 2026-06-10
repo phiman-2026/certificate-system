@@ -1197,6 +1197,7 @@ function buildCards(container, data, type) {
   const config = TYPE_CONFIG[type] || TYPE_CONFIG.school;
 
   data.forEach(item => {
+
     const title =
       item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
 
@@ -1215,13 +1216,8 @@ function buildCards(container, data, type) {
     const className =
       item["ชั้นเรียน"] || "";
 
-    // ===== ดึง URL ไฟล์ PDF =====
     const pdfUrl =
-      item["ลิงก์ไฟล์"] ||
-      item["ไฟล์ PDF"] ||
-      item["URL"] ||
-      item["fileUrl"] ||
-      "";
+      item["ลิงก์ไฟล์เกียรติบัตร"] || "";
 
     let person = "";
 
@@ -1241,7 +1237,18 @@ function buildCards(container, data, type) {
 
     container.insertAdjacentHTML(
       "beforeend",
-      createCardHTML(type,title,person,giver,year,level,dept,className,config,pdfUrl)
+      createCardHTML(
+        type,
+        title,
+        person,
+        giver,
+        year,
+        level,
+        dept,
+        className,
+        config,
+        pdfUrl
+      )
     );
 
   });
