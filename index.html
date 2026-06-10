@@ -424,26 +424,44 @@ body{
     text-overflow: ellipsis;
 }
 
-========================= */
-/* ปุ่มดูเกียรติบัตรแบบปรับสีอัตโนมัติ */
+/* ปุ่มดูเกียรติบัตร (Modern Gradient & Glow Effect) */
 .btn-view-award {
     margin-top: auto; 
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 12px;
-    font-weight: 600;
-    transition: 0.3s;
+    padding: 12px 20px;
+    border-radius: 14px; /* ปรับให้โค้งมนขึ้น */
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    
+    /* เพิ่ม Gradient ให้ดูมีมิติ */
+    filter: brightness(1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* เพิ่มเงาจางๆ ที่ฐานปุ่ม */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .btn-view-award:hover {
-    filter: brightness(0.9); /* ทำให้สีเข้มขึ้นเล็กน้อยเมื่อเอาเมาส์วาง */
-    transform: translateY(-2px);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    filter: brightness(1.1); /* สว่างขึ้นเล็กน้อยเวลา Hover */
+}
+
+.btn-view-award:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* เพิ่ม Effect ประกายเล็กน้อยในไอคอน */
+.btn-view-award i {
+    font-size: 1.1rem;
+    opacity: 0.9;
 }
       
 /* =========================
