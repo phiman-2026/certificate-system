@@ -182,67 +182,61 @@ body{
 }
 
 /* =========================
-   DESKTOP (PREMIUM BANNER)
+   DESKTOP (PREMIUM BANNER - ปรับแก้ใหม่)
 ========================= */
 @media(min-width: 992px) {
     .mobile-header {
-        height: 220px; 
-        padding: 30px 60px;
-        position: relative;
-        overflow: hidden;
+        height: 90px; /* ปรับกลับเป็นความสูงปกติ 90px เหมือนตอนแรก */
+        padding: 0 40px;
+        position: fixed; /* ใช้ fixed เหมือนเดิมเพื่อให้เกาะติดด้านบน */
+        top: 0;
+        left: 0;
+        right: 0;
         display: flex;
         align-items: center;
-        gap: 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        gap: 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
-        /* เปลี่ยน URL รูปอาคารของคุณที่นี่ */
-        background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.8)),
+        /* พื้นหลังหรูหราแบบโปร่งแสงเล็กน้อย */
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(37, 99, 235, 0.9)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
         background-position: center;
     }
 
-    /* เส้นสีทองขอบล่างให้ดูหรูหรา */
+    /* เส้นสีทองขอบล่าง */
     .mobile-header::after {
         content: "";
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 6px;
+        height: 4px;
         background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
     }
 
-    /* ปรับแต่งโลโก้ให้เด่นขึ้น */
     .logo-box img {
-        width: 70px !important;
-        height: 70px !important;
-        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        width: 50px !important;
+        height: 50px !important;
     }
 
-    /* ปรับกล่องค้นหาให้อยู่ในแบนเนอร์อย่างลงตัว */
     .search-box {
-        flex: 1;
-        max-width: 600px;
-        height: 55px;
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 15px !important;
-        padding: 0 20px !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        max-width: 500px;
+        height: 45px !important; /* ปรับความสูงกล่องค้นหาให้พอดีกับ Header */
+        background: rgba(255, 255, 255, 0.9) !important;
     }
 
-    /* ปรับปุ่มเพิ่มรางวัลให้เข้ากับธีม */
     .add-btn {
-        width: 55px;
-        height: 55px;
-        border-radius: 15px !important;
+        width: 45px !important;
+        height: 45px !important;
         background: #fbbf24 !important;
         color: #1e3a8a !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
+    /* แก้ไขปัญหาพื้นที่ว่าง: ปรับ padding ให้สัมพันธ์กับความสูง 90px */
     .app-container {
-        padding-top: 240px; 
+        padding-top: 100px !important; 
     }
 }
 
