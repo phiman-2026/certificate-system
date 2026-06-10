@@ -182,7 +182,7 @@ body{
 }
 
 /* =========================
-   DESKTOP (PREMIUM BANNER - สี #009ACD)
+   DESKTOP (PREMIUM BANNER - ล็อกตำแหน่ง)
 ========================= */
 @media(min-width: 992px) {
     .mobile-header {
@@ -194,11 +194,10 @@ body{
         right: 0;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 20px; /* ระยะห่างระหว่างโลโก้กับชื่อ */
         z-index: 1000;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
-        /* พื้นหลัง: ไล่เฉดสีฟ้า #009ACD + รูปอาคาร */
         background: linear-gradient(135deg, rgba(0, 154, 205, 0.95), rgba(0, 120, 160, 0.95)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
@@ -216,47 +215,43 @@ body{
         background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
     }
 
-    /* ปรับโลโก้ */
     .logo-box img {
         width: 50px !important;
         height: 50px !important;
     }
 
-    /* ทำให้ .system-title กลับมาแสดงผล */
     .system-title {
         display: block !important;
         color: #fff;
         margin-right: 20px;
         white-space: nowrap;
     }
-    .system-title h1 {
-        font-size: 1.1rem !important;
-        font-weight: 800 !important;
-        margin: 0 !important;
-        color: #fff !important;
-    }
-    .system-title p {
-        font-size: 0.75rem !important;
-        margin: 0 !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-    }
+    .system-title h1 { font-size: 1.1rem !important; font-weight: 800 !important; color: #fff !important; margin: 0 !important; }
+    .system-title p { font-size: 0.75rem !important; color: rgba(255, 255, 255, 0.8) !important; margin: 0 !important; }
 
-    /* กล่องค้นหา */
+    /* เคล็ดลับอยู่ที่ส่วนนี้ค่ะ: 
+       เราใช้ flex: 1 เพื่อให้ช่องค้นหายืดเต็มพื้นที่ที่เหลือ
+       และใช้ margin-left: auto เพื่อผลักปุ่มชิดขวาสุดเสมอ */
     .search-box {
-        flex: 1;
-        max-width: 500px;
+        flex: 1; /* ขยายช่องค้นหาให้เต็มที่เท่าที่จะมีที่ว่าง */
+        max-width: 800px; /* แต่ไม่ให้กว้างเกินไปจนน่าเกลียด */
         height: 45px !important;
         background: rgba(255, 255, 255, 0.25) !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         color: #fff !important;
+        margin-left: 20px; /* เว้นระยะห่างจากชื่อระบบ */
     }
+    
+    .search-box span { color: #fff !important; }
 
-    /* ปุ่มเพิ่มรางวัล (สีคุมโทน) */
+    /* ปุ่มเพิ่มรางวัล: ชิดขวาเสมอ */
     .add-btn {
+        margin-left: auto; /* <--- ตัวนี้คือหัวใจสำคัญที่ผลักปุ่มไปชิดขวา */
         width: 45px !important;
         height: 45px !important;
-        background: #fbbf24 !important; /* สีทอง */
-        color: #009ACD !important; /* สีฟ้าตรงกับแบนเนอร์ */
+        background: #fbbf24 !important;
+        color: #009ACD !important;
+        flex-shrink: 0; /* ป้องกันปุ่มถูกบีบ */
     }
 
     .app-container {
