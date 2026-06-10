@@ -182,7 +182,7 @@ body{
 }
 
 /* =========================
-   DESKTOP (PREMIUM BANNER - ล็อกตำแหน่ง)
+   DESKTOP (PREMIUM BANNER - สีแดงเข้ม)
 ========================= */
 @media(min-width: 992px) {
     .mobile-header {
@@ -194,17 +194,18 @@ body{
         right: 0;
         display: flex;
         align-items: center;
-        gap: 20px; /* ระยะห่างระหว่างโลโก้กับชื่อ */
+        gap: 20px;
         z-index: 1000;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
-        background: linear-gradient(135deg, rgba(0, 154, 205, 0.5), rgba(0, 120, 160, 0.5)),
+        /* ปรับโทนสีเป็นแดงเข้ม */
+        background: linear-gradient(135deg, rgba(139, 0, 0, 0.7), rgba(100, 0, 0, 0.7)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
         background-position: center;
     }
 
-    /* เส้นสีทองขอบล่าง */
+    /* เส้นสีทองขอบล่าง (ยังคงความหรูหรา) */
     .mobile-header::after {
         content: "";
         position: absolute;
@@ -229,36 +230,34 @@ body{
     .system-title h1 { font-size: 1.1rem !important; font-weight: 800 !important; color: #fff !important; margin: 0 !important; }
     .system-title p { font-size: 0.75rem !important; color: rgba(255, 255, 255, 0.8) !important; margin: 0 !important; }
 
-    /* เคล็ดลับอยู่ที่ส่วนนี้ค่ะ: 
-       เราใช้ flex: 1 เพื่อให้ช่องค้นหายืดเต็มพื้นที่ที่เหลือ
-       และใช้ margin-left: auto เพื่อผลักปุ่มชิดขวาสุดเสมอ */
     .search-box {
-        flex: 1; /* ขยายช่องค้นหาให้เต็มที่เท่าที่จะมีที่ว่าง */
-        max-width: 800px; /* แต่ไม่ให้กว้างเกินไปจนน่าเกลียด */
+        flex: 1;
+        max-width: 800px;
         height: 45px !important;
         background: rgba(255, 255, 255, 0.25) !important;
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         color: #fff !important;
-        margin-left: 20px; /* เว้นระยะห่างจากชื่อระบบ */
+        margin-left: 20px;
     }
     
     .search-box span { color: #fff !important; }
 
-    /* ปุ่มเพิ่มรางวัล: ชิดขวาเสมอ */
+    /* ปุ่มเพิ่มรางวัล: ปรับเป็นสีเทาตามต้องการ */
     .add-btn {
-        margin-left: auto; /* <--- ตัวนี้คือหัวใจสำคัญที่ผลักปุ่มไปชิดขวา */
+        margin-left: auto;
         width: 45px !important;
         height: 45px !important;
-        background: #fbbf24 !important;
-        color: #009ACD !important;
-        flex-shrink: 0; /* ป้องกันปุ่มถูกบีบ */
+        background: #64748B !important; /* สีเทาเข้ม */
+        color: #FFFFFF !important;     /* สีขาว */
+        flex-shrink: 0;
+        border: none !important;
     }
 
     .app-container {
         padding-top: 100px !important; 
     }
 }
-
+      
 /* =========================
    SEARCH SCREEN
 ========================= */
