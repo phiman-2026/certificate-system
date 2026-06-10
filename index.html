@@ -506,6 +506,42 @@ body{
 .tab-item.active{
     color:var(--primary);
 }
+
+#toastBox{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:99999;
+}
+
+.toast-msg{
+    min-width:300px;
+    background:#fff;
+    padding:15px 20px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    margin-bottom:10px;
+    animation:slideIn .3s ease;
+}
+
+.toast-success{
+    border-left:5px solid #16A34A;
+}
+
+.toast-error{
+    border-left:5px solid #DC2626;
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
 </style>
 
 </head>
@@ -677,6 +713,8 @@ body{
   </button>
 
 </nav>
+
+<div id="toastBox"></div>
 
 </body>
 
@@ -1036,45 +1074,130 @@ function renderDashboard() {
 }
 
 async function saveAward() {
+
   const btn = document.getElementById("btn-save");
+
   btn.disabled = true;
-  btn.innerText = "กำลังบันทึก...";
+  btn.innerHTML =
+  `<span class="spinner-border spinner-border-sm"></span>
+   กำลังบันทึก...`;
 
   try {
-    const type = document.getElementById("awardType").value;
-    const year = document.getElementById("awardYear").value;
-    const level = document.getElementById("awardLevel").value;
-    const title = document.getElementById("awardTitle").value;
-    const giver = document.getElementById("awardGiver").value;
+
+    const type =
+      document.getElementById("awardType").value;
+
+    const year =
+      document.getElementById("awardYear").value;
+
+    const rewardLevel =
+      document.getElementById("awardLevel").value;
+
+    const title =
+      document.getElementById("awardTitle").value;
+
+    const giver =
+      document.getElementById("awardGiver").value;
+
+    const fileInput =
+      document.getElementById("awardFile");
+
+    if(fileInput.files.length === 0){
+      throw new Error("กรุณาเลือกไฟล์ PDF");
+    }
+
+    const file = fileInput.files[0];
+
+    const fileData = await new Promise((resolve,reject)=>{
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        resolve(
+          reader.result.split(",")[1]
+        );
+      };
+
+      reader.onerror = reject;
+
+      reader.readAsDataURL(file);
+
+    });
+
+    let name = "";
+    let dept = "";
+    let className = "";
+
+    const person =
+      document.getElementById("awardPerson");
+
+    if(person){
+      name = person.value;
+    }
+
+    const deptInput =
+      document.getElementById("awardDept");
+
+    if(deptInput){
+      dept = deptInput.value;
+    }
+
+    const classInput =
+      document.getElementById("awardClass");
+
+    if(classInput){
+      className = classInput.value;
+    }
 
     const payload = {
       type,
       year,
-      level,
+      rewardLevel,
       title,
-      giver
+      giver,
+      name,
+      dept,
+      className,
+      fileData,
+      fileMimeType:file.type
     };
 
-    const res = await fetch(GAS_WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+    const response = await fetch(
+      GAS_WEB_APP_URL,
+      {
+        method:"POST",
+        body:JSON.stringify(payload)
+      }
+    );
 
-    const result = await res.json();
+    const result = await response.json();
 
-    alert("บันทึกสำเร็จ");
+    if(result.status !== "success"){
+      throw new Error(
+        result.message || "ไม่สามารถบันทึกได้"
+      );
+    }
+
+    showSuccessPopup();
 
     closeAwardForm();
+
     await loadAwards();
+
     renderHomePage();
 
-  } catch (err) {
+  }
+  catch(err){
+
     console.error(err);
-    alert("บันทึกไม่สำเร็จ");
+
+    showErrorPopup(
+      err.message || "บันทึกไม่สำเร็จ"
+    );
   }
 
   btn.disabled = false;
-  btn.innerText = "บันทึก";
+  btn.innerHTML = "บันทึก";
 }
 
 function setFilter(type, value) {
@@ -1087,6 +1210,47 @@ function resetFilters() {
   renderHomePage();
 }
 
+function showSuccessPopup(){
+
+  const box =
+    document.getElementById("toastBox");
+
+  const toast =
+    document.createElement("div");
+
+  toast.className =
+    "toast-msg toast-success";
+
+  toast.innerHTML =
+    "✅ บันทึกข้อมูลสำเร็จ";
+
+  box.appendChild(toast);
+
+  setTimeout(()=>{
+    toast.remove();
+  },3000);
+}
+
+function showErrorPopup(msg){
+
+  const box =
+    document.getElementById("toastBox");
+
+  const toast =
+    document.createElement("div");
+
+  toast.className =
+    "toast-msg toast-error";
+
+  toast.innerHTML =
+    "❌ " + msg;
+
+  box.appendChild(toast);
+
+  setTimeout(()=>{
+    toast.remove();
+  },4000);
+}
 
 </script>
 </body>
