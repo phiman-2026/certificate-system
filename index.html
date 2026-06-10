@@ -742,26 +742,26 @@ body{
   </div>
   <div class="search-filter-panel">
     <label class="filter-label">ปีการศึกษา</label>
-    <select id="filter-year" onchange="setFilter('year', this.value)" class="filter-select">
-      <option value="all">ทั้งหมด</option>
-      <option value="2570">2570</option>
-      <option value="2569">2569</option>
-      <option value="2568">2568</option>
-    </select>
-    <label class="filter-label">ระดับรางวัล</label>
-    <select id="filter-level" onchange="setFilter('level', this.value)" class="filter-select">
-      <option value="all">ทั้งหมด</option>
-      <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
-      <option value="ระดับจังหวัด">ระดับจังหวัด</option>
-      <option value="ระดับชาติ">ระดับชาติ</option>
-    </select>
-    <label class="filter-label">กลุ่มสาระ</label>
-    <select id="filter-dept" onchange="setFilter('dept', this.value)" class="filter-select">
-      <option value="all">ทั้งหมด</option>
-      <option value="วิทยาศาสตร์และเทคโนโลยี">วิทยาศาสตร์และเทคโนโลยี</option>
-      <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-      <option value="ภาษาไทย">ภาษาไทย</option>
-    </select>
+   <select id="filter-year" onchange="searchAwards()" class="filter-select">
+  <option value="all">ทั้งหมด</option>
+  <option value="2570">2570</option>
+  <option value="2569">2569</option>
+  <option value="2568">2568</option>
+</select>
+
+<select id="filter-level" onchange="searchAwards()" class="filter-select">
+  <option value="all">ทั้งหมด</option>
+  <option value="ระดับโรงเรียน">ระดับโรงเรียน</option>
+  <option value="ระดับจังหวัด">ระดับจังหวัด</option>
+  <option value="ระดับชาติ">ระดับชาติ</option>
+</select>
+
+<select id="filter-dept" onchange="searchAwards()" class="filter-select">
+  <option value="all">ทั้งหมด</option>
+  <option value="วิทยาศาสตร์และเทคโนโลยี">วิทยาศาสตร์และเทคโนโลยี</option>
+  <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+  <option value="ภาษาไทย">ภาษาไทย</option>
+</select>
   </div>
   <div id="search-result-container" class="content-wrap"></div>
 </div>
@@ -1157,27 +1157,30 @@ function closeSearchScreen() {
 }
 
 function searchAwards() {
-
+  // 1. ดึงค่าคำค้นหา
   const keyword = document.getElementById("search-input").value.toLowerCase();
+  
+  // 2. ดึงค่าตัวกรองจากหน้า Search โดยตรง
+  const fYear = document.getElementById("filter-year").value;
+  const fLevel = document.getElementById("filter-level").value;
+  const fDept = document.getElementById("filter-dept").value;
 
   let result = [];
 
   ["school", "staff", "student"].forEach(type => {
-
     (allAwardsData[type] || []).forEach(item => {
-
       const matchText = JSON.stringify(item).toLowerCase();
 
+      // เช็คเงื่อนไขจากค่าที่ดึงมาใหม่
       const filterMatch =
-        (filters.year === "all" || item["ปีการศึกษา"] == filters.year) &&
-        (filters.level === "all" || item["ระดับรางวัล"] == filters.level) &&
-        (filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept);
+        (fYear === "all" || item["ปีการศึกษา"] == fYear) &&
+        (fLevel === "all" || item["ระดับรางวัล"] == fLevel) &&
+        (fDept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == fDept);
 
       if (matchText.includes(keyword) && filterMatch) {
         result.push({ type, item });
       }
     });
-
   });
 
   renderSearchResult(result);
