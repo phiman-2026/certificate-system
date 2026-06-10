@@ -290,402 +290,83 @@ color:white;
 }
 
 /* =========================
-CARD SYSTEM PREMIUM V3
+   CARD SYSTEM: PREMIUM UI (Responsive)
 ========================= */
 
-.section-title{
-display:flex;
-align-items:center;
-gap:10px;
-margin:25px 0 18px;
-padding:15px 20px;
-border-radius:18px;
-font-weight:700;
-font-size:1.05rem;
-color:#fff;
-
-```
-background:
-linear-gradient(
-    135deg,
-    #1E3A8A,
-    #2563EB,
-    #B22222
-);
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.12);
-```
-
+/* ปรับการแสดงผลจำนวนคอลัมน์ */
+.row.g-3 {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr; /* มือถือ: 1 คอลัมน์ */
 }
 
-.row.g-3{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(380px,1fr));
-gap:22px;
+@media(min-width: 768px) {
+    .row.g-3 { grid-template-columns: repeat(3, 1fr); } /* แท็บเล็ต: 3 คอลัมน์ */
 }
 
-.award-card-wrapper{
-width:100%;
+@media(min-width: 1200px) {
+    .row.g-3 { grid-template-columns: repeat(4, 1fr); } /* คอมพิวเตอร์: 4 คอลัมน์ */
 }
 
-/* =========================
-CARD
-========================= */
-.award-card{
-position:relative;
-overflow:hidden;
-background:#fff;
-border-radius:24px;
-padding:22px;
-min-height:280px;
-transition:.35s;
-box-shadow:
-0 12px 30px rgba(0,0,0,.08);
-border:1px solid #EEF2F7;
-
+/* การ์ดสไตล์พรีเมียม */
+.award-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
 
-.award-card:hover{
-transform:translateY(-6px);
-box-shadow:
-0 22px 40px rgba(0,0,0,.14);
-
+/* ส่วนหัวการ์ด (ใส่รูปพื้นหลังแบบตัวอย่าง) */
+.card-header-img {
+    height: 140px;
+    background: linear-gradient(135deg, #e0f7fa, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-/* =========================
-พื้นหลังแต่ละประเภท
-========================= */
-
-/* =========================
-สถานศึกษา (แดง-ทอง)
-========================= */
-
-.award-card.school{
-
-background:
-linear-gradient(
-    135deg,
-    rgba(178,34,34,.08),
-    rgba(255,248,220,.45)
-),
-url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
-
-background-repeat:no-repeat;
-background-position:right 15px bottom 15px;
-background-size:120px;
-
-border:1px solid rgba(178,34,34,.12);
-
+/* ป้ายราคา/คะแนน (พรีเมียมสไตล์) */
+.award-badge-points {
+    background: #fff9c4;
+    color: #f57f17;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: absolute;
+    bottom: -15px;
 }
 
-/* =========================
-ครู (น้ำเงิน)
-========================= */
-
-.award-card.staff{
-
-background:
-linear-gradient(
-    135deg,
-    rgba(37,99,235,.08),
-    rgba(219,234,254,.45)
-),
-url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
-
-background-repeat:no-repeat;
-background-position:right 15px bottom 15px;
-background-size:120px;
-
-border:1px solid rgba(37,99,235,.12);
-
+/* ส่วนเนื้อหา */
+.card-body-content {
+    padding: 25px 15px 15px;
+    text-align: center;
+    flex: 1;
 }
 
-/* =========================
-นักเรียน (เขียว)
-========================= */
+.award-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
+.award-price { font-weight: 700; font-size: 1.2rem; color: #333; margin-bottom: 15px; }
 
-.award-card.student{
-
-background:
-linear-gradient(
-    135deg,
-    rgba(22,163,74,.08),
-    rgba(220,252,231,.45)
-),
-url("https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png");
-
-background-repeat:no-repeat;
-background-position:right 15px bottom 15px;
-background-size:120px;
-
-border:1px solid rgba(22,163,74,.12);
-
+/* ปุ่มแลกคูปอง */
+.btn-view-award {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    width: 90%;
+    margin: 0 auto 15px;
+    transition: 0.3s;
 }
-
-/* =========================
-TOP BAR
-========================= */
-
-.top-line{
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:8px;
-
-}
-
-/* =========================
-ICON
-========================= */
-
-.award-icon{
-width:68px;
-height:68px;
-border-radius:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:34px;
-margin-bottom:15px;
-position:relative;
-z-index:2;
-}
-
-/* สีไอคอน */
-
-.school .award-icon{
-background:
-linear-gradient(
-135deg,
-#FFF1F2,
-#FFE4E6
-);
-
-box-shadow:
-0 10px 20px rgba(178,34,34,.20);
-}
-
-.staff .award-icon{
-background:
-linear-gradient(
-135deg,
-#EFF6FF,
-#DBEAFE
-);
-
-box-shadow:
-0 10px 20px rgba(37,99,235,.20);
-}
-
-.student .award-icon{
-background:
-linear-gradient(
-135deg,
-#F0FDF4,
-#DCFCE7
-);
-
-box-shadow:
-0 10px 20px rgba(22,163,74,.20);
-}
-
-.school:hover{
-box-shadow:
-0 25px 45px rgba(178,34,34,.15);
-}
-
-.staff:hover{
-box-shadow:
-0 25px 45px rgba(37,99,235,.15);
-}
-
-.student:hover{
-box-shadow:
-0 25px 45px rgba(22,163,74,.15);
-}
-/* =========================
-BADGE
-========================= */
-
-.award-level{
-position:absolute;
-top:15px;
-right:15px;
-padding:7px 13px;
-border-radius:30px;
-font-size:.75rem;
-font-weight:700;
-z-index:3;
-backdrop-filter:blur(6px);
-}
-
-/* =========================
-TITLE
-========================= */
-.award-title{
-font-size:1.05rem;
-font-weight:800;
-color:#0F172A;
-line-height:1.6;
-margin-bottom:12px;
-padding-bottom:12px;
-border-bottom:
-1px solid #E2E8F0;
-
-}
-
-/* =========================
-DETAIL
-========================= */
-
-.award-detail{
-font-size:.92rem;
-color:#475569;
-line-height:1.8;
-
-}
-
-/* =========================
-BUTTON
-========================= */
-
-.btn-view-award{
-margin-top:18px;
-width:100%;
-height:48px;
-border:none;
-border-radius:14px;
-color:#fff;
-font-weight:700;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-transition:.3s;
-
-}
-
-/* สีปุ่ม */
-
-.school .btn-view-award{
-background:
-linear-gradient(
-  135deg,
-  #8B0000,
-  #B22222
-);
-
-}
-
-.staff .btn-view-award{
-background:
-linear-gradient(
-  135deg,
-  #2563EB,
-  #1D4ED8
-);
-
-}
-
-.student .btn-view-award{
-background:
-linear-gradient(
-  135deg,
-  #16A34A,
-  #15803D
-);
-
-}
-
-.btn-view-award:hover{
-transform:translateY(-2px);
-
-}
-
-.school .award-level{
-background:#FFE5E5;
-color:#B22222;
-}
-
-.staff .award-level{
-background:#DBEAFE;
-color:#1D4ED8;
-}
-
-.student .award-level{
-background:#DCFCE7;
-color:#15803D;
-}
-
-/* =========================
-MOBILE
-========================= */
-
-@media(max-width:768px){
-
-.content-wrap{
-padding:10px;
-}
-
-.row.g-3{
-grid-template-columns:1fr;
-gap:14px;
-}
-
-.award-card{
-padding:16px;
-border-radius:18px;
-min-height:auto;
-}
-
-.award-title{
-font-size:.95rem;
-line-height:1.5;
-}
-
-.award-detail{
-font-size:.84rem;
-line-height:1.7;
-}
-
-.award-icon{
-width:54px;
-height:54px;
-font-size:26px;
-}
-
-.award-level{
-font-size:.65rem;
-padding:5px 10px;
-top:12px;
-right:12px;
-}
-
-.award-card.school,
-.award-card.staff,
-.award-card.student{
-background-size:80px;
-}
-
-.btn-view-award{
-height:44px;
-font-size:.9rem;
-}
-
-}
-
-.card-watermark{
-position:absolute;
-right:15px;
-bottom:10px;
-font-size:90px;
-opacity:.08;
-pointer-events:none;
-z-index:0;
-}
+.btn-view-award:hover { background: #e68900; }
 
 /* =========================
    FORM MODAL
@@ -1502,127 +1183,22 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(
-  type,
-  title,
-  person,
-  giver,
-  year,
-  level,
-  dept,
-  className,
-  config,
-  pdfUrl
-) {
-
-  let cardClass = "school";
-
-  if (type === "staff") {
-    cardClass = "staff";
-  }
-
-  if (type === "student") {
-    cardClass = "student";
-  }
-
-  return `
-  <div class="award-card-wrapper">
-
-    <div class="award-card ${cardClass}">
-
-      <div class="top-line"></div>
-
-      <div class="card-watermark">
-        ${config.icon}
-      </div>
-
-      <div class="award-icon">
-        ${config.icon}
-      </div>
-
-      <div class="award-level">
-        ${level}
-      </div>
-
-      <div class="award-title">
-        ${title}
-      </div>
-
-      <div class="award-detail">
-
-        <div class="info-item">
-          <i class="fa-solid fa-user"></i>
-          <div>
-            <strong>ผู้ได้รับรางวัล</strong><br>
-            ${person}
-          </div>
+function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
+    // กำหนดสีพื้นหลังส่วนหัวตามประเภท
+    const headerColor = type === 'school' ? '#fde2e2' : (type === 'staff' ? '#dbeafe' : '#dcfce7');
+    
+    return `
+    <div class="award-card">
+        <div class="card-header-img" style="background-color: ${headerColor}">
+            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" style="width: 60px;">
+            <div class="award-badge-points">ใช้ 200 ทรูมันนี่คอยน์</div>
         </div>
-
-        ${
-          className
-            ? `
-            <div class="info-item">
-              <i class="fa-solid fa-graduation-cap"></i>
-              <div>
-                <strong>ชั้นเรียน</strong><br>
-                ${className}
-              </div>
-            </div>
-            `
-            : ""
-        }
-
-        ${
-          dept
-            ? `
-            <div class="info-item">
-              <i class="fa-solid fa-book"></i>
-              <div>
-                <strong>กลุ่มสาระ</strong><br>
-                ${dept}
-              </div>
-            </div>
-            `
-            : ""
-        }
-
-        <div class="info-item">
-          <i class="fa-solid fa-building"></i>
-          <div>
-            <strong>หน่วยงานที่มอบ</strong><br>
-            ${giver}
-          </div>
+        <div class="card-body-content">
+            <div class="award-title">${title}</div>
+            <div class="award-price">แลกซื้อ ฿ 29</div>
+            <button class="btn-view-award" onclick="openPDF('${pdfUrl}')">แลกคูปอง</button>
         </div>
-
-        <div class="info-item">
-          <i class="fa-solid fa-calendar"></i>
-          <div>
-            <strong>ปีการศึกษา</strong><br>
-            ${year}
-          </div>
-        </div>
-
-      </div>
-
-      ${
-        pdfUrl
-          ? `
-          <button
-            class="btn-view-award"
-            onclick="openPDF('${pdfUrl}')">
-
-            <i class="fa-solid fa-file-pdf"></i>
-            ดูเกียรติบัตร
-
-          </button>
-          `
-          : ""
-      }
-
-    </div>
-
-  </div>
-  `;
+    </div>`;
 }
 
 /* =========================
