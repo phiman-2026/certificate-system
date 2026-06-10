@@ -368,28 +368,40 @@ body{
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-/* ส่วนหัวการ์ด */
+/* ส่วนหัวการ์ด (รองรับรูปภาพ) */
 .card-header-img {
     height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    background: #f8fafc;
+    /* การตั้งค่ารูปภาพ */
+    background-size: cover;          /* ให้รูปครอบคลุมพื้นที่ */
+    background-position: center;     /* จัดกึ่งกลางรูป */
+    background-repeat: no-repeat;
+    background-color: #e2e8f0;       /* สีสำรองระหว่างรอโหลดรูป */
 }
 
-/* ป้ายระดับรางวัล */
+/* เพิ่ม Overlay ให้รูปภาพดูมืดลงนิดหน่อยเพื่อให้โลโก้เด่นขึ้น (ทางเลือก) */
+.card-header-img::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.15); /* ทำให้รูปเข้มขึ้นเล็กน้อยให้โลโก้ชัด */
+}
+
+/* ปรับให้ img ภายใน header อยู่เหนือ overlay */
+.card-header-img img {
+    position: relative;
+    z-index: 1;
+}
+
+/* ปรับ Badge ให้ชัดขึ้นบนรูปภาพ */
 .award-badge-points {
-    background: #ffffff;
-    color: #8B0000;
-    padding: 4px 12px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: #ffffff !important;
     position: absolute;
     bottom: -12px;
-    border: 1px solid #fee2e2;
+    z-index: 2; /* ให้อยู่บนรูป */
 }
 
 /* ส่วนเนื้อหา */
@@ -1201,17 +1213,22 @@ function buildCards(container, data, type) {
    CARD HTML
 ========================= */
 function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
-    // กำหนดสีตามประเภท
-    const headerColor = type === 'school' ? '#fde2e2' : (type === 'staff' ? '#dbeafe' : '#dcfce7');
-    const badgeColor = type === 'school' ? '#f87171' : (type === 'staff' ? '#3b82f6' : '#22c55e');
-    // กำหนดสีปุ่มให้แมตช์กับ Badge (เข้มขึ้นเล็กน้อยเพื่อให้กดง่าย)
+    // กำหนด URL รูปภาพพื้นหลังตามประเภท
+    const headerImages = {
+        school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/school_bg.png', // เปลี่ยนเป็น URL รูปของคุณ
+        staff: 'https://raw.githubusercontent.com/phiman-2026/picture/main/staff_bg.png',
+        student: 'https://raw.githubusercontent.com/phiman-2026/picture/main/student_bg.png'
+    };
+    
+    const headerImg = headerImages[type] || headerImages.school;
+    const badgeColor = type === 'school' ? '#881313' : (type === 'staff' ? '#3b82f6' : '#22c55e');
     const btnColor = type === 'school' ? '#881313' : (type === 'staff' ? '#1d4ed8' : '#15803d');
 
     return `
     <div class="award-card">
-        <div class="card-header-img" style="background-color: ${headerColor}">
-            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" style="width: 60px;">
-            <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}">
+        <div class="card-header-img" style="background-image: url('${headerImg}');">
+            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" style="width: 60px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+            <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}; background: rgba(255,255,255,0.9);">
                 ${level}
             </div>
         </div>
