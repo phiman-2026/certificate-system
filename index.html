@@ -416,6 +416,32 @@ color:white;
     font-weight:600;
 }
 
+.btn-view-award{
+    margin-top:15px;
+    width:100%;
+    height:46px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #1D4ED8
+    );
+    color:#fff;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:.25s;
+}
+
+.btn-view-award:hover{
+    transform:translateY(-2px);
+    box-shadow:
+    0 10px 20px rgba(37,99,235,.25);
+}
+
 /* =========================
    FORM MODAL
 ========================= */
@@ -703,6 +729,7 @@ color:white;
         opacity:1;
     }
 }
+
 </style>
 
 </head>
@@ -1170,13 +1197,31 @@ function buildCards(container, data, type) {
   const config = TYPE_CONFIG[type] || TYPE_CONFIG.school;
 
   data.forEach(item => {
+    const title =
+      item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
 
-    const title = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
-    const year = item["ปีการศึกษา"] || "-";
-    const level = item["ระดับรางวัล"] || "-";
-    const giver = item["หน่วยงานที่มอบรางวัล"] || "-";
-    const dept = item["กลุ่มสาระการเรียนรู้"] || "";
-    const className = item["ชั้นเรียน"] || "";
+    const year =
+      item["ปีการศึกษา"] || "-";
+
+    const level =
+      item["ระดับรางวัล"] || "-";
+
+    const giver =
+      item["หน่วยงานที่มอบรางวัล"] || "-";
+
+    const dept =
+      item["กลุ่มสาระการเรียนรู้"] || "";
+
+    const className =
+      item["ชั้นเรียน"] || "";
+
+    // ===== ดึง URL ไฟล์ PDF =====
+    const pdfUrl =
+      item["ลิงก์ไฟล์"] ||
+      item["ไฟล์ PDF"] ||
+      item["URL"] ||
+      item["fileUrl"] ||
+      "";
 
     let person = "";
 
@@ -1185,51 +1230,101 @@ function buildCards(container, data, type) {
     }
 
     if (type === "staff") {
-      person = item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
+      person =
+        item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
     }
 
     if (type === "student") {
-      person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
+      person =
+        item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
     }
 
     container.insertAdjacentHTML(
       "beforeend",
-      createCardHTML(type, title, person, giver, year, level, dept, className, config)
+      createCardHTML(type,title,person,giver,year,level,dept,className,config,pdfUrl)
     );
+
   });
 }
 
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, config) {
-
+function createCardHTML(type,title,person,giver,year,level,dept,className,pdfUrl,config) {
   return `
   <div class="award-card-wrapper">
-  <div class="award-card ${type}" style="border-top:4px solid ${config.color}">
+    <div class="award-card ${type}"
+         style="border-top:4px solid ${config.color}">
 
-      <div class="award-icon">${config.icon}</div>
+      <div class="award-icon">
+        ${config.icon}
+      </div>
 
-      <div class="award-level" style="color:${config.color};border-color:${config.color}">
+      <div class="award-level"
+           style="color:${config.color};
+                  border-color:${config.color}">
         ${level}
       </div>
 
-      <div class="award-title">${title}</div>
+      <div class="award-title">
+        ${title}
+      </div>
 
       <div class="award-detail">
 
-        <div><b>ผู้ได้รับ :</b><br>${person}</div>
+        <div>
+          <b>ผู้ได้รับ :</b><br>
+          ${person}
+        </div>
 
-        ${className ? `<div class="mt-2"><b>ชั้นเรียน :</b><br>${className}</div>` : ""}
+        ${
+          className
+          ? `
+          <div class="mt-2">
+            <b>ชั้นเรียน :</b><br>
+            ${className}
+          </div>
+          `
+          : ""
+        }
 
-        ${dept ? `<div class="mt-2"><b>กลุ่มสาระ :</b><br>${dept}</div>` : ""}
+        ${
+          dept
+          ? `
+          <div class="mt-2">
+            <b>กลุ่มสาระ :</b><br>
+            ${dept}
+          </div>
+          `
+          : ""
+        }
 
-        <div class="mt-2"><b>หน่วยงาน :</b><br>${giver}</div>
+        <div class="mt-2">
+          <b>หน่วยงาน :</b><br>
+          ${giver}
+        </div>
 
-        <div class="mt-2"><b>ปีการศึกษา :</b><br>${year}</div>
+        <div class="mt-2">
+          <b>ปีการศึกษา :</b><br>
+          ${year}
+        </div>
 
       </div>
 
+      ${
+        pdfUrl
+        ? `
+        <button
+          class="btn-view-award"
+          onclick="openPDF('${pdfUrl}')">
+
+          <i class="fa-solid fa-file-pdf"></i>
+          ดูเกียรติบัตร
+
+        </button>
+        `
+        : ""
+      }
     </div>
   </div>
   `;
@@ -1332,22 +1427,24 @@ function renderSearchResult(result) {
 /* =========================
    PDF VIEW (SAFE FIX)
 ========================= */
-function openPDF(url) {
+function openPDF(url){
 
-  if (!url){
-  Swal.fire({
-    icon: "warning",
-    title: "ไม่พบไฟล์ PDF",
-    confirmButtonColor:"#8B0000"
-  });
-  return;
-}
+  if(!url){
 
-  if (url.includes("drive.google.com")) {
-    url = url.replace("/view", "/preview");
+    Swal.fire({
+      icon:"warning",
+      title:"ไม่พบไฟล์เกียรติบัตร",
+      confirmButtonColor:"#2563EB"
+    });
+
+    return;
   }
 
-  window.open(url, "_blank");
+  if(url.includes("drive.google.com")){
+    url = url.replace("/view","/preview");
+  }
+
+  window.open(url,"_blank");
 }
 
 function openAwardForm() {
