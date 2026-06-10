@@ -199,7 +199,7 @@ body{
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
         /* แบนเนอร์โทนเทา (Slate Grey) */
-        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)),
+        background: linear-gradient(135deg, rgba(71, 85, 105, 0.5), rgba(51, 65, 85, 0.5)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
         background-position: center;
@@ -424,11 +424,10 @@ body{
     text-overflow: ellipsis;
 }
 
-/* =========================
-   ปุ่มดูเกียรติบัตร (แยกสีตามประเภท)
 ========================= */
+/* ปุ่มดูเกียรติบัตรแบบปรับสีอัตโนมัติ */
 .btn-view-award {
-    margin-top: auto;
+    margin-top: auto; 
     color: white;
     border: none;
     padding: 10px;
@@ -436,20 +435,16 @@ body{
     font-weight: 600;
     transition: 0.3s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-/* 1. รางวัลสถานศึกษา (สีน้ำเงิน) */
-.btn-view-award.school { background: #2563EB; }
-.btn-view-award.school:hover { background: #1D4ED8; }
-
-/* 2. รางวัลครู/บุคลากร (สีเขียว) */
-.btn-view-award.staff { background: #059669; }
-.btn-view-award.staff:hover { background: #047857; }
-
-/* 3. รางวัลนักเรียน (สีส้ม/ทอง) */
-.btn-view-award.student { background: #D97706; }
-.btn-view-award.student:hover { background: #B45309; }
-
+.btn-view-award:hover {
+    filter: brightness(0.9); /* ทำให้สีเข้มขึ้นเล็กน้อยเมื่อเอาเมาส์วาง */
+    transform: translateY(-2px);
+}
       
 /* =========================
    FORM MODAL
@@ -1271,12 +1266,11 @@ function buildCards(container, data, type) {
    CARD HTML
 ========================= */
 function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
-    // กำหนดสีพื้นหลังส่วนหัวตามประเภท
+    // กำหนดสีตามประเภท
     const headerColor = type === 'school' ? '#fde2e2' : (type === 'staff' ? '#dbeafe' : '#dcfce7');
     const badgeColor = type === 'school' ? '#f87171' : (type === 'staff' ? '#3b82f6' : '#22c55e');
-    
-    // กำหนด Class ให้ปุ่มตามประเภท เพื่อใช้กับ CSS ที่เรากำหนดไว้ (school, staff, student)
-    const btnClass = type === 'school' ? 'school' : (type === 'staff' ? 'staff' : 'student');
+    // กำหนดสีปุ่มให้แมตช์กับ Badge (เข้มขึ้นเล็กน้อยเพื่อให้กดง่าย)
+    const btnColor = type === 'school' ? '#e11d48' : (type === 'staff' ? '#1d4ed8' : '#15803d');
 
     return `
     <div class="award-card">
@@ -1294,7 +1288,9 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
                 <p><strong>หน่วยงาน:</strong> ${giver}</p>
                 <p><strong>ปีการศึกษา:</strong> ${year}</p>
             </div>
-            <button class="btn-view-award ${btnClass}" onclick="openPDF('${pdfUrl}')">
+            <button class="btn-view-award" 
+                    style="background-color: ${btnColor}" 
+                    onclick="openPDF('${pdfUrl}')">
                 <i class="fa-solid fa-file-pdf"></i> ดูเกียรติบัตร
             </button>
         </div>
