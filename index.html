@@ -182,7 +182,7 @@ body{
 }
 
 /* =========================
-   DESKTOP (PREMIUM BANNER - สีแดงเข้ม)
+   DESKTOP (PREMIUM BANNER - แดงเข้มและเทา)
 ========================= */
 @media(min-width: 992px) {
     .mobile-header {
@@ -198,14 +198,14 @@ body{
         z-index: 1000;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         
-        /* ปรับโทนสีเป็นแดงเข้ม */
-        background: linear-gradient(135deg, rgba(139, 0, 0, 0.7), rgba(100, 0, 0, 0.7)),
+        /* แดงเข้ม */
+        background: linear-gradient(135deg, rgba(139, 0, 0, 0.5), rgba(100, 0, 0, 0.5)),
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
         background-position: center;
     }
 
-    /* เส้นสีทองขอบล่าง (ยังคงความหรูหรา) */
+    /* เส้นขอบล่าง: ปรับเป็นโทนสีเทา */
     .mobile-header::after {
         content: "";
         position: absolute;
@@ -213,7 +213,8 @@ body{
         left: 0;
         width: 100%;
         height: 4px;
-        background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+        /* ไล่เฉดสีเทาเข้มไปเทาอ่อน */
+        background: linear-gradient(90deg, #475569, #94a3b8, #475569);
     }
 
     .logo-box img {
@@ -242,13 +243,13 @@ body{
     
     .search-box span { color: #fff !important; }
 
-    /* ปุ่มเพิ่มรางวัล: ปรับเป็นสีเทาตามต้องการ */
+    /* ปุ่มเพิ่มรางวัล: สีเทา */
     .add-btn {
         margin-left: auto;
         width: 45px !important;
         height: 45px !important;
-        background: #64748B !important; /* สีเทาเข้ม */
-        color: #FFFFFF !important;     /* สีขาว */
+        background: #64748B !important; 
+        color: #FFFFFF !important;     
         flex-shrink: 0;
         border: none !important;
     }
