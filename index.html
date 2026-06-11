@@ -165,8 +165,8 @@ body{
     background: #fff;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 15px;
+    gap: 8px !important;
+    padding: 12px 10px !important;
     box-shadow: 0 2px 15px rgba(0,0,0,.08);
     z-index: 1000;
 }
@@ -185,14 +185,15 @@ body{
 
 /* ชื่อระบบในมือถือ (โชว์ข้างโลโก้) */
 .system-title {
-    display: block !important; 
+    display: block !important;
 }
 .system-title h1 { 
-    font-size: 0.95rem !important; 
-    font-weight: 700 !important; 
+    font-size: 0.85rem !important; /* ปรับขนาดให้เล็กลง */
+    font-weight: 400 !important;   /* ปรับเป็นไม่หนา */
     color: #1e293b !important; 
     margin: 0 !important; 
     line-height: 1.2;
+    white-space: nowrap;           /* บังคับไม่ให้ตัดบรรทัด */
 }
 
 /* ช่องค้นหา (สีขาวตามคำขอ) */
