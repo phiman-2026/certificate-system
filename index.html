@@ -154,7 +154,7 @@ body{
 
 
 /* =========================
-   HEADER: ปรับปรุงใหม่ตามคำขอ
+   HEADER: โลโก้ซ้าย | ค้นหากลาง | ปุ่มขวา (เรียบหรู)
 ========================= */
 .mobile-header {
     position: fixed;
@@ -165,68 +165,55 @@ body{
     background: #fff;
     display: flex;
     align-items: center;
-    gap: 8px !important;
-    padding: 12px 10px !important;
+    padding: 10px 15px;
+    gap: 12px;
     box-shadow: 0 2px 15px rgba(0,0,0,.08);
     z-index: 1000;
 }
 
 .logo-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-shrink: 0; /* ป้องกันโลโก้เบี้ยว */
 }
 
 .logo-box img {
-    width: 42px;
-    height: 42px;
+    width: 45px;
+    height: 45px;
     object-fit: contain;
 }
 
-/* ชื่อระบบในมือถือ (โชว์ข้างโลโก้) */
+/* ซ่อนชื่อระบบในมือถือ */
 .system-title {
-    display: block !important;
-}
-.system-title h1 { 
-    font-size: 0.85rem !important; /* ปรับขนาดให้เล็กลง */
-    font-weight: 400 !important;   /* ปรับเป็นไม่หนา */
-    color: #1e293b !important; 
-    margin: 0 !important; 
-    line-height: 1.2;
-    white-space: nowrap;           /* บังคับไม่ให้ตัดบรรทัด */
+    display: none !important;
 }
 
-/* ช่องค้นหา (สีขาวตามคำขอ) */
+/* ช่องค้นหาอยู่ตรงกลาง */
 .search-box {
-    flex: 1;
-    background: #ffffff !important; /* บังคับให้เป็นสีขาว */
+    flex: 1; /* ดันให้ขยายเต็มที่ว่างตรงกลาง */
+    height: 42px;
+    background: #ffffff !important;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
     padding: 0 12px;
-    height: 42px;
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
     color: var(--text-light);
+    font-size: 0.9rem;
 }
 
-/* ปุ่มเพิ่มรางวัล (สีแดงเข้มเหมือน Desktop) */
+/* ปุ่มเพิ่มรางวัลอยู่ขวาสุด */
 .add-btn {
     width: 42px;
     height: 42px;
     border: none;
     border-radius: 14px;
-    background: #881313 !important; /* สีแดงเข้ม */
+    background: #881313 !important; 
     color: #fff;
-    flex-shrink: 0;
+    flex-shrink: 0; /* ป้องกันปุ่มเบี้ยว */
     transition: 0.3s;
 }
-.add-btn:hover {
-    background: #7f1d1d !important;
-}
 
-/* ปรับ Desktop ให้คงเดิม */
+/* ส่วน Desktop (คงรูปแบบเดิมไว้) */
 @media(min-width: 992px) {
     .mobile-header {
         height: 90px;
@@ -235,8 +222,13 @@ body{
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
         background-size: cover;
     }
-    .system-title h1 { color: #fff !important; font-size: 1.1rem !important; }
-    .search-box { background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
+    .system-title { display: block !important; margin-right: 20px; }
+    .search-box { 
+        max-width: 800px; 
+        background: rgba(255, 255, 255, 0.15) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.3) !important; 
+        color: #fff !important; 
+    }
 }
       
 
