@@ -524,29 +524,30 @@ body{
 /* =========================
    FORM MODAL: PREMIUM RED-GREY THEME (ปรับปรุงให้ Responsive สวยงาม)
 ========================= */
+/* ปรับส่วนนี้ใน CSS เดิมของคุณ */
 .award-form-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7); /* เพิ่มความเข้มเพื่อให้โฟกัสฟอร์ม */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999999;
-    padding: 0; /* ปรับเป็น 0 เพื่อให้บนมือถือแสดงผลได้เต็มจอ */
+    z-index: 999999; /* ให้ค่าสูงที่สุดในหน้าเว็บ */
+    padding: 10px; /* เพิ่ม padding บนมือถือไม่ให้ชิดขอบเกินไป */
 }
-
+      
 .award-form-container {
-    width: 90%;          /* ขยายกว้างขึ้นบนหน้าจอเล็ก */
-    max-width: 800px;    /* เพิ่มพื้นที่ให้กว้างขึ้นอีกนิดบนหน้าจอคอม */
-    height: auto;        /* ปรับให้ความสูงยืดตามเนื้อหา */
-    max-height: 90vh;    /* แต่ยังล็อคไว้ไม่ให้ล้นหน้าจอ */
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    max-height: 90vh; /* ให้ Scroll ได้หากเนื้อหาเยอะ */
     background: #fff;
     border-radius: 24px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    margin: auto;        /* ตัวนี้สำคัญมาก: ช่วยให้ฟอร์มอยู่กึ่งกลางจอเสมอ */
+    position: relative;
 }
 
 .award-form-header {
@@ -1376,7 +1377,7 @@ async function saveAward() {
   const btn = document.getElementById("btn-save");
 
   // =====================
-  // ดึงข้อมูลจากฟอร์ม
+  // 1. ดึงข้อมูลจากฟอร์ม
   // =====================
   const type = document.getElementById("awardType").value;
   const year = document.getElementById("awardYear").value.trim();
@@ -1390,7 +1391,7 @@ async function saveAward() {
   let className = "";
 
   // =====================
-  // VALIDATION
+  // 2. VALIDATION
   // =====================
   if (!year || !rewardLevel || !title || !giver || !file) {
     return Swal.fire({
@@ -1416,7 +1417,7 @@ async function saveAward() {
   if (file.size > 10 * 1024 * 1024) return Swal.fire({ icon: "error", title: "ไฟล์ใหญ่เกินกำหนด", text: "ขนาดไฟล์ต้องไม่เกิน 10 MB", confirmButtonColor: "#8B0000" });
 
   // =====================
-  // LOADING
+  // 3. เริ่มบันทึกข้อมูล
   // =====================
   Swal.fire({
     title: "กำลังบันทึกข้อมูล",
@@ -1437,21 +1438,24 @@ async function saveAward() {
 
     if (result.status !== "success") throw new Error(result.message || "เกิดข้อผิดพลาด");
 
-    // 1. ปิดฟอร์มและเคลียร์ค่าทันที
+    // --- ลำดับการปิดฟอร์มที่ปรับปรุงแล้ว ---
+    // 1. ปิดหน้า Modal ทันที
     closeAwardForm();
+    
+    // 2. เคลียร์ค่าในฟอร์ม
     document.getElementById("awardForm").reset();
     document.getElementById("pdfPreview").innerHTML = "";
     changeAwardType();
 
-    // 2. แสดงแจ้งเตือนความสำเร็จแบบปิดเองอัตโนมัติ
-    Swal.fire({
+    // 3. แสดงแจ้งเตือนความสำเร็จ (ปิดเองใน 1.5 วินาที)
+    await Swal.fire({
       icon: "success",
       title: "บันทึกรางวัลสำเร็จ",
       showConfirmButton: false,
-      timer: 2000
+      timer: 1500
     });
 
-    // 3. รีเฟรชข้อมูลใหม่
+    // 4. รีเฟรชข้อมูลใหม่หลังจากฟอร์มปิดเรียบร้อยแล้ว
     await loadAwards();
     if (currentTab === "home") {
       renderHomePage();
