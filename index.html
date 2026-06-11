@@ -155,32 +155,48 @@ body{
 /* =========================
    HEADER: Responsive Design
 ========================= */
+/* --- HEADER: แก้ไขการแสดงผล --- */
 .mobile-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 70px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    gap: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 1000;
+    position: fixed; top: 0; left: 0; right: 0; height: 75px;
+    background: #fff; display: flex; align-items: center; padding: 0 15px; gap: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000;
 }
 
 .logo-box img { width: 38px; height: 38px; object-fit: contain; }
 
-.system-title { flex: 1; }
-.system-title h1 { font-size: 0.9rem; font-weight: 600; color: #1e293b; margin: 0; }
+.system-title { flex: 1; overflow: hidden; }
+.system-title h1 { 
+    font-size: 0.9rem; font-weight: 600; color: #1e293b; 
+    margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+}
 
-/* Desktop Search (ซ่อนในมือถือ) */
-.search-box-desktop { display: none; }
+/* ช่องค้นหาปกติ (ที่ใช้ในคอม) */
+.search-box {
+    display: none; /* ซ่อนในมือถือ */
+    flex: 1; max-width: 600px; height: 42px; background: #F1F5F9;
+    border-radius: 14px; padding: 0 15px; align-items: center; gap: 10px;
+    cursor: pointer; color: #64748b;
+}
 
-/* Mobile Actions (แสดงในมือถือ, ซ่อนในคอม) */
-.header-actions { display: flex; gap: 10px; }
-.action-btn { width: 38px; height: 38px; border-radius: 12px; border: none; background: #f1f5f9; color: #64748b; display: flex; align-items: center; justify-content: center; }
+/* ปุ่มไอคอนมือถือ */
+.mobile-actions { display: flex; gap: 8px; }
+.action-btn { 
+    width: 38px; height: 38px; border-radius: 12px; border: none; 
+    background: #f1f5f9; color: #64748b; display: flex; align-items: center; justify-content: center;
+}
 .action-btn.add-btn { background: #881313; color: #fff; }
 
+/* --- RESPONSIVE สำหรับคอมพิวเตอร์ --- */
+@media(min-width: 992px) {
+    .mobile-header { height: 90px; padding: 0 40px; background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)), url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png"); background-size: cover; }
+    .logo-box img { width: 50px !important; height: 50px !important; }
+    .system-title h1 { color: #fff !important; font-size: 1.1rem !important; }
+    
+    .search-box { display: flex !important; background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; margin-left: 20px; }
+    .mobile-actions { display: none !important; } /* ซ่อนปุ่มไอคอนในคอม */
+}
+
+      
 /* =========================
    DESKTOP VIEW (992px ขึ้นไป)
 ========================= */
@@ -782,21 +798,21 @@ body{
 </div>
 
 <div class="app-container">
-  <header class="mobile-header">
+<header class="mobile-header">
   <div class="logo-box">
     <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" alt="logo">
   </div>
   
   <div class="system-title">
-    <h1>ระบบจัดเก็บผลงาน</h1>
+    <h1>ระบบจัดเก็บผลงานรางวัลเกียรติยศ</h1>
   </div>
   
-  <div class="search-box-desktop">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>ค้นหารางวัล...</span>
+  <div class="search-box" onclick="openSearch()">
+     <i class="fa-solid fa-magnifying-glass"></i>
+     <span>ค้นหารางวัล...</span>
   </div>
   
-  <div class="header-actions">
+  <div class="mobile-actions">
     <button class="action-btn" onclick="openSearch()">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
