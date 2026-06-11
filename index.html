@@ -516,6 +516,21 @@ body{
     white-space: nowrap;           /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
 }
 
+.award-id-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+      
 /* ส่วนเนื้อหา */
 .card-body-content {
     padding: 20px 15px;
@@ -1236,7 +1251,7 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl, awardId) {
     // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
@@ -1254,6 +1269,8 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
             
             <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" 
                  style="position: absolute; top: 10px; left: 10px; width: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index: 2;">
+            
+            <div class="award-id-badge">${awardId || '-'}</div>
             
             <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}; background: rgba(255,255,255,0.9);">
                 ${level}
