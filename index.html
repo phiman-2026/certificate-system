@@ -203,16 +203,17 @@ body{
 
 /* ปุ่มเพิ่มรางวัล (ค่าเริ่มต้นสำหรับมือถือ) */
 .add-btn {
-    width: 45px; /* ปรับให้เป็นจัตุรัส */
-    height: 45px;
+    width: 45px !important;
+    height: 45px !important;
     border: none;
     border-radius: 14px;
     background: #881313 !important; 
     color: #fff;
-    display: flex; /* เพิ่มเพื่อจัดไอคอนให้อยู่ตรงกลาง */
+    display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* จัดให้อยู่ตรงกลางเป๊ะ */
     transition: 0.3s;
+    padding: 0 !important;
 }
 
 /* รวมตั้งค่า Desktop ไว้ที่เดียว */
@@ -435,15 +436,15 @@ body{
    CARD SYSTEM: PREMIUM UI V5
 ========================= */
 
-/* ปรับการแสดงผลจำนวนคอลัมน์ (Responsive Grid) */
-.row.g-3 {
+/* 2. โครงสร้างการ์ด (Grid System) */
+.cards-grid {
     display: grid;
     gap: 20px;
     padding: 10px;
-    grid-template-columns: 1fr; /* มือถือ: 1 */
+    grid-template-columns: 1fr; /* มือถือ: 1 คอลัมน์ */
 }
-@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(3, 1fr); } } /* แท็บเล็ต: 3 */
-@media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } } /* คอมพิวเตอร์: 4 */
+@media(min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 1200px) { .cards-grid { grid-template-columns: repeat(4, 1fr); } }
 
 /* การ์ดสไตล์พรีเมียม */
 .award-card {
@@ -1125,10 +1126,11 @@ function renderSection(type, title) {
   // limit
   data = data.slice(0, 12);
 
-  zone.insertAdjacentHTML("beforeend", `
-    <div class="section-title">🏆 ${title}</div>
-    <div class="row g-3 mb-4" id="row-${type}"></div>
-  `);
+ // เปลี่ยนบรรทัดนี้
+zone.insertAdjacentHTML("beforeend", `
+  <div class="section-title">🏆 ${title}</div>
+  <div class="cards-grid mb-4" id="row-${type}"></div>
+`);
 
   const row = document.getElementById(`row-${type}`);
   buildCards(row, data, type);
@@ -1334,6 +1336,7 @@ function renderSearchResult(result) {
     }
 
     // สร้าง Grid Container ขึ้นมาใหม่
+    // เปลี่ยนบรรทัดนี้
     zone.innerHTML = `<div class="cards-grid" id="search-grid"></div>`;
     const grid = document.getElementById("search-grid");
 
