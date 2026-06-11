@@ -201,20 +201,16 @@ body{
     font-size: 0.9rem;
 }
 
-/* ปรับแต่งปุ่มเพิ่มรางวัลให้แสดงแค่เครื่องหมายบวก */
+/* ปุ่มเพิ่มรางวัลอยู่ขวาสุด */
 .add-btn {
-    width: 45px; 
-    height: 45px;
+    width: 42px;
+    height: 42px;
     border: none;
     border-radius: 14px;
     background: #881313 !important; 
     color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* จัดไอคอนให้อยู่ตรงกลางปุ่มพอดี */
-    flex-shrink: 0;
+    flex-shrink: 0; /* ป้องกันปุ่มเบี้ยว */
     transition: 0.3s;
-    font-size: 1.2rem; /* ปรับขนาดเครื่องหมายบวกให้เด่นขึ้น */
 }
 
 /* รวมตั้งค่า Desktop ไว้ที่เดียว */
@@ -241,11 +237,7 @@ body{
     .add-btn { 
         width: auto !important; padding: 0 20px !important; 
     }
-
-      /* เพิ่มการขยายตัวเล็กน้อยเมื่อเอาเมาส์ไปวาง (Hover Effect) */
-.add-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(136, 19, 19, 0.3);
+    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
 }
 
 /* =========================
