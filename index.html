@@ -154,53 +154,90 @@ body{
 
 
 /* =========================
-   HEADER
+   HEADER: ปรับปรุงใหม่ตามคำขอ
 ========================= */
-.mobile-header{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:75px;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 15px;
-    box-shadow:0 2px 15px rgba(0,0,0,.08);
-    z-index:1000;
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    box-shadow: 0 2px 15px rgba(0,0,0,.08);
+    z-index: 1000;
 }
 
-.logo-box img{
-    width:48px;
-    height:48px;
-    object-fit:contain;
+.logo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.system-title{
-    display:none;
+.logo-box img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
 }
 
-.search-box{
-    flex:1;
-    background:#F1F5F9;
-    border-radius:14px;
-    padding:10px 12px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    cursor:pointer;
-    color:var(--text-light);
+/* ชื่อระบบในมือถือ (โชว์ข้างโลโก้) */
+.system-title {
+    display: block !important; 
+}
+.system-title h1 { 
+    font-size: 0.95rem !important; 
+    font-weight: 700 !important; 
+    color: #1e293b !important; 
+    margin: 0 !important; 
+    line-height: 1.2;
 }
 
-.add-btn{
-    width:46px;
-    height:46px;
-    border:none;
-    border-radius:14px;
-    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-    color:#fff;
+/* ช่องค้นหา (สีขาวตามคำขอ) */
+.search-box {
+    flex: 1;
+    background: #ffffff !important; /* บังคับให้เป็นสีขาว */
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0 12px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--text-light);
 }
+
+/* ปุ่มเพิ่มรางวัล (สีแดงเข้มเหมือน Desktop) */
+.add-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 14px;
+    background: #881313 !important; /* สีแดงเข้ม */
+    color: #fff;
+    flex-shrink: 0;
+    transition: 0.3s;
+}
+.add-btn:hover {
+    background: #7f1d1d !important;
+}
+
+/* ปรับ Desktop ให้คงเดิม */
+@media(min-width: 992px) {
+    .mobile-header {
+        height: 90px;
+        padding: 0 40px;
+        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)),
+                    url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
+        background-size: cover;
+    }
+    .system-title h1 { color: #fff !important; font-size: 1.1rem !important; }
+    .search-box { background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
+}
+      
 
 /* =========================
    DESKTOP (PREMIUM BANNER - สีแดงเข้มพิเศษ)
