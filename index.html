@@ -157,43 +157,48 @@ body{
 ========================= */
 .mobile-header {
     position: fixed; top: 0; left: 0; right: 0; height: 75px;
-    background: #fff; display: flex; align-items: center; padding: 0 15px; gap: 15px;
+    background: #fff; display: flex; align-items: center; padding: 0 15px; gap: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000;
 }
 
-.logo-box img { width: 40px; height: 40px; }
+.logo-box img { width: 38px; height: 38px; object-fit: contain; }
 
 /* มือถือ: ซ่อนชื่อระบบ */
 .system-title { display: none; }
 
-/* มือถือ: ช่องค้นหาอยู่ตรงกลาง (ขยายให้เต็มที่ว่าง) */
+/* มือถือ: ช่องค้นหาอยู่ตรงกลาง */
 .search-box { 
-    flex: 1; height: 42px; background: #f1f5f9; border-radius: 14px; 
+    flex: 1; height: 42px; background: #F1F5F9; border-radius: 14px; 
     display: flex; align-items: center; padding: 0 15px; gap: 10px; cursor: pointer; color: #64748b; 
 }
-.search-box span { font-size: 0.9rem; }
 
-/* มือถือ: ปุ่มเพิ่มรางวัล (ซ่อนข้อความเหลือแค่ไอคอน) */
+/* มือถือ: ปุ่มเพิ่มรางวัล (เน้นไอคอน) */
 .header-actions .add-btn { 
     width: 42px; height: 42px; background: #881313; color: #fff; 
-    border-radius: 14px; border: none; font-size: 0; /* ซ่อนข้อความ */
+    border-radius: 14px; border: none; display: flex; align-items: center; justify-content: center;
 }
+.header-actions .btn-text { display: none; } /* ซ่อนข้อความในมือถือ */
 
-/* --- DESKTOP VIEW (คอมพิวเตอร์) --- */
+/* --- RESPONSIVE สำหรับคอมพิวเตอร์ --- */
 @media(min-width: 992px) {
-    .mobile-header { height: 90px; padding: 0 40px; background: #1e3a8a; } /* หรือใช้ gradient เดิม */
-    
-    .system-title { display: block !important; margin-left: 15px; }
-    .system-title h1 { font-size: 1.1rem; color: #fff; margin: 0; }
-    .system-title p { font-size: 0.8rem; color: rgba(255,255,255,0.8); margin: 0; }
-    
-    .search-box { 
-        display: flex !important; max-width: 500px; background: rgba(255,255,255,0.2) !important; color: #fff !important; 
+    .mobile-header { 
+        height: 90px; padding: 0 40px; 
+        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)), 
+                    url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png"); 
+        background-size: cover; 
     }
     
-    .header-actions .add-btn { 
-        font-size: 1rem !important; width: auto !important; padding: 0 20px !important; /* แสดงข้อความปุ่มปกติ */
-    }
+    /* แสดงชื่อระบบและโรงเรียน */
+    .system-title { display: block !important; margin-left: 15px; flex: 0 1 auto; }
+    .system-title h1 { font-size: 1rem !important; color: #fff !important; margin: 0; }
+    .system-title p { font-size: 0.75rem !important; color: rgba(255,255,255,0.8) !important; margin: 0; }
+    
+    /* ปรับช่องค้นหาในคอม */
+    .search-box { display: flex !important; background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; margin: 0 20px; }
+    
+    /* แสดงปุ่มแบบเต็มในคอม */
+    .header-actions .add-btn { width: auto !important; padding: 0 20px !important; }
+    .header-actions .btn-text { display: inline !important; margin-left: 8px; }
 }
       
 /* =========================
@@ -814,7 +819,7 @@ body{
   
   <div class="header-actions">
     <button class="add-btn" onclick="openAwardForm()">
-      <i class="fa-solid fa-plus"></i> เพิ่มรางวัล
+      <i class="fa-solid fa-plus"></i> <span class="btn-text">เพิ่มรางวัล</span>
     </button>
   </div>
 </header>
