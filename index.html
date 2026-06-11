@@ -161,13 +161,13 @@ body{
     top: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 75px;
     background: #fff;
     display: flex;
     align-items: center;
-    padding: 0 15px;
-    gap: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    padding: 10px 15px;
+    gap: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,.08);
     z-index: 1000;
 }
 
@@ -188,37 +188,29 @@ body{
 
 /* ช่องค้นหาอยู่ตรงกลาง */
 .search-box {
-    flex: 1;
-    height: 40px;
-    background: #f1f5f9 !important;
-    border: none !important;
-    border-radius: 12px;
+    flex: 1; /* ดันให้ขยายเต็มที่ว่างตรงกลาง */
+    height: 42px;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
     padding: 0 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #64748b;
+    gap: 10px;
+    color: var(--text-light);
+    font-size: 0.9rem;
 }
 
-/* การตั้งค่าปุ่มให้เป็นสี่เหลี่ยมจัตุรัสและแสดงแค่ไอคอน + */
+/* ปุ่มเพิ่มรางวัลอยู่ขวาสุด */
 .add-btn {
-    width: 40px !important;
-    height: 40px !important;
-    padding: 0 !important;
+    width: 42px;
+    height: 42px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     background: #881313 !important; 
     color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-/* ซ่อนข้อความในปุ่มทุกกรณี */
-.add-btn .btn-text {
-    display: none !important;
+    flex-shrink: 0; /* ป้องกันปุ่มเบี้ยว */
+    transition: 0.3s;
 }
 
 /* รวมตั้งค่า Desktop ไว้ที่เดียว */
@@ -243,10 +235,10 @@ body{
     .header-actions { display: block !important; } 
     
     .add-btn { 
-        width: 45px !important; /* ปรับขนาดบน Desktop ให้ใหญ่ขึ้นเล็กน้อยตามความเหมาะสม */
-        height: 45px !important;
+        width: auto !important; padding: 0 20px !important; 
     }
-    
+    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
+}
 
 /* =========================
    DESKTOP (PREMIUM BANNER - สีแดงเข้มพิเศษ)
@@ -436,144 +428,156 @@ body{
     color: #94a3b8;
 }
 
-/* ==================================================
-   CARD SYSTEM: PREMIUM UI V6 (FIXED & RESPONSIVE)
-   ================================================== */
+/* =========================
+   CARD SYSTEM: PREMIUM UI V5
+========================= */
 
-/* ปรับให้ Container หลักรองรับ Grid ของการ์ด */
+/* ปรับการแสดงผลจำนวนคอลัมน์ (Responsive Grid) */
 .row.g-3 {
     display: grid;
-    /* มือถือ 1 คอลัมน์ | แท็บเล็ต 2 | คอม 4 */
-    grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
     padding: 10px;
-    margin: 0 !important;
+    grid-template-columns: 1fr; /* มือถือ: 1 */
 }
+@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(3, 1fr); } } /* แท็บเล็ต: 3 */
+@media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } } /* คอมพิวเตอร์: 4 */
 
-@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(2, 1fr); } }
-@media(min-width: 1024px) { .row.g-3 { grid-template-columns: repeat(3, 1fr); } }
-@media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } }
-
-/* ปรับแต่งตัวการ์ดให้มีความยืดหยุ่น */
+/* การ์ดสไตล์พรีเมียม */
 .award-card {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 20px;
+    padding: 0;
     overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    height: 100%; /* ให้ยืดตามกล่อง Grid */
-    transition: transform 0.2s;
 }
 
-/* ส่วนหัวการ์ด (รูปภาพ) */
+.award-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* ส่วนหัวการ์ด (รองรับรูปภาพ) */
 .card-header-img {
-    height: 150px;
-    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    flex-shrink: 0;
+    /* การตั้งค่ารูปภาพ */
+    background-size: cover;          /* ให้รูปครอบคลุมพื้นที่ */
+    background-position: center;     /* จัดกึ่งกลางรูป */
+    background-repeat: no-repeat;
+    background-color: #e2e8f0;       /* สีสำรองระหว่างรอโหลดรูป */
 }
 
-/* โลโก้ในรูป */
-.header-logo {
-    position: absolute !important;
-    top: 10px !important;
-    left: 10px !important;
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: contain !important;
-    z-index: 5 !important;
-}
-
-/* ป้ายรหัสรางวัล */
-.award-id-badge {
+/* เพิ่ม Overlay ให้รูปภาพดูมืดลงนิดหน่อยเพื่อให้โลโก้เด่นขึ้น (ทางเลือก) */
+.card-header-img::before {
+    content: "";
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #475569;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    z-index: 5;
-    border: 1px solid #e2e8f0;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.15); /* ทำให้รูปเข้มขึ้นเล็กน้อยให้โลโก้ชัด */
 }
 
-/* ป้ายระดับรางวัลที่อยู่ด้านล่างรูป */
+/* ปรับให้ img ภายใน header อยู่เหนือ overlay */
+.card-header-img img {
+    position: relative;
+    z-index: 1;
+}
+
+/* ป้ายระดับรางวัล - ปรับให้สวยและตำแหน่งแม่นยำ */
 .award-badge-points {
-    background: #fff !important;
-    padding: 3px 12px;
-    border-radius: 20px;
+    background: #ffffff !important; /* พื้นหลังสีขาวสะอาดตา */
+    color: #881313 !important;      /* เปลี่ยนเป็นสีแดงเข้มให้เข้ากับธีม */
+    padding: 4px 16px;
+    border-radius: 50px;
     font-weight: 700;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* เพิ่มเงาให้ดูมีมิติ */
     position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 3;
-    white-space: nowrap;
+    bottom: -12px;
+    left: 50%;                     /* จัดกึ่งกลางการ์ด */
+    transform: translateX(-50%);   /* ดึงกลับให้กึ่งกลางเป๊ะ */
+    border: 2px solid #ffffff;     /* ขอบสีขาวช่วยให้ตัดกับรูปภาพพื้นหลัง */
+    z-index: 2;
+    white-space: nowrap;           /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
 }
 
-/* เนื้อหาในส่วนท้ายของการ์ด */
+/* ส่วนเนื้อหา */
 .card-body-content {
-    padding: 25px 15px 15px 15px; /* เพิ่ม Padding บน เพื่อเว้นที่ให้ Badge */
+    padding: 20px 15px;
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* หัวข้อรางวัล */
 .award-title { 
-    font-weight: 700; 
-    font-size: 0.95rem; 
-    margin-bottom: 10px; 
-    line-height: 1.4;
+    font-weight: 800; 
+    font-size: 1rem; 
+    margin-bottom: 12px; 
+    height: 45px; 
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     color: #1e293b;
-    min-height: 2.8em; /* กันพื้นที่ไว้ให้ 2 บรรทัด */
 }
 
-/* ข้อมูลประกอบรางวัล */
 .award-meta {
-    font-size: 0.8rem;
+    text-align: left;
+    font-size: 0.85rem;
     color: #64748b;
     margin-bottom: 15px;
 }
 
-.award-meta p { 
-    margin: 4px 0; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    white-space: nowrap; 
+.award-meta p {
+    margin: 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* ปุ่มดูเกียรติบัตร */
+/* ปุ่มดูเกียรติบัตร (Modern Gradient & Glow Effect) */
 .btn-view-award {
     margin-top: auto; 
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 10px;
-    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 14px; /* ปรับให้โค้งมนขึ้น */
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    transition: background 0.3s;
+    gap: 10px;
+    
+    /* เพิ่ม Gradient ให้ดูมีมิติ */
+    filter: brightness(1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* เพิ่มเงาจางๆ ที่ฐานปุ่ม */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .btn-view-award:hover {
-    filter: brightness(0.9);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    filter: brightness(1.1); /* สว่างขึ้นเล็กน้อยเวลา Hover */
+}
+
+.btn-view-award:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* เพิ่ม Effect ประกายเล็กน้อยในไอคอน */
+.btn-view-award i {
+    font-size: 1.1rem;
+    opacity: 0.9;
 }
       
 /* =========================
@@ -785,24 +789,6 @@ body{
         transform:translateX(0);
         opacity:1;
     }
-}
-
-.empty-section-msg {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    color: #64748b;
-    font-size: 0.95rem;
-    border: 1px dashed #cbd5e1;
-    margin-bottom: 30px !important;
-}
-
-.empty-section-msg i {
-    display: block;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #cbd5e1;
 }
 
 </style>
@@ -1108,54 +1094,45 @@ function renderHomePage() {
 }
 
 /* =========================
-   SECTION + CARDS (MAIN) - ปรับปรุงล่าสุด (แสดงล่าสุด 4 ใบ + ดูเพิ่มเติม)
+   SECTION + CARDS (MAIN)
 ========================= */
 function renderSection(type, title) {
   const zone = document.getElementById("app-content");
 
-  // เรียงข้อมูลจากใหม่ไปเก่าเสมอ
   let data = (allAwardsData[type] || []).slice().reverse();
 
   // ===== FILTER SYSTEM =====
   data = data.filter(item => {
-    const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
-    const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
-    const deptMatch = filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
+
+    const yearMatch =
+      filters.year === "all" ||
+      item["ปีการศึกษา"] == filters.year;
+
+    const levelMatch =
+      filters.level === "all" ||
+      item["ระดับรางวัล"] == filters.level;
+
+    const deptMatch =
+      filters.dept === "all" ||
+      (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
+
     return yearMatch && levelMatch && deptMatch;
   });
 
-  // เช็คว่าเป็นหน้าแรกหรือไม่ เพื่อกำหนดจำนวนการ์ด
-  const isHomePage = (currentTab === "home");
-  const limit = isHomePage ? 4 : 12; // หน้าแรก 4 ใบ, หน้าอื่น 12 ใบ
-  const hasMore = isHomePage && data.length > limit; // มีปุ่มดูเพิ่มเติมเฉพาะหน้าแรกถ้าข้อมูลเกิน
-  
-  const displayData = data.slice(0, limit);
+  // limit
+  data = data.slice(0, 12);
 
-  // ตรวจสอบว่ามีข้อมูลหรือไม่
-  if (data.length > 0) {
-    zone.insertAdjacentHTML("beforeend", `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
-        <div class="section-title" style="margin-bottom:0;">🏆 ${title}</div>
-        ${hasMore ? `<button onclick="changeTab('${type}')" style="border:none; background:none; color:#881313; font-weight:600; cursor:pointer;">ดูเพิ่มเติม...</button>` : ''}
-      </div>
-      <div class="row g-3 mb-4" id="row-${type}"></div>
-    `);
-    
-    const row = document.getElementById(`row-${type}`);
-    buildCards(row, displayData, type);
-  } else {
-    // กรณีไม่มีข้อมูล
-    zone.insertAdjacentHTML("beforeend", `
-      <div class="section-title" style="padding: 0 10px;">🏆 ${title}</div>
-      <div class="empty-section-msg mb-4">
-        <i class="fa-solid fa-circle-info"></i> ยังไม่มีข้อมูลรางวัลในส่วนนี้
-      </div>
-    `);
-  }
+  zone.insertAdjacentHTML("beforeend", `
+    <div class="section-title">🏆 ${title}</div>
+    <div class="row g-3 mb-4" id="row-${type}"></div>
+  `);
+
+  const row = document.getElementById(`row-${type}`);
+  buildCards(row, data, type);
 }
-      
+
 /* =========================
-   CARD BUILDER (ปรับปรุงล่าสุด: เพิ่ม awardId)
+   CARD BUILDER (สำคัญ)
 ========================= */
 function buildCards(container, data, type) {
 
@@ -1163,16 +1140,26 @@ function buildCards(container, data, type) {
 
   data.forEach(item => {
 
-    const title = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
-    const year = item["ปีการศึกษา"] || "-";
-    const level = item["ระดับรางวัล"] || "-";
-    const giver = item["หน่วยงานที่มอบรางวัล"] || "-";
-    const dept = item["กลุ่มสาระการเรียนรู้"] || "";
-    const className = item["ชั้นเรียน"] || "";
-    const pdfUrl = item["ลิงก์ไฟล์เกียรติบัตร"] || "";
-    
-    // ดึงค่ารหัสรางวัล (ตรวจสอบชื่อคอลัมน์ใน Google Sheets ให้ตรงกับ "รหัสรางวัล")
-    const awardId = item["รหัสรางวัล"] || "-";
+    const title =
+      item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
+
+    const year =
+      item["ปีการศึกษา"] || "-";
+
+    const level =
+      item["ระดับรางวัล"] || "-";
+
+    const giver =
+      item["หน่วยงานที่มอบรางวัล"] || "-";
+
+    const dept =
+      item["กลุ่มสาระการเรียนรู้"] || "";
+
+    const className =
+      item["ชั้นเรียน"] || "";
+
+    const pdfUrl =
+      item["ลิงก์ไฟล์เกียรติบัตร"] || "";
 
     let person = "";
 
@@ -1181,11 +1168,13 @@ function buildCards(container, data, type) {
     }
 
     if (type === "staff") {
-      person = item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
+      person =
+        item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
     }
 
     if (type === "student") {
-      person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
+      person =
+        item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
     }
 
     container.insertAdjacentHTML(
@@ -1200,19 +1189,18 @@ function buildCards(container, data, type) {
         dept,
         className,
         config,
-        pdfUrl,
-        awardId // ส่งค่า awardId เข้าไปเป็นตัวสุดท้าย
+        pdfUrl
       )
     );
 
   });
 }
 
-      
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl, awardId) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
+    // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
         staff: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Teacher.png',
@@ -1225,10 +1213,12 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
 
     return `
     <div class="award-card">
-        <div class="card-header-img" style="background-image: url('${headerImg}');">
-            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="header-logo">
-            <div class="award-id-badge">${awardId || '-'}</div>
-            <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor};">
+        <div class="card-header-img" style="background-image: url('${headerImg}'); position: relative;">
+            
+            <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" 
+                 style="position: absolute; top: 10px; left: 10px; width: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index: 2;">
+            
+            <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}; background: rgba(255,255,255,0.9);">
                 ${level}
             </div>
         </div>
@@ -1237,10 +1227,12 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
             <div class="award-meta">
                 <p><strong>ผู้ได้รับ:</strong> ${person}</p>
                 ${className ? `<p><strong>ชั้นเรียน:</strong> ${className}</p>` : ''}
-                <p><strong>หน่วยงานที่มอบ:</strong> ${giver}</p>
+                <p><strong>หน่วยงาน:</strong> ${giver}</p>
                 <p><strong>ปีการศึกษา:</strong> ${year}</p>
             </div>
-            <button class="btn-view-award" style="background-color: ${btnColor}" onclick="openPDF('${pdfUrl}')">
+            <button class="btn-view-award" 
+                    style="background-color: ${btnColor}" 
+                    onclick="openPDF('${pdfUrl}')">
                 <i class="fa-solid fa-file-pdf"></i> ดูเกียรติบัตร
             </button>
         </div>
