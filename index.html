@@ -437,26 +437,25 @@ body{
 }
 
 /* =========================
-   CARD SYSTEM: PREMIUM UI V5
+   CARD SYSTEM: PREMIUM UI V5 (OPTIMIZED FOR MOBILE)
 ========================= */
 
 /* ปรับการแสดงผลจำนวนคอลัมน์ (Responsive Grid) */
-/* --- รวมการตั้งค่า Grid ให้รองรับทุกหน้าจอ --- */
 .row.g-3 {
     display: grid;
-    gap: 20px;
+    gap: 15px; /* ลดช่องว่างบนมือถือเพื่อให้การ์ดดูเต็มตาขึ้น */
     padding: 10px;
     grid-template-columns: 1fr; /* มือถือ: 1 คอลัมน์ */
 }
 
 /* แท็บเล็ต: 2 คอลัมน์ */
 @media(min-width: 768px) { 
-    .row.g-3 { grid-template-columns: repeat(2, 1fr); } 
+    .row.g-3 { grid-template-columns: repeat(2, 1fr); gap: 20px; } 
 }
 
 /* คอมพิวเตอร์: 4 คอลัมน์ */
 @media(min-width: 1200px) { 
-    .row.g-3 { grid-template-columns: repeat(4, 1fr); } 
+    .row.g-3 { grid-template-columns: repeat(4, 1fr); gap: 20px; } 
 }
 
 /* การ์ดสไตล์พรีเมียม */
@@ -470,6 +469,7 @@ body{
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
+    height: 100%; /* บังคับให้การ์ดสูงเท่ากันในแถว */
 }
 
 .award-card:hover {
@@ -477,50 +477,49 @@ body{
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-/* ส่วนหัวการ์ด (รองรับรูปภาพ) */
+/* ส่วนหัวการ์ด (ปรับปรุงให้รองรับทุกหน้าจอ) */
 .card-header-img {
-    height: 120px;
+    width: 100%;
+    height: 130px; /* เพิ่มความสูงเล็กน้อยเพื่อภาพลักษณ์ที่พรีเมียมขึ้น */
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    /* การตั้งค่ารูปภาพ */
-    background-size: cover;          /* ให้รูปครอบคลุมพื้นที่ */
-    background-position: center;     /* จัดกึ่งกลางรูป */
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    background-color: #e2e8f0;       /* สีสำรองระหว่างรอโหลดรูป */
+    background-color: #e2e8f0;
 }
 
-/* เพิ่ม Overlay ให้รูปภาพดูมืดลงนิดหน่อยเพื่อให้โลโก้เด่นขึ้น (ทางเลือก) */
 .card-header-img::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.15); /* ทำให้รูปเข้มขึ้นเล็กน้อยให้โลโก้ชัด */
+    background: rgba(0,0,0,0.15);
 }
 
-/* ปรับให้ img ภายใน header อยู่เหนือ overlay */
 .card-header-img img {
     position: relative;
     z-index: 1;
+    max-height: 80%; /* จำกัดขนาดโลโก้ไม่ให้ใหญ่เกินจนภาพแตก */
 }
 
-/* ป้ายระดับรางวัล - ปรับให้สวยและตำแหน่งแม่นยำ */
+/* ป้ายระดับรางวัล */
 .award-badge-points {
-    background: #ffffff !important; /* พื้นหลังสีขาวสะอาดตา */
-    color: #881313 !important;      /* เปลี่ยนเป็นสีแดงเข้มให้เข้ากับธีม */
+    background: #ffffff !important;
+    color: #881313 !important;
     padding: 4px 16px;
     border-radius: 50px;
     font-weight: 700;
     font-size: 0.75rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* เพิ่มเงาให้ดูมีมิติ */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     position: absolute;
     bottom: -12px;
-    left: 50%;                     /* จัดกึ่งกลางการ์ด */
-    transform: translateX(-50%);   /* ดึงกลับให้กึ่งกลางเป๊ะ */
-    border: 2px solid #ffffff;     /* ขอบสีขาวช่วยให้ตัดกับรูปภาพพื้นหลัง */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #ffffff;
     z-index: 2;
-    white-space: nowrap;           /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+    white-space: nowrap;
 }
 
 .award-id-badge {
@@ -540,7 +539,7 @@ body{
       
 /* ส่วนเนื้อหา */
 .card-body-content {
-    padding: 20px 15px;
+    padding: 20px 15px 15px 15px; /* ปรับ Padding ให้สมดุล */
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -556,6 +555,7 @@ body{
     -webkit-box-orient: vertical;
     overflow: hidden;
     color: #1e293b;
+    line-height: 1.4;
 }
 
 .award-meta {
@@ -566,47 +566,35 @@ body{
 }
 
 .award-meta p {
-    margin: 3px 0;
+    margin: 4px 0; /* เพิ่มระยะห่างระหว่างบรรทัด meta เล็กน้อยให้อ่านง่าย */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* ปุ่มดูเกียรติบัตร (Modern Gradient & Glow Effect) */
+/* ปุ่มดูเกียรติบัตร */
 .btn-view-award {
     margin-top: auto; 
     color: white;
     border: none;
     padding: 12px 20px;
-    border-radius: 14px; /* ปรับให้โค้งมนขึ้น */
+    border-radius: 12px;
     font-weight: 700;
     font-size: 0.9rem;
-    letter-spacing: 0.5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    
-    /* เพิ่ม Gradient ให้ดูมีมิติ */
-    filter: brightness(1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
-    /* เพิ่มเงาจางๆ ที่ฐานปุ่ม */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .btn-view-award:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    filter: brightness(1.1); /* สว่างขึ้นเล็กน้อยเวลา Hover */
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
-.btn-view-award:active {
-    transform: translateY(0) scale(0.98);
-}
-
-/* เพิ่ม Effect ประกายเล็กน้อยในไอคอน */
 .btn-view-award i {
     font-size: 1.1rem;
     opacity: 0.9;
