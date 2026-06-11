@@ -1184,7 +1184,7 @@ function renderSection(type, title) {
 }
       
 /* =========================
-   CARD BUILDER (สำคัญ)
+   CARD BUILDER (ปรับปรุงล่าสุด: เพิ่ม awardId)
 ========================= */
 function buildCards(container, data, type) {
 
@@ -1192,26 +1192,16 @@ function buildCards(container, data, type) {
 
   data.forEach(item => {
 
-    const title =
-      item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
-
-    const year =
-      item["ปีการศึกษา"] || "-";
-
-    const level =
-      item["ระดับรางวัล"] || "-";
-
-    const giver =
-      item["หน่วยงานที่มอบรางวัล"] || "-";
-
-    const dept =
-      item["กลุ่มสาระการเรียนรู้"] || "";
-
-    const className =
-      item["ชั้นเรียน"] || "";
-
-    const pdfUrl =
-      item["ลิงก์ไฟล์เกียรติบัตร"] || "";
+    const title = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "-";
+    const year = item["ปีการศึกษา"] || "-";
+    const level = item["ระดับรางวัล"] || "-";
+    const giver = item["หน่วยงานที่มอบรางวัล"] || "-";
+    const dept = item["กลุ่มสาระการเรียนรู้"] || "";
+    const className = item["ชั้นเรียน"] || "";
+    const pdfUrl = item["ลิงก์ไฟล์เกียรติบัตร"] || "";
+    
+    // ดึงค่ารหัสรางวัล (ตรวจสอบชื่อคอลัมน์ใน Google Sheets ให้ตรงกับ "รหัสรางวัล")
+    const awardId = item["รหัสรางวัล"] || "-";
 
     let person = "";
 
@@ -1220,13 +1210,11 @@ function buildCards(container, data, type) {
     }
 
     if (type === "staff") {
-      person =
-        item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
+      person = item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
     }
 
     if (type === "student") {
-      person =
-        item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
+      person = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "-";
     }
 
     container.insertAdjacentHTML(
@@ -1241,13 +1229,15 @@ function buildCards(container, data, type) {
         dept,
         className,
         config,
-        pdfUrl
+        pdfUrl,
+        awardId // ส่งค่า awardId เข้าไปเป็นตัวสุดท้าย
       )
     );
 
   });
 }
 
+      
 /* =========================
    CARD HTML
 ========================= */
