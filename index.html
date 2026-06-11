@@ -152,9 +152,11 @@ body{
     100% { transform: translateX(250%); }
 }
 
+
 /* =========================
-   HEADER: Responsive Design
+   HEADER
 ========================= */
+/* --- HEADER: Responsive Design (แทนที่อันเก่าทั้งหมด) --- */
 .mobile-header {
     position: fixed; top: 0; left: 0; right: 0; height: 75px;
     background: #fff; display: flex; align-items: center; padding: 0 15px; gap: 12px;
@@ -169,6 +171,8 @@ body{
     flex: 1; height: 42px; background: #F1F5F9; border-radius: 14px; 
     display: flex; align-items: center; padding: 0 15px; gap: 10px; cursor: pointer; color: #64748b; 
 }
+
+.header-actions { display: block; } /* มั่นใจว่าตัวหุ้มปุ่มแสดงผล */
 
 .add-btn { 
     width: 42px; height: 42px; background: #881313; color: #fff; 
@@ -187,8 +191,8 @@ body{
     }
     
     .system-title { display: block !important; margin-left: 15px; color: #fff; white-space: nowrap; }
-    .system-title h1 { font-size: 1.1rem !important; margin: 0; }
-    .system-title p { font-size: 0.75rem !important; color: rgba(255,255,255,0.8); margin: 0; }
+    .system-title h1 { font-size: 1.1rem !important; margin: 0; color: #fff !important; }
+    .system-title p { font-size: 0.75rem !important; color: rgba(255,255,255,0.8) !important; margin: 0; }
     
     .search-box { 
         display: flex !important; max-width: 600px; margin: 0 20px; 
@@ -200,9 +204,6 @@ body{
         background: #881313 !important; color: #fff !important;
     }
     .add-btn .btn-text { display: inline !important; margin-left: 8px; }
-    
-    /* แก้ไขปัญหาปุ่มหายที่เกิดจากโค้ดเก่า */
-    .header-actions { display: flex !important; }
 }
       
 /* =========================
