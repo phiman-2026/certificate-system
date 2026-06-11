@@ -437,20 +437,24 @@ body{
 }
 
 /* ==================================================
-   CARD SYSTEM: PREMIUM UI V6 (FIXED FOR MOBILE)
-================================================== */
+   CARD SYSTEM: PREMIUM UI V6 (FIXED & RESPONSIVE)
+   ================================================== */
 
+/* ปรับให้ Container หลักรองรับ Grid ของการ์ด */
 .row.g-3 {
     display: grid;
-    grid-template-columns: 1fr; /* มือถือแสดง 1 คอลัมน์ */
+    /* มือถือ 1 คอลัมน์ | แท็บเล็ต 2 | คอม 4 */
+    grid-template-columns: 1fr;
     gap: 16px;
     padding: 10px;
-    margin: 0 !important; /* ป้องกัน Margin เกิน */
+    margin: 0 !important;
 }
 
-@media(min-width: 600px) { .row.g-3 { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 1024px) { .row.g-3 { grid-template-columns: repeat(3, 1fr); } }
 @media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } }
 
+/* ปรับแต่งตัวการ์ดให้มีความยืดหยุ่น */
 .award-card {
     background: #fff;
     border-radius: 16px;
@@ -459,29 +463,33 @@ body{
     flex-direction: column;
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    height: auto; /* เปลี่ยนจาก 100% เป็น auto */
+    height: 100%; /* ให้ยืดตามกล่อง Grid */
+    transition: transform 0.2s;
 }
 
+/* ส่วนหัวการ์ด (รูปภาพ) */
 .card-header-img {
-    height: 140px; /* เพิ่มความสูงเล็กน้อยให้ดูเด่นขึ้น */
+    height: 150px;
+    width: 100%;
     position: relative;
     background-size: cover !important;
-    background-position: center center !important;
-    width: 100%;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    flex-shrink: 0;
 }
 
-/* แก้ไขให้โลโก้มีขนาดคงที่ 40px เสมอ */
+/* โลโก้ในรูป */
 .header-logo {
     position: absolute !important;
     top: 10px !important;
     left: 10px !important;
     width: 40px !important;
     height: 40px !important;
-    /* เอา object-fit ออก หรือใช้ contain */
-    object-fit: contain !important; 
+    object-fit: contain !important;
     z-index: 5 !important;
 }
 
+/* ป้ายรหัสรางวัล */
 .award-id-badge {
     position: absolute;
     top: 10px;
@@ -496,6 +504,7 @@ body{
     border: 1px solid #e2e8f0;
 }
 
+/* ป้ายระดับรางวัลที่อยู่ด้านล่างรูป */
 .award-badge-points {
     background: #fff !important;
     padding: 3px 12px;
@@ -511,33 +520,43 @@ body{
     white-space: nowrap;
 }
 
+/* เนื้อหาในส่วนท้ายของการ์ด */
 .card-body-content {
-    padding: 20px 15px 15px 15px;
+    padding: 25px 15px 15px 15px; /* เพิ่ม Padding บน เพื่อเว้นที่ให้ Badge */
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
+/* หัวข้อรางวัล */
 .award-title { 
     font-weight: 700; 
     font-size: 0.95rem; 
     margin-bottom: 10px; 
-    height: 45px; 
+    line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     color: #1e293b;
+    min-height: 2.8em; /* กันพื้นที่ไว้ให้ 2 บรรทัด */
 }
 
+/* ข้อมูลประกอบรางวัล */
 .award-meta {
     font-size: 0.8rem;
     color: #64748b;
     margin-bottom: 15px;
 }
 
-.award-meta p { margin: 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.award-meta p { 
+    margin: 4px 0; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
 
+/* ปุ่มดูเกียรติบัตร */
 .btn-view-award {
     margin-top: auto; 
     color: white;
@@ -550,7 +569,11 @@ body{
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: 0.2s;
+    transition: background 0.3s;
+}
+
+.btn-view-award:hover {
+    filter: brightness(0.9);
 }
       
 /* =========================
