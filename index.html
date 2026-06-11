@@ -161,13 +161,13 @@ body{
     top: 0;
     left: 0;
     right: 0;
-    height: 75px;
+    height: 70px;
     background: #fff;
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    gap: 12px;
-    box-shadow: 0 2px 15px rgba(0,0,0,.08);
+    padding: 0 15px;
+    gap: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
     z-index: 1000;
 }
 
@@ -188,34 +188,32 @@ body{
 
 /* ช่องค้นหาอยู่ตรงกลาง */
 .search-box {
-    flex: 1; /* ดันให้ขยายเต็มที่ว่างตรงกลาง */
-    height: 42px;
-    background: #ffffff !important;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
+    flex: 1;
+    height: 40px;
+    background: #f1f5f9 !important;
+    border: none !important;
+    border-radius: 12px;
     padding: 0 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--text-light);
-    font-size: 0.9rem;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #64748b;
 }
 
 /* การตั้งค่าปุ่มให้เป็นสี่เหลี่ยมจัตุรัสและแสดงแค่ไอคอน + */
 .add-btn {
-    width: 42px !important;
-    height: 42px !important;
-    padding: 0 !important; /* ลบ padding ที่เคยตั้งไว้ตอน Desktop */
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
     border: none;
-    border-radius: 14px;
+    border-radius: 12px;
     background: #881313 !important; 
     color: #fff;
     display: flex;
     align-items: center;
-    justify-content: center; /* จัดไอคอนให้อยู่กลางปุ่ม */
+    justify-content: center;
     flex-shrink: 0;
-    transition: 0.3s;
-    font-size: 1.2rem;
 }
 
 /* ซ่อนข้อความในปุ่มทุกกรณี */
@@ -443,14 +441,23 @@ body{
 ========================= */
 
 /* ปรับการแสดงผลจำนวนคอลัมน์ (Responsive Grid) */
+/* --- รวมการตั้งค่า Grid ให้รองรับทุกหน้าจอ --- */
 .row.g-3 {
     display: grid;
     gap: 20px;
     padding: 10px;
-    grid-template-columns: 1fr; /* มือถือ: 1 */
+    grid-template-columns: 1fr; /* มือถือ: 1 คอลัมน์ */
 }
-@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(3, 1fr); } } /* แท็บเล็ต: 3 */
-@media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } } /* คอมพิวเตอร์: 4 */
+
+/* แท็บเล็ต: 2 คอลัมน์ */
+@media(min-width: 768px) { 
+    .row.g-3 { grid-template-columns: repeat(2, 1fr); } 
+}
+
+/* คอมพิวเตอร์: 4 คอลัมน์ */
+@media(min-width: 1200px) { 
+    .row.g-3 { grid-template-columns: repeat(4, 1fr); } 
+}
 
 /* การ์ดสไตล์พรีเมียม */
 .award-card {
