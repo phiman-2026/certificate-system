@@ -801,6 +801,24 @@ body{
     }
 }
 
+.empty-section-msg {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95rem;
+    border: 1px dashed #cbd5e1;
+    margin-bottom: 30px !important;
+}
+
+.empty-section-msg i {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #cbd5e1;
+}
+
 </style>
 
 </head>
@@ -1106,6 +1124,9 @@ function renderHomePage() {
 /* =========================
    SECTION + CARDS (MAIN)
 ========================= */
+/* =========================
+   SECTION + CARDS (MAIN) - ปรับปรุงเพื่อแสดงกรณีไม่มีข้อมูล
+========================= */
 function renderSection(type, title) {
   const zone = document.getElementById("app-content");
 
@@ -1113,18 +1134,9 @@ function renderSection(type, title) {
 
   // ===== FILTER SYSTEM =====
   data = data.filter(item => {
-
-    const yearMatch =
-      filters.year === "all" ||
-      item["ปีการศึกษา"] == filters.year;
-
-    const levelMatch =
-      filters.level === "all" ||
-      item["ระดับรางวัล"] == filters.level;
-
-    const deptMatch =
-      filters.dept === "all" ||
-      (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
+    const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
+    const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
+    const deptMatch = filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
 
     return yearMatch && levelMatch && deptMatch;
   });
@@ -1132,15 +1144,26 @@ function renderSection(type, title) {
   // limit
   data = data.slice(0, 12);
 
-  zone.insertAdjacentHTML("beforeend", `
-    <div class="section-title">🏆 ${title}</div>
-    <div class="row g-3 mb-4" id="row-${type}"></div>
-  `);
-
-  const row = document.getElementById(`row-${type}`);
-  buildCards(row, data, type);
+  // ตรวจสอบว่ามีข้อมูลหรือไม่
+  if (data.length > 0) {
+    // ถ้ามีข้อมูล ให้แสดงหัวข้อ และ Container สำหรับการ์ดตามปกติ
+    zone.insertAdjacentHTML("beforeend", `
+      <div class="section-title">🏆 ${title}</div>
+      <div class="row g-3 mb-4" id="row-${type}"></div>
+    `);
+    const row = document.getElementById(`row-${type}`);
+    buildCards(row, data, type);
+  } else {
+    // ถ้าไม่มีข้อมูล ให้แสดงหัวข้อ และข้อความแจ้งเตือน
+    zone.insertAdjacentHTML("beforeend", `
+      <div class="section-title">🏆 ${title}</div>
+      <div class="empty-section-msg mb-4">
+        <i class="fa-solid fa-circle-info"></i> ยังไม่มีข้อมูลรางวัลในส่วนนี้
+      </div>
+    `);
+  }
 }
-
+      
 /* =========================
    CARD BUILDER (สำคัญ)
 ========================= */
