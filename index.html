@@ -801,6 +801,24 @@ body{
     }
 }
 
+.empty-section-msg {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95rem;
+    border: 1px dashed #cbd5e1;
+    margin-bottom: 30px !important;
+}
+
+.empty-section-msg i {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #cbd5e1;
+}
+
 </style>
 
 </head>
@@ -1104,43 +1122,52 @@ function renderHomePage() {
 }
 
 /* =========================
-   SECTION + CARDS (MAIN)
+   SECTION + CARDS (MAIN) - ปรับปรุงล่าสุด (แสดงล่าสุด 4 ใบ + ดูเพิ่มเติม)
 ========================= */
 function renderSection(type, title) {
   const zone = document.getElementById("app-content");
 
+  // เรียงข้อมูลจากใหม่ไปเก่าเสมอ
   let data = (allAwardsData[type] || []).slice().reverse();
 
   // ===== FILTER SYSTEM =====
   data = data.filter(item => {
-
-    const yearMatch =
-      filters.year === "all" ||
-      item["ปีการศึกษา"] == filters.year;
-
-    const levelMatch =
-      filters.level === "all" ||
-      item["ระดับรางวัล"] == filters.level;
-
-    const deptMatch =
-      filters.dept === "all" ||
-      (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
-
+    const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
+    const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
+    const deptMatch = filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
     return yearMatch && levelMatch && deptMatch;
   });
 
-  // limit
-  data = data.slice(0, 12);
+  // เช็คว่าเป็นหน้าแรกหรือไม่ เพื่อกำหนดจำนวนการ์ด
+  const isHomePage = (currentTab === "home");
+  const limit = isHomePage ? 4 : 12; // หน้าแรก 4 ใบ, หน้าอื่น 12 ใบ
+  const hasMore = isHomePage && data.length > limit; // มีปุ่มดูเพิ่มเติมเฉพาะหน้าแรกถ้าข้อมูลเกิน
+  
+  const displayData = data.slice(0, limit);
 
-  zone.insertAdjacentHTML("beforeend", `
-    <div class="section-title">🏆 ${title}</div>
-    <div class="row g-3 mb-4" id="row-${type}"></div>
-  `);
-
-  const row = document.getElementById(`row-${type}`);
-  buildCards(row, data, type);
+  // ตรวจสอบว่ามีข้อมูลหรือไม่
+  if (data.length > 0) {
+    zone.insertAdjacentHTML("beforeend", `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+        <div class="section-title" style="margin-bottom:0;">🏆 ${title}</div>
+        ${hasMore ? `<button onclick="changeTab('${type}')" style="border:none; background:none; color:#881313; font-weight:600; cursor:pointer;">ดูเพิ่มเติม...</button>` : ''}
+      </div>
+      <div class="row g-3 mb-4" id="row-${type}"></div>
+    `);
+    
+    const row = document.getElementById(`row-${type}`);
+    buildCards(row, displayData, type);
+  } else {
+    // กรณีไม่มีข้อมูล
+    zone.insertAdjacentHTML("beforeend", `
+      <div class="section-title" style="padding: 0 10px;">🏆 ${title}</div>
+      <div class="empty-section-msg mb-4">
+        <i class="fa-solid fa-circle-info"></i> ยังไม่มีข้อมูลรางวัลในส่วนนี้
+      </div>
+    `);
+  }
 }
-
+      
 /* =========================
    CARD BUILDER (สำคัญ)
 ========================= */
