@@ -86,46 +86,57 @@ body{
 /* =========================
    LOADING SCREEN: PREMIUM STYLE
 ========================= */
-/* Container หลักที่คุมทุกอย่างไว้ตรงกลางเสมอ */
 .loading-screen {
     position: fixed;
     inset: 0;
-    background: #ffffff;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* กันชิดขอบเกินไปบนมือถือ */
+    background: #1e293b; /* สีเทาเข้มโทนพรีเมียม */
+    overflow: hidden;
 }
 
-/* ส่วนเนื้อหาภายในให้มีความกว้างจำกัด */
+/* ลายเส้นถ้วยรางวัลพื้นหลัง */
+.loading-bg-pattern {
+    position: absolute;
+    inset: 0;
+    /* ใช้โทนสีแดงเข้มผสมเทา จางๆ เป็นลายน้ำ */
+    background: radial-gradient(circle at center, rgba(136, 19, 19, 0.2) 0%, rgba(30, 41, 59, 0) 70%);
+    opacity: 0.5;
+    background-image: url("https://www.transparenttextures.com/patterns/cubes.png"); /* เปลี่ยนเป็น URL ลายกราฟิกถ้วยรางวัลของคุณ */
+    pointer-events: none;
+}
+
 .loading-content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 90%;
     max-width: 400px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95); /* กล่องเนื้อหาพื้นหลังขาวโปร่งแสง */
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     text-align: center;
 }
 
 .loading-logo {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 20px;
-    object-fit: contain;
+    width: 80px;
+    margin-bottom: 15px;
 }
 
 .loading-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 20px;
 }
 
-/* แถบโหลดดิ้งแบบเส้นที่สวยงาม */
 .loading-bar-container {
-    width: 100%; /* ขยายเต็มความกว้าง .loading-content */
-    max-width: 250px;
+    width: 100%;
     height: 6px;
     background: #e2e8f0;
     border-radius: 10px;
@@ -143,13 +154,7 @@ body{
 
 .loading-sub {
     color: #64748b;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@keyframes loadingMove {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(250%); }
+    font-size: 0.85rem;
 }
 
 /* =========================
@@ -758,6 +763,8 @@ body{
 <body>
 
 <div id="loading-screen" class="loading-screen">
+  <div class="loading-bg-pattern"></div>
+  
   <div class="loading-content">
     <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="loading-logo" alt="logo">
     <div class="loading-title">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
