@@ -237,16 +237,19 @@ body{
     /* แก้ไขตรงนี้ให้ปุ่มแสดงผล */
     .header-actions { display: block !important; } 
     
-    .add-btn {
-        margin-left: auto;
-        width: 45px !important; /* บังคับให้เป็นขนาดเดิมไม่ขยายตามข้อความ */
-        height: 45px !important;
-        padding: 0 !important; /* เอา padding ออก */
-    }
+   .add-btn {
+    margin-left: auto;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 0 !important;
+}
+
+}  /* ← ปิด media query ตัวแรก */
 
 /* =========================
    DESKTOP (PREMIUM BANNER - สีแดงเข้มพิเศษ)
 ========================= */
+
 @media(min-width: 992px) {
     .mobile-header {
         height: 90px;
