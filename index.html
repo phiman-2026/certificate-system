@@ -442,12 +442,13 @@ body{
 
 .row.g-3 {
     display: grid;
+    grid-template-columns: 1fr; /* มือถือแสดง 1 คอลัมน์ */
     gap: 16px;
     padding: 10px;
-    grid-template-columns: 1fr;
+    margin: 0 !important; /* ป้องกัน Margin เกิน */
 }
 
-@media(min-width: 768px) { .row.g-3 { grid-template-columns: repeat(2, 1fr); } }
+@media(min-width: 600px) { .row.g-3 { grid-template-columns: repeat(2, 1fr); } }
 @media(min-width: 1200px) { .row.g-3 { grid-template-columns: repeat(4, 1fr); } }
 
 .award-card {
@@ -456,19 +457,17 @@ body{
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%;
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    height: auto; /* เปลี่ยนจาก 100% เป็น auto */
 }
 
 .card-header-img {
-    height: 130px;
+    height: 140px; /* เพิ่มความสูงเล็กน้อยให้ดูเด่นขึ้น */
     position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    flex-shrink: 0;
+    background-size: cover !important;
+    background-position: center center !important;
+    width: 100%;
 }
 
 /* แก้ไขให้โลโก้มีขนาดคงที่ 40px เสมอ */
@@ -476,12 +475,11 @@ body{
     position: absolute !important;
     top: 10px !important;
     left: 10px !important;
-    width: 40px !important; 
+    width: 40px !important;
     height: 40px !important;
-    object-fit: contain !important;
+    /* เอา object-fit ออก หรือใช้ contain */
+    object-fit: contain !important; 
     z-index: 5 !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    display: block !important;
 }
 
 .award-id-badge {
