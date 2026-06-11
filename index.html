@@ -163,21 +163,19 @@ body{
 
 .logo-box img { width: 38px; height: 38px; object-fit: contain; }
 
-/* มือถือ: ซ่อนชื่อระบบ */
-.system-title { display: none; }
+.system-title { display: none; } /* ซ่อนในมือถือ */
 
-/* มือถือ: ช่องค้นหาอยู่ตรงกลาง */
 .search-box { 
     flex: 1; height: 42px; background: #F1F5F9; border-radius: 14px; 
     display: flex; align-items: center; padding: 0 15px; gap: 10px; cursor: pointer; color: #64748b; 
 }
 
-/* มือถือ: ปุ่มเพิ่มรางวัล (เน้นไอคอน) */
-.header-actions .add-btn { 
+.add-btn { 
     width: 42px; height: 42px; background: #881313; color: #fff; 
     border-radius: 14px; border: none; display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
 }
-.header-actions .btn-text { display: none; } /* ซ่อนข้อความในมือถือ */
+.add-btn .btn-text { display: none; } /* ซ่อนข้อความในมือถือ */
 
 /* --- RESPONSIVE สำหรับคอมพิวเตอร์ --- */
 @media(min-width: 992px) {
@@ -185,20 +183,26 @@ body{
         height: 90px; padding: 0 40px; 
         background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)), 
                     url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png"); 
-        background-size: cover; 
+        background-size: cover; background-position: center;
     }
     
-    /* แสดงชื่อระบบและโรงเรียน */
-    .system-title { display: block !important; margin-left: 15px; flex: 0 1 auto; }
-    .system-title h1 { font-size: 1rem !important; color: #fff !important; margin: 0; }
-    .system-title p { font-size: 0.75rem !important; color: rgba(255,255,255,0.8) !important; margin: 0; }
+    .system-title { display: block !important; margin-left: 15px; color: #fff; white-space: nowrap; }
+    .system-title h1 { font-size: 1.1rem !important; margin: 0; }
+    .system-title p { font-size: 0.75rem !important; color: rgba(255,255,255,0.8); margin: 0; }
     
-    /* ปรับช่องค้นหาในคอม */
-    .search-box { display: flex !important; background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; margin: 0 20px; }
+    .search-box { 
+        display: flex !important; max-width: 600px; margin: 0 20px; 
+        background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; 
+    }
     
-    /* แสดงปุ่มแบบเต็มในคอม */
-    .header-actions .add-btn { width: auto !important; padding: 0 20px !important; }
-    .header-actions .btn-text { display: inline !important; margin-left: 8px; }
+    .add-btn { 
+        width: auto !important; padding: 0 20px !important; 
+        background: #881313 !important; color: #fff !important;
+    }
+    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
+    
+    /* แก้ไขปัญหาปุ่มหายที่เกิดจากโค้ดเก่า */
+    .header-actions { display: flex !important; }
 }
       
 /* =========================
