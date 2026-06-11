@@ -201,16 +201,26 @@ body{
     font-size: 0.9rem;
 }
 
-/* ปุ่มเพิ่มรางวัลอยู่ขวาสุด */
+/* การตั้งค่าปุ่มให้เป็นสี่เหลี่ยมจัตุรัสและแสดงแค่ไอคอน + */
 .add-btn {
-    width: 42px;
-    height: 42px;
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important; /* ลบ padding ที่เคยตั้งไว้ตอน Desktop */
     border: none;
     border-radius: 14px;
     background: #881313 !important; 
     color: #fff;
-    flex-shrink: 0; /* ป้องกันปุ่มเบี้ยว */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* จัดไอคอนให้อยู่กลางปุ่ม */
+    flex-shrink: 0;
     transition: 0.3s;
+    font-size: 1.2rem;
+}
+
+/* ซ่อนข้อความในปุ่มทุกกรณี */
+.add-btn .btn-text {
+    display: none !important;
 }
 
 /* รวมตั้งค่า Desktop ไว้ที่เดียว */
@@ -235,10 +245,10 @@ body{
     .header-actions { display: block !important; } 
     
     .add-btn { 
-        width: auto !important; padding: 0 20px !important; 
+        width: 45px !important; /* ปรับขนาดบน Desktop ให้ใหญ่ขึ้นเล็กน้อยตามความเหมาะสม */
+        height: 45px !important;
     }
-    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
-}
+    
 
 /* =========================
    DESKTOP (PREMIUM BANNER - สีแดงเข้มพิเศษ)
