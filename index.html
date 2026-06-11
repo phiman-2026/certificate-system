@@ -201,15 +201,17 @@ body{
     font-size: 0.9rem;
 }
 
-/* ปุ่มเพิ่มรางวัลอยู่ขวาสุด */
+/* ปุ่มเพิ่มรางวัล (ค่าเริ่มต้นสำหรับมือถือ) */
 .add-btn {
-    width: 42px;
-    height: 42px;
+    width: 45px; /* ปรับให้เป็นจัตุรัส */
+    height: 45px;
     border: none;
     border-radius: 14px;
     background: #881313 !important; 
     color: #fff;
-    flex-shrink: 0; /* ป้องกันปุ่มเบี้ยว */
+    display: flex; /* เพิ่มเพื่อจัดไอคอนให้อยู่ตรงกลาง */
+    align-items: center;
+    justify-content: center;
     transition: 0.3s;
 }
 
@@ -234,11 +236,12 @@ body{
     /* แก้ไขตรงนี้ให้ปุ่มแสดงผล */
     .header-actions { display: block !important; } 
     
-    .add-btn { 
-        width: auto !important; padding: 0 20px !important; 
+    .add-btn {
+        margin-left: auto;
+        width: 45px !important; /* บังคับให้เป็นขนาดเดิมไม่ขยายตามข้อความ */
+        height: 45px !important;
+        padding: 0 !important; /* เอา padding ออก */
     }
-    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
-}
 
 /* =========================
    DESKTOP (PREMIUM BANNER - สีแดงเข้มพิเศษ)
@@ -823,11 +826,11 @@ body{
      <span>ค้นหารางวัล...</span>
   </div>
   
-  <div class="header-actions">
-    <button class="add-btn" onclick="openAwardForm()">
-      <i class="fa-solid fa-plus"></i> <span class="btn-text">เพิ่มรางวัล</span>
-    </button>
-  </div>
+ <div class="header-actions">
+  <button class="add-btn" onclick="openAwardForm()">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</div>
 </header>
 
   <main class="content-wrap">
