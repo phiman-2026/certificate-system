@@ -213,55 +213,31 @@ body{
     transition: 0.3s;
 }
 
-/* ส่วน Desktop (คงรูปแบบเดิมไว้) */
+/* รวมตั้งค่า Desktop ไว้ที่เดียว */
 @media(min-width: 992px) {
-    .mobile-header {
-        height: 90px;
-        padding: 0 40px;
-        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)),
-                    url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
+    .mobile-header { 
+        height: 90px; padding: 0 40px; 
+        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)), 
+                    url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png"); 
         background-size: cover;
     }
+    
     .system-title { display: block !important; margin-right: 20px; }
+    
     .search-box { 
-        max-width: 800px; 
+        max-width: 600px; 
         background: rgba(255, 255, 255, 0.15) !important; 
         border: 1px solid rgba(255, 255, 255, 0.3) !important; 
         color: #fff !important; 
     }
-}
-      
-/* =========================
-   DESKTOP VIEW (992px ขึ้นไป)
-========================= */
-@media(min-width: 992px) {
-    .mobile-header { 
-        height: 90px; 
-        padding: 0 40px; 
-        background: linear-gradient(135deg, rgba(71, 85, 105, 0.9), rgba(51, 65, 85, 0.9)),
-                    url("https://raw.githubusercontent.com/phiman-2026/picture/main/Picindex.png");
-        background-size: cover;
+    
+    /* แก้ไขตรงนี้ให้ปุ่มแสดงผล */
+    .header-actions { display: block !important; } 
+    
+    .add-btn { 
+        width: auto !important; padding: 0 20px !important; 
     }
-    
-    .logo-box img { width: 50px !important; height: 50px !important; }
-    
-    .system-title h1 { color: #fff !important; font-size: 1.1rem !important; }
-    
-    /* สลับการแสดงผล: โชว์ช่องค้นหา, ซ่อนปุ่มไอคอน */
-    .search-box-desktop { 
-        display: flex !important; 
-        flex: 1; 
-        max-width: 600px; 
-        height: 45px; 
-        background: rgba(255, 255, 255, 0.15) !important; 
-        border: 1px solid rgba(255, 255, 255, 0.3) !important; 
-        color: #fff !important;
-        border-radius: 14px;
-        align-items: center;
-        padding: 0 15px;
-        gap: 10px;
-    }
-    .header-actions { display: none !important; }
+    .add-btn .btn-text { display: inline !important; margin-left: 8px; }
 }
 
 /* =========================
