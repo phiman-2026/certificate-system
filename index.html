@@ -436,9 +436,9 @@ body{
     color: #94a3b8;
 }
 
-/* =========================
-   CARD SYSTEM: PREMIUM UI V6 (STABLE)
-========================= */
+/* ==================================================
+   CARD SYSTEM: PREMIUM UI V6 (FIXED FOR MOBILE)
+================================================== */
 
 .row.g-3 {
     display: grid;
@@ -467,23 +467,23 @@ body{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    overflow: hidden; /* ป้องกันเนื้อหาไหลออกมา */
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-/* โลโก้ใน Header */
+/* แก้ไขให้โลโก้มีขนาดคงที่ 40px เสมอ */
 .header-logo {
     position: absolute !important;
     top: 10px !important;
     left: 10px !important;
-    width: 40px !important;      /* บังคับความกว้างให้คงที่ */
-    height: auto !important;     /* บังคับความสูงให้สัดส่วนคงเดิม */
-    max-width: 40px !important;  /* กันไม่ให้ขยายเกิน */
-    z-index: 10 !important;
+    width: 40px !important; 
+    height: 40px !important;
+    object-fit: contain !important;
+    z-index: 5 !important;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     display: block !important;
 }
 
-/* รหัสรางวัล (มุมขวาบน) */
 .award-id-badge {
     position: absolute;
     top: 10px;
@@ -494,11 +494,10 @@ body{
     border-radius: 6px;
     font-size: 0.7rem;
     font-weight: 700;
-    z-index: 2;
+    z-index: 5;
     border: 1px solid #e2e8f0;
 }
 
-/* ป้ายระดับ */
 .award-badge-points {
     background: #fff !important;
     padding: 3px 12px;
@@ -525,7 +524,7 @@ body{
     font-weight: 700; 
     font-size: 0.95rem; 
     margin-bottom: 10px; 
-    min-height: 40px; 
+    height: 45px; 
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -539,7 +538,7 @@ body{
     margin-bottom: 15px;
 }
 
-.award-meta p { margin: 2px 0; }
+.award-meta p { margin: 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .btn-view-award {
     margin-top: auto; 
