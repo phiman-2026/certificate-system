@@ -84,52 +84,58 @@ body{
 }
 
 /* =========================
-   LOADING SCREEN
+   LOADING SCREEN: PREMIUM STYLE
 ========================= */
-.loading-screen{
-    position:fixed;
-    inset:0;
-    background:#fff;
-    z-index:9999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:15px;
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #ffffff; /* ใช้พื้นหลังสีขาวสะอาดตา */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 0.5s ease; /* ทำให้ตอนปิดดูสมูท */
 }
 
-.loading-logo{
-    width:90px;
-    animation:pulse 1.5s infinite;
+.loading-logo {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+    animation: bounce 2s infinite; /* เปลี่ยนเป็นแอนิเมชันเด้งเบาๆ */
 }
 
-.loading-title{
-    font-size:1.2rem;
-    font-weight:700;
-    color:var(--primary);
+.loading-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1e293b;
+    letter-spacing: 0.5px;
 }
 
-.loading-sub{
-    color:var(--text-light);
+.loading-sub {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
 
-.loading-spinner{
-    width:45px;
-    height:45px;
-    border:5px solid #eee;
-    border-top-color:var(--primary);
-    border-radius:50%;
-    animation:spin 1s linear infinite;
+/* วงกลมหมุนแบบ Gradient */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f1f5f9;
+    border-top: 4px solid #881313; /* ใช้สีแดงเข้มประจำแอป */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin{
-    to{transform:rotate(360deg);}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
-@keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-    100%{transform:scale(1);}
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* =========================
@@ -999,7 +1005,18 @@ function showLoadingScreen() {
 }
 
 function hideLoadingScreen() {
-  document.getElementById("loading-screen").style.display = "none";
+  const loader = document.getElementById("loading-screen");
+  
+  // 1. เพิ่ม Transition ให้กับตัว Element (ถ้ายังไม่มีใน CSS)
+  loader.style.transition = "opacity 0.5s ease";
+  
+  // 2. สั่งให้จางลง
+  loader.style.opacity = "0";
+  
+  // 3. รอให้จางจนมองไม่เห็นแล้วค่อยเอาออกจาก DOM
+  setTimeout(() => {
+    loader.style.display = "none";
+  }, 500); 
 }
 
 /* =========================
