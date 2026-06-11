@@ -86,56 +86,70 @@ body{
 /* =========================
    LOADING SCREEN: PREMIUM STYLE
 ========================= */
+/* Container หลักที่คุมทุกอย่างไว้ตรงกลางเสมอ */
 .loading-screen {
     position: fixed;
     inset: 0;
-    background: #ffffff; /* ใช้พื้นหลังสีขาวสะอาดตา */
+    background: #ffffff;
     z-index: 9999;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    transition: opacity 0.5s ease; /* ทำให้ตอนปิดดูสมูท */
+    padding: 20px; /* กันชิดขอบเกินไปบนมือถือ */
+}
+
+/* ส่วนเนื้อหาภายในให้มีความกว้างจำกัด */
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
 .loading-logo {
-    width: 100px;
-    height: 100px;
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
-    animation: bounce 2s infinite; /* เปลี่ยนเป็นแอนิเมชันเด้งเบาๆ */
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+    object-fit: contain;
 }
 
 .loading-title {
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: #1e293b;
-    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+/* แถบโหลดดิ้งแบบเส้นที่สวยงาม */
+.loading-bar-container {
+    width: 100%; /* ขยายเต็มความกว้าง .loading-content */
+    max-width: 250px;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.loading-bar-progress {
+    width: 40%;
+    height: 100%;
+    background: #881313; /* สีแดงเข้มตามธีม */
+    border-radius: 10px;
+    animation: loadingMove 1.5s infinite ease-in-out;
 }
 
 .loading-sub {
     color: #64748b;
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 500;
 }
 
-/* วงกลมหมุนแบบ Gradient */
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #f1f5f9;
-    border-top: 4px solid #881313; /* ใช้สีแดงเข้มประจำแอป */
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
+@keyframes loadingMove {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
 }
 
 /* =========================
@@ -744,10 +758,14 @@ body{
 <body>
 
 <div id="loading-screen" class="loading-screen">
-  <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="loading-logo" alt="logo">
-  <div class="loading-spinner"></div>
-  <div class="loading-title">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
-  <div class="loading-sub">กำลังโหลดข้อมูล...</div>
+  <div class="loading-content">
+    <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" class="loading-logo" alt="logo">
+    <div class="loading-title">ระบบจัดเก็บผลงานรางวัลเกียรติยศ</div>
+    <div class="loading-bar-container">
+      <div class="loading-bar-progress"></div>
+    </div>
+    <div class="loading-sub">กำลังโหลดข้อมูล...</div>
+  </div>
 </div>
 
 <div class="app-container">
