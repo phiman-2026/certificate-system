@@ -990,21 +990,10 @@ body{
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
 
 const TYPE_CONFIG = {
-  school: {
-    icon: "🏫",
-    color: "#8B0000",
-    title: "รางวัลสถานศึกษา"
-  },
-  staff: {
-    icon: "👨‍🏫",
-    color: "#2563EB",
-    title: "รางวัลครู"
-  },
-  student: {
-    icon: "🎓",
-    color: "#16A34A",
-    title: "รางวัลนักเรียน"
-  }
+  school: { icon: "🏫", color: "#8B0000", title: "รางวัลสถานศึกษา" },
+  management: { icon: "👔", color: "#4f46e5", title: "รางวัลฝ่ายบริหาร" }, // ต้องมีบรรทัดนี้
+  staff: { icon: "👨‍🏫", color: "#2563EB", title: "รางวัลครู" },
+  student: { icon: "🎓", color: "#16A34A", title: "รางวัลนักเรียน" }
 };
       
 let filters = {
@@ -1100,6 +1089,7 @@ function renderHomePage() {
   zone.innerHTML = "";
 
   renderSection("school", "รางวัลสถานศึกษา");
+  renderSection("management", "รางวัลฝ่ายบริหาร");
   renderSection("staff", "รางวัลครูและบุคลากร");
   renderSection("student", "รางวัลนักเรียน");
 }
@@ -1179,6 +1169,11 @@ function buildCards(container, data, type) {
       person = "โรงเรียนพิมานพิทยาสรรค์";
     }
 
+    if (type === "management") {
+      person =
+        item["ชื่อ-นามสกุลของผู้ได้รับรางวัล"] || "-";
+    }
+
     if (type === "staff") {
       person =
         item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "-";
@@ -1212,16 +1207,19 @@ function buildCards(container, data, type) {
    CARD HTML
 ========================= */
 function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
-    // กำหนด URL รูปภาพพื้นหลังตามประเภท
+    // กำหนด URL รูปภาพพื้นหลังตามประเภท (เพิ่ม management)
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
+        management: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Teacher.png', // เปลี่ยนรูปได้ตามต้องการ
         staff: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Teacher.png',
         student: 'https://raw.githubusercontent.com/phiman-2026/picture/main/student.png'
     };
     
     const headerImg = headerImages[type] || headerImages.school;
-    const badgeColor = type === 'school' ? '#881313' : (type === 'staff' ? '#3b82f6' : '#22c55e');
-    const btnColor = type === 'school' ? '#881313' : (type === 'staff' ? '#1d4ed8' : '#15803d');
+    
+    // ตั้งค่าสี Badge และปุ่มให้รองรับ management
+    const badgeColor = type === 'school' ? '#881313' : (type === 'management' ? '#4f46e5' : (type === 'staff' ? '#3b82f6' : '#22c55e'));
+    const btnColor = type === 'school' ? '#881313' : (type === 'management' ? '#4338ca' : (type === 'staff' ? '#1d4ed8' : '#15803d'));
 
     return `
     <div class="award-card">
@@ -1271,14 +1269,17 @@ function changeTab(tab) {
     return;
   }
 
-  renderSection(
-    tab,
-    tab === "school"
-      ? "รางวัลสถานศึกษา"
-      : tab === "staff"
-        ? "รางวัลครูและบุคลากร"
-        : "รางวัลนักเรียน"
-  );
+  // ปรับปรุง logic การกำหนดชื่อหัวข้อให้รองรับ management
+  let title = "รางวัลนักเรียน";
+  if (tab === "school") {
+    title = "รางวัลสถานศึกษา";
+  } else if (tab === "management") {
+    title = "รางวัลฝ่ายบริหาร";
+  } else if (tab === "staff") {
+    title = "รางวัลครูและบุคลากร";
+  }
+
+  renderSection(tab, title);
 }
 
 /* =========================
