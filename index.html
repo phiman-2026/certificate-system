@@ -1001,6 +1001,8 @@ let filters = {
   level: "all",
   dept: "all"
 };
+
+let currentPage = 1; // สำหรับเก็บเลขหน้า
       
 let allAwardsData = {
   school: [],
@@ -1098,9 +1100,8 @@ function renderHomePage() {
 /* =========================
    SECTION + CARDS (MAIN)
 ========================= */
-function renderSection(type, title, limit = null) {
+function renderSection(type, title, limit = null, page = 1) {
   const zone = document.getElementById("app-content");
-
   let data = (allAwardsData[type] || []).slice().reverse();
 
   // ===== FILTER SYSTEM =====
@@ -1108,13 +1109,16 @@ function renderSection(type, title, limit = null) {
     const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
     const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
     const deptMatch = filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
-
     return yearMatch && levelMatch && deptMatch;
   });
 
   const totalItems = data.length;
-  // ถ้ามีการระบุ limit ให้ตัดข้อมูลตามจำนวนนั้น ถ้าไม่ระบุ (null) ให้ใช้ข้อมูลทั้งหมด
-  const displayData = limit ? data.slice(0, limit) : data;
+  const itemsPerPage = 20; // กำหนด 20 รายการต่อหน้า
+  
+  // ตัดข้อมูล: ถ้ามี limit (หน้าแรก) ตัดตาม limit, ถ้าไม่มี limit (แท็บปกติ) ตัดตามหน้า
+  const displayData = limit 
+    ? data.slice(0, limit) 
+    : data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   // สร้างโครงสร้าง Section หลัก
   zone.insertAdjacentHTML("beforeend", `
@@ -1133,10 +1137,9 @@ function renderSection(type, title, limit = null) {
       </div>
     `);
   } else {
-    // แสดงผลข้อมูลที่กรอง/ตัดแล้ว
     buildCards(row, displayData, type);
 
-    // ถ้ามีการกำหนด limit และข้อมูลจริงมีมากกว่าที่แสดง (ต้องมี "ดูเพิ่มเติม")
+    // กรณีหน้าแรก (มี limit): แสดงปุ่ม "ดูเพิ่มเติม"
     if (limit && totalItems > limit) {
       row.insertAdjacentHTML("afterend", `
         <div class="text-center mb-5">
@@ -1145,8 +1148,40 @@ function renderSection(type, title, limit = null) {
             </button>
         </div>
       `);
+    } 
+    // กรณีหน้าแท็บปกติ (ไม่มี limit): แสดงเลขหน้าถ้าข้อมูลเกิน 20
+    else if (!limit && totalItems > itemsPerPage) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      renderPagination(type, title, totalPages, page);
     }
   }
+}
+
+// ฟังก์ชันสร้างปุ่มเลขหน้า
+function renderPagination(type, title, totalPages, currentPage) {
+  const zone = document.getElementById("app-content");
+  let html = `<div class="pagination-box" style="text-align:center; margin: 20px 0;">`;
+  
+  for (let i = 1; i <= totalPages; i++) {
+    const isActive = i === currentPage;
+    html += `
+      <button onclick="goToPage('${type}', '${title}', ${i})" 
+              style="margin: 0 5px; padding: 5px 12px; border: 1px solid #881313; cursor: pointer; 
+              background-color: ${isActive ? '#881313' : 'transparent'}; 
+              color: ${isActive ? 'white' : '#881313'}; border-radius: 4px; font-weight: bold;">
+        ${i}
+      </button>`;
+  }
+  html += `</div>`;
+  zone.insertAdjacentHTML("beforeend", html);
+}
+
+// ฟังก์ชันสำหรับกดเปลี่ยนหน้า
+function goToPage(type, title, page) {
+  const zone = document.getElementById("app-content");
+  zone.innerHTML = ""; // เคลียร์หน้าจอเดิม
+  window.scrollTo(0, 0); // เลื่อนขึ้นบนสุด
+  renderSection(type, title, null, page); // เรียกเรนเดอร์ใหม่ที่หน้าใหม่
 }
       
 /* =========================
@@ -1295,7 +1330,8 @@ function changeTab(tab) {
     title = "รางวัลครูและบุคลากร";
   }
 
-  renderSection(tab, title);
+  // ปรับบรรทัดนี้: ใส่ null (เพื่อไม่จำกัดจำนวนแบบหน้าแรก) และ 1 (เพื่อเริ่มที่หน้าแรกของแท็บ)
+  renderSection(tab, title, null, 1);
 }
 
 /* =========================
