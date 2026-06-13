@@ -902,6 +902,7 @@ body{
         <label class="form-label">ประเภทรางวัล</label>
         <select id="awardType" class="form-select" onchange="changeAwardType()">
             <option value="school">รางวัลสถานศึกษา</option>
+            <option value="management">รางวัลฝ่ายบริหาร</option>
             <option value="staff">รางวัลครู / บุคลากร</option>
             <option value="student">รางวัลนักเรียน</option>
         </select>
@@ -970,6 +971,9 @@ body{
   </button>
   <button class="tab-item" id="nav-school" onclick="changeTab('school')">
     <i class="fa-solid fa-school"></i><span>สถานศึกษา</span>
+  </button>
+  <button class="tab-item" id="nav-management" onclick="changeTab('management')">
+    <i class="fa-solid fa-user-tie"></i><span>ฝ่ายบริหาร</span>
   </button>
   <button class="tab-item" id="nav-staff" onclick="changeTab('staff')">
     <i class="fa-solid fa-user-tie"></i><span>ครู</span>
@@ -1298,14 +1302,16 @@ function searchAwards() {
 
   let result = [];
 
-  ["school", "staff", "student"].forEach(type => {
+  // เพิ่ม "management" เข้าไปในลิสต์การวนลูปค้นหา
+  ["school", "management", "staff", "student"].forEach(type => {
     (allAwardsData[type] || []).forEach(item => {
       
-      // 1. สร้างข้อความสำหรับค้นหา (รวมทุกฟิลด์ที่สำคัญ)
+      // 1. สร้างข้อความสำหรับค้นหา (รวมทุกฟิลด์ที่สำคัญ รวมถึงชื่อของผู้ได้รับรางวัลฝ่ายบริหาร)
       const textToSearch = (
         (item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "") + 
         (item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "") + 
         (item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "") +
+        (item["ชื่อ-นามสกุลของผู้ได้รับรางวัล"] || "") + // เพิ่มฟิลด์ฝ่ายบริหาร
         (item["หน่วยงานที่มอบรางวัล"] || "")
       ).toLowerCase();
 
@@ -1388,23 +1394,15 @@ function closeAwardForm() {
 }
 
 function changeAwardType() {
-
-  const type =
-    document.getElementById("awardType").value;
-
-  const zone =
-    document.getElementById("dynamicFormArea");
-
-  const deptArea =
-    document.getElementById("deptArea");
+  const type = document.getElementById("awardType").value;
+  const zone = document.getElementById("dynamicFormArea");
+  const deptArea = document.getElementById("deptArea");
 
   zone.innerHTML = "";
 
   // สถานศึกษา
-  if(type === "school"){
-
+  if (type === "school") {
     deptArea.style.display = "none";
-
     zone.innerHTML = `
       <div class="alert alert-info">
         <i class="fa-solid fa-school"></i>
@@ -1412,40 +1410,45 @@ function changeAwardType() {
       </div>
     `;
   }
-
+  // ฝ่ายบริหาร (เพิ่มใหม่)
+  else if (type === "management") {
+    deptArea.style.display = "none";
+    zone.innerHTML = `
+      <label>ชื่อ-นามสกุลของผู้ได้รับรางวัล</label>
+      <input 
+        id="awardPerson" 
+        class="form-control" 
+        placeholder="กรอกชื่อ-นามสกุล">
+    `;
+  }
   // ครู
-  else if(type === "staff"){
-
+  else if (type === "staff") {
     deptArea.style.display = "block";
-
     zone.innerHTML = `
       <label>ชื่อครู / บุคลากร</label>
-      <input
-        id="awardPerson"
-        class="form-control"
+      <input 
+        id="awardPerson" 
+        class="form-control" 
         placeholder="กรอกชื่อครูหรือบุคลากร">
     `;
   }
-
   // นักเรียน
-  else{
-
+  else {
     deptArea.style.display = "block";
-
     zone.innerHTML = `
       <label>ชื่อนักเรียน</label>
-      <input
-        id="awardPerson"
-        class="form-control"
+      <input 
+        id="awardPerson" 
+        class="form-control" 
         placeholder="กรอกชื่อนักเรียน">
 
       <label class="mt-3">
         ชั้นเรียน
       </label>
 
-      <input
-        id="awardClass"
-        class="form-control"
+      <input 
+        id="awardClass" 
+        class="form-control" 
         placeholder="เช่น ม.6/1">
     `;
   }
@@ -1490,11 +1493,19 @@ async function saveAward() {
     });
   }
 
+  // กรณีฝ่ายบริหาร (เพิ่มใหม่)
+  if (type === "management") {
+    name = document.getElementById("awardPerson")?.value.trim() || "";
+    if (!name) return Swal.fire({ icon: "warning", title: "ข้อมูลไม่ครบ", text: "กรุณากรอกชื่อ-นามสกุลของผู้ได้รับรางวัล", confirmButtonColor: "#8B0000" });
+  }
+
+  // กรณีครู
   if (type === "staff") {
     name = document.getElementById("awardPerson")?.value.trim() || "";
     if (!name || !dept) return Swal.fire({ icon: "warning", title: "ข้อมูลไม่ครบ", text: "กรุณากรอกชื่อครูและเลือกกลุ่มสาระ", confirmButtonColor: "#8B0000" });
   }
 
+  // กรณีนักเรียน
   if (type === "student") {
     name = document.getElementById("awardPerson")?.value.trim() || "";
     className = document.getElementById("awardClass")?.value.trim() || "";
@@ -1526,16 +1537,15 @@ async function saveAward() {
 
     if (result.status !== "success") throw new Error(result.message || "เกิดข้อผิดพลาด");
 
-    // --- ลำดับการปิดฟอร์มที่ปรับปรุงแล้ว ---
-    // 1. ปิดหน้า Modal ทันที
+    // --- ลำดับการปิดฟอร์ม ---
     closeAwardForm();
     
-    // 2. เคลียร์ค่าในฟอร์ม
+    // เคลียร์ค่าในฟอร์ม
     document.getElementById("awardForm").reset();
     document.getElementById("pdfPreview").innerHTML = "";
     changeAwardType();
 
-    // 3. แสดงแจ้งเตือนความสำเร็จ (ปิดเองใน 1.5 วินาที)
+    // แสดงแจ้งเตือน
     await Swal.fire({
       icon: "success",
       title: "บันทึกรางวัลสำเร็จ",
@@ -1543,7 +1553,7 @@ async function saveAward() {
       timer: 1500
     });
 
-    // 4. รีเฟรชข้อมูลใหม่หลังจากฟอร์มปิดเรียบร้อยแล้ว
+    // รีเฟรชข้อมูล
     await loadAwards();
     if (currentTab === "home") {
       renderHomePage();
@@ -1560,6 +1570,7 @@ async function saveAward() {
   }
 }
 
+      
 function convertFileToBase64(file) {
 
   return new Promise((resolve, reject) => {
