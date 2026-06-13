@@ -1104,7 +1104,6 @@ function renderSection(type, title) {
 
   // ===== FILTER SYSTEM =====
   data = data.filter(item => {
-
     const yearMatch =
       filters.year === "all" ||
       item["ปีการศึกษา"] == filters.year;
@@ -1120,17 +1119,27 @@ function renderSection(type, title) {
     return yearMatch && levelMatch && deptMatch;
   });
 
-  // limit
-  data = data.slice(0, 12);
-
- // เปลี่ยนบรรทัดนี้
-zone.insertAdjacentHTML("beforeend", `
-  <div class="section-title">🏆 ${title}</div>
-  <div class="cards-grid mb-4" id="row-${type}"></div>
-`);
+  // สร้างโครงสร้าง Section หลัก
+  zone.insertAdjacentHTML("beforeend", `
+    <div class="section-title">🏆 ${title}</div>
+    <div class="cards-grid mb-4" id="row-${type}"></div>
+  `);
 
   const row = document.getElementById(`row-${type}`);
-  buildCards(row, data, type);
+
+  // ===== ตรวจสอบข้อมูลก่อนแสดงผล =====
+  if (data.length === 0) {
+    row.insertAdjacentHTML("beforeend", `
+      <div class="empty-box" style="grid-column: 1/-1; padding: 30px 0; text-align: center; color: #94a3b8; font-weight: 500;">
+        <i class="fa-solid fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+        ไม่มีข้อมูลผลงานรางวัลในหน้านี้
+      </div>
+    `);
+  } else {
+    // นำไปแสดงผลเฉพาะ 12 รายการแรก
+    const limitedData = data.slice(0, 12);
+    buildCards(row, limitedData, type);
+  }
 }
 
 /* =========================
