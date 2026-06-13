@@ -1261,10 +1261,10 @@ function buildCards(container, data, type) {
    CARD HTML
 ========================= */
 function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
-    // กำหนด URL รูปภาพพื้นหลังตามประเภท (เพิ่ม management)
+    // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
-        management: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Director.png', // เปลี่ยนรูปได้ตามต้องการ
+        management: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Director.png',
         staff: 'https://raw.githubusercontent.com/phiman-2026/picture/main/Teacher.png',
         student: 'https://raw.githubusercontent.com/phiman-2026/picture/main/student.png'
     };
@@ -1291,6 +1291,7 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
             <div class="award-meta">
                 <p><strong>ผู้ได้รับ:</strong> ${person}</p>
                 ${className ? `<p><strong>ชั้นเรียน:</strong> ${className}</p>` : ''}
+                ${dept ? `<p><strong>กลุ่มสาระ:</strong> ${dept}</p>` : ''}
                 <p><strong>หน่วยงานที่มอบ:</strong> ${giver}</p>
                 <p><strong>ปีการศึกษา:</strong> ${year}</p>
             </div>
