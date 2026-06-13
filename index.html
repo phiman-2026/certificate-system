@@ -1358,25 +1358,25 @@ function searchAwards() {
 
   let result = [];
 
-  // เพิ่ม "management" เข้าไปในลิสต์การวนลูปค้นหา
   ["school", "management", "staff", "student"].forEach(type => {
     (allAwardsData[type] || []).forEach(item => {
       
-      // 1. สร้างข้อความสำหรับค้นหา (รวมทุกฟิลด์ที่สำคัญ รวมถึงชื่อของผู้ได้รับรางวัลฝ่ายบริหาร)
+      // 1. สร้างข้อความสำหรับค้นหา
       const textToSearch = (
         (item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "") + 
         (item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "") + 
         (item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "") +
-        (item["ชื่อ-นามสกุลของผู้ได้รับรางวัล"] || "") + // เพิ่มฟิลด์ฝ่ายบริหาร
+        (item["ชื่อ-นามสกุลของผู้ได้รับรางวัล"] || "") + 
         (item["หน่วยงานที่มอบรางวัล"] || "")
       ).toLowerCase();
 
       // 2. เช็คเงื่อนไข Filter
-      const matchYear = (fYear === "all" || item["ปีการศึกษา"] == fYear);
-      const matchLevel = (fLevel === "all" || item["ระดับรางวัล"] == fLevel);
-      const matchDept = (fDept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == fDept);
+      // เพิ่ม .toString().trim() เพื่อป้องกัน Error และช่องว่างที่ไม่ตั้งใจในฐานข้อมูล
+      const matchYear = (fYear === "all" || (item["ปีการศึกษา"] || "").toString().trim() == fYear);
+      const matchLevel = (fLevel === "all" || (item["ระดับรางวัล"] || "").toString().trim() == fLevel);
+      const matchDept = (fDept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "").toString().trim() == fDept);
 
-      // 3. เช็คเงื่อนไข keyword (ถ้าช่องว่าง ให้ถือว่าผ่าน)
+      // 3. เช็คเงื่อนไข keyword
       const matchKeyword = (keyword === "" || textToSearch.includes(keyword));
 
       // ถ้าผ่านทุกเงื่อนไข ให้เก็บข้อมูล
