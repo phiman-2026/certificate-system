@@ -1015,6 +1015,12 @@ let allAwardsData = {
 
 let currentTab = "home";
 
+// ปรับตัวแปรเดิมเป็นแบบนี้
+let currentTabFilters = {
+  staff: "all",
+  student: "all"
+};
+
 /* =========================
    INIT
 ========================= */
@@ -1107,7 +1113,7 @@ function renderSection(type, title, limit = null, page = 1) {
   const zone = document.getElementById("app-content");
   let data = (allAwardsData[type] || []).slice().reverse();
 
-  // ===== FILTER SYSTEM =====
+  // 1. กรองด้วย Filter หลักของระบบ (ถ้ามีการค้นหาจากหน้าหลัก)
   data = data.filter(item => {
     const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
     const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
@@ -1115,13 +1121,36 @@ function renderSection(type, title, limit = null, page = 1) {
     return yearMatch && levelMatch && deptMatch;
   });
 
+  // 2. ถ้าเป็นแท็บครูหรือนักเรียน (ไม่ใช่หน้าแรกที่มี limit) ให้กรองเพิ่มด้วยกลุ่มสาระเฉพาะแท็บ
+  if (!limit && (type === "staff" || type === "student")) {
+    const currentDeptFilter = currentTabFilters[type] || "all";
+    
+    // แทรก Dropdown กรองกลุ่มสาระเฉพาะแท็บ
+    zone.insertAdjacentHTML("beforeend", `
+      <div style="margin-bottom: 15px; padding: 0 10px;">
+        <select onchange="updateTabFilter('${type}', '${title}', this.value)" style="width: 100%; max-width: 300px; padding: 10px; border-radius: 12px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">
+          <option value="all" ${currentDeptFilter === 'all' ? 'selected' : ''}>ทุกกลุ่มสาระ</option>
+          <option value="ภาษาไทย" ${currentDeptFilter === 'ภาษาไทย' ? 'selected' : ''}>ภาษาไทย</option>
+          <option value="คณิตศาสตร์" ${currentDeptFilter === 'คณิตศาสตร์' ? 'selected' : ''}>คณิตศาสตร์</option>
+          <option value="วิทยาศาสตร์และเทคโนโลยี" ${currentDeptFilter === 'วิทยาศาสตร์และเทคโนโลยี' ? 'selected' : ''}>วิทยาศาสตร์และเทคโนโลยี</option>
+          <option value="สังคมศึกษา ศาสนา และวัฒนธรรม" ${currentDeptFilter === 'สังคมศึกษา ศาสนา และวัฒนธรรม' ? 'selected' : ''}>สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+          <option value="ภาษาต่างประเทศ" ${currentDeptFilter === 'ภาษาต่างประเทศ' ? 'selected' : ''}>ภาษาต่างประเทศ</option>
+          <option value="สุขศึกษาและพลศึกษา" ${currentDeptFilter === 'สุขศึกษาและพลศึกษา' ? 'selected' : ''}>สุขศึกษาและพลศึกษา</option>
+          <option value="ศิลปะ" ${currentDeptFilter === 'ศิลปะ' ? 'selected' : ''}>ศิลปะ</option>
+          <option value="การงานอาชีพ" ${currentDeptFilter === 'การงานอาชีพ' ? 'selected' : ''}>การงานอาชีพ</option>
+          <option value="กิจกรรมพัฒนาผู้เรียน" ${currentDeptFilter === 'กิจกรรมพัฒนาผู้เรียน' ? 'selected' : ''}>กิจกรรมพัฒนาผู้เรียน</option>
+        </select>
+      </div>
+    `);
+
+    if (currentDeptFilter !== "all") {
+      data = data.filter(item => (item["กลุ่มสาระการเรียนรู้"] || "").toString().trim() === currentDeptFilter);
+    }
+  }
+
   const totalItems = data.length;
-  const itemsPerPage = 20; // กำหนด 20 รายการต่อหน้า
-  
-  // ตัดข้อมูล: ถ้ามี limit (หน้าแรก) ตัดตาม limit, ถ้าไม่มี limit (แท็บปกติ) ตัดตามหน้า
-  const displayData = limit 
-    ? data.slice(0, limit) 
-    : data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const itemsPerPage = 20;
+  const displayData = limit ? data.slice(0, limit) : data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   // สร้างโครงสร้าง Section หลัก
   zone.insertAdjacentHTML("beforeend", `
@@ -1131,33 +1160,36 @@ function renderSection(type, title, limit = null, page = 1) {
 
   const row = document.getElementById(`row-${type}`);
 
-  // ===== ตรวจสอบข้อมูลก่อนแสดงผล =====
   if (totalItems === 0) {
     row.insertAdjacentHTML("beforeend", `
       <div class="empty-box" style="grid-column: 1/-1; padding: 30px 0; text-align: center; color: #94a3b8; font-weight: 500;">
         <i class="fa-solid fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
-        ไม่มีข้อมูลผลงานรางวัลในหน้านี้
+        ไม่มีข้อมูลในเงื่อนไขที่เลือก
       </div>
     `);
   } else {
     buildCards(row, displayData, type);
 
-    // กรณีหน้าแรก (มี limit): แสดงปุ่ม "ดูเพิ่มเติม"
     if (limit && totalItems > limit) {
       row.insertAdjacentHTML("afterend", `
         <div class="text-center mb-5">
-            <button onclick="changeTab('${type}')" style="background: none; border: 1px solid #881313; color: #881313; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <button onclick="changeTab('${type}')" style="background: none; border: 1px solid #881313; color: #881313; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: 600;">
                 ดูเพิ่มเติม...
             </button>
         </div>
       `);
-    } 
-    // กรณีหน้าแท็บปกติ (ไม่มี limit): แสดงเลขหน้าถ้าข้อมูลเกิน 20
-    else if (!limit && totalItems > itemsPerPage) {
+    } else if (!limit && totalItems > itemsPerPage) {
       const totalPages = Math.ceil(totalItems / itemsPerPage);
       renderPagination(type, title, totalPages, page);
     }
   }
+}
+
+// ฟังก์ชันสำหรับรองรับการเปลี่ยน Filter เฉพาะแท็บ
+function updateTabFilter(type, title, value) {
+  currentTabFilters[type] = value;
+  document.getElementById("app-content").innerHTML = "";
+  renderSection(type, title, null, 1);
 }
 
 // ฟังก์ชันสร้างปุ่มเลขหน้า
@@ -1318,8 +1350,12 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
    TAB SYSTEM (FIXED)
 ========================= */
 function changeTab(tab) {
-
   currentTab = tab;
+
+  // รีเซ็ตค่ากรองของแท็บนั้นๆ ให้เป็น all ทุกครั้งที่เปลี่ยนหน้าใหม่
+  if (tab === "staff" || tab === "student") {
+    currentTabFilters[tab] = "all";
+  }
 
   document.querySelectorAll(".tab-item")
     .forEach(el => el.classList.remove("active"));
@@ -1334,7 +1370,7 @@ function changeTab(tab) {
     return;
   }
 
-  // ปรับปรุง logic การกำหนดชื่อหัวข้อให้รองรับ management
+  // ปรับปรุง logic การกำหนดชื่อหัวข้อ
   let title = "รางวัลนักเรียน";
   if (tab === "school") {
     title = "รางวัลสถานศึกษา";
@@ -1344,7 +1380,7 @@ function changeTab(tab) {
     title = "รางวัลครูและบุคลากร";
   }
 
-  // ปรับบรรทัดนี้: ใส่ null (เพื่อไม่จำกัดจำนวนแบบหน้าแรก) และ 1 (เพื่อเริ่มที่หน้าแรกของแท็บ)
+  // เรียกใช้ฟังก์ชันด้วยการตั้งค่า null (ไม่จำกัดจำนวน) และ 1 (เริ่มหน้าแรก)
   renderSection(tab, title, null, 1);
 }
 
