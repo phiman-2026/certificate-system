@@ -1217,6 +1217,9 @@ function buildCards(container, data, type) {
     const pdfUrl =
       item["ลิงก์ไฟล์เกียรติบัตร"] || "";
 
+    // ดึงรหัสรางวัลจากฐานข้อมูล (ถ้าไม่มีให้เป็นค่าว่าง)
+    const awardCode = item["รหัสรางวัล"] || "";
+
     let person = "";
 
     if (type === "school") {
@@ -1250,7 +1253,8 @@ function buildCards(container, data, type) {
         dept,
         className,
         config,
-        pdfUrl
+        pdfUrl,
+        awardCode // ส่งค่ารหัสรางวัลเข้าไปที่ฟังก์ชันสร้าง HTML
       )
     );
 
@@ -1260,7 +1264,7 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl, awardCode) {
     // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
@@ -1281,6 +1285,11 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
             
             <img src="https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png" 
                  style="position: absolute; top: 10px; left: 10px; width: 45px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index: 2;">
+            
+            ${awardCode ? `
+            <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; z-index: 3;">
+                ${awardCode}
+            </div>` : ''}
             
             <div class="award-badge-points" style="color: ${badgeColor}; border: 1px solid ${badgeColor}; background: rgba(255,255,255,0.9);">
                 ${level}
@@ -1304,6 +1313,7 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
     </div>`;
 }
 
+      
 /* =========================
    TAB SYSTEM (FIXED)
 ========================= */
