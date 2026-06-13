@@ -1088,36 +1088,33 @@ function renderHomePage() {
   const zone = document.getElementById("app-content");
   zone.innerHTML = "";
 
-  renderSection("school", "รางวัลสถานศึกษา");
-  renderSection("management", "รางวัลฝ่ายบริหาร");
-  renderSection("staff", "รางวัลครูและบุคลากร");
-  renderSection("student", "รางวัลนักเรียน");
+  // ใส่เลข 4 เพื่อจำกัดจำนวนการแสดงผลบนหน้าแรกและให้แสดงปุ่ม "ดูเพิ่มเติม"
+  renderSection("school", "รางวัลสถานศึกษา", 4);
+  renderSection("management", "รางวัลฝ่ายบริหาร", 4);
+  renderSection("staff", "รางวัลครูและบุคลากร", 4);
+  renderSection("student", "รางวัลนักเรียน", 4);
 }
-
+      
 /* =========================
    SECTION + CARDS (MAIN)
 ========================= */
-function renderSection(type, title) {
+function renderSection(type, title, limit = null) {
   const zone = document.getElementById("app-content");
 
   let data = (allAwardsData[type] || []).slice().reverse();
 
   // ===== FILTER SYSTEM =====
   data = data.filter(item => {
-    const yearMatch =
-      filters.year === "all" ||
-      item["ปีการศึกษา"] == filters.year;
-
-    const levelMatch =
-      filters.level === "all" ||
-      item["ระดับรางวัล"] == filters.level;
-
-    const deptMatch =
-      filters.dept === "all" ||
-      (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
+    const yearMatch = filters.year === "all" || item["ปีการศึกษา"] == filters.year;
+    const levelMatch = filters.level === "all" || item["ระดับรางวัล"] == filters.level;
+    const deptMatch = filters.dept === "all" || (item["กลุ่มสาระการเรียนรู้"] || "") == filters.dept;
 
     return yearMatch && levelMatch && deptMatch;
   });
+
+  const totalItems = data.length;
+  // ถ้ามีการระบุ limit ให้ตัดข้อมูลตามจำนวนนั้น ถ้าไม่ระบุ (null) ให้ใช้ข้อมูลทั้งหมด
+  const displayData = limit ? data.slice(0, limit) : data;
 
   // สร้างโครงสร้าง Section หลัก
   zone.insertAdjacentHTML("beforeend", `
@@ -1128,7 +1125,7 @@ function renderSection(type, title) {
   const row = document.getElementById(`row-${type}`);
 
   // ===== ตรวจสอบข้อมูลก่อนแสดงผล =====
-  if (data.length === 0) {
+  if (totalItems === 0) {
     row.insertAdjacentHTML("beforeend", `
       <div class="empty-box" style="grid-column: 1/-1; padding: 30px 0; text-align: center; color: #94a3b8; font-weight: 500;">
         <i class="fa-solid fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
@@ -1136,12 +1133,22 @@ function renderSection(type, title) {
       </div>
     `);
   } else {
-    // นำไปแสดงผลเฉพาะ 12 รายการแรก
-    const limitedData = data.slice(0, 12);
-    buildCards(row, limitedData, type);
+    // แสดงผลข้อมูลที่กรอง/ตัดแล้ว
+    buildCards(row, displayData, type);
+
+    // ถ้ามีการกำหนด limit และข้อมูลจริงมีมากกว่าที่แสดง (ต้องมี "ดูเพิ่มเติม")
+    if (limit && totalItems > limit) {
+      row.insertAdjacentHTML("afterend", `
+        <div class="text-center mb-5">
+            <button onclick="changeTab('${type}')" style="background: none; border: 1px solid #881313; color: #881313; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                ดูเพิ่มเติม...
+            </button>
+        </div>
+      `);
+    }
   }
 }
-
+      
 /* =========================
    CARD BUILDER (สำคัญ)
 ========================= */
