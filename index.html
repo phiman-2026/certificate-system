@@ -992,14 +992,19 @@ body{
 </nav>
 
 <div id="toastBox"></div>
+
 <div id="line-notice" style="display:none; position: fixed; top: 0; left: 0; width: 100%; background: #fee2e2; padding: 15px; text-align: center; z-index: 99999; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p style="margin: 0; font-size: 0.9rem; color: #991b1b; margin-bottom: 10px;">
-        เปิดใน Browser เพื่อความสะดวกในการใช้งานครับ
+        ใช้งานผ่านเบราว์เซอร์จะแสดงผลได้ดีกว่า คุณต้องการเปิดในเบราว์เซอร์ไหม?
     </p>
-    <button onclick="openInBrowser()" 
-            style="background: #881313; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-        เปิดใน Browser ทันที
-    </button>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <button onclick="openInBrowser()" style="background: #881313; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            เปิดใน Browser
+        </button>
+        <button onclick="hideNoticePermanently()" style="background: #e2e8f0; color: #475569; border: none; padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            ใช้ใน LINE ต่อ
+        </button>
+    </div>
 </div>
       
 </body>
@@ -1810,6 +1815,23 @@ function openInBrowser() {
         window.open(url, '_blank');
     }
 }
+
+function hideNoticePermanently() {
+    document.getElementById('line-notice').style.display = 'none';
+    localStorage.setItem('hideLineNotice', 'true');
+}
+
+// และในตอนโหลดหน้าเว็บ ให้เช็คค่านี้ด้วย
+document.addEventListener("DOMContentLoaded", () => {
+    // โค้ดเดิมของคุณ...
+    
+    // เพิ่มการเช็คว่าเคยปิดไปแล้วหรือยัง
+    if (localStorage.getItem('hideLineNotice') === 'true') {
+        document.getElementById('line-notice').style.display = 'none';
+    } else {
+        checkLineBrowser(); // ฟังก์ชันตรวจไลน์เดิมของคุณ
+    }
+});
       
 </script>
 </body>
