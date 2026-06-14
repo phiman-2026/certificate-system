@@ -992,14 +992,13 @@ body{
 </nav>
 
 <div id="toastBox"></div>
-
 <div id="line-notice" style="display:none; position: fixed; top: 0; left: 0; width: 100%; background: #fee2e2; padding: 15px; text-align: center; z-index: 99999; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p style="margin: 0; font-size: 0.9rem; color: #991b1b; margin-bottom: 10px;">
-        คุณกำลังเปิดผ่าน LINE ซึ่งอาจดูเกียรติบัตรไม่สะดวก
+        เปิดใน Browser เพื่อความสะดวกในการใช้งานครับ
     </p>
-    <button onclick="window.open(window.location.href, '_system');" 
-            style="background: #881313; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-        เปิดใน Browser (แนะนำ)
+    <button onclick="openInBrowser()" 
+            style="background: #881313; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+        เปิดใน Browser ทันที
     </button>
 </div>
       
@@ -1792,6 +1791,25 @@ function previewPDFName() {
     }
     // เรียกใช้งานเมื่อโหลดหน้าเว็บ
     checkLineBrowser();
+
+function openInBrowser() {
+    const url = window.location.href;
+    
+    // ตรวจสอบว่าเป็น Android หรือ iOS
+    const isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isAndroid) {
+        // ใช้ Intent เพื่อบังคับเปิด Chrome
+        window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+    } else if (isIOS) {
+        // สำหรับ iOS: แนะนำให้แจ้งเตือนผู้ใช้ให้กดจุด 3 จุดที่มุมขวาแล้วเลือก "Open in Safari"
+        // เพราะ Apple จำกัดความปลอดภัยสูงสุด แต่เราสามารถเตือนด้วย Alert ได้
+        alert("บน iPhone/iPad: กรุณากดปุ่ม 3 จุด (⋯) ที่มุมขวาบน แล้วเลือก 'เปิดใน Safari' เพื่อใช้งานฟังก์ชันเต็มรูปแบบครับ");
+    } else {
+        window.open(url, '_blank');
+    }
+}
       
 </script>
 </body>
