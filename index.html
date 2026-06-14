@@ -1786,52 +1786,49 @@ function previewPDFName() {
   `;
 }
 
-// ฟังก์ชันตรวจสอบว่าเปิดผ่าน LINE หรือไม่
-    function checkLineBrowser() {
-        const ua = navigator.userAgent.toLowerCase();
-        const isLine = ua.indexOf("line") > -1;
-        if (isLine) {
-            document.getElementById("line-notice").style.display = "block";
-        }
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+    // เช็คว่าอยู่ใน Session ปัจจุบันหรือไม่ ถ้าเคยปิดแถบไปแล้วจะไม่แสดงอีกจนกว่าจะโหลดหน้าใหม่
+    if (sessionStorage.getItem('hideLineNotice') === 'true') {
+        document.getElementById('line-notice').style.display = 'none';
+    } else {
+        checkLineBrowser(); 
     }
-    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
-    checkLineBrowser();
+    
+    initApp();
+});
 
+// ฟังก์ชันสำหรับปิดแถบและจำค่าไว้แค่ใน Session ปัจจุบัน
+function hideNoticePermanently() {
+    document.getElementById('line-notice').style.display = 'none';
+    sessionStorage.setItem('hideLineNotice', 'true');
+}
+
+// ฟังก์ชันเปิดใน Browser (สำหรับ Android/iOS)
 function openInBrowser() {
     const url = window.location.href;
-    
-    // ตรวจสอบว่าเป็น Android หรือ iOS
     const isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     if (isAndroid) {
-        // ใช้ Intent เพื่อบังคับเปิด Chrome
         window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
     } else if (isIOS) {
-        // สำหรับ iOS: แนะนำให้แจ้งเตือนผู้ใช้ให้กดจุด 3 จุดที่มุมขวาแล้วเลือก "Open in Safari"
-        // เพราะ Apple จำกัดความปลอดภัยสูงสุด แต่เราสามารถเตือนด้วย Alert ได้
         alert("บน iPhone/iPad: กรุณากดปุ่ม 3 จุด (⋯) ที่มุมขวาบน แล้วเลือก 'เปิดใน Safari' เพื่อใช้งานฟังก์ชันเต็มรูปแบบครับ");
     } else {
         window.open(url, '_blank');
     }
 }
 
-function hideNoticePermanently() {
-    document.getElementById('line-notice').style.display = 'none';
-    localStorage.setItem('hideLineNotice', 'true');
-}
-
-// และในตอนโหลดหน้าเว็บ ให้เช็คค่านี้ด้วย
-document.addEventListener("DOMContentLoaded", () => {
-    // โค้ดเดิมของคุณ...
-    
-    // เพิ่มการเช็คว่าเคยปิดไปแล้วหรือยัง
-    if (localStorage.getItem('hideLineNotice') === 'true') {
-        document.getElementById('line-notice').style.display = 'none';
-    } else {
-        checkLineBrowser(); // ฟังก์ชันตรวจไลน์เดิมของคุณ
+// ฟังก์ชันตรวจว่าเปิดผ่าน LINE หรือไม่
+function checkLineBrowser() {
+    const ua = navigator.userAgent.toLowerCase();
+    const isLine = ua.indexOf("line") > -1;
+    if (isLine) {
+        document.getElementById("line-notice").style.display = "block";
     }
-});
+}
       
 </script>
 </body>
