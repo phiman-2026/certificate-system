@@ -16,6 +16,7 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 
@@ -333,6 +334,100 @@ body{
     }
 }
       
+/* =========================
+   LOGIN / USER MENU
+========================= */
+.login-btn {
+    height: 42px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 14px;
+    background: #881313 !important;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.user-menu-wrap { position: relative; flex-shrink: 0; }
+
+.user-avatar-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+    overflow: hidden;
+    cursor: pointer;
+    background: #cbd5e1;
+    padding: 0;
+    flex-shrink: 0;
+}
+.user-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-dropdown {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 240px;
+    padding: 8px;
+    z-index: 2000;
+}
+.user-dropdown .ud-head { padding: 10px 12px; border-bottom: 1px solid #eee; margin-bottom: 6px; }
+.user-dropdown .ud-name { font-weight: 700; font-size: 0.9rem; color: #1e293b; }
+.user-dropdown .ud-email { font-size: 0.75rem; color: #64748b; word-break: break-all; }
+.user-dropdown button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #334155;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.user-dropdown button:hover { background: #f1f5f9; }
+.user-dropdown button.danger { color: #b91c1c; }
+
+.gsi-mount { position: fixed; top: -9999px; left: -9999px; }
+
+.card-owner-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+.card-owner-actions button {
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-edit-award { background: #eff6ff; color: #1d4ed8; }
+.btn-delete-award { background: #fef2f2; color: #b91c1c; }
+
+.admin-panel-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index: 999999; padding: 10px; }
+.admin-panel-box { width:100%; max-width:480px; max-height:85vh; background:#fff; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; }
+.admin-panel-box .ap-head { background:#881313; color:#fff; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; }
+.admin-panel-box .ap-head button { width:36px; height:36px; border:none; border-radius:50%; background:rgba(255,255,255,0.2); color:#fff; }
+.admin-panel-box .ap-body { padding:20px; overflow-y:auto; }
+.admin-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f1f5f9; }
+.admin-row small { display:block; color:#64748b; }
+.admin-row button { border:none; background:#fef2f2; color:#b91c1c; border-radius:8px; padding:6px 10px; font-size:0.8rem; }
+
 /* =========================
    SEARCH SCREEN
 ========================= */
@@ -829,12 +924,33 @@ body{
      <i class="fa-solid fa-magnifying-glass"></i>
      <span>ค้นหารางวัล...</span>
   </div>
-  
- <div class="header-actions">
-  <button class="add-btn" onclick="openAwardForm()">
+
+  <div id="loginArea">
+    <button class="login-btn" onclick="startLogin()">
+      <i class="fa-brands fa-google"></i> เข้าสู่ระบบ
+    </button>
+  </div>
+
+  <button id="quickAddBtn" class="add-btn d-none" onclick="openAwardForm()">
     <i class="fa-solid fa-plus"></i>
   </button>
-</div>
+
+  <div id="userMenuArea" class="user-menu-wrap d-none">
+    <button class="user-avatar-btn" id="userAvatarBtn" onclick="toggleUserMenu()">
+      <img id="userAvatarImg" src="" alt="user">
+    </button>
+    <div id="userDropdown" class="user-dropdown d-none">
+      <div class="ud-head">
+        <div class="ud-name" id="udName"></div>
+        <div class="ud-email" id="udEmail"></div>
+      </div>
+      <button onclick="openAwardForm()"><i class="fa-solid fa-plus"></i> เพิ่มรางวัลใหม่</button>
+      <button id="udAdminBtn" class="d-none" onclick="openAdminPanel()"><i class="fa-solid fa-user-shield"></i> จัดการแอดมินใหญ่</button>
+      <button class="danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
+    </div>
+  </div>
+
+  <div id="gsiMount" class="gsi-mount"></div>
 </header>
 
   <main class="content-wrap">
@@ -898,7 +1014,7 @@ body{
 <div id="awardFormModal" class="award-form-modal d-none">
   <div class="award-form-container">
     <div class="award-form-header">
-      <h5>บันทึกรางวัลใหม่</h5>
+      <h5 id="awardFormTitle">บันทึกรางวัลใหม่</h5>
       <button onclick="closeAwardForm()">✕</button>
     </div>
     <div class="award-form-body">
@@ -973,6 +1089,23 @@ body{
   </div>
 </div>
 
+<div id="adminPanelModal" class="admin-panel-modal d-none">
+  <div class="admin-panel-box">
+    <div class="ap-head">
+      <h5 style="margin:0;font-size:1.1rem;">จัดการแอดมินใหญ่</h5>
+      <button onclick="closeAdminPanel()">✕</button>
+    </div>
+    <div class="ap-body">
+      <div style="display:flex; gap:8px; margin-bottom:16px;">
+        <input id="newAdminEmail" class="form-control" placeholder="อีเมล @phiman.ac.th">
+        <input id="newAdminName" class="form-control" placeholder="ชื่อ-สกุล (ไม่บังคับ)">
+      </div>
+      <button class="btn-save" style="width:100%;margin-bottom:16px;" onclick="addAdminUI()">เพิ่มแอดมินใหญ่</button>
+      <div id="adminListBox"></div>
+    </div>
+  </div>
+</div>
+
 <nav class="bottom-tabbar">
   <button class="tab-item active" id="nav-home" onclick="changeTab('home')">
     <i class="fa-solid fa-house"></i><span>หน้าแรก</span>
@@ -1009,7 +1142,171 @@ body{
       
 </body>
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxE7FswOf3r9E6olu-_Ss-CH4VMwT1A2Cs45WZsjR5LBvbHe3LymyXVUfNTJwU5xBXhLg/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwN46MA79wQQ6hAlPd5G0GSWhGiPMNO9TtwX2A5IHeeVTtRyfVFpAM7kyDZDnsKtUWhuA/exec";
+
+// ⚠️ ต้องตรงกับ GOOGLE_CLIENT_ID ฝั่ง Code.gs และตั้ง Authorized JavaScript origins
+// ให้ตรงกับโดเมนที่ host หน้าเว็บนี้ใน Google Cloud Console
+const GOOGLE_CLIENT_ID = "857339235853-gbd7aip7ktrl2ot025q6judnvvdmfoa9.apps.googleusercontent.com";
+const SESSION_STORAGE_KEY = "awardsUserSession";
+
+let userSession = null;      // { token, user:{email,name,picture,role}, expiresAt }
+let myOwnedIds = { school: [], management: [], staff: [], student: [] };
+let isSuperAdmin = false;
+let editingContext = null;   // { type, id } เมื่ออยู่ในโหมดแก้ไข
+
+/* =========================
+   AUTH: GOOGLE LOGIN
+========================= */
+function restoreSession() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed.expiresAt && Date.now() < parsed.expiresAt) {
+      userSession = parsed;
+    } else {
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    }
+  } catch (e) { /* ข้ามได้ */ }
+}
+
+function persistSession() {
+  if (userSession) {
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(userSession));
+  } else {
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+  }
+}
+
+function initGoogleLogin() {
+  if (typeof google === "undefined" || !google.accounts) {
+    setTimeout(initGoogleLogin, 300);
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleCredentialResponse,
+    auto_select: false
+  });
+  google.accounts.id.renderButton(
+    document.getElementById("gsiMount"),
+    { type: "icon" }
+  );
+}
+
+function startLogin() {
+  if (typeof google === "undefined" || !google.accounts) {
+    return Swal.fire({ icon: "error", title: "โหลดระบบ Google Login ไม่สำเร็จ", text: "กรุณาลองรีเฟรชหน้าเว็บอีกครั้ง", confirmButtonColor: "#881313" });
+  }
+  google.accounts.id.prompt((notification) => {
+    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      // เบราว์เซอร์บล็อก One Tap → คลิกปุ่มที่ซ่อนไว้แทน
+      const btn = document.querySelector("#gsiMount div[role=button]");
+      if (btn) btn.click();
+    }
+  });
+}
+
+async function handleCredentialResponse(response) {
+  Swal.fire({ title: "กำลังเข้าสู่ระบบ...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  try {
+    const result = await callGas({ action: "googleLogin", idToken: response.credential });
+    if (result.status !== "success") throw new Error(result.message || "เข้าสู่ระบบไม่สำเร็จ");
+
+    userSession = {
+      token: result.token,
+      user: result.user,
+      expiresAt: Date.now() + (result.expiresInSec * 1000)
+    };
+    persistSession();
+    Swal.close();
+    await afterLoginSetup();
+    Swal.fire({ icon: "success", title: "เข้าสู่ระบบสำเร็จ", showConfirmButton: false, timer: 1200 });
+  } catch (err) {
+    userSession = null;
+    persistSession();
+    Swal.fire({ icon: "error", title: "เข้าสู่ระบบไม่สำเร็จ", text: err.message, confirmButtonColor: "#881313" });
+  }
+}
+
+function logout() {
+  userSession = null;
+  myOwnedIds = { school: [], management: [], staff: [], student: [] };
+  isSuperAdmin = false;
+  persistSession();
+  updateAuthUI();
+  toggleUserMenu(false);
+  renderDashboard();
+}
+
+async function afterLoginSetup() {
+  await refreshMyItems();
+  updateAuthUI();
+  renderDashboard();
+}
+
+async function refreshMyItems() {
+  if (!userSession) return;
+  try {
+    const result = await callGas({ action: "myItems", token: userSession.token });
+    if (result.status === "success") {
+      myOwnedIds = result.ids || myOwnedIds;
+      isSuperAdmin = !!result.isSuperAdmin;
+    }
+  } catch (e) { console.error(e); }
+}
+
+function updateAuthUI() {
+  const loggedIn = !!userSession;
+  document.getElementById("loginArea").classList.toggle("d-none", loggedIn);
+  document.getElementById("userMenuArea").classList.toggle("d-none", !loggedIn);
+  document.getElementById("quickAddBtn").classList.toggle("d-none", !loggedIn);
+
+  if (loggedIn) {
+    document.getElementById("userAvatarImg").src = userSession.user.picture ||
+      "https://raw.githubusercontent.com/phiman-2026/picture/main/logo%20phiman.png";
+    document.getElementById("udName").textContent = userSession.user.name || userSession.user.email;
+    document.getElementById("udEmail").textContent = userSession.user.email;
+    document.getElementById("udAdminBtn").classList.toggle("d-none", !isSuperAdmin);
+  }
+}
+
+function toggleUserMenu(force) {
+  const dd = document.getElementById("userDropdown");
+  if (typeof force === "boolean") {
+    dd.classList.toggle("d-none", !force);
+  } else {
+    dd.classList.toggle("d-none");
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const wrap = document.getElementById("userMenuArea");
+  if (wrap && !wrap.contains(e.target)) toggleUserMenu(false);
+});
+
+// ต้อง login ก่อนถึงจะทำรายการได้ (เพิ่ม/แก้ไข/ลบ)
+function requireLogin() {
+  if (userSession) return true;
+  Swal.fire({
+    icon: "info",
+    title: "กรุณาเข้าสู่ระบบก่อน",
+    text: "ต้องเข้าสู่ระบบด้วยบัญชี Google ของโรงเรียน (@phiman.ac.th) ก่อนทำรายการนี้",
+    confirmButtonText: "เข้าสู่ระบบ",
+    showCancelButton: true,
+    cancelButtonText: "ยกเลิก",
+    confirmButtonColor: "#881313"
+  }).then(res => { if (res.isConfirmed) startLogin(); });
+  return false;
+}
+
+/* =========================
+   GAS API HELPER
+========================= */
+async function callGas(payload) {
+  const res = await fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
+  return res.json();
+}
 
 const TYPE_CONFIG = {
   school: { icon: "🏫", color: "#8B0000", title: "รางวัลสถานศึกษา" },
@@ -1043,14 +1340,14 @@ let currentTabFilters = {
 /* =========================
    INIT
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  initApp();
-});
-
 async function initApp() {
   showLoadingScreen();
+  restoreSession();
+  initGoogleLogin();
   try {
     await loadAwards();
+    if (userSession) await refreshMyItems();
+    updateAuthUI();
     renderHomePage();
   } finally {
     hideLoadingScreen();
@@ -1273,6 +1570,9 @@ function buildCards(container, data, type) {
     // ดึงรหัสรางวัลจากฐานข้อมูล (ถ้าไม่มีให้เป็นค่าว่าง)
     const awardCode = item["รหัสรางวัล"] || "";
 
+    // เช็คสิทธิ์แก้ไข/ลบ: แอดมินใหญ่ หรือเจ้าของรางวัลเท่านั้น
+    const canEdit = !!userSession && (isSuperAdmin || (myOwnedIds[type] || []).includes(awardCode));
+
     let person = "";
 
     if (type === "school") {
@@ -1307,7 +1607,8 @@ function buildCards(container, data, type) {
         className,
         config,
         pdfUrl,
-        awardCode // ส่งค่ารหัสรางวัลเข้าไปที่ฟังก์ชันสร้าง HTML
+        awardCode, // ส่งค่ารหัสรางวัลเข้าไปที่ฟังก์ชันสร้าง HTML
+        canEdit
       )
     );
 
@@ -1317,7 +1618,7 @@ function buildCards(container, data, type) {
 /* =========================
    CARD HTML
 ========================= */
-function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl, awardCode) {
+function createCardHTML(type, title, person, giver, year, level, dept, className, config, pdfUrl, awardCode, canEdit) {
     // กำหนด URL รูปภาพพื้นหลังตามประเภท
     const headerImages = {
         school: 'https://raw.githubusercontent.com/phiman-2026/picture/main/phiman.png',
@@ -1362,6 +1663,15 @@ function createCardHTML(type, title, person, giver, year, level, dept, className
                     onclick="openPDF('${pdfUrl}')">
                 <i class="fa-solid fa-file-pdf"></i> ดูเกียรติบัตร
             </button>
+            ${canEdit ? `
+            <div class="card-owner-actions">
+                <button class="btn-edit-award" onclick="editAward('${type}', '${awardCode}')">
+                    <i class="fa-solid fa-pen"></i> แก้ไข
+                </button>
+                <button class="btn-delete-award" onclick="deleteAward('${type}', '${awardCode}')">
+                    <i class="fa-solid fa-trash"></i> ลบ
+                </button>
+            </div>` : ''}
         </div>
     </div>`;
 }
@@ -1503,18 +1813,93 @@ function openPDF(url){
 }
 
 function openAwardForm() {
+  if (!requireLogin()) return;
 
-  document.getElementById("awardFormModal")
-          .classList.remove("d-none");
+  editingContext = null;
+  document.getElementById("awardFormTitle").textContent = "บันทึกรางวัลใหม่";
+  document.getElementById("awardForm").reset();
+  document.getElementById("pdfPreview").innerHTML = "";
+  document.getElementById("awardFile").required = true;
 
+  toggleUserMenu(false);
+  document.getElementById("awardFormModal").classList.remove("d-none");
   document.body.style.overflow = "hidden";
-
   changeAwardType();
+}
+
+function editAward(type, id) {
+  if (!requireLogin()) return;
+
+  const item = (allAwardsData[type] || []).find(a => (a["รหัสรางวัล"] || "") === id);
+  if (!item) return Swal.fire({ icon: "error", title: "ไม่พบข้อมูลรางวัลนี้", confirmButtonColor: "#881313" });
+
+  editingContext = { type, id };
+  document.getElementById("awardFormTitle").textContent = "แก้ไขรางวัล";
+  document.getElementById("awardForm").reset();
+  document.getElementById("pdfPreview").innerHTML = "";
+  document.getElementById("awardFile").required = false; // ไม่บังคับแนบไฟล์ใหม่ตอนแก้ไข
+
+  document.getElementById("awardType").value = type;
+  document.getElementById("awardType").disabled = true; // ไม่ให้เปลี่ยนประเภทตอนแก้ไข
+  changeAwardType();
+
+  document.getElementById("awardYear").value = item["ปีการศึกษา"] || "";
+  document.getElementById("awardLevel").value = item["ระดับรางวัล"] || "";
+  document.getElementById("awardTitle").value = item["ชื่อรางวัล/ผลงานเกียรติยศ"] || "";
+  document.getElementById("awardGiver").value = item["หน่วยงานที่มอบรางวัล"] || "";
+
+  if (type === "management") {
+    const el = document.getElementById("awardPerson");
+    if (el) el.value = item["ชื่อ-นามสกุลของผู้ได้รับรางวัล"] || "";
+  } else if (type === "staff") {
+    const el = document.getElementById("awardPerson");
+    if (el) el.value = item["ชื่อ-นามสกุลของคุณครู / บุคลากรผู้ได้รับรางวัล"] || "";
+    document.getElementById("awardDept").value = item["กลุ่มสาระการเรียนรู้"] || "";
+  } else if (type === "student") {
+    const el = document.getElementById("awardPerson");
+    if (el) el.value = item["ชื่อ-นามสกุลนักเรียนที่ได้รับรางวัล"] || "";
+    const classEl = document.getElementById("awardClass");
+    if (classEl) classEl.value = item["ชั้นเรียน"] || "";
+    document.getElementById("awardDept").value = item["กลุ่มสาระการเรียนรู้"] || "";
+  }
+
+  document.getElementById("awardFormModal").classList.remove("d-none");
+  document.body.style.overflow = "hidden";
+}
+
+async function deleteAward(type, id) {
+  if (!requireLogin()) return;
+
+  const confirmResult = await Swal.fire({
+    icon: "warning",
+    title: "ยืนยันการลบรางวัล",
+    text: "ต้องการลบรางวัลนี้ใช่หรือไม่? การลบไม่สามารถย้อนกลับได้",
+    showCancelButton: true,
+    confirmButtonText: "ลบ",
+    cancelButtonText: "ยกเลิก",
+    confirmButtonColor: "#b91c1c"
+  });
+  if (!confirmResult.isConfirmed) return;
+
+  Swal.fire({ title: "กำลังลบข้อมูล...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  try {
+    const result = await callGas({ action: "delete", token: userSession.token, type, id });
+    if (result.status !== "success") throw new Error(result.message || "ลบไม่สำเร็จ");
+
+    await loadAwards();
+    await refreshMyItems();
+    Swal.fire({ icon: "success", title: "ลบรางวัลสำเร็จ", showConfirmButton: false, timer: 1200 });
+    renderDashboard();
+  } catch (err) {
+    Swal.fire({ icon: "error", title: "ลบไม่สำเร็จ", text: err.message, confirmButtonColor: "#881313" });
+  }
 }
 
 function closeAwardForm() {
   document.getElementById("awardFormModal").classList.add("d-none");
+  document.getElementById("awardType").disabled = false;
   document.body.style.overflow = "";
+  editingContext = null;
 }
 
 function changeAwardType() {
@@ -1589,7 +1974,10 @@ function renderDashboard() {
 }
 
 async function saveAward() {
+  if (!requireLogin()) return;
+
   const btn = document.getElementById("btn-save");
+  const isEdit = !!editingContext;
 
   // =====================
   // 1. ดึงข้อมูลจากฟอร์ม
@@ -1606,13 +1994,13 @@ async function saveAward() {
   let className = "";
 
   // =====================
-  // 2. VALIDATION
+  // 2. VALIDATION (ตอนแก้ไข ไม่บังคับแนบไฟล์ใหม่)
   // =====================
-  if (!year || !rewardLevel || !title || !giver || !file) {
+  if (!year || !rewardLevel || !title || !giver || (!isEdit && !file)) {
     return Swal.fire({
       icon: "warning",
       title: "ข้อมูลไม่ครบ",
-      text: "กรุณากรอกข้อมูลให้ครบและแนบไฟล์ PDF",
+      text: "กรุณากรอกข้อมูลให้ครบ" + (isEdit ? "" : "และแนบไฟล์ PDF"),
       confirmButtonColor: "#8B0000"
     });
   }
@@ -1636,8 +2024,10 @@ async function saveAward() {
     if (!name || !className || !dept) return Swal.fire({ icon: "warning", title: "ข้อมูลไม่ครบ", text: "กรุณากรอกชื่อนักเรียน ชั้นเรียน และกลุ่มสาระ", confirmButtonColor: "#8B0000" });
   }
 
-  if (file.type !== "application/pdf") return Swal.fire({ icon: "error", title: "ไฟล์ไม่ถูกต้อง", text: "อนุญาตเฉพาะไฟล์ PDF เท่านั้น", confirmButtonColor: "#8B0000" });
-  if (file.size > 10 * 1024 * 1024) return Swal.fire({ icon: "error", title: "ไฟล์ใหญ่เกินกำหนด", text: "ขนาดไฟล์ต้องไม่เกิน 10 MB", confirmButtonColor: "#8B0000" });
+  if (file) {
+    if (file.type !== "application/pdf") return Swal.fire({ icon: "error", title: "ไฟล์ไม่ถูกต้อง", text: "อนุญาตเฉพาะไฟล์ PDF เท่านั้น", confirmButtonColor: "#8B0000" });
+    if (file.size > 10 * 1024 * 1024) return Swal.fire({ icon: "error", title: "ไฟล์ใหญ่เกินกำหนด", text: "ขนาดไฟล์ต้องไม่เกิน 10 MB", confirmButtonColor: "#8B0000" });
+  }
 
   // =====================
   // 3. เริ่มบันทึกข้อมูล
@@ -1653,17 +2043,24 @@ async function saveAward() {
   btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
 
   try {
-    const fileBase64 = await convertFileToBase64(file);
-    const payload = { type, year, rewardLevel, title, giver, name, dept, className, fileData: fileBase64, fileMimeType: file.type };
+    const payload = {
+      action: isEdit ? "update" : "create",
+      token: userSession.token,
+      type, year, rewardLevel, title, giver, name, dept, className
+    };
+    if (isEdit) payload.id = editingContext.id;
+    if (file) {
+      payload.fileData = await convertFileToBase64(file);
+      payload.fileMimeType = file.type;
+    }
 
-    const response = await fetch(GAS_WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
-    const result = await response.json();
+    const result = await callGas(payload);
 
     if (result.status !== "success") throw new Error(result.message || "เกิดข้อผิดพลาด");
 
     // --- ลำดับการปิดฟอร์ม ---
     closeAwardForm();
-    
+
     // เคลียร์ค่าในฟอร์ม
     document.getElementById("awardForm").reset();
     document.getElementById("pdfPreview").innerHTML = "";
@@ -1672,13 +2069,14 @@ async function saveAward() {
     // แสดงแจ้งเตือน
     await Swal.fire({
       icon: "success",
-      title: "บันทึกรางวัลสำเร็จ",
+      title: isEdit ? "แก้ไขรางวัลสำเร็จ" : "บันทึกรางวัลสำเร็จ",
       showConfirmButton: false,
       timer: 1500
     });
 
     // รีเฟรชข้อมูล
     await loadAwards();
+    await refreshMyItems();
     if (currentTab === "home") {
       renderHomePage();
     } else {
@@ -1713,6 +2111,77 @@ function convertFileToBase64(file) {
 
     reader.readAsDataURL(file);
   });
+}
+
+/* =========================
+   ADMIN PANEL (เฉพาะแอดมินใหญ่)
+========================= */
+function openAdminPanel() {
+  if (!userSession || !isSuperAdmin) return;
+  toggleUserMenu(false);
+  document.getElementById("adminPanelModal").classList.remove("d-none");
+  loadAdminList();
+}
+
+function closeAdminPanel() {
+  document.getElementById("adminPanelModal").classList.add("d-none");
+}
+
+async function loadAdminList() {
+  const box = document.getElementById("adminListBox");
+  box.innerHTML = `<div style="text-align:center;color:#94a3b8;">กำลังโหลด...</div>`;
+  try {
+    const result = await callGas({ action: "listAdmins", token: userSession.token });
+    if (result.status !== "success") throw new Error(result.message || "โหลดรายชื่อไม่สำเร็จ");
+
+    if (!result.admins.length) {
+      box.innerHTML = `<div style="text-align:center;color:#94a3b8;">ยังไม่มีแอดมินใหญ่</div>`;
+      return;
+    }
+    box.innerHTML = result.admins.map(a => `
+      <div class="admin-row">
+        <div>
+          <div>${a.displayName}</div>
+          <small>${a.email}</small>
+        </div>
+        <button onclick="deleteAdminUI('${a.email}')">ลบ</button>
+      </div>
+    `).join("");
+  } catch (err) {
+    box.innerHTML = `<div style="text-align:center;color:#b91c1c;">${err.message}</div>`;
+  }
+}
+
+async function addAdminUI() {
+  const email = document.getElementById("newAdminEmail").value.trim();
+  const displayName = document.getElementById("newAdminName").value.trim();
+  if (!email) return Swal.fire({ icon: "warning", title: "กรุณากรอกอีเมล", confirmButtonColor: "#881313" });
+
+  try {
+    const result = await callGas({ action: "addAdmin", token: userSession.token, email, displayName });
+    if (result.status !== "success") throw new Error(result.message || "เพิ่มแอดมินไม่สำเร็จ");
+    document.getElementById("newAdminEmail").value = "";
+    document.getElementById("newAdminName").value = "";
+    loadAdminList();
+  } catch (err) {
+    Swal.fire({ icon: "error", title: "เพิ่มแอดมินไม่สำเร็จ", text: err.message, confirmButtonColor: "#881313" });
+  }
+}
+
+async function deleteAdminUI(email) {
+  const confirmResult = await Swal.fire({
+    icon: "warning", title: "ยืนยันการลบแอดมินใหญ่", text: email,
+    showCancelButton: true, confirmButtonText: "ลบ", cancelButtonText: "ยกเลิก", confirmButtonColor: "#b91c1c"
+  });
+  if (!confirmResult.isConfirmed) return;
+
+  try {
+    const result = await callGas({ action: "deleteAdmin", token: userSession.token, email });
+    if (result.status !== "success") throw new Error(result.message || "ลบไม่สำเร็จ");
+    loadAdminList();
+  } catch (err) {
+    Swal.fire({ icon: "error", title: "ลบไม่สำเร็จ", text: err.message, confirmButtonColor: "#881313" });
+  }
 }
 
 function setFilter(type, value) {
