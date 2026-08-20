@@ -851,6 +851,12 @@ body{
     display:flex;
     flex-direction:column;
     align-items:center;
+    justify-content:center;
+    flex:1;
+    height:100%;
+    padding:10px 4px;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
 }
 
 .tab-item.active{
@@ -1390,7 +1396,10 @@ async function loadAwards() {
    LOADING
 ========================= */
 function showLoadingScreen() {
-  document.getElementById("loading-screen").style.display = "flex";
+  const loader = document.getElementById("loading-screen");
+  loader.style.pointerEvents = "auto";
+  loader.style.opacity = "1";
+  loader.style.display = "flex";
 }
 
 function hideLoadingScreen() {
@@ -1399,10 +1408,13 @@ function hideLoadingScreen() {
   // 1. เพิ่ม Transition ให้กับตัว Element (ถ้ายังไม่มีใน CSS)
   loader.style.transition = "opacity 0.5s ease";
   
-  // 2. สั่งให้จางลง
+  // 2. ปิดการรับคลิกทันที กันไม่ให้ชั้นนี้บังปุ่มด้านล่าง (สาเหตุหลักที่กดปุ่มแล้วไม่ค่อยติด)
+  loader.style.pointerEvents = "none";
+  
+  // 3. สั่งให้จางลง
   loader.style.opacity = "0";
   
-  // 3. รอให้จางจนมองไม่เห็นแล้วค่อยเอาออกจาก DOM
+  // 4. รอให้จางจนมองไม่เห็นแล้วค่อยเอาออกจาก DOM
   setTimeout(() => {
     loader.style.display = "none";
   }, 500); 
