@@ -467,7 +467,18 @@ body{
 .user-dropdown button.danger { color: var(--danger); }
 .user-dropdown button.danger:hover { background: var(--danger-bg); }
 
-.gsi-mount { position: fixed; top: -9999px; left: -9999px; }
+.gsi-mount {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 5;
+}
+.gsi-mount iframe{ width:100% !important; }
+.login-btn-wrap{ position: relative; flex-shrink: 0; }
+.login-btn-wrap .login-btn{ pointer-events: none; }
+.login-btn-wrap:hover .login-btn{ background: var(--primary-dark) !important; transform: translateY(-2px); }
+.login-btn-wrap:active .login-btn{ transform: scale(.95); }
 
 .card-owner-actions{
     display: flex;
@@ -1190,10 +1201,13 @@ select:focus-visible,
      <span>ค้นหารางวัล...</span>
   </div>
 
-  <div id="loginArea">
-    <button class="login-btn" onclick="startLogin()">
+  <div id="loginArea" class="login-btn-wrap">
+    <button class="login-btn" tabindex="-1">
       <i class="fa-brands fa-google"></i> เข้าสู่ระบบ
     </button>
+    <!-- ปุ่ม Google จริงถูกวาดซ้อนทับแบบโปร่งใสตรงนี้ (renderButton) เพื่อให้การคลิกเป็น trusted user gesture จริง
+         ทำให้ล็อกอินได้เสถียรทั้งบนเดสก์ท็อปและมือถือ ไม่ต้องพึ่งการคลิกปุ่มที่ซ่อนด้วย JS -->
+    <div id="gsiMount" class="gsi-mount"></div>
   </div>
 
   <button id="quickAddBtn" class="add-btn d-none" onclick="openAwardForm()" aria-label="เพิ่มรางวัลใหม่">
@@ -1214,8 +1228,6 @@ select:focus-visible,
       <button class="danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
     </div>
   </div>
-
-  <div id="gsiMount" class="gsi-mount"></div>
 </header>
 
   <main class="content-wrap">
@@ -1453,22 +1465,37 @@ function initGoogleLogin() {
     callback: handleCredentialResponse,
     auto_select: false
   });
-  google.accounts.id.renderButton(
-    document.getElementById("gsiMount"),
-    { type: "icon" }
-  );
+
+  // วาดปุ่ม Google ของจริงให้เต็มพื้นที่ #gsiMount (ซึ่งถูกวางซ้อนแบบโปร่งใสอยู่บนปุ่ม "เข้าสู่ระบบ" ที่ออกแบบเอง)
+  // วิธีนี้ทำให้การคลิกที่ผู้ใช้เห็นเป็นปุ่มสวยงามของเรา แต่จริงๆ แล้วเป็นการคลิกปุ่ม Google โดยตรง (trusted user gesture)
+  // จึงใช้งานได้เสถียรบนทุกเบราว์เซอร์/ทุกอุปกรณ์ ต่างจากวิธีเดิมที่ใช้ prompt() + สั่งคลิกปุ่มที่ซ่อนไว้ด้วย JS
+  // ซึ่งเบราว์เซอร์เดสก์ท็อปสมัยใหม่ (ที่บล็อก third-party cookies / บังคับใช้ FedCM) มักจะเงียบๆ บล็อกไม่ให้ทำงาน
+  const mount = document.getElementById("gsiMount");
+  const wrapWidth = mount.parentElement.offsetWidth || 220;
+  google.accounts.id.renderButton(mount, {
+    type: "standard",
+    theme: "outline",
+    size: "large",
+    text: "signin_with",
+    width: Math.max(wrapWidth, 200)
+  });
+
+  // (ทางเลือกเสริม) ยังคงลองแสดง One Tap แบบเงียบๆ ให้ผู้ที่เคย login ไว้แล้วเข้าสู่ระบบไวขึ้น
+  // แต่จะไม่พึ่งพา flow นี้เป็นทางหลักในการล็อกอินอีกต่อไป
+  try { google.accounts.id.prompt(); } catch (e) { /* ข้ามได้ */ }
 }
 
 function startLogin() {
+  // ปุ่ม "เข้าสู่ระบบ" ที่มองเห็นไม่มีการคลิกจริง (pointer-events:none) เพราะปุ่ม Google จริง (#gsiMount)
+  // ถูกวางซ้อนทับอยู่ด้านบนแบบโปร่งใสและรับคลิกแทนอยู่แล้ว ฟังก์ชันนี้เก็บไว้เผื่อเรียกจากที่อื่น (เช่น requireLogin)
   if (typeof google === "undefined" || !google.accounts) {
     return Swal.fire({ icon: "error", title: "โหลดระบบ Google Login ไม่สำเร็จ", text: "กรุณาลองรีเฟรชหน้าเว็บอีกครั้ง", confirmButtonColor: "#881313" });
   }
-  google.accounts.id.prompt((notification) => {
-    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-      // เบราว์เซอร์บล็อก One Tap → คลิกปุ่มที่ซ่อนไว้แทน
-      const btn = document.querySelector("#gsiMount div[role=button]");
-      if (btn) btn.click();
-    }
+  Swal.fire({
+    icon: "info",
+    title: "กรุณาเข้าสู่ระบบ",
+    text: "คลิกที่ปุ่ม \"เข้าสู่ระบบ\" มุมขวาบนอีกครั้งเพื่อเลือกบัญชี Google",
+    confirmButtonColor: "#881313"
   });
 }
 
